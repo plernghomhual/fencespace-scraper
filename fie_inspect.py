@@ -1,22 +1,39 @@
 import requests
-import re
+import json
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)",
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json",
+    "Referer": "https://fie.org/athletes",
+}
 
-res = requests.get("https://fie.org/js/athletes.js", headers=HEADERS, timeout=15)
-text = res.text
+payloads = [
+    {"weapon": "S", "gender": "M", "category": "S", "country": "", "name": "", "page": 1},
+    {"weapon": "S", "gender": "M", "level": "s", "country": "", "name": "", "page": 1},
+    {"weapon": "S", "gender": "M", "category": "S", "season": "2025", "page": 1},
+    {"weapon": "S", "gender": "M", "category": "S", "season": "", "country": "", "name": ""},
+]
 
-# Find full getValuesRankings function definition
-idx = text.find("function getValuesRankings")
-if idx > 0:
-    print(text[idx:idx+1000])
-else:
-    # Try alternate patterns
-    idx = text.find("getValuesRankings = function")
-    if idx > 0:
-        print(text[idx:idx+1000])
-    else:
-        # Search all occurrences
-        for m in re.finditer(r'getValuesRankings', text):
-            print(f"\nAt {m.start()}:")
-            print(text[m.start():m.start()+500])
+for payload in payloads:
+    res = requests.post(
+        "https://fie.org/athletes",
+        headers=HEADERS,
+        json=payload,
+        timeout=15
+    )
+    print(f"\nPayload: {payload}")
+    print(f"Status: {res.status_code}")
+    print(f"Content-Type: {res.headers.get('content-type')}")
+    try:
+        data = res.json()
+        athletes = data.get("allAthletes", data.get("athletes", []))
+        ranked = [a for a in athletes if a.get("rank") or a.get("points")]
+        print(f"Total: {len(athletes)} | Ranked: {len(ranked)}")
+        if ranked:
+            print(f"Sample: {ranked[0]}")
+        elif athletes:
+            print(f"Sample unranked: {athletes[0]}")
+    except:
+        print(f"Not JSON: {res.text[:200]}")
