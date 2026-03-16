@@ -1,7 +1,7 @@
 import os
 import requests
 from supabase import create_client, Client
-from datetime import datetime
+from datetime import datetime, date as date_obj
 import time
 import calendar
 
@@ -139,6 +139,8 @@ def scrape_competitions():
     seen = set()
     all_rows = []
 
+    today = date_obj.today()
+
     # Past competitions
     for year in range(2010, 2027):
         for month in range(1, 13):
@@ -147,7 +149,9 @@ def scrape_competitions():
             last_day = calendar.monthrange(year, month)[1]
             from_d = f"{year}-{str(month).zfill(2)}-01"
             to_d   = f"{year}-{str(month).zfill(2)}-{str(last_day).zfill(2)}"
-            result = fetch_comp_range(s, from_d, to_d)
+            month_date = date_obj(year, month, last_day)
+            status = "passed" if month_date < today else ""
+            result = fetch_comp_range(s, from_d, to_d, status=status)
             if result is None:
                 s = make_comp_session()
                 time.sleep(1)
