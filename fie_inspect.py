@@ -1,35 +1,19 @@
 import requests
-import json
+import re
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)",
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-    "Accept": "application/json",
-}
+HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"}
 
-# Try different payload structures for filtered rankings
-payloads = [
-    {"weapon": "S", "gender": "M", "category": "S", "page": 1, "ranking": 1},
-    {"weapon": "S", "gender": "M", "category": "S", "perPage": 100},
-    {"weapon": "S", "gender": "M", "category": "S", "rank_from": 1, "rank_to": 100},
-    {"weapon": "S", "gender": "M", "category": "S", "page": 1, "ranked": True},
-]
+res = requests.get("https://fie.org/js/athletes.js", headers=HEADERS, timeout=15)
 
-for payload in payloads:
-    res = requests.post(
-        "https://fie.org/athletes/search",
-        headers=HEADERS,
-        json=payload,
-        timeout=15
-    )
-    data = res.json()
-    athletes = data.get("allAthletes", data.get("athletes", data.get("data", [])))
+# Search for ranking-related strings
+text = res.text
 
-    # Check if any have rank/points
-    ranked = [a for a in athletes if a.get("rank") or a.get("points")]
-    print(f"\nPayload: {payload}")
-    print(f"Total returned: {len(athletes)}")
-    print(f"With rank/points: {len(ranked)}")
-    if ranked:
-        print(f"Sample: {ranked[0]}")
+# Find anything near "ranking" or "points"
+for keyword in ["ranking", "points", "rank", "/api/", "axios.get", "axios.post", "$http"]:
+    indices = [m.start() for m in re.finditer(keyword, text, re.IGNORECASE)]
+    if indices:
+        print(f"\n--- '{keyword}' found {len(indices)} times ---")
+        # Show context around first 3 occurrences
+        for idx in indices[:3]:
+            snippet = text[max(0, idx-100):idx+200]
+            print(f"\n...{snippet}...")
