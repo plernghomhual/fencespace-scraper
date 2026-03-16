@@ -1,16 +1,36 @@
 import requests
-import re
+import json
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)",
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json",
+    "Referer": "https://fie.org/competitions",
+}
 
-res = requests.get("https://fie.org/js/competitions.js", headers=HEADERS, timeout=15)
-print(f"Status: {res.status_code}")
-print(f"Length: {len(res.text)}")
+payloads = [
+    {"name": "", "status": "upcoming", "gender": [], "weapon": [], "type": [], "page": 1},
+    {"name": "", "status": "results", "gender": [], "weapon": [], "type": [], "page": 1},
+    {"name": "", "status": "upcoming", "page": 1, "season": "2026"},
+]
 
-# Find POST calls
-for keyword in [".post(", "axios", "/competitions", "search", "fetch("]:
-    indices = [m.start() for m in re.finditer(re.escape(keyword), res.text)]
-    if indices:
-        print(f"\n--- '{keyword}' found {len(indices)} times ---")
-        for idx in indices[:3]:
-            print(f"\n...{res.text[max(0,idx-100):idx+300]}...")
+for payload in payloads:
+    res = requests.post(
+        "https://fie.org/competitions/search",
+        headers=HEADERS,
+        json=payload,
+        timeout=15
+    )
+    print(f"\nPayload: {payload}")
+    print(f"Status: {res.status_code}")
+    print(f"Content-Type: {res.headers.get('content-type')}")
+    try:
+        data = res.json()
+        print(f"Keys: {list(data.keys())}")
+        competitions = data.get('competitions', data.get('allCompetitions', data.get('data', [])))
+        print(f"Competitions found: {len(competitions)}")
+        if competitions:
+            print(f"Sample: {competitions[0]}")
+    except:
+        print(f"Not JSON: {res.text[:200]}")
