@@ -159,7 +159,7 @@ def scrape_competitions():
                     all_rows.append(c)
 
     # Upcoming
-    result = fetch_comp_range(s, "", "", status="", season=2026) or []
+    result = fetch_comp_range(s, "", "", status="", season=0) or []
     for c in result:
         key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
         if key not in seen:
