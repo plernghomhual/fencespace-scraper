@@ -94,9 +94,11 @@ def parse_date(d):
         return None
     for fmt in ["%d-%m-%Y", "%Y-%m-%d"]:
         try:
-            return datetime.strptime(d, fmt).strftime("%Y-%m-%d")
+            result = datetime.strptime(d, fmt).strftime("%Y-%m-%d")
+            return result
         except Exception:
             continue
+    print(f"  ⚠️ parse_date FAILED on: '{d}'")
     return None
 
 
@@ -200,6 +202,11 @@ def scrape_competitions():
             "is_sub_competition": bool(c.get("isSubCompetition")),
             "is_link": bool(c.get("isLink")),
         })
+
+    future_rows = [r for r in rows if r.get("start_date") and r["start_date"] > "2026-03-16"]
+    print(f"  Future rows to upsert: {len(future_rows)}")
+    if future_rows:
+        print(f"  Sample future row: {future_rows[0]}")
 
     # Upsert in batches of 100
     for i in range(0, len(rows), 100):
