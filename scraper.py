@@ -107,13 +107,13 @@ def make_comp_session():
     return s
 
 
-def fetch_comp_range(s, from_date, to_date, status="passed"):
+def fetch_comp_range(s, from_date, to_date, status="passed", season=0):
     all_items = []
     page = 1
     while True:
         payload = {
             "name": "", "status": status, "gender": [], "weapon": [], "type": [],
-            "season": 0, "level": "", "competitionCategory": "",
+            "season": season, "level": "", "competitionCategory": "",
             "fromDate": from_date, "toDate": to_date, "fetchPage": page,
         }
         try:
@@ -159,7 +159,7 @@ def scrape_competitions():
                     all_rows.append(c)
 
     # Upcoming
-    result = fetch_comp_range(s, "", "", status="") or []
+    result = fetch_comp_range(s, "", "", status="", season=2026) or []
     for c in result:
         key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
         if key not in seen:
