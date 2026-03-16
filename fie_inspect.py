@@ -1,29 +1,42 @@
 import requests
-import re
+import json
 
-HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+s = requests.Session()
+s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
 
-res = requests.get("https://fie.org/js/competitions.js", headers=HEADERS, timeout=15)
-text = res.text
+# Get session cookie first
+s.get("https://fie.org/competitions", timeout=15)
 
-# Search for all URL strings that look like API endpoints
-urls = re.findall(r'["\`](/[-a-zA-Z0-9/_]+)["\`]', text)
-unique_urls = sorted(set(urls))
-print("=== URL-like strings ===")
-for u in unique_urls:
-    if any(k in u for k in ['competition', 'search', 'api', 'fetch', 'athlete', 'ranking', 'result']):
-        print(u)
+headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json",
+    "Referer": "https://fie.org/competitions",
+    "Origin": "https://fie.org",
+}
 
-# Search around any .post( or axios.post calls
-print("\n=== POST calls ===")
-for m in re.finditer(r'\.post\s*\(', text):
-    idx = m.start()
-    print(f"\n{text[max(0,idx-50):idx+400]}")
-    print("---")
-
-# Search for 'search' string usages
-print("\n=== 'search' contexts ===")
-for m in re.finditer(r'"search"|\'search\'', text):
-    idx = m.start()
-    print(f"\n{text[max(0,idx-100):idx+200]}")
-    print("---")
+# Try different season values
+for season in ["2025-2026", "2026", "2025", ""]:
+    payload = {
+        "name": "",
+        "status": "upcoming",
+        "gender": [],
+        "weapon": [],
+        "type": [],
+        "season": season,
+        "level": "",
+    }
+    res = s.post("https://fie.org/competitions/search", headers=headers, json=payload, timeout=15)
+    print(f"Season '{season}' → Status: {res.status_code}, Content-Type: {res.headers.get('content-type','?')}")
+    if res.status_code == 200:
+        try:
+            data = res.json()
+            print(f"  Keys: {list(data.keys())}")
+            comps = data.get('competitions', data.get('data', data.get('results', [])))
+            print(f"  Count: {len(comps)}")
+            if comps:
+                print(f"  Sample: {json.dumps(comps[0], indent=2)}")
+        except:
+            print(f"  Not JSON: {res.text[:200]}")
+    else:
+        print(f"  Body: {res.text[:150]}")
