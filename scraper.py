@@ -137,49 +137,22 @@ def fetch_comp_range(s, from_date, to_date, status="passed", season=0):
 def scrape_competitions():
     print("Scraping competitions...")
     s = make_comp_session()
-    seen = set()
     all_rows = []
-
-    today = date_obj.today()
-
-    # Past competitions
     for year in range(2010, datetime.utcnow().year + 2):
         for month in range(1, 13):
             last_day = calendar.monthrange(year, month)[1]
             from_d = f"{year}-{str(month).zfill(2)}-01"
             to_d   = f"{year}-{str(month).zfill(2)}-{str(last_day).zfill(2)}"
             month_date = date_obj(year, month, last_day)
-            status = "passed" if month_date < today else ""
+            status = "passed" if month_date < date_obj.today() else ""
             result = fetch_comp_range(s, from_d, to_d, status=status)
             if result is None:
                 s = make_comp_session()
                 time.sleep(1)
-                result = fetch_comp_range(s, from_d, to_d) or []
-            if result:
-                print(f"  {from_d}: {len(result)} items (status='{status}')")
-            if year == 2026 and month >= 3 and result:
-                print(f"  RAW {from_d}: {[(c.get('startDate'), c.get('endDate')) for c in result[:3]]}")
-            for c in result:
-                key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
-                if key not in seen:
-                    seen.add(key)
-                    all_rows.append(c)
+                result = fetch_comp_range(s, from_d, to_d, status=status) or []
+            all_rows.extend(result)
 
-    print(f"  After date-range loop: {len(all_rows)} total")
-
-    # Upcoming
-    result = fetch_comp_range(s, "", "", status="", season=0) or []
-    print(f"  Upcoming sample dates: {[(c.get('name','?')[:20], c.get('startDate'), c.get('endDate')) for c in result[:5]]}")
-    new_from_upcoming = 0
-    for c in result:
-        key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
-        if key not in seen:
-            seen.add(key)
-            all_rows.append(c)
-            new_from_upcoming += 1
-    print(f"  New from upcoming fetch: {new_from_upcoming}")
-
-    print(f"  {len(all_rows)} competitions fetched, upserting...")
+    print(f"  {len(all_rows)} total rows (pre-dedup by Supabase), upserting...")
 
     rows = []
     for c in all_rows:
@@ -218,7 +191,7 @@ def scrape_competitions():
             rows[i:i+100], on_conflict="fie_id,weapon,gender"
         ).execute()
 
-    print(f"Done — competitions: {len(rows)} upserted")
+    print("Done — competitions upserted")
 
 # ── Main ─────────────────────────────────────────────────────────────────────
 
