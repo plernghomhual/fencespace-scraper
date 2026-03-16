@@ -83,7 +83,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
 
                 supabase.table("fs_fencers").upsert(
                     fencer_data,
-                    on_conflict="fie_id"
+                    on_conflict="fie_id,weapon"
                 ).execute()
 
             total += len(athletes)
