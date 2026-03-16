@@ -92,13 +92,12 @@ def scrape_rankings(weapon: str, gender: str, label: str):
 def parse_date(d):
     if not d:
         return None
-    for fmt in ["%d-%m-%Y", "%Y-%m-%d"]:
+    for fmt in ["%d-%m-%Y", "%Y-%m-%d", "%Y-%m-%dT%H:%M:%S", "%m/%d/%Y", "%d/%m/%Y"]:
         try:
-            result = datetime.strptime(d, fmt).strftime("%Y-%m-%d")
-            return result
+            return datetime.strptime(d, fmt).strftime("%Y-%m-%d")
         except Exception:
             continue
-    print(f"  ⚠️ parse_date FAILED on: '{d}'")
+    print(f"  ⚠️ parse_date FAILED: '{d}'")
     return None
 
 
@@ -203,10 +202,13 @@ def scrape_competitions():
             "is_link": bool(c.get("isLink")),
         })
 
-    future_rows = [r for r in rows if r.get("start_date") and r["start_date"] > "2026-03-16"]
-    print(f"  Future rows to upsert: {len(future_rows)}")
-    if future_rows:
-        print(f"  Sample future row: {future_rows[0]}")
+    # Show sample of what future month competitions look like raw
+    for c in all_rows[:5]:
+        if c.get("competitionId") and int(c.get("season", 0)) == 2026:
+            print(
+                f"  Raw: id={c['competitionId']} startDate='{c.get('startDate')}' "
+                f"endDate='{c.get('endDate')}' → parsed: {parse_date(c.get('startDate'))}"
+            )
 
     # Upsert in batches of 100
     for i in range(0, len(rows), 100):
