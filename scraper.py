@@ -157,6 +157,8 @@ def scrape_competitions():
                 result = fetch_comp_range(s, from_d, to_d) or []
             if result:
                 print(f"  {from_d}: {len(result)} items (status='{status}')")
+            if year == 2026 and month >= 3 and result:
+                print(f"  RAW {from_d}: {[(c.get('startDate'), c.get('endDate')) for c in result[:3]]}")
             for c in result:
                 key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
                 if key not in seen:
