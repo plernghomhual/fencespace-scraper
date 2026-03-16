@@ -6,10 +6,14 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"}
 res = requests.get("https://fie.org/js/athletes.js", headers=HEADERS, timeout=15)
 text = res.text
 
-# Find everything around "search" that looks like an HTTP call
-for keyword in [".post(", ".get(", "fetch(", "XMLHttpRequest", "$.ajax", "http.post", "http.get"]:
-    indices = [m.start() for m in re.finditer(re.escape(keyword), text)]
-    if indices:
-        print(f"\n--- '{keyword}' found {len(indices)} times ---")
-        for idx in indices[:5]:
-            print(f"\n...{text[max(0,idx-150):idx+300]}...")
+# Get everything around getValuesRankings
+idx = text.find("getValuesRankings")
+if idx > 0:
+    print("getValuesRankings context:")
+    print(text[idx:idx+2000])
+
+# Also find fetchFencers full context
+idx2 = text.find("fetchFencers")
+if idx2 > 0:
+    print("\nfetchFencers context:")
+    print(text[idx2:idx2+2000])
