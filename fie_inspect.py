@@ -6,26 +6,21 @@ HEADERS = {
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "Accept": "application/json",
-    "Referer": "https://fie.org/athletes",
+    "Referer": "https://fie.org/competitions",
 }
 
-# Try different season values
-seasons = ["2026", "2025", "2025-2026", "2024-2025", "1"]
+payload = {
+    "page": 1,
+    "season": "2026",
+}
 
-for season in seasons:
-    payload = {
-        "weapon": "S",
-        "gender": "M",
-        "category": "S",
-        "country": "",
-        "name": "",
-        "page": 1,
-        "season": season,
-    }
+res = requests.post(
+    "https://fie.org/competitions",
+    headers=HEADERS,
+    json=payload,
+    timeout=15
+)
 
-    res = requests.post("https://fie.org/athletes", headers=HEADERS, json=payload, timeout=15)
-    data = res.json()
-    athletes = data.get("allAthletes", [])
-
-    ranks = [a.get('rank') for a in athletes[:10]]
-    print(f"\nSeason '{season}': first 10 ranks = {ranks}")
+print(f"Status: {res.status_code}")
+print(f"Content-Type: {res.headers.get('content-type')}")
+print(f"First 1000 chars: {res.text[:1000]}")
