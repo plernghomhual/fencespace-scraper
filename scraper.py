@@ -47,7 +47,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
     while True:
         payload = {
             "weapon": weapon, "gender": gender, "category": "S",
-            "country": "", "name": "", "page": page, "season": "2026",
+            "country": "", "name": "", "page": page, "season": str(datetime.utcnow().year),
         }
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
@@ -142,7 +142,7 @@ def scrape_competitions():
     today = date_obj.today()
 
     # Past competitions
-    for year in range(2010, 2027):
+    for year in range(2010, datetime.utcnow().year + 2):
         for month in range(1, 13):
             if year == 2026 and month > 12:
                 break
@@ -164,6 +164,7 @@ def scrape_competitions():
 
     # Upcoming
     result = fetch_comp_range(s, "", "", status="", season=0) or []
+    print(f"  Upcoming sample dates: {[(c.get('name','?')[:20], c.get('startDate'), c.get('endDate')) for c in result[:5]]}")
     for c in result:
         key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
         if key not in seen:
