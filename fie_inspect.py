@@ -9,21 +9,23 @@ HEADERS = {
     "Referer": "https://fie.org/athletes",
 }
 
-payload = {
-    "weapon": "S",
-    "gender": "M",
-    "category": "S",
-    "country": "",
-    "name": "",
-    "page": 1,
-}
+# Try different season values
+seasons = ["2026", "2025", "2025-2026", "2024-2025", "1"]
 
-res = requests.post("https://fie.org/athletes", headers=HEADERS, json=payload, timeout=15)
-data = res.json()
-athletes = data.get("allAthletes", [])
+for season in seasons:
+    payload = {
+        "weapon": "S",
+        "gender": "M",
+        "category": "S",
+        "country": "",
+        "name": "",
+        "page": 1,
+        "season": season,
+    }
 
-# Show first 15 with their ranks
-print(f"Total returned: {len(athletes)}")
-print("\nFirst 15 fencers:")
-for a in athletes[:15]:
-    print(f"Rank: {a.get('rank')} | Name: {a.get('name')} | Points: {a.get('points')}")
+    res = requests.post("https://fie.org/athletes", headers=HEADERS, json=payload, timeout=15)
+    data = res.json()
+    athletes = data.get("allAthletes", [])
+
+    ranks = [a.get('rank') for a in athletes[:10]]
+    print(f"\nSeason '{season}': first 10 ranks = {ranks}")
