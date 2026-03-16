@@ -185,6 +185,14 @@ def scrape_competitions():
                 f"endDate='{c.get('endDate')}' → parsed: {parse_date(c.get('startDate'))}"
             )
 
+    # Deduplicate by conflict key before upserting
+    seen = {}
+    for r in rows:
+        key = (r["fie_id"], r.get("weapon", ""), r.get("gender", ""))
+        seen[key] = r  # later occurrence overwrites earlier, keeping freshest data
+    rows = list(seen.values())
+    print(f"  {len(rows)} unique rows after dedup")
+
     # Upsert in batches of 100
     for i in range(0, len(rows), 100):
         supabase.table("fs_tournaments").upsert(
