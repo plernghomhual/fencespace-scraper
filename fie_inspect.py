@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+from datetime import date
 
 
 def make_session():
@@ -18,71 +19,77 @@ POST_HEADERS = {
 }
 
 
-def fetch_chunk(s, status, season, weapon, gender):
+def fetch_range(s, from_date, to_date, status="passed"):
     all_items = []
     page = 1
     while True:
         payload = {
-            "name": "", "status": status,
-            "gender": [gender] if gender else [],
-            "weapon": [weapon] if weapon else [],
-            "type": [], "season": season, "level": "",
-            "competitionCategory": "", "fromDate": "", "toDate": "",
-            "fetchPage": page,
+            "name": "", "status": status, "gender": [], "weapon": [], "type": [],
+            "season": 0, "level": "", "competitionCategory": "",
+            "fromDate": from_date, "toDate": to_date, "fetchPage": page,
         }
         try:
             res = s.post("https://fie.org/competitions/search", headers=POST_HEADERS, json=payload, timeout=15)
             if res.status_code != 200 or not res.text.strip():
-                return None  # signal failure
+                return None
             items = res.json().get('items', [])
             if not items:
                 break
             all_items.extend(items)
             if len(items) < 300:
-                break  # last page
+                break
+            if page >= 20:
+                print(f"    ⚠️  Hit page cap for {from_date}–{to_date}, may be truncated!")
+                break
             page += 1
-        except Exception:
+        except Exception as e:
+            print(f"    Error: {e}")
             return None
     return all_items
 
 
-weapons = ["foil", "epee", "sabre"]
-genders = ["men", "women"]
-
 seen = set()
 unique = []
 
-for season in range(2010, 2027):
-    print(f"\n=== Season {season} ===")
-    s = make_session()
-    for weapon in weapons:
-        for gender in genders:
-            result = fetch_chunk(s, "passed", season, weapon, gender)
-            if result is None:
-                print(f"  {weapon}/{gender}: failed, retrying with new session...")
-                s = make_session()
-                time.sleep(2)
-                result = fetch_chunk(s, "passed", season, weapon, gender)
-            count = 0
-            for c in (result or []):
-                if c['competitionId'] not in seen:
-                    seen.add(c['competitionId'])
-                    unique.append(c)
-                    count += 1
-            print(f"  {weapon}/{gender}: {len(result or [])} fetched, {count} new")
-
-# Upcoming
-print("\n=== Upcoming ===")
 s = make_session()
-for weapon in weapons:
-    for gender in genders:
-        result = fetch_chunk(s, "", 2026, weapon, gender)
-        for c in (result or []):
+
+# Go month by month from 2010 to now
+from datetime import timedelta
+import calendar
+
+for year in range(2010, 2027):
+    for month in range(1, 13):
+        if year == 2026 and month > 12:
+            break
+        last_day = calendar.monthrange(year, month)[1]
+        from_d = f"{str(year).zfill(4)}-{str(month).zfill(2)}-01"
+        to_d   = f"{str(year).zfill(4)}-{str(month).zfill(2)}-{str(last_day).zfill(2)}"
+
+        result = fetch_range(s, from_d, to_d)
+        if result is None:
+            s = make_session()
+            time.sleep(1)
+            result = fetch_range(s, from_d, to_d) or []
+
+        new = 0
+        for c in result:
             if c['competitionId'] not in seen:
                 seen.add(c['competitionId'])
                 unique.append(c)
+                new += 1
 
-print(f"\nGrand total (deduplicated): {len(unique)}")
+        if result:
+            print(f"{from_d}: {len(result)} fetched, {new} new (total: {len(unique)})")
+
+# Upcoming
+print("\nFetching upcoming...")
+result = fetch_range(s, "", "", status="") or []
+for c in result:
+    if c['competitionId'] not in seen:
+        seen.add(c['competitionId'])
+        unique.append(c)
+
+print(f"\nGrand total: {len(unique)}")
 with open("competitions.json", "w") as f:
     json.dump(unique, f, indent=2)
 print("Saved to competitions.json")
