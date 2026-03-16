@@ -162,14 +162,19 @@ def scrape_competitions():
                     seen.add(key)
                     all_rows.append(c)
 
+    print(f"  After date-range loop: {len(all_rows)} total")
+
     # Upcoming
     result = fetch_comp_range(s, "", "", status="", season=0) or []
     print(f"  Upcoming sample dates: {[(c.get('name','?')[:20], c.get('startDate'), c.get('endDate')) for c in result[:5]]}")
+    new_from_upcoming = 0
     for c in result:
         key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
         if key not in seen:
             seen.add(key)
             all_rows.append(c)
+            new_from_upcoming += 1
+    print(f"  New from upcoming fetch: {new_from_upcoming}")
 
     print(f"  {len(all_rows)} competitions fetched, upserting...")
 
