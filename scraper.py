@@ -144,8 +144,6 @@ def scrape_competitions():
     # Past competitions
     for year in range(2010, datetime.utcnow().year + 2):
         for month in range(1, 13):
-            if year == 2026 and month > 12:
-                break
             last_day = calendar.monthrange(year, month)[1]
             from_d = f"{year}-{str(month).zfill(2)}-01"
             to_d   = f"{year}-{str(month).zfill(2)}-{str(last_day).zfill(2)}"
@@ -156,6 +154,8 @@ def scrape_competitions():
                 s = make_comp_session()
                 time.sleep(1)
                 result = fetch_comp_range(s, from_d, to_d) or []
+            if result:
+                print(f"  {from_d}: {len(result)} items (status='{status}')")
             for c in result:
                 key = (c["competitionId"], c.get("weapon", ""), c.get("gender", ""))
                 if key not in seen:
