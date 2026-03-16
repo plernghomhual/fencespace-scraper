@@ -1,19 +1,32 @@
 import requests
-import re
+import json
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"}
 
-# Fetch the athletes JS file
-res = requests.get("https://fie.org/js/athletes.js", headers=HEADERS, timeout=15)
-print(f"Status: {res.status_code}")
-print(f"Length: {len(res.text)}")
+# Try the search endpoint with different methods and params
+endpoints = [
+    ("GET", "https://fie.org/athletes/search?weapon=S&gender=M&category=S&page=1"),
+    ("GET", "https://fie.org/athletes/search?weapon=S&gender=M&category=S"),
+    ("POST", "https://fie.org/athletes/search"),
+]
 
-# Look for any URL/endpoint patterns
-urls = re.findall(r'["\'](\/[a-zA-Z0-9_\/\-\?=&]+)["\']', res.text)
-print("\nURLs found in JS:")
-for u in urls:
-    if any(x in u.lower() for x in ["api", "athlete", "fencer", "rank", "json", "data"]):
-        print(u)
+for method, url in endpoints:
+    if method == "GET":
+        res = requests.get(url, headers=HEADERS, timeout=15)
+    else:
+        res = requests.post(url, headers={
+            **HEADERS,
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "Accept": "application/json",
+        }, json={
+            "weapon": "S",
+            "gender": "M", 
+            "category": "S",
+            "page": 1
+        }, timeout=15)
 
-# Print first 2000 chars
-print(f"\nFirst 2000 chars:\n{res.text[:2000]}")
+    print(f"\n{method} {url}")
+    print(f"Status: {res.status_code}")
+    print(f"Content-Type: {res.headers.get('content-type')}")
+    print(f"First 500 chars: {res.text[:500]}")
