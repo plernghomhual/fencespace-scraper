@@ -42,6 +42,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
             "country": "",
             "name": "",
             "page": page,
+            "season": "2026",
         }
 
         try:
