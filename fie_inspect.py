@@ -1,11 +1,16 @@
 import requests
 import json
+import time
 
-s = requests.Session()
-s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
-s.get("https://fie.org/competitions", timeout=15)
 
-headers = {
+def make_session():
+    s = requests.Session()
+    s.headers.update({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"})
+    s.get("https://fie.org/competitions", timeout=15)
+    return s
+
+
+POST_HEADERS = {
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "Accept": "application/json, text/plain, */*",
@@ -14,6 +19,7 @@ headers = {
 
 
 def fetch_competitions(status, season):
+    s = make_session()
     all_items = []
     page = 1
     while True:
@@ -22,14 +28,26 @@ def fetch_competitions(status, season):
             "season": season, "level": "", "competitionCategory": "",
             "fromDate": "", "toDate": "", "fetchPage": page,
         }
-        res = s.post("https://fie.org/competitions/search", headers=headers, json=payload, timeout=15)
-        items = res.json().get('items', [])
-        print(f"  Page {page}: {len(items)} items")
-        if not items:
-            break
-        all_items.extend(items)
-        page += 1
+        try:
+            res = s.post("https://fie.org/competitions/search", headers=POST_HEADERS, json=payload, timeout=15)
+            if res.status_code != 200 or not res.text.strip():
+                print(f"  Page {page}: empty/error ({res.status_code}), refreshing session...")
+                s = make_session()
+                time.sleep(1)
+                continue
+            data = res.json()
+            items = data.get("items", [])
+            print(f"  Page {page}: {len(items)} items")
+            if not items:
+                break
+            all_items.extend(items)
+            page += 1
+        except Exception as e:
+            print(f"  Page {page}: error {e}, refreshing session...")
+            s = make_session()
+            time.sleep(2)
     return all_items
+
 
 all_comps = []
 for season in range(2010, 2027):
@@ -38,18 +56,14 @@ for season in range(2010, 2027):
     print(f"  → {len(comps)} total")
     all_comps.extend(comps)
 
-print("\nFetching upcoming (2026)...")
+print("\nFetching upcoming...")
 upcoming = fetch_competitions(status="", season=2026)
 print(f"  → {len(upcoming)} total")
 all_comps.extend(upcoming)
 
-# Deduplicate by competitionId
+# Deduplicate
 seen = set()
-unique = []
-for c in all_comps:
-    if c['competitionId'] not in seen:
-        seen.add(c['competitionId'])
-        unique.append(c)
+unique = [c for c in all_comps if not (c["competitionId"] in seen or seen.add(c["competitionId"]))]
 
 print(f"\nGrand total (deduplicated): {len(unique)}")
 with open("competitions.json", "w") as f:
