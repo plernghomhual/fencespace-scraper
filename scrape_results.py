@@ -82,6 +82,8 @@ def discover_competition_url_ids(tournaments):
                 items = res.json().get("items", [])
                 if not items:
                     continue
+                print(f"    Full sample item keys: {list(items[0].keys())}")
+                print(f"    Full sample item: {json.dumps(items[0], indent=2)[:500]}")
                 print(
                     f"    Sample item: id={items[0].get('id')} competitionId={items[0].get('competitionId')} "
                     f"name={items[0].get('name')}"
