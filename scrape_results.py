@@ -82,6 +82,11 @@ def discover_competition_url_ids(tournaments):
                 items = res.json().get("items", [])
                 if not items:
                     continue
+                print(
+                    f"    Sample item: id={items[0].get('id')} competitionId={items[0].get('competitionId')} "
+                    f"name={items[0].get('name')}"
+                )
+                print(f"    Our fie_ids sample: {[t.get('fie_id') for t in season_tournaments[:3]]}")
 
                 # Match search results to our tournaments by fie_id
                 for item in items:
@@ -91,7 +96,7 @@ def discover_competition_url_ids(tournaments):
                         continue
 
                     # Find matching tournament in our DB
-                    matching = [t for t in season_tournaments if t.get("fie_id") == fie_id]
+                    matching = [t for t in season_tournaments if str(t.get("fie_id")) == str(fie_id)]
                     for t in matching:
                         supabase.table("fs_tournaments")\
                             .update({"competition_url_id": competition_url_id})\
