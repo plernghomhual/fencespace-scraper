@@ -4,21 +4,24 @@ import json
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
 
-res = requests.get("https://fie.org/competitions/2026/113", headers=HEADERS, timeout=15)
+# Try to find a completed competition page
+# First let's search for completed competitions on FIE
+s = requests.Session()
+s.headers.update(HEADERS)
+s.get("https://fie.org/competitions", timeout=15)
 
-# Get all inline data blocks
-matches = re.findall(r'window\.\w+\s*=\s*(\{.*?\}|\[.*?\]);', res.text, re.DOTALL)
-for i, m in enumerate(matches):
-    try:
-        data = json.loads(m)
-        print(f"\n=== Block {i} (type: {type(data).__name__}, len: {len(str(m))}) ===")
-        print(json.dumps(data, indent=2)[:1000])
-    except Exception:
-        pass
+res = s.post("https://fie.org/competitions/search", headers={
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "https://fie.org/competitions",
+}, json={
+    "name": "", "status": "passed", "gender": [], "weapon": [], "type": [],
+    "season": 2026, "level": "", "competitionCategory": "", 
+    "fromDate": "2026-01-01", "toDate": "2026-03-01", "fetchPage": 1,
+}, timeout=15)
 
-# Also look for results-specific JS file
-scripts = re.findall(r'<script src="([^"]*)"', res.text)
-print("\nScript files:")
-for s in scripts:
-    if 'competition' in s.lower() or 'result' in s.lower():
-        print(s)
+items = res.json().get('items', [])
+print(f"Found {len(items)} completed competitions")
+for item in items[:5]:
+    print(f"competitionId: {item.get('competitionId')} | name: {item.get('name')} | hasResults: {item.get('hasResults')}")
