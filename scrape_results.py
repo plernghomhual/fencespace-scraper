@@ -180,6 +180,18 @@ def scrape_results():
             .not_.is_("competition_url_id", "null")\
             .execute().data
 
+    # Also include currently live tournaments (started but not ended yet)
+    live_tournaments = supabase.table("fs_tournaments")\
+        .select("id,fie_id,name,season,weapon,gender,competition_url_id")\
+        .lte("start_date", today)\
+        .gte("end_date", today)\
+        .eq("is_sub_competition", False)\
+        .not_.is_("competition_url_id", "null")\
+        .execute().data
+
+    print(f"Found {len(live_tournaments)} live tournaments")
+    tournaments = tournaments + live_tournaments
+
     # Check which already have results
     existing = supabase.table("fs_results")\
         .select("tournament_id")\
