@@ -212,10 +212,18 @@ def scrape_results():
 
     scraped = 0
     failed = 0
+    scraped_this_run = set()
 
     for t in to_scrape:
         season = t.get("season") or current_year
         url_id = t.get("competition_url_id")
+        tournament_id = t["id"]
+
+        # Skip if already scraped this run
+        if tournament_id in scraped_this_run:
+            print(f"  Skipping {t['name']} — already scraped this run")
+            continue
+        scraped_this_run.add(tournament_id)
         print(f"  Scraping {t['name']} ({season}/{url_id})...")
 
         meta, rows = get_competition_data(season, url_id)
@@ -227,8 +235,6 @@ def scrape_results():
             continue
 
         # Get tournament's Supabase ID
-        tournament_id = t["id"]
-
         # Build result rows
         result_rows = []
         for r in rows:
