@@ -3,7 +3,7 @@ import re
 import json
 import time
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 from supabase import create_client
 
 SUPABASE_URL = os.environ["SUPABASE_URL"]
@@ -146,6 +146,7 @@ def scrape_results():
     print(f"Results scraper starting — {datetime.utcnow().isoformat()}")
     current_year = datetime.utcnow().year
     today = datetime.utcnow().strftime("%Y-%m-%d")
+    week_ago = (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d")
 
     # Get all completed tournaments that don't have results yet
     # and have a competition_url_id
@@ -164,7 +165,6 @@ def scrape_results():
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .is_("competition_url_id", "null")\
-        .limit(50)\
         .execute().data
 
     print(f"Found {len(tournaments_no_url)} completed tournaments needing URL ID discovery")
@@ -186,7 +186,16 @@ def scrape_results():
         .execute().data
     existing_ids = set(r["tournament_id"] for r in existing)
 
-    to_scrape = [t for t in tournaments if t["id"] not in existing_ids]
+    # Always re-scrape recent tournaments (ended within the last 7 days)
+    recent_tournaments = supabase.table("fs_tournaments")\
+        .select("id")\
+        .gte("end_date", week_ago)\
+        .lte("end_date", today)\
+        .execute().data
+    recent_ids = set(r["id"] for r in recent_tournaments)
+
+    # Scrape if: no results yet OR recently ended
+    to_scrape = [t for t in tournaments if t["id"] not in existing_ids or t["id"] in recent_ids]
     print(f"{len(to_scrape)} tournaments need results scraped")
 
     scraped = 0
@@ -232,6 +241,10 @@ def scrape_results():
             failed += 1
             time.sleep(1)
             continue
+
+        # If re-scraping, clear existing rows to avoid duplicates
+        if tournament_id in existing_ids:
+            supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
 
         # Insert in batches
         for i in range(0, len(result_rows), 100):
