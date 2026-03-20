@@ -1,13 +1,25 @@
-import requests, re, json
+import requests
+import json
 
-HEADERS = {"User-Agent": "Mozilla/5.0"}
-res = requests.get("https://fie.org/competitions/2026/1459", headers=HEADERS, timeout=15)
-matches = re.findall(r'window\.\w+\s*=\s*(\{.*?\}|\[.*?\]);', res.text, re.DOTALL)
-for i, m in enumerate(matches):
-    try:
-        data = json.loads(m)
-        if isinstance(data, dict) and 'rows' in data and data['rows']:
-            print(f"Block {i} rows sample:")
-            print(json.dumps(data['rows'][:3], indent=2))
-    except Exception:
-        pass
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
+s = requests.Session()
+s.headers.update(HEADERS)
+s.get("https://fie.org/athletes", timeout=15)
+
+res = s.post("https://fie.org/athletes", headers={
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "https://fie.org/athletes",
+}, json={
+    "weapon": "S", "gender": "M", "category": "S",
+    "season": "2026", "page": 1
+}, timeout=15)
+
+data = res.json()
+athletes = data.get("athletes", data.get("items", []))
+if athletes:
+    print("Keys:", list(athletes[0].keys()))
+    print("Full sample:")
+    print(json.dumps(athletes[0], indent=2))
