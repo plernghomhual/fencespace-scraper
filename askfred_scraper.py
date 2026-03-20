@@ -43,10 +43,18 @@ def askfred_login():
 
 
 def scrape_clubs(s):
-    # Try to fetch club directory
-    res = s.get("https://www.askfred.net/clubs.json", timeout=15)
-    print(f"Clubs status: {res.status_code}")
-    print(f"Clubs preview: {res.text[:500]}")
+    # After successful login, try different endpoints
+    endpoints = [
+        "/clubs.json",
+        "/api/v1/clubs",
+        "/api/clubs",
+        "/organizations.json",
+        "/api/v1/organizations",
+    ]
+
+    for endpoint in endpoints:
+        res = s.get(f"https://www.askfred.net{endpoint}", timeout=15)
+        print(f"{endpoint} → {res.status_code} — {res.text[:200]}")
 
 
 if __name__ == "__main__":
