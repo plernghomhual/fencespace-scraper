@@ -44,6 +44,28 @@ def get_competition_data(season, competition_url_id):
         return None, None
 
 
+def normalize_date(date_str):
+    # Convert "28-01-2026" -> "2026-01-28"
+    try:
+        parts = date_str.split("-")
+        return f"{parts[2]}-{parts[1]}-{parts[0]}"
+    except Exception:
+        return None
+
+
+def names_match(a, b):
+    # Loose name match - both lowercase, strip accents
+    import unicodedata
+
+    def clean(s):
+        s = (s or "").lower().strip()
+        s = "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
+        return s
+
+    a, b = clean(a), clean(b)
+    return a == b or a in b or b in a
+
+
 def discover_competition_url_ids(tournaments):
     """Try to find competitionId URL slugs for tournaments that don't have them yet"""
     print("Discovering competition URL IDs...")
@@ -61,11 +83,11 @@ def discover_competition_url_ids(tournaments):
     for season, season_tournaments in by_season.items():
         print(f"  Searching season {season} — {len(season_tournaments)} tournaments")
 
-        # Search each month of the season
+        # Collect ALL items for this season across all months
+        all_items = []
         for month in range(1, 13):
             from_date = f"{season}-{month:02d}-01"
             to_date = f"{season}-{month:02d}-28"
-
             try:
                 res = s.post("https://fie.org/competitions/search", headers={
                     "Content-Type": "application/json",
@@ -78,38 +100,46 @@ def discover_competition_url_ids(tournaments):
                     "competitionCategory": "", "fromDate": from_date,
                     "toDate": to_date, "fetchPage": 1,
                 }, timeout=15)
-
                 items = res.json().get("items", [])
-                if not items:
-                    continue
-                print(f"    Full sample item keys: {list(items[0].keys())}")
-                print(f"    Full sample item: {json.dumps(items[0], indent=2)[:500]}")
-                print(
-                    f"    Sample item: id={items[0].get('id')} competitionId={items[0].get('competitionId')} "
-                    f"name={items[0].get('name')}"
-                )
-                print(f"    Our fie_ids sample: {[t.get('fie_id') for t in season_tournaments[:3]]}")
-
-                # Match search results to our tournaments by fie_id
-                for item in items:
-                    fie_id = item.get("id")
-                    competition_url_id = item.get("competitionId")
-                    if not fie_id or not competition_url_id:
-                        continue
-
-                    # Find matching tournament in our DB
-                    matching = [t for t in season_tournaments if str(t.get("fie_id")) == str(fie_id)]
-                    for t in matching:
-                        supabase.table("fs_tournaments")\
-                            .update({"competition_url_id": competition_url_id})\
-                            .eq("id", t["id"])\
-                            .execute()
-                        print(f"    Mapped {t['name']} fie_id={fie_id} → url_id={competition_url_id}")
-
-                time.sleep(0.5)
-            except Exception as e:
-                print(f"    Search error for {from_date}: {e}")
+                all_items.extend(items)
+                time.sleep(0.3)
+            except Exception:
                 continue
+
+        print(f"    Got {len(all_items)} total items for season {season}")
+
+        # Match each of our tournaments against search results
+        for t in season_tournaments:
+            t_start = t.get("start_date", "")
+            t_weapon = (t.get("weapon") or "").lower()
+            t_gender = (t.get("gender") or "").lower()
+            t_name = t.get("name", "")
+
+            best_match = None
+            for item in all_items:
+                item_start = normalize_date(item.get("startDate", ""))
+                item_weapon = (item.get("weapon") or "").lower()
+                item_gender = (item.get("gender") or "").lower()
+                item_name = item.get("name", "")
+
+                if (
+                    item_start == t_start
+                    and item_weapon == t_weapon
+                    and item_gender == t_gender
+                    and names_match(item_name, t_name)
+                ):
+                    best_match = item
+                    break
+
+            if best_match:
+                url_id = best_match.get("competitionId")
+                supabase.table("fs_tournaments")\
+                    .update({"competition_url_id": url_id})\
+                    .eq("id", t["id"])\
+                    .execute()
+                print(f"    ✓ Mapped '{t_name}' → url_id={url_id}")
+            else:
+                print(f"    ✗ No match for '{t_name}' {t_start} {t_weapon} {t_gender}")
 
 
 def scrape_results():
@@ -130,7 +160,7 @@ def scrape_results():
 
     # Also get tournaments without competition_url_id — need to discover them
     tournaments_no_url = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender")\
+        .select("id,fie_id,name,season,weapon,gender,start_date")\
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .is_("competition_url_id", "null")\
