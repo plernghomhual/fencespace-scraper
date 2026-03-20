@@ -28,4 +28,6 @@ jobs:
         env:
           ASKFRED_EMAIL: ${{ secrets.ASKFRED_EMAIL }}
           ASKFRED_PASSWORD: ${{ secrets.ASKFRED_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python askfred_scraper.py
