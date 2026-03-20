@@ -52,7 +52,8 @@ def scrape_rankings(weapon: str, gender: str, label: str):
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
             res.raise_for_status()
-            athletes = res.json().get("allAthletes", [])
+            data = res.json()
+            athletes = data.get("allAthletes", data.get("topFencers", []))
             if not athletes:
                 break
             rows = []
@@ -71,6 +72,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
                     "category": f"{gender_label} Senior",
                     "world_rank": f.get("rank"),
                     "fie_points": int(float(points_raw)),
+                    "image_url": f.get("image"),
                     "updated_at": datetime.utcnow().isoformat(),
                 })
             if rows:
