@@ -80,12 +80,17 @@ def discover_competition_url_ids(tournaments):
         season = t.get("season") or datetime.utcnow().year
         by_season.setdefault(season, []).append(t)
 
+    current_year = datetime.utcnow().year
+    current_month = datetime.utcnow().month
+
     for season, season_tournaments in by_season.items():
         print(f"  Searching season {season} — {len(season_tournaments)} tournaments")
 
         # Collect ALL items for this season across all months
         all_items = []
         for month in range(1, 13):
+            if season == current_year and month > current_month:
+                continue
             from_date = f"{season}-{month:02d}-01"
             to_date = f"{season}-{month:02d}-28"
             try:
@@ -273,7 +278,7 @@ def scrape_results():
 
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1
-        time.sleep(1.5)  # be polite to FIE
+        time.sleep(0.5)  # be polite to FIE
 
     print(f"\nDone — {scraped} tournaments scraped, {failed} failed")
 
