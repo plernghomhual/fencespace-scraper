@@ -27,9 +27,13 @@ def scrape_usafencing_clubs():
             res = requests.get(
                 "https://member.usafencing.org/clubs",
                 params={
-                    "q": "", "division": "", "state": "", "club_type": "",
-                    "sort": "", "lat": "", "lon": "",
-                    "page": page, "perPage": 50, "distance": 1
+                    "q": "",
+                    "division": "",
+                    "state": "",
+                    "club_type": "",
+                    "sort": "name",
+                    "page": page,
+                    "perPage": 50
                 },
                 headers=HEADERS,
                 timeout=15
