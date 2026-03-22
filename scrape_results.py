@@ -264,9 +264,12 @@ def scrape_results():
         if tournament_id in existing_ids:
             supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
 
-        # Insert in batches
+        # Upsert in batches
         for i in range(0, len(result_rows), 100):
-            supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
+            supabase.table("fs_results").upsert(
+                result_rows[i:i+100],
+                on_conflict="tournament_id,fie_fencer_id,rank"
+            ).execute()
 
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1
