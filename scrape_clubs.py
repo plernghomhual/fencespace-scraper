@@ -38,6 +38,7 @@ def scrape_usafencing_clubs():
                 headers=HEADERS,
                 timeout=15
             )
+            print(f"  Requesting page {page} with params: {res.request.url}")
 
             if res.status_code != 200:
                 print(f"  Page {page} — HTTP {res.status_code}, stopping")
