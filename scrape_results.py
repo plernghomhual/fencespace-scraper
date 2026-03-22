@@ -176,6 +176,8 @@ def scrape_results():
 
     # Discover competition_url_ids via FIE search API
     if tournaments_no_url:
+        if len(tournaments_no_url) < 10:
+            print(f"Only {len(tournaments_no_url)} unmapped — running targeted discovery")
         discover_competition_url_ids(tournaments_no_url)
         # Re-fetch with url ids now populated
         tournaments = supabase.table("fs_tournaments")\
@@ -278,7 +280,7 @@ def scrape_results():
 
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1
-        time.sleep(0.5)  # be polite to FIE
+        time.sleep(0.3)  # be polite to FIE
 
     print(f"\nDone — {scraped} tournaments scraped, {failed} failed")
 
