@@ -1,4 +1,4 @@
-name: FenceSquare Scraper
+name: FenceSpace Scraper
 on:
   schedule:
     - cron: '0 */6 * * *'

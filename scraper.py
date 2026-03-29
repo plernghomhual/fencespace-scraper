@@ -12,7 +12,7 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 # ── Shared headers ──────────────────────────────────────────────────────────
 
 ATHLETE_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)",
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0)",
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "Accept": "application/json",
@@ -20,7 +20,7 @@ ATHLETE_HEADERS = {
 }
 
 COMP_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)",
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0)",
     "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "Accept": "application/json, text/plain, */*",
@@ -105,7 +105,7 @@ def parse_date(d):
 
 def make_comp_session():
     s = requests.Session()
-    s.headers.update({"User-Agent": "Mozilla/5.0 (compatible; FenceSquare/1.0)"})
+    s.headers.update({"User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0)"})
     s.get("https://fie.org/competitions", timeout=15)
     return s
 
@@ -207,7 +207,7 @@ def scrape_competitions():
 
 
 def main():
-    print(f"FenceSquare scraper starting — {datetime.utcnow().isoformat()}")
+    print(f"FenceSpace scraper starting — {datetime.utcnow().isoformat()}")
     for w in WEAPONS:
         scrape_rankings(w["weapon"], w["gender"], w["label"])
         time.sleep(2)
