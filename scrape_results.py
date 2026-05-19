@@ -6,8 +6,10 @@ import requests
 from datetime import datetime, timedelta
 from supabase import create_client
 
-SUPABASE_URL = os.environ["SUPABASE_URL"]
-SUPABASE_KEY = os.environ["SUPABASE_SERVICE_KEY"]
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
@@ -64,6 +66,15 @@ def names_match(a, b):
 
     a, b = clean(a), clean(b)
     return a == b or a in b or b in a
+
+
+def to_int(value):
+    try:
+        if value is None or value == "":
+            return None
+        return int(float(value))
+    except Exception:
+        return None
 
 
 def discover_competition_url_ids(tournaments):
@@ -249,16 +260,16 @@ def scrape_results():
                 continue
             result_rows.append({
                 "tournament_id": tournament_id,
-                "fie_fencer_id": r.get("fencerId"),
+                "fie_fencer_id": str(r.get("fencerId")) if r.get("fencerId") is not None else None,
                 "name": r.get("name", "").title(),
                 "nationality": r.get("nationality"),
-                "rank": r.get("rank"),
-                "placement": r.get("rank"),
-                "victory": r.get("victory"),
-                "matches": r.get("matches"),
-                "td": r.get("td"),
-                "tr": r.get("tr"),
-                "diff": r.get("diff"),
+                "rank": to_int(r.get("rank")),
+                "placement": to_int(r.get("rank")),
+                "victory": to_int(r.get("victory")),
+                "matches": to_int(r.get("matches")),
+                "td": to_int(r.get("td")),
+                "tr": to_int(r.get("tr")),
+                "diff": to_int(r.get("diff")),
             })
 
         if not result_rows:
@@ -273,10 +284,7 @@ def scrape_results():
 
         # Upsert in batches
         for i in range(0, len(result_rows), 100):
-            supabase.table("fs_results").upsert(
-                result_rows[i:i+100],
-                on_conflict="tournament_id,fie_fencer_id,rank"
-            ).execute()
+            supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
 
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1

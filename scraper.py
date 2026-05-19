@@ -7,6 +7,8 @@ import calendar
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # ── Shared headers ──────────────────────────────────────────────────────────
@@ -76,7 +78,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
                     "updated_at": datetime.utcnow().isoformat(),
                 })
             if rows:
-                supabase.table("fs_fencers").upsert(rows, on_conflict="fie_id,weapon").execute()
+                supabase.table("fs_fencers").upsert(rows, on_conflict="fie_id").execute()
             total += len(athletes)
             print(f"  Page {page} — {len(athletes)} fencers (total: {total})")
             if len(athletes) < 100:
@@ -198,7 +200,7 @@ def scrape_competitions():
     # Upsert in batches of 100
     for i in range(0, len(rows), 100):
         supabase.table("fs_tournaments").upsert(
-            rows[i:i+100], on_conflict="fie_id,weapon,gender"
+            rows[i:i+100], on_conflict="fie_id"
         ).execute()
 
     print("Done — competitions upserted")
