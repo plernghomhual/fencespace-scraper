@@ -77,6 +77,16 @@ def to_int(value):
         return None
 
 
+def dedupe_result_rows(rows):
+    seen = {}
+    for row in rows:
+        fencer_key = row.get("fie_fencer_id") or row.get("name")
+        key = (row.get("tournament_id"), fencer_key, row.get("rank"))
+        if key not in seen:
+            seen[key] = row
+    return list(seen.values())
+
+
 def discover_competition_url_ids(tournaments):
     """Try to find competitionId URL slugs for tournaments that don't have them yet"""
     print("Discovering competition URL IDs...")
@@ -272,17 +282,18 @@ def scrape_results():
                 "diff": to_int(r.get("diff")),
             })
 
+        result_rows = dedupe_result_rows(result_rows)
+
         if not result_rows:
             print(f"    No valid rows")
             failed += 1
             time.sleep(1)
             continue
 
-        # If re-scraping, clear existing rows to avoid duplicates
-        if tournament_id in existing_ids:
-            supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+        # Replace rows per tournament so partial/repeated workflow runs stay idempotent.
+        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
 
-        # Upsert in batches
+        # Insert in batches
         for i in range(0, len(result_rows), 100):
             supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
 
