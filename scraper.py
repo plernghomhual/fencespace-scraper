@@ -105,6 +105,13 @@ def parse_date(d):
     return None
 
 
+def normalize_date_range(start_date, end_date, label):
+    if start_date and end_date and end_date < start_date:
+        print(f"  ⚠️ invalid date range for {label}: {start_date} > {end_date}; using start date as end date")
+        return start_date, start_date
+    return start_date, end_date
+
+
 def make_comp_session():
     s = requests.Session()
     s.headers.update({"User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0)"})
@@ -160,6 +167,11 @@ def scrape_competitions():
 
     rows = []
     for c in all_rows:
+        start_date, end_date = normalize_date_range(
+            parse_date(c.get("startDate")),
+            parse_date(c.get("endDate")),
+            c.get("competitionId") or c.get("name") or "competition",
+        )
         rows.append({
             "fie_id": c["competitionId"],
             "season": c.get("season"),
@@ -168,8 +180,8 @@ def scrape_competitions():
             "country": c.get("country"),
             "federation": c.get("federation"),
             "flag": c.get("flag"),
-            "start_date": parse_date(c.get("startDate")),
-            "end_date": parse_date(c.get("endDate")),
+            "start_date": start_date,
+            "end_date": end_date,
             "weapon": c.get("weapon"),
             "weapons": c.get("weapons", []),
             "gender": c.get("gender"),
@@ -189,11 +201,11 @@ def scrape_competitions():
                 f"endDate='{c.get('endDate')}' → parsed: {parse_date(c.get('startDate'))}"
             )
 
-    # Deduplicate by conflict key before upserting
+    # Deduplicate by the Supabase upsert conflict key before writing.
     seen = {}
     for r in rows:
-        key = (r["fie_id"], r.get("weapon", ""), r.get("gender", ""))
-        seen[key] = r  # later occurrence overwrites earlier, keeping freshest data
+        key = r["fie_id"]
+        seen[key] = r
     rows = list(seen.values())
     print(f"  {len(rows)} unique rows after dedup")
 
