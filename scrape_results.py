@@ -162,7 +162,7 @@ def discover_competition_url_ids(tournaments):
     # Group by season for efficient searching
     by_season = {}
     for t in tournaments:
-        season = t.get("season") or datetime.now(timezone.utc).year
+        season = int(t.get("season") or datetime.now(timezone.utc).year)
         by_season.setdefault(season, []).append(t)
 
     current_year = datetime.now(timezone.utc).year
