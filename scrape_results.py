@@ -55,6 +55,71 @@ def normalize_date(date_str):
         return None
 
 
+def clean_text(value):
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    return text or None
+
+
+def title_case(value):
+    text = clean_text(value)
+    return text.title() if text else None
+
+
+def normalize_country(value):
+    text = clean_text(value)
+    if not text:
+        return None
+    key = text.upper().replace(".", "")
+    key = re.sub(r"\s+", " ", key)
+    country_map = {
+        "_AIN": "Russia",
+        "AIN_": "Russia",
+        "AIN": "Russia",
+        "INDIVIDUAL NEUTRAL ATHLETES": "Russia",
+        "FIE": "FIE",
+        "USA": "United States",
+        "US": "United States",
+        "UNITED STATES": "United States",
+        "UNITED STATES OF AMERICA": "United States",
+        "GBR": "Great Britain",
+        "GREAT BRITAIN": "Great Britain",
+        "KOREA": "South Korea",
+        "KOR": "South Korea",
+        "HONG KONG, CHINA": "Hong Kong",
+        "HONG KONG CHINA": "Hong Kong",
+        "MACAO, CHINA": "Macau",
+        "MACAO CHINA": "Macau",
+        "TURKIYE": "Turkey",
+        "TÜRKIYE": "Turkey",
+        "TÜRKİYE": "Turkey",
+        "COTE D'IVOIRE": "Côte d'Ivoire",
+        "COTE DIVOIRE": "Côte d'Ivoire",
+    }
+    return country_map.get(key, title_case(text))
+
+
+def normalize_person_name(value):
+    text = clean_text(value)
+    if not text:
+        return None
+    parts = text.split()
+    leading = 0
+    while leading < len(parts) and any(ch.isalpha() for ch in parts[leading]) and parts[leading].upper() == parts[leading]:
+        leading += 1
+    if 0 < leading < len(parts):
+        last = title_case(" ".join(parts[:leading]))
+        first = title_case(" ".join(parts[leading:]))
+        return first if first.lower() == last.lower() else f"{first} {last}"
+    trailing = 0
+    while trailing < len(parts) and any(ch.isalpha() for ch in parts[-1 - trailing]) and parts[-1 - trailing].upper() == parts[-1 - trailing]:
+        trailing += 1
+    if 0 < trailing < len(parts):
+        first = title_case(" ".join(parts[:-trailing]))
+        last = title_case(" ".join(parts[-trailing:]))
+        return first if first.lower() == last.lower() else f"{first} {last}"
+    return title_case(text)
+
+
 def names_match(a, b):
     # Loose name match - both lowercase, strip accents
     import unicodedata
@@ -271,8 +336,9 @@ def scrape_results():
             result_rows.append({
                 "tournament_id": tournament_id,
                 "fie_fencer_id": str(r.get("fencerId")) if r.get("fencerId") is not None else None,
-                "name": r.get("name", "").title(),
-                "nationality": r.get("nationality"),
+                "name": normalize_person_name(r.get("name")),
+                "nationality": normalize_country(r.get("nationality")),
+                "country": normalize_country(r.get("country") or r.get("nationality")),
                 "rank": to_int(r.get("rank")),
                 "placement": to_int(r.get("rank")),
                 "victory": to_int(r.get("victory")),
