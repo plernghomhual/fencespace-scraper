@@ -1,7 +1,7 @@
 import os
 import requests
 from supabase import create_client, Client
-from datetime import datetime, date as date_obj
+from datetime import datetime, date as date_obj, timezone
 import time
 import calendar
 import re
@@ -115,7 +115,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
     while True:
         payload = {
             "weapon": weapon, "gender": gender, "category": "S",
-            "country": "", "name": "", "page": page, "season": str(datetime.utcnow().year),
+            "country": "", "name": "", "page": page, "season": str(datetime.now(timezone.utc).year),
         }
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
@@ -141,7 +141,7 @@ def scrape_rankings(weapon: str, gender: str, label: str):
                     "world_rank": f.get("rank"),
                     "fie_points": int(float(points_raw)),
                     "image_url": f.get("image"),
-                    "updated_at": datetime.utcnow().isoformat(),
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
                 })
             if rows:
                 supabase.table("fs_fencers").upsert(rows, on_conflict="fie_id").execute()
@@ -215,7 +215,7 @@ def scrape_competitions():
     print("Scraping competitions...")
     s = make_comp_session()
     all_rows = []
-    for year in range(2010, datetime.utcnow().year + 2):
+    for year in range(2010, datetime.now(timezone.utc).year + 1):
         for month in range(1, 13):
             last_day = calendar.monthrange(year, month)[1]
             from_d = f"{year}-{str(month).zfill(2)}-01"
@@ -259,14 +259,6 @@ def scrape_competitions():
             "is_link": bool(c.get("isLink")),
         })
 
-    # Show sample of what future month competitions look like raw
-    for c in all_rows[:5]:
-        if c.get("competitionId") and int(c.get("season", 0)) == 2026:
-            print(
-                f"  Raw: id={c['competitionId']} startDate='{c.get('startDate')}' "
-                f"endDate='{c.get('endDate')}' → parsed: {parse_date(c.get('startDate'))}"
-            )
-
     # Deduplicate by the Supabase upsert conflict key before writing.
     seen = {}
     for r in rows:
@@ -287,7 +279,7 @@ def scrape_competitions():
 
 
 def main():
-    print(f"FenceSpace scraper starting — {datetime.utcnow().isoformat()}")
+    print(f"FenceSpace scraper starting — {datetime.now(timezone.utc).isoformat()}")
     for w in WEAPONS:
         scrape_rankings(w["weapon"], w["gender"], w["label"])
         time.sleep(2)

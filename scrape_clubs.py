@@ -1,7 +1,7 @@
 import os
 import time
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -18,7 +18,7 @@ HEADERS = {
 
 
 def scrape_usafencing_clubs():
-    print(f"USA Fencing club scraper starting — {datetime.utcnow().isoformat()}")
+    print(f"USA Fencing club scraper starting — {datetime.now(timezone.utc).isoformat()}")
 
     page = 1
     total_scraped = 0
@@ -82,7 +82,7 @@ def scrape_usafencing_clubs():
                     "usafencing_id": c.get("id"),
                     "usafencing_slug": c.get("slug", ""),
                     "is_active": not c.get("inactive", False),
-                    "updated_at": datetime.utcnow().isoformat()
+                    "updated_at": datetime.now(timezone.utc).isoformat()
                 })
 
             # Upsert on usafencing_id

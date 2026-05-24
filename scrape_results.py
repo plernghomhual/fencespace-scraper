@@ -2,8 +2,10 @@ import os
 import re
 import json
 import time
+import calendar
+import unicodedata
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -121,9 +123,6 @@ def normalize_person_name(value):
 
 
 def names_match(a, b):
-    # Loose name match - both lowercase, strip accents
-    import unicodedata
-
     def clean(s):
         s = (s or "").lower().strip()
         s = "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
@@ -163,11 +162,11 @@ def discover_competition_url_ids(tournaments):
     # Group by season for efficient searching
     by_season = {}
     for t in tournaments:
-        season = t.get("season") or datetime.utcnow().year
+        season = t.get("season") or datetime.now(timezone.utc).year
         by_season.setdefault(season, []).append(t)
 
-    current_year = datetime.utcnow().year
-    current_month = datetime.utcnow().month
+    current_year = datetime.now(timezone.utc).year
+    current_month = datetime.now(timezone.utc).month
 
     for season, season_tournaments in by_season.items():
         print(f"  Searching season {season} — {len(season_tournaments)} tournaments")
@@ -178,7 +177,7 @@ def discover_competition_url_ids(tournaments):
             if season == current_year and month > current_month:
                 continue
             from_date = f"{season}-{month:02d}-01"
-            to_date = f"{season}-{month:02d}-28"
+            to_date = f"{season}-{month:02d}-{calendar.monthrange(season, month)[1]}"
             try:
                 res = s.post("https://fie.org/competitions/search", headers={
                     "Content-Type": "application/json",
@@ -234,10 +233,10 @@ def discover_competition_url_ids(tournaments):
 
 
 def scrape_results():
-    print(f"Results scraper starting — {datetime.utcnow().isoformat()}")
-    current_year = datetime.utcnow().year
-    today = datetime.utcnow().strftime("%Y-%m-%d")
-    week_ago = (datetime.utcnow() - timedelta(days=7)).strftime("%Y-%m-%d")
+    print(f"Results scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    current_year = datetime.now(timezone.utc).year
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
 
     # Get all completed tournaments that don't have results yet
     # and have a competition_url_id
