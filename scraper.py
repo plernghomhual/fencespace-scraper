@@ -32,15 +32,20 @@ COMP_HEADERS = {
 
 # ── Fencer scraper ───────────────────────────────────────────────────────────
 
-WEAPONS = [
-    {"weapon": "S", "gender": "M", "label": "Men's Sabre"},
-    {"weapon": "S", "gender": "F", "label": "Women's Sabre"},
-    {"weapon": "E", "gender": "M", "label": "Men's Epee"},
-    {"weapon": "E", "gender": "F", "label": "Women's Epee"},
-    {"weapon": "F", "gender": "M", "label": "Men's Foil"},
-    {"weapon": "F", "gender": "F", "label": "Women's Foil"},
-]
 WEAPON_MAP = {"S": "Sabre", "E": "Epee", "F": "Foil"}
+CATEGORY_MAP = {"S": "Senior", "J": "Junior", "C": "Cadet", "V": "Veteran"}
+
+WEAPONS = [
+    {
+        "weapon": weapon,
+        "gender": gender,
+        "category": category,
+        "label": f"{'Women' if gender == 'F' else 'Men'}'s {category_label} {weapon_label}",
+    }
+    for weapon, weapon_label in WEAPON_MAP.items()
+    for gender in ["M", "F"]
+    for category, category_label in CATEGORY_MAP.items()
+]
 
 
 def clean_text(value):
@@ -108,14 +113,25 @@ def normalize_person_name(value):
     return title_case(text)
 
 
-def scrape_rankings(weapon: str, gender: str, label: str):
-    print(f"Scraping {label}...")
+def batch_upsert(table: str, rows: list[dict], on_conflict: str, batch_size: int = 100):
+    for i in range(0, len(rows), batch_size):
+        supabase.table(table).upsert(
+            rows[i:i+batch_size], on_conflict=on_conflict
+        ).execute()
+
+
+def scrape_rankings(weapon: str, gender: str, category: str, label: str):
+    category_label = CATEGORY_MAP.get(category, category)
+    gender_label = "Women's" if gender == "F" else "Men's"
+    db_category = f"{gender_label} {category_label}"
+
+    print(f"Scraping {label} ({weapon}/{gender}/{category})...")
     page = 1
     total = 0
     while True:
         payload = {
-            "weapon": weapon, "gender": gender, "category": "S",
-            "country": "", "name": "", "page": page, "season": str(datetime.now(timezone.utc).year),
+            "weapon": weapon, "gender": gender, "category": category,
+            "country": "", "name": "", "page": page, "season": "2026",
         }
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
@@ -130,27 +146,29 @@ def scrape_rankings(weapon: str, gender: str, label: str):
                 name = normalize_person_name(f.get("name"))
                 if not name or not fie_id:
                     continue
-                gender_label = "Women's" if gender == "F" else "Men's"
                 points_raw = f.get("points", "0") or "0"
                 rows.append({
                     "fie_id": fie_id,
                     "name": name,
                     "country": normalize_country(f.get("country")),
                     "weapon": WEAPON_MAP.get(weapon, weapon),
-                    "category": f"{gender_label} Senior",
+                    "category": db_category,
                     "world_rank": f.get("rank"),
                     "fie_points": int(float(points_raw)),
                     "image_url": f.get("image"),
                     "updated_at": datetime.now(timezone.utc).isoformat(),
                 })
             if rows:
-                supabase.table("fs_fencers").upsert(rows, on_conflict="fie_id").execute()
+                batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
             total += len(athletes)
             print(f"  Page {page} — {len(athletes)} fencers (total: {total})")
             if len(athletes) < 100:
                 break
             page += 1
             time.sleep(1)
+        except requests.exceptions.RequestException as e:
+            print(f"  Connection error on page {page}: {e}")
+            break
         except Exception as e:
             print(f"  Error on page {page}: {e}")
             break
@@ -280,9 +298,11 @@ def scrape_competitions():
 
 def main():
     print(f"FenceSpace scraper starting — {datetime.now(timezone.utc).isoformat()}")
-    for w in WEAPONS:
-        scrape_rankings(w["weapon"], w["gender"], w["label"])
-        time.sleep(2)
+    for index, w in enumerate(WEAPONS, start=1):
+        print(f"\nRanking combination {index}/{len(WEAPONS)}")
+        scrape_rankings(w["weapon"], w["gender"], w["category"], w["label"])
+        if index < len(WEAPONS):
+            time.sleep(2)
     scrape_competitions()
     print("Scraper complete")
 
