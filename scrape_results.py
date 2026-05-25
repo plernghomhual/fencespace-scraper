@@ -232,7 +232,31 @@ def discover_competition_url_ids(tournaments):
                 print(f"    ✗ No match for '{t_name}' {t_start} {t_weapon} {t_gender}")
 
 
-def scrape_results():
+def filter_tournaments(tournaments, season=None, weapon=None):
+    filtered = tournaments or []
+    if season is not None:
+        filtered = [t for t in filtered if to_int(t.get("season")) == season]
+    if weapon:
+        weapon = weapon.lower()
+        filtered = [t for t in filtered if (t.get("weapon") or "").lower() == weapon]
+    return filtered
+
+
+def discover_urls_main(season=None):
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    tournaments_no_url = supabase.table("fs_tournaments")\
+        .select("id,fie_id,name,season,weapon,gender,start_date")\
+        .lte("end_date", today)\
+        .eq("is_sub_competition", False)\
+        .is_("competition_url_id", "null")\
+        .execute().data
+
+    tournaments_no_url = filter_tournaments(tournaments_no_url, season=season)
+    print(f"Found {len(tournaments_no_url)} completed tournaments needing URL ID discovery")
+    discover_competition_url_ids(tournaments_no_url)
+
+
+def main(season=None, weapon=None, limit=0):
     print(f"Results scraper starting — {datetime.now(timezone.utc).isoformat()}")
     current_year = datetime.now(timezone.utc).year
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -247,6 +271,7 @@ def scrape_results():
         .not_.is_("competition_url_id", "null")\
         .execute().data
 
+    tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
     print(f"Found {len(tournaments)} completed tournaments with URL IDs")
 
     # Also get tournaments without competition_url_id — need to discover them
@@ -257,6 +282,7 @@ def scrape_results():
         .is_("competition_url_id", "null")\
         .execute().data
 
+    tournaments_no_url = filter_tournaments(tournaments_no_url, season=season, weapon=weapon)
     print(f"Found {len(tournaments_no_url)} completed tournaments needing URL ID discovery")
 
     # Discover competition_url_ids via FIE search API
@@ -271,6 +297,7 @@ def scrape_results():
             .eq("is_sub_competition", False)\
             .not_.is_("competition_url_id", "null")\
             .execute().data
+        tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
 
     # Also include currently live tournaments (started but not ended yet)
     live_tournaments = supabase.table("fs_tournaments")\
@@ -281,6 +308,7 @@ def scrape_results():
         .not_.is_("competition_url_id", "null")\
         .execute().data
 
+    live_tournaments = filter_tournaments(live_tournaments, season=season, weapon=weapon)
     print(f"Found {len(live_tournaments)} live tournaments")
     tournaments = tournaments + live_tournaments
 
@@ -300,6 +328,8 @@ def scrape_results():
 
     # Scrape if: no results yet OR recently ended
     to_scrape = [t for t in tournaments if t["id"] not in existing_ids or t["id"] in recent_ids]
+    if limit and limit > 0:
+        to_scrape = to_scrape[:limit]
     print(f"{len(to_scrape)} tournaments need results scraped")
 
     scraped = 0
@@ -307,7 +337,7 @@ def scrape_results():
     scraped_this_run = set()
 
     for t in to_scrape:
-        season = t.get("season") or current_year
+        tournament_season = int(t.get("season") or current_year)
         url_id = t.get("competition_url_id")
         tournament_id = t["id"]
 
@@ -316,9 +346,9 @@ def scrape_results():
             print(f"  Skipping {t['name']} — already scraped this run")
             continue
         scraped_this_run.add(tournament_id)
-        print(f"  Scraping {t['name']} ({season}/{url_id})...")
+        print(f"  Scraping {t['name']} ({tournament_season}/{url_id})...")
 
-        meta, rows = get_competition_data(season, url_id)
+        meta, rows = get_competition_data(tournament_season, url_id)
 
         if not rows:
             print(f"    No results found")
@@ -369,5 +399,9 @@ def scrape_results():
     print(f"\nDone — {scraped} tournaments scraped, {failed} failed")
 
 
+def scrape_results(season=None, weapon=None, limit=0):
+    return main(season=season, weapon=weapon, limit=limit)
+
+
 if __name__ == "__main__":
-    scrape_results()
+    main()
