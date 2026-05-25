@@ -368,7 +368,6 @@ def tournament_row(comp):
     start_date = comp.get("date")
     return {
         "fie_id": comp["source_id"],
-        "source": SOURCE,
         "season": start_date[:4] if start_date else None,
         "name": name,
         "location": comp.get("city"),
@@ -586,7 +585,6 @@ def result_rows_for_db(tournament_id, comp, scraped_rows, fencer_index, result_u
             "tournament_id": tournament_id,
             "fencer_id": matched.get("id") if matched else None,
             "fie_fencer_id": str(matched.get("fie_id")) if matched and matched.get("fie_id") else None,
-            "source": SOURCE,
             "rank": row["rank"],
             "placement": row["rank"],
             "name": row.get("name"),
@@ -609,7 +607,7 @@ def result_rows_for_db(tournament_id, comp, scraped_rows, fencer_index, result_u
 
 
 def replace_results(tournament_id, rows):
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).eq("source", SOURCE).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     if rows:
         batch_upsert("fs_results", rows)
 
