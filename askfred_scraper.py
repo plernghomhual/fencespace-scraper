@@ -459,7 +459,7 @@ def build_tournament_rows(ref: TournamentRef, grouped_events: dict[str, dict[str
 
         rows.append(
             {
-                "fie_id": source_key,
+                "source_id": source_key,
                 "season": season,
                 "name": display_name[:180],
                 "location": None,
@@ -500,15 +500,15 @@ def upsert_tournaments(rows: list[dict[str, Any]]) -> dict[str, int]:
     if not rows:
         return {}
 
-    batch_upsert("fs_tournaments", rows, on_conflict="fie_id")
+    batch_upsert("fs_tournaments", rows, on_conflict="source_id")
 
     ids: dict[str, int] = {}
-    source_keys = [row["fie_id"] for row in rows]
+    source_keys = [row["source_id"] for row in rows]
     for i in range(0, len(source_keys), BATCH_SIZE):
         chunk = source_keys[i : i + BATCH_SIZE]
-        result = supabase.table("fs_tournaments").select("id,fie_id").in_("fie_id", chunk).execute()
+        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", chunk).execute()
         for row in result.data or []:
-            ids[row["fie_id"]] = row["id"]
+            ids[row["source_id"]] = row["id"]
 
     return ids
 

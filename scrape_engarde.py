@@ -367,7 +367,7 @@ def tournament_row(comp):
     country = normalize_country(comp.get("country_code"))
     start_date = comp.get("date")
     return {
-        "fie_id": comp["source_id"],
+        "source_id": comp["source_id"],
         "season": start_date[:4] if start_date else None,
         "name": name,
         "location": comp.get("city"),
@@ -378,7 +378,6 @@ def tournament_row(comp):
         "start_date": start_date,
         "end_date": start_date,
         "is_sub_competition": False,
-        "competition_url_id": f"{comp['org']}/{comp['event']}/{comp['competition']}",
         "has_results": comp.get("status") == "completed",
         "metadata": {
             "source": SOURCE,
@@ -397,8 +396,8 @@ def tournament_row(comp):
 
 def upsert_tournament(comp):
     row = tournament_row(comp)
-    supabase.table("fs_tournaments").upsert([row], on_conflict="fie_id").execute()
-    data = supabase.table("fs_tournaments").select("id").eq("fie_id", comp["source_id"]).limit(1).execute().data
+    supabase.table("fs_tournaments").upsert([row], on_conflict="source_id").execute()
+    data = supabase.table("fs_tournaments").select("id").eq("source_id", comp["source_id"]).limit(1).execute().data
     if not data:
         raise RuntimeError(f"upserted tournament not found: {comp['source_id']}")
     return data[0]["id"]
@@ -409,14 +408,14 @@ def upsert_tournaments(comps):
     for i in range(0, len(rows), 100):
         batch = rows[i:i + 100]
         try:
-            supabase.table("fs_tournaments").upsert(batch, on_conflict="fie_id").execute()
+            supabase.table("fs_tournaments").upsert(batch, on_conflict="source_id").execute()
         except Exception as exc:
             print(f"  Tournament batch upsert failed, falling back to per-row upserts: {exc}")
             for row in batch:
                 try:
-                    supabase.table("fs_tournaments").upsert([row], on_conflict="fie_id").execute()
+                    supabase.table("fs_tournaments").upsert([row], on_conflict="source_id").execute()
                 except Exception as row_exc:
-                    print(f"  Tournament row upsert failed for {row.get('fie_id')}: {row_exc}")
+                    print(f"  Tournament row upsert failed for {row.get('source_id')}: {row_exc}")
     return fetch_tournament_id_map([comp["source_id"] for comp in comps])
 
 
@@ -426,13 +425,13 @@ def fetch_tournament_id_map(source_ids):
         batch = source_ids[i:i + 100]
         data = (
             supabase.table("fs_tournaments")
-            .select("id,fie_id")
-            .in_("fie_id", batch)
+            .select("id,source_id")
+            .in_("source_id", batch)
             .execute()
             .data
         )
         for row in data or []:
-            tournament_ids[row["fie_id"]] = row["id"]
+            tournament_ids[row["source_id"]] = row["id"]
     return tournament_ids
 
 
