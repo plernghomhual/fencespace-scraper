@@ -445,23 +445,21 @@ def flush_updates(rows: list[dict[str, Any]]) -> int:
     if not rows:
         return 0
 
-    try:
-        supabase.table("fs_fencers").upsert(rows, on_conflict="fie_id").execute()
-        count = len(rows)
-        rows.clear()
-        return count
-    except Exception as exc:
-        print(f"Batch upsert failed for {len(rows)} rows: {exc}")
-
+    # fs_fencers has UNIQUE(fie_id, weapon, category) — not UNIQUE(fie_id) — so upsert
+    # with on_conflict="fie_id" would fail. Use UPDATE ... WHERE fie_id = ? instead,
+    # which applies profile data (club, image, metadata) to all weapon/category rows.
     flushed = 0
     remaining = list(rows)
     rows.clear()
     for row in remaining:
+        fie_id = row.pop("fie_id", None)
+        if not fie_id:
+            continue
         try:
-            supabase.table("fs_fencers").upsert([row], on_conflict="fie_id").execute()
+            supabase.table("fs_fencers").update(row).eq("fie_id", fie_id).execute()
             flushed += 1
         except Exception as exc:
-            print(f"  Upsert failed for fie_id={row.get('fie_id')}: {exc}")
+            print(f"  Update failed for fie_id={fie_id}: {exc}")
     return flushed
 
 

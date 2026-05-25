@@ -29,11 +29,6 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python scrape_results.py
-      - name: Run bouts scraper
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python scrape_bouts.py
       - name: Run club scraper
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -44,6 +39,11 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python askfred_scraper.py
+      - name: Run bouts scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scrape_bouts.py
       - name: Run athlete profile scraper
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
