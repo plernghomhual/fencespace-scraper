@@ -4,11 +4,13 @@ import os
 import re
 import time
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
 from typing import Any
 
 import requests
 from supabase import create_client
+
+from run_logger import ScraperRunLogger
 
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -23,6 +25,7 @@ MAX_FENCERS = int(os.environ.get("FIE_PROFILE_LIMIT", "1000"))
 REQUEST_DELAY_SECONDS = float(os.environ.get("FIE_PROFILE_DELAY", "1.5"))
 BATCH_SIZE = int(os.environ.get("FIE_PROFILE_BATCH_SIZE", "50"))
 FORCE_RESCRAPE = os.environ.get("FIE_PROFILE_FORCE_RESCRAPE", "").lower() in {"1", "true", "yes"}
+FORCE_RESCRAPE_AFTER_DAYS = int(os.environ.get("FIE_PROFILE_RESCRAPE_AFTER_DAYS", "0"))
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
@@ -398,11 +401,24 @@ def was_already_attempted(fencer: dict[str, Any]) -> bool:
     if FORCE_RESCRAPE:
         return False
     metadata = ensure_metadata(fencer.get("metadata"))
-    profile_scrape = metadata.get("fie_profile_scrape")
-    return bool(
-        metadata.get("fie_profile_attempted_at")
-        or (isinstance(profile_scrape, dict) and profile_scrape.get("attempted_at"))
-    )
+    attempted_at_str = metadata.get("fie_profile_attempted_at")
+    if not attempted_at_str:
+        profile_scrape = metadata.get("fie_profile_scrape")
+        if isinstance(profile_scrape, dict):
+            attempted_at_str = profile_scrape.get("attempted_at")
+    if not attempted_at_str:
+        return False
+    if FORCE_RESCRAPE_AFTER_DAYS > 0:
+        try:
+            attempted_at = datetime.fromisoformat(attempted_at_str.replace("Z", "+00:00"))
+            if attempted_at.tzinfo is None:
+                attempted_at = attempted_at.replace(tzinfo=timezone.utc)
+            age_days = (datetime.now(timezone.utc) - attempted_at).days
+            if age_days >= FORCE_RESCRAPE_AFTER_DAYS:
+                return False
+        except Exception:
+            pass
+    return True
 
 
 def build_update_row(
@@ -483,7 +499,11 @@ def flush_updates(rows: list[dict[str, Any]]) -> int:
 
 def scrape_athlete_profiles():
     print(f"Athlete profile scraper starting - {datetime.now(timezone.utc).isoformat()}")
-    print(f"Limit: {MAX_FENCERS}; delay: {REQUEST_DELAY_SECONDS}s; force rescrape: {FORCE_RESCRAPE}")
+    print(
+        f"Limit: {MAX_FENCERS}; delay: {REQUEST_DELAY_SECONDS}s; "
+        f"force rescrape: {FORCE_RESCRAPE}; rescrape_after_days: {FORCE_RESCRAPE_AFTER_DAYS or 'disabled'}"
+    )
+    run_log = ScraperRunLogger("scrape_athlete_profiles").start()
 
     date_column = first_available_column(DATE_COLUMN_CANDIDATES)
     hand_column = first_available_column(HAND_COLUMN_CANDIDATES)
@@ -567,6 +587,11 @@ def scrape_athlete_profiles():
     flushed = flush_updates(pending_updates)
     flushed_total += flushed
 
+    run_log.complete(
+        written=flushed_total,
+        skipped=skipped_attempted,
+        metadata={"processed": processed, "field_counts": field_counts},
+    )
     print(
         "Athlete profile scraper complete - "
         f"processed={processed}, skipped_attempted={skipped_attempted}, "

@@ -8,6 +8,8 @@ import requests
 from datetime import datetime, timedelta, timezone
 from supabase import create_client
 
+from run_logger import ScraperRunLogger
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -15,6 +17,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+RESULTS_UNAVAILABLE_THRESHOLD = int(os.environ.get("RESULTS_UNAVAILABLE_THRESHOLD", "3"))
 
 
 def extract_inline_json(html):
@@ -266,23 +269,35 @@ def discover_urls_main(season=None):
     discover_competition_url_ids(tournaments_no_url)
 
 
+def mark_results_failure(tournament_id, current_failures: int):
+    failures = current_failures + 1
+    update = {"results_check_failures": failures}
+    if failures >= RESULTS_UNAVAILABLE_THRESHOLD:
+        update["results_unavailable"] = True
+        print(f"    Marking tournament {tournament_id} results_unavailable after {failures} failures")
+    supabase.table("fs_tournaments").update(update).eq("id", tournament_id).execute()
+
+
 def main(season=None, weapon=None, limit=0):
     print(f"Results scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    run_log = ScraperRunLogger("scrape_results").start()
+
     current_year = datetime.now(timezone.utc).year
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
 
     # Get all completed tournaments that don't have results yet
-    # and have a competition_url_id
+    # and have a competition_url_id; exclude permanently unavailable ones
     tournaments = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,competition_url_id")\
+        .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .not_.is_("competition_url_id", "null")\
+        .neq("results_unavailable", True)\
         .execute().data
 
     tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
-    print(f"Found {len(tournaments)} completed tournaments with URL IDs")
+    print(f"Found {len(tournaments)} completed tournaments with URL IDs (excluding unavailable)")
 
     # Also get tournaments without competition_url_id — need to discover them
     tournaments_no_url = supabase.table("fs_tournaments")\
@@ -290,6 +305,7 @@ def main(season=None, weapon=None, limit=0):
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .is_("competition_url_id", "null")\
+        .neq("results_unavailable", True)\
         .execute().data
 
     tournaments_no_url = filter_tournaments(tournaments_no_url, season=season, weapon=weapon)
@@ -302,16 +318,17 @@ def main(season=None, weapon=None, limit=0):
         discover_competition_url_ids(tournaments_no_url)
         # Re-fetch with url ids now populated
         tournaments = supabase.table("fs_tournaments")\
-            .select("id,fie_id,name,season,weapon,gender,competition_url_id")\
+            .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
             .lte("end_date", today)\
             .eq("is_sub_competition", False)\
             .not_.is_("competition_url_id", "null")\
+            .neq("results_unavailable", True)\
             .execute().data
         tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
 
     # Also include currently live tournaments (started but not ended yet)
     live_tournaments = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,competition_url_id")\
+        .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
         .lte("start_date", today)\
         .gte("end_date", today)\
         .eq("is_sub_competition", False)\
@@ -350,6 +367,7 @@ def main(season=None, weapon=None, limit=0):
         tournament_season = int(t.get("season") or current_year)
         url_id = t.get("competition_url_id")
         tournament_id = t["id"]
+        current_failures = t.get("results_check_failures") or 0
 
         # Skip if already scraped this run
         if tournament_id in scraped_this_run:
@@ -362,11 +380,11 @@ def main(season=None, weapon=None, limit=0):
 
         if not rows:
             print(f"    No results found")
+            mark_results_failure(tournament_id, current_failures)
             failed += 1
             time.sleep(1)
             continue
 
-        # Get tournament's Supabase ID
         # Build result rows
         result_rows = []
         for r in rows:
@@ -391,6 +409,7 @@ def main(season=None, weapon=None, limit=0):
 
         if not result_rows:
             print(f"    No valid rows")
+            mark_results_failure(tournament_id, current_failures)
             failed += 1
             time.sleep(1)
             continue
@@ -402,11 +421,16 @@ def main(season=None, weapon=None, limit=0):
         for i in range(0, len(result_rows), 100):
             supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
 
-        supabase.table("fs_tournaments").update({"has_results": True}).eq("id", tournament_id).execute()
+        supabase.table("fs_tournaments").update({
+            "has_results": True,
+            "results_check_failures": 0,
+            "results_unavailable": False,
+        }).eq("id", tournament_id).execute()
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1
         time.sleep(0.3)  # be polite to FIE
 
+    run_log.complete(written=scraped, failed=failed)
     print(f"\nDone — {scraped} tournaments scraped, {failed} failed")
 
 

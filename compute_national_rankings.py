@@ -7,6 +7,8 @@ from typing import Any, Callable
 
 from supabase import create_client
 
+from run_logger import ScraperRunLogger
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -347,6 +349,7 @@ def compute_country_rankings(fencers: list[dict[str, Any]]) -> list[dict[str, An
 def main() -> None:
     started_at = datetime.now(timezone.utc).isoformat()
     print(f"National rankings computation starting - {started_at}")
+    run_log = ScraperRunLogger("compute_national_rankings").start()
     ensure_schema()
 
     fencers = fetch_all(
@@ -382,6 +385,10 @@ def main() -> None:
 
     print(f"Upserted {updated_fencers} fencer ranking rows")
     print(f"Upserted {updated_countries} country ranking rows")
+    run_log.complete(
+        written=updated_fencers + updated_countries,
+        metadata={"fencer_rows": updated_fencers, "country_rows": updated_countries, "unmatched_results": unmatched_results},
+    )
     print("National rankings computation complete")
 
 

@@ -6,6 +6,8 @@ import time
 import calendar
 import re
 
+from run_logger import ScraperRunLogger
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -317,12 +319,19 @@ def scrape_competitions():
 
 def main():
     print(f"FenceSpace scraper starting — {datetime.now(timezone.utc).isoformat()}")
-    for index, w in enumerate(WEAPONS, start=1):
-        print(f"\nRanking combination {index}/{len(WEAPONS)}")
-        scrape_rankings(w["weapon"], w["gender"], w["category"], w["label"])
-        if index < len(WEAPONS):
-            time.sleep(2)
-    scrape_competitions()
+    run_log = ScraperRunLogger("scraper").start()
+    total_fencers = 0
+    try:
+        for index, w in enumerate(WEAPONS, start=1):
+            print(f"\nRanking combination {index}/{len(WEAPONS)}")
+            scrape_rankings(w["weapon"], w["gender"], w["category"], w["label"])
+            if index < len(WEAPONS):
+                time.sleep(2)
+        scrape_competitions()
+        run_log.complete(written=total_fencers, metadata={"combos": len(WEAPONS)})
+    except Exception as exc:
+        run_log.error(str(exc))
+        raise
     print("Scraper complete")
 
 

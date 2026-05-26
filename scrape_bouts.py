@@ -9,6 +9,8 @@ from datetime import datetime, timedelta, timezone
 import requests
 from supabase import Client, create_client
 
+from run_logger import ScraperRunLogger
+
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -420,6 +422,7 @@ def batch_upsert_bouts(supabase, rows):
 
 def scrape_bouts():
     print(f"Bout scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    run_log = ScraperRunLogger("scrape_bouts").start()
     supabase = get_supabase_client()
     session = requests.Session()
     session.headers.update(HEADERS)
@@ -487,6 +490,7 @@ def scrape_bouts():
         finally:
             time.sleep(RATE_LIMIT_SECONDS)
 
+    run_log.complete(written=scraped, failed=failed, skipped=skipped + no_bouts)
     print(
         "\nDone - "
         f"{scraped} tournaments scraped, {skipped} skipped, "

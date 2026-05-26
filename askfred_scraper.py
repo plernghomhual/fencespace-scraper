@@ -14,6 +14,7 @@ import requests
 from bs4 import BeautifulSoup
 from supabase import create_client
 
+from run_logger import ScraperRunLogger
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -30,6 +31,7 @@ MAX_TOURNAMENTS = int(os.environ.get("ASKFRED_MAX_TOURNAMENTS", "0"))
 REQUEST_DELAY_MIN = float(os.environ.get("ASKFRED_DELAY_MIN", "1.0"))
 REQUEST_DELAY_MAX = float(os.environ.get("ASKFRED_DELAY_MAX", "2.0"))
 RETRY_ATTEMPTS = int(os.environ.get("ASKFRED_RETRY_ATTEMPTS", "3"))
+INCREMENTAL = os.environ.get("ASKFRED_INCREMENTAL", "1") != "0"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)",
@@ -534,8 +536,8 @@ def upsert_tournaments(rows: list[dict[str, Any]]) -> dict[str, int]:
     return ids
 
 
-def fetch_us_fencer_index() -> dict[str, list[dict[str, Any]]]:
-    print("Loading existing United States fencers for name matching...")
+def fetch_fencer_index() -> dict[str, list[dict[str, Any]]]:
+    print("Loading all fencers for name matching...")
     index: dict[str, list[dict[str, Any]]] = {}
     start = 0
     page_size = 1000
@@ -544,7 +546,6 @@ def fetch_us_fencer_index() -> dict[str, list[dict[str, Any]]]:
         response = (
             supabase.table("fs_fencers")
             .select("id,name,country,club,metadata")
-            .eq("country", "United States")
             .range(start, start + page_size - 1)
             .execute()
         )
@@ -557,8 +558,31 @@ def fetch_us_fencer_index() -> dict[str, list[dict[str, Any]]]:
             break
         start += page_size
 
-    print(f"Loaded {sum(len(v) for v in index.values())} United States fencer rows")
+    print(f"Loaded {sum(len(v) for v in index.values())} fencer rows")
     return index
+
+
+def fetch_existing_askfred_source_ids() -> set[str]:
+    existing: set[str] = set()
+    start = 0
+    page_size = 1000
+    while True:
+        rows = (
+            supabase.table("fs_tournaments")
+            .select("source_id")
+            .like("source_id", "askfred:event:%")
+            .range(start, start + page_size - 1)
+            .execute()
+            .data
+            or []
+        )
+        for row in rows:
+            if row.get("source_id"):
+                existing.add(row["source_id"])
+        if len(rows) < page_size:
+            break
+        start += page_size
+    return existing
 
 
 def fencer_key(usfa_number: Any, name: str | None, club: str | None) -> str:
@@ -750,7 +774,11 @@ def upsert_clubs(clubs: dict[str, str]):
     batch_upsert("fs_clubs", rows, on_conflict="usafencing_id")
 
 
-def scrape_tournament(ref: TournamentRef, fencer_index: dict[str, list[dict[str, Any]]]) -> tuple[int, int, int]:
+def scrape_tournament(
+    ref: TournamentRef,
+    fencer_index: dict[str, list[dict[str, Any]]],
+    existing_source_ids: set[str] | None = None,
+) -> tuple[int, int, int]:
     print(f"\n  Scraping {ref.name} ({ref.askfred_id})")
     csv_rows = csv_rows_for_tournament(ref)
     if not csv_rows:
@@ -762,6 +790,15 @@ def scrape_tournament(ref: TournamentRef, fencer_index: dict[str, list[dict[str,
     if not grouped_events:
         print("    No event groups found")
         return 0, 0, 0
+
+    if INCREMENTAL and existing_source_ids is not None:
+        new_events = {k: v for k, v in grouped_events.items() if k not in existing_source_ids}
+        skipped = len(grouped_events) - len(new_events)
+        if skipped:
+            print(f"    Incremental: skipping {skipped} already-scraped event(s), {len(new_events)} new")
+        if not new_events:
+            return 0, 0, 0
+        grouped_events = new_events
 
     tournament_rows = build_tournament_rows(ref, grouped_events)
     tournament_ids = upsert_tournaments(tournament_rows)
@@ -784,32 +821,50 @@ def main():
     print(
         "Settings: "
         f"start_page={START_PAGE}, max_pages={MAX_RESULT_PAGES}, "
-        f"max_tournaments={MAX_TOURNAMENTS or 'none'}, delay={REQUEST_DELAY_MIN}-{REQUEST_DELAY_MAX}s"
+        f"max_tournaments={MAX_TOURNAMENTS or 'none'}, delay={REQUEST_DELAY_MIN}-{REQUEST_DELAY_MAX}s, "
+        f"incremental={INCREMENTAL}"
     )
+    run_log = ScraperRunLogger("askfred_scraper").start()
 
-    fencer_index = fetch_us_fencer_index()
+    fencer_index = fetch_fencer_index()
+
+    existing_source_ids: set[str] | None = None
+    if INCREMENTAL:
+        existing_source_ids = fetch_existing_askfred_source_ids()
+        print(f"Incremental mode: {len(existing_source_ids)} existing AskFRED event source IDs loaded")
+
     tournament_refs = discover_tournaments()
 
     total_results = 0
     total_fencer_updates = 0
     total_clubs = 0
+    skipped = 0
     failed = 0
 
     for index, ref in enumerate(tournament_refs, start=1):
         print(f"\nTournament {index}/{len(tournament_refs)}")
         try:
-            results_count, fencer_count, club_count = scrape_tournament(ref, fencer_index)
-            total_results += results_count
-            total_fencer_updates += fencer_count
-            total_clubs += club_count
+            results_count, fencer_count, club_count = scrape_tournament(ref, fencer_index, existing_source_ids)
+            if results_count == 0 and fencer_count == 0 and club_count == 0:
+                skipped += 1
+            else:
+                total_results += results_count
+                total_fencer_updates += fencer_count
+                total_clubs += club_count
         except Exception as exc:
             failed += 1
             print(f"    Error scraping {ref.name}: {exc}")
 
+    run_log.complete(
+        written=total_results,
+        failed=failed,
+        skipped=skipped,
+        metadata={"fencer_updates": total_fencer_updates, "clubs": total_clubs},
+    )
     print(
         "\nAskFRED scraper complete - "
         f"results={total_results}, fencer_updates={total_fencer_updates}, "
-        f"clubs={total_clubs}, failed_tournaments={failed}"
+        f"clubs={total_clubs}, skipped={skipped}, failed_tournaments={failed}"
     )
 
 

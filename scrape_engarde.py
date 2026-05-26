@@ -12,6 +12,8 @@ from urllib.parse import urlencode, urljoin
 import requests
 from supabase import create_client
 
+from run_logger import ScraperRunLogger
+
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -27,6 +29,8 @@ DEFAULT_NROWS = int(os.environ.get("ENGARDE_NROWS", "50"))
 MAX_PAGES = int(os.environ.get("ENGARDE_MAX_PAGES", "5"))
 COMPETITION_TYPES = os.environ.get("ENGARDE_TYPES", "international,national,local")
 SKIP_FIE_TYPE = os.environ.get("ENGARDE_SKIP_FIE_TYPE", "1") != "0"
+MAX_RETRIES = int(os.environ.get("ENGARDE_MAX_RETRIES", "3"))
+SCRAPE_TEAMS = os.environ.get("ENGARDE_SCRAPE_TEAMS", "1") != "0"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)",
@@ -204,15 +208,23 @@ class EngardeClient:
 
     def request(self, method, path_or_url, **kwargs):
         url = path_or_url if path_or_url.startswith("http") else urljoin(BASE_URL, path_or_url)
-        try:
-            response = self.session.request(method, url, timeout=30, **kwargs)
-            print(f"  {method} {url} -> {response.status_code} {response.headers.get('content-type', '')}")
-            return response
-        except requests.RequestException as exc:
-            print(f"  {method} {url} failed: {exc}")
-            return None
-        finally:
-            time.sleep(REQUEST_DELAY_SECONDS)
+        last_response = None
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                response = self.session.request(method, url, timeout=30, **kwargs)
+                print(f"  {method} {url} -> {response.status_code} {response.headers.get('content-type', '')}")
+                if response.status_code not in {429, 500, 502, 503, 504}:
+                    time.sleep(REQUEST_DELAY_SECONDS)
+                    return response
+                last_response = response
+            except requests.RequestException as exc:
+                print(f"  {method} {url} failed (attempt {attempt}/{MAX_RETRIES}): {exc}")
+            if attempt < MAX_RETRIES:
+                delay = 2 ** attempt
+                print(f"  Retry {attempt + 1}/{MAX_RETRIES} in {delay}s")
+                time.sleep(delay)
+        time.sleep(REQUEST_DELAY_SECONDS)
+        return last_response
 
     def post_form(self, path, data, accept="*/*"):
         headers = {
@@ -622,18 +634,65 @@ def should_scrape(comp):
     return True
 
 
+def should_scrape_team(comp):
+    if comp.get("status") != "completed":
+        return False
+    if comp.get("is_individual"):
+        return False
+    if SKIP_FIE_TYPE and (comp.get("type") or "").lower() == "fie":
+        return False
+    return True
+
+
+def team_result_rows_for_db(tournament_id, comp, scraped_rows, result_url):
+    rows = []
+    for row in scraped_rows:
+        rows.append({
+            "tournament_id": tournament_id,
+            "fencer_id": None,
+            "fie_fencer_id": None,
+            "rank": row["rank"],
+            "placement": row["rank"],
+            "name": row.get("name"),
+            "country": normalize_country(row.get("country")) or normalize_country(comp.get("country_code")),
+            "nationality": normalize_country(row.get("country")) or normalize_country(comp.get("country_code")),
+            "medal": medal_for_rank(row["rank"]),
+            "metadata": {
+                "source": SOURCE,
+                "source_id": comp["source_id"],
+                "result_url": result_url,
+                "is_team": True,
+                "team_name": row.get("name"),
+                "club": row.get("club"),
+                "raw_cells": row.get("raw_cells"),
+            },
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        })
+    return rows
+
+
 def scrape_engarde():
     print(ENDPOINT_NOTES.strip())
     print(f"Engarde scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    run_log = ScraperRunLogger("scrape_engarde").start()
+
     client = EngardeClient()
     fencer_index = fetch_all_fencers()
     competitions = fetch_engarde_competitions(client)
+
     to_scrape = [comp for comp in competitions if should_scrape(comp)]
-    print(f"Found {len(competitions)} competition rows; {len(to_scrape)} completed individual non-FIE rows to scrape")
-    tournament_ids = upsert_tournaments(to_scrape) if to_scrape else {}
+    team_comps = [comp for comp in competitions if should_scrape_team(comp)] if SCRAPE_TEAMS else []
+    print(
+        f"Found {len(competitions)} competition rows; "
+        f"{len(to_scrape)} individual, {len(team_comps)} team to scrape"
+    )
+
+    all_to_upsert = to_scrape + team_comps
+    tournament_ids = upsert_tournaments(all_to_upsert) if all_to_upsert else {}
 
     scraped = 0
     failed = 0
+
     for comp in to_scrape:
         label = f"{comp.get('name')} ({comp['source_id']})"
         try:
@@ -654,7 +713,37 @@ def scrape_engarde():
             traceback.print_exc()
             continue
 
-    print(f"Done - {scraped} Engarde competitions scraped, {failed} failed/skipped after fetch")
+    team_scraped = 0
+    team_failed = 0
+    for comp in team_comps:
+        label = f"{comp.get('name')} ({comp['source_id']}) [team]"
+        try:
+            print(f"Scraping {label}")
+            tournament_id = tournament_ids.get(comp["source_id"]) or upsert_tournament(comp)
+            scraped_rows, result_url = fetch_result_rows(client, comp)
+            if not scraped_rows:
+                print(f"  No final team result rows found for {label}")
+                team_failed += 1
+                continue
+            rows = team_result_rows_for_db(tournament_id, comp, scraped_rows, result_url)
+            replace_results(tournament_id, rows)
+            print(f"  Upserted {len(rows)} team results from {result_url}")
+            team_scraped += 1
+        except Exception as exc:
+            team_failed += 1
+            print(f"  Error scraping {label}: {exc}")
+            traceback.print_exc()
+            continue
+
+    run_log.complete(
+        written=scraped + team_scraped,
+        failed=failed + team_failed,
+        metadata={"individual_scraped": scraped, "team_scraped": team_scraped},
+    )
+    print(
+        f"Done - {scraped} individual + {team_scraped} team competitions scraped, "
+        f"{failed + team_failed} failed/skipped"
+    )
 
 
 if __name__ == "__main__":
