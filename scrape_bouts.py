@@ -2,6 +2,7 @@ import json
 import os
 import re
 import time
+import traceback
 import uuid
 from datetime import datetime, timedelta, timezone
 
@@ -481,6 +482,7 @@ def scrape_bouts():
             existing_bout_ids.add(tournament_id)
         except Exception as exc:
             print(f"  Error scraping tournament {tournament_id}: {exc}")
+            traceback.print_exc()
             failed += 1
         finally:
             time.sleep(RATE_LIMIT_SECONDS)

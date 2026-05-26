@@ -129,7 +129,17 @@ def names_match(a, b):
         return s
 
     a, b = clean(a), clean(b)
-    return a == b or a in b or b in a
+    if a == b or a in b or b in a:
+        return True
+    # Token overlap: if most tokens from the shorter string appear in the longer string
+    tokens_a = set(re.split(r"\W+", a)) - {""}
+    tokens_b = set(re.split(r"\W+", b)) - {""}
+    if not tokens_a or not tokens_b:
+        return False
+    shorter = tokens_a if len(tokens_a) <= len(tokens_b) else tokens_b
+    longer = tokens_a if len(tokens_a) > len(tokens_b) else tokens_b
+    overlap = len(shorter & longer) / len(shorter)
+    return overlap >= 0.7
 
 
 def to_int(value):
@@ -392,6 +402,7 @@ def main(season=None, weapon=None, limit=0):
         for i in range(0, len(result_rows), 100):
             supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
 
+        supabase.table("fs_tournaments").update({"has_results": True}).eq("id", tournament_id).execute()
         print(f"    Inserted {len(result_rows)} results")
         scraped += 1
         time.sleep(0.3)  # be polite to FIE

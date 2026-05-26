@@ -336,7 +336,7 @@ def select_columns(date_column: str | None, hand_column: str | None) -> str:
 
 
 def query_missing_club_fencers(columns: str) -> list[dict[str, Any]]:
-    def build_base_query():
+    def build_ranked_query():
         return (
             supabase.table("fs_fencers")
             .select(columns)
@@ -347,20 +347,38 @@ def query_missing_club_fencers(columns: str) -> list[dict[str, Any]]:
             .limit(MAX_FENCERS)
         )
 
-    if FORCE_RESCRAPE:
-        return build_base_query().execute().data or []
-
-    try:
+    def build_fallback_query():
         return (
-            build_base_query()
-            .filter("metadata->>fie_profile_attempted_at", "is", "null")
-            .execute()
-            .data
-            or []
+            supabase.table("fs_fencers")
+            .select(columns)
+            .not_.is_("fie_id", "null")
+            .or_("club.is.null,club.eq.")
+            .limit(MAX_FENCERS)
         )
-    except Exception as exc:
-        print(f"Could not apply metadata attempt filter, falling back to local skip: {exc}")
-        return build_base_query().execute().data or []
+
+    if FORCE_RESCRAPE:
+        rows = build_ranked_query().execute().data or []
+        if not rows:
+            rows = build_fallback_query().execute().data or []
+        return rows
+
+    for build_query in (build_ranked_query, build_fallback_query):
+        try:
+            rows = (
+                build_query()
+                .filter("metadata->>fie_profile_attempted_at", "is", "null")
+                .execute()
+                .data
+                or []
+            )
+        except Exception as exc:
+            print(f"Could not apply metadata attempt filter, falling back to local skip: {exc}")
+            rows = build_query().execute().data or []
+        if rows:
+            if build_query is build_fallback_query:
+                print("No ranked fencers found; falling back to all fencers missing club data")
+            return rows
+    return []
 
 
 def ensure_metadata(value: Any) -> dict[str, Any]:

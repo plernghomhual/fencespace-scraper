@@ -259,7 +259,13 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[int, int
 
 def load_tournaments() -> dict[int, dict[str, Any]]:
     tournaments = fetch_all("fs_tournaments", "id,name,weapon,gender,category,type")
-    return {int(row["id"]): row for row in tournaments if isinstance(row.get("id"), int)}
+    result: dict[int, dict[str, Any]] = {}
+    for row in tournaments:
+        try:
+            result[int(row["id"])] = row
+        except (TypeError, ValueError, KeyError):
+            pass
+    return result
 
 
 def compute_results_scores(
@@ -277,7 +283,10 @@ def compute_results_scores(
     unmatched = 0
     for result in result_rows:
         tournament_id = result.get("tournament_id")
-        tournament = tournaments.get(int(tournament_id)) if isinstance(tournament_id, int) else None
+        try:
+            tournament = tournaments.get(int(tournament_id))
+        except (TypeError, ValueError):
+            tournament = None
         weapon = normalize_weapon(tournament.get("weapon") if tournament else None)
         category = normalize_category(tournament.get("category") if tournament else None, tournament.get("gender") if tournament else None)
         if not weapon or not category:

@@ -2,6 +2,7 @@ import html
 import os
 import re
 import time
+import traceback
 import unicodedata
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -650,6 +651,7 @@ def scrape_engarde():
         except Exception as exc:
             failed += 1
             print(f"  Error scraping {label}: {exc}")
+            traceback.print_exc()
             continue
 
     print(f"Done - {scraped} Engarde competitions scraped, {failed} failed/skipped after fetch")

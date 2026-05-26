@@ -128,10 +128,12 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
     print(f"Scraping {label} ({weapon}/{gender}/{category})...")
     page = 1
     total = 0
+    seen_fie_ids: set = set()
     while True:
         payload = {
             "weapon": weapon, "gender": gender, "category": category,
-            "country": "", "name": "", "page": page, "season": "2026",
+            "country": "", "name": "", "page": page,
+            "season": str(datetime.now(timezone.utc).year),
         }
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
@@ -146,6 +148,9 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                 name = normalize_person_name(f.get("name"))
                 if not name or not fie_id:
                     continue
+                if fie_id in seen_fie_ids:
+                    continue
+                seen_fie_ids.add(fie_id)
                 points_raw = f.get("points", "0") or "0"
                 rows.append({
                     "fie_id": fie_id,
@@ -159,7 +164,21 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                     "updated_at": datetime.now(timezone.utc).isoformat(),
                 })
             if rows:
-                batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
+                try:
+                    batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
+                except Exception as upsert_exc:
+                    msg = str(upsert_exc)
+                    if "23505" in msg or "21000" in msg or "unique" in msg.lower():
+                        print(f"  Batch upsert conflict on page {page}, falling back to row-by-row")
+                        for row in rows:
+                            try:
+                                supabase.table("fs_fencers").upsert(
+                                    [row], on_conflict="fie_id,weapon,category"
+                                ).execute()
+                            except Exception as row_exc:
+                                print(f"    Row upsert failed for fie_id={row.get('fie_id')}: {row_exc}")
+                    else:
+                        raise
             total += len(athletes)
             print(f"  Page {page} — {len(athletes)} fencers (total: {total})")
             if len(athletes) < 100:

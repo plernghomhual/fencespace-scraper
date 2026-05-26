@@ -500,7 +500,28 @@ def upsert_tournaments(rows: list[dict[str, Any]]) -> dict[str, int]:
     if not rows:
         return {}
 
-    batch_upsert("fs_tournaments", rows, on_conflict="source_id")
+    try:
+        batch_upsert("fs_tournaments", rows, on_conflict="source_id")
+    except Exception as exc:
+        message = str(exc)
+        if "42P10" not in message and "no unique or exclusion constraint" not in message.lower():
+            raise
+        print(
+            "    fs_tournaments has no unique constraint on source_id; "
+            "falling back to select-existing + insert-new."
+        )
+        source_keys_all = [row["source_id"] for row in rows]
+        existing_keys: set[str] = set()
+        for i in range(0, len(source_keys_all), BATCH_SIZE):
+            chunk = source_keys_all[i : i + BATCH_SIZE]
+            result = supabase.table("fs_tournaments").select("source_id").in_("source_id", chunk).execute()
+            for r in result.data or []:
+                existing_keys.add(r["source_id"])
+        new_rows = [row for row in rows if row["source_id"] not in existing_keys]
+        if new_rows:
+            for i in range(0, len(new_rows), BATCH_SIZE):
+                supabase.table("fs_tournaments").insert(new_rows[i : i + BATCH_SIZE]).execute()
+        print(f"    Inserted {len(new_rows)} new tournament rows ({len(rows) - len(new_rows)} already existed)")
 
     ids: dict[str, int] = {}
     source_keys = [row["source_id"] for row in rows]
