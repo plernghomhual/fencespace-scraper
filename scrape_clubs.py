@@ -4,6 +4,8 @@ import requests
 from datetime import datetime, timezone
 from supabase import create_client
 
+from run_logger import ScraperRunLogger
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -19,38 +21,51 @@ HEADERS = {
 
 def scrape_usafencing_clubs():
     print(f"USA Fencing club scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    run_log = ScraperRunLogger("scrape_clubs").start()
 
     page = 1
     total_scraped = 0
+    total_failed = 0
     max_pages = 100  # safety cap
 
-    while page <= max_pages:
-        try:
-            res = requests.get(
-                "https://member.usafencing.org/clubs",
-                params={
-                    "q": "",
-                    "division": "",
-                    "state": "",
-                    "club_type": "",
-                    "sort": "name",
-                    "page": page,
-                    "perPage": 50
-                },
-                headers=HEADERS,
-                timeout=15
-            )
+    try:
+        while page <= max_pages:
+            # Fetch page — separate try so an HTTP error doesn't abort the whole run
+            try:
+                res = requests.get(
+                    "https://member.usafencing.org/clubs",
+                    params={
+                        "q": "",
+                        "division": "",
+                        "state": "",
+                        "club_type": "",
+                        "sort": "name",
+                        "page": page,
+                        "perPage": 50
+                    },
+                    headers=HEADERS,
+                    timeout=15
+                )
+            except Exception as e:
+                print(f"  Page {page} — network error: {e}")
+                total_failed += 1
+                break
 
             if res.status_code != 200:
                 print(f"  Page {page} — HTTP {res.status_code}, stopping")
                 break
 
-            data = res.json()
+            try:
+                data = res.json()
+            except Exception as e:
+                print(f"  Page {page} — JSON parse error: {e}")
+                total_failed += 1
+                break
+
             index_data = data.get("indexData", {})
             models = index_data.get("models", [])
             pages = index_data.get("pages", {})
 
-            # Print total on first page
             if page == 1:
                 total_count = pages.get("total") or pages.get("count") or "unknown"
                 print(f"  Total clubs reported by API: {total_count}")
@@ -61,6 +76,9 @@ def scrape_usafencing_clubs():
 
             rows = []
             for c in models:
+                # Skip clubs with no ID — can't upsert without conflict target
+                if not c.get("id"):
+                    continue
                 addr = c.get("publicAddress", {}) or {}
                 division = c.get("division", {}) or {}
                 region = c.get("region", {}) or {}
@@ -85,14 +103,19 @@ def scrape_usafencing_clubs():
                     "updated_at": datetime.now(timezone.utc).isoformat()
                 })
 
-            # Upsert on usafencing_id
-            for i in range(0, len(rows), 50):
-                supabase.table("fs_clubs").upsert(
-                    rows[i:i+50],
-                    on_conflict="usafencing_id"
-                ).execute()
+            # Upsert on usafencing_id — separate try so a DB error doesn't abort pagination
+            if rows:
+                try:
+                    for i in range(0, len(rows), 50):
+                        supabase.table("fs_clubs").upsert(
+                            rows[i:i+50],
+                            on_conflict="usafencing_id"
+                        ).execute()
+                    total_scraped += len(rows)
+                except Exception as e:
+                    print(f"  Page {page} — upsert error: {e}")
+                    total_failed += len(rows)
 
-            total_scraped += len(rows)
             has_more = pages.get("hasMorePages", False)
             print(f"  Page {page} — {len(rows)} clubs (total so far: {total_scraped}) hasMore: {has_more}")
 
@@ -102,15 +125,16 @@ def scrape_usafencing_clubs():
             page += 1
             time.sleep(0.5)
 
-        except Exception as e:
-            print(f"  Page {page} — Error: {e}")
-            break
+    except Exception as exc:
+        run_log.error(str(exc))
+        raise
 
-    print(f"\nDone — {total_scraped} clubs scraped across {page} pages")
+    print(f"\nDone — {total_scraped} clubs scraped across {page} pages, {total_failed} failed")
 
-    # Verify against DB
     result = supabase.table("fs_clubs").select("id", count="exact").eq("country", "USA").execute()
     print(f"DB verification — {result.count} US clubs in fs_clubs")
+
+    run_log.complete(written=total_scraped, failed=total_failed)
 
 
 if __name__ == "__main__":

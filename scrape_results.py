@@ -339,11 +339,18 @@ def main(season=None, weapon=None, limit=0):
     print(f"Found {len(live_tournaments)} live tournaments")
     tournaments = tournaments + live_tournaments
 
-    # Check which already have results
-    existing = supabase.table("fs_results")\
-        .select("tournament_id")\
-        .execute().data
-    existing_ids = set(r["tournament_id"] for r in existing)
+    # Check which already have results (paginated — fs_results can exceed 1000 rows)
+    existing_ids: set = set()
+    _ex_offset = 0
+    while True:
+        _page = supabase.table("fs_results").select("tournament_id")\
+            .range(_ex_offset, _ex_offset + 999).execute().data or []
+        for r in _page:
+            if r.get("tournament_id"):
+                existing_ids.add(r["tournament_id"])
+        if len(_page) < 1000:
+            break
+        _ex_offset += 1000
 
     # Always re-scrape recent tournaments (ended within the last 7 days)
     recent_tournaments = supabase.table("fs_tournaments")\
@@ -414,8 +421,16 @@ def main(season=None, weapon=None, limit=0):
             time.sleep(1)
             continue
 
-        # Fetch existing rows so we can restore them if inserts fail
-        old_rows = supabase.table("fs_results").select("*").eq("tournament_id", tournament_id).execute().data or []
+        # Fetch existing rows so we can restore them if inserts fail (paginated)
+        old_rows: list = []
+        _old_offset = 0
+        while True:
+            _old_page = supabase.table("fs_results").select("*").eq("tournament_id", tournament_id)\
+                .range(_old_offset, _old_offset + 999).execute().data or []
+            old_rows.extend(_old_page)
+            if len(_old_page) < 1000:
+                break
+            _old_offset += 1000
         supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
         try:
             for i in range(0, len(result_rows), 100):
@@ -424,8 +439,11 @@ def main(season=None, weapon=None, limit=0):
             print(f"    Insert failed: {insert_exc}; restoring {len(old_rows)} existing rows")
             supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
             if old_rows:
-                for i in range(0, len(old_rows), 100):
-                    supabase.table("fs_results").insert(old_rows[i:i+100]).execute()
+                try:
+                    for i in range(0, len(old_rows), 100):
+                        supabase.table("fs_results").insert(old_rows[i:i+100]).execute()
+                except Exception as restore_exc:
+                    print(f"    CRITICAL: restore also failed for tournament {tournament_id}: {restore_exc}")
             mark_results_failure(tournament_id, current_failures)
             failed += 1
             time.sleep(1)

@@ -42,11 +42,20 @@ def normalize_country(value) -> str | None:
     text = clean_text(value)
     if not text:
         return None
-    key = text.upper().replace(".", "")
+    key = re.sub(r"\s+", " ", text.upper().replace(".", ""))
     country_map = {
         "_AIN": "Russia", "AIN_": "Russia", "AIN": "Russia",
-        "USA": "United States", "GBR": "Great Britain",
-        "KOR": "South Korea",
+        "INDIVIDUAL NEUTRAL ATHLETES": "Russia",
+        "FIE": "FIE",
+        "USA": "United States", "US": "United States",
+        "UNITED STATES": "United States",
+        "UNITED STATES OF AMERICA": "United States",
+        "GBR": "Great Britain", "GREAT BRITAIN": "Great Britain",
+        "KOREA": "South Korea", "KOR": "South Korea",
+        "HONG KONG, CHINA": "Hong Kong", "HONG KONG CHINA": "Hong Kong",
+        "MACAO, CHINA": "Macau", "MACAO CHINA": "Macau",
+        "TURKIYE": "Turkey", "TÜRKIYE": "Turkey", "TÜRKİYE": "Turkey",
+        "COTE D'IVOIRE": "Côte d'Ivoire", "COTE DIVOIRE": "Côte d'Ivoire",
     }
     return country_map.get(key, text.title())
 

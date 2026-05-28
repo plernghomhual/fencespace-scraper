@@ -477,11 +477,12 @@ def scrape_bouts():
                 supabase.table("fs_bouts").delete().eq("tournament_id", tournament_id).execute()
 
             fencer_map = load_fencer_map(supabase, bout_rows)
+            # Compute unmatched BEFORE attach_fencer_ids pops the keys
             unmatched = sorted(
                 {
                     value
                     for row in bout_rows
-                    for value in (row["fie_fencer_id_a"], row["fie_fencer_id_b"])
+                    for value in (row.get("fie_fencer_id_a"), row.get("fie_fencer_id_b"))
                     if value and value not in fencer_map
                 }
             )

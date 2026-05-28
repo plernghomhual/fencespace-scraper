@@ -178,7 +178,7 @@ def scrape_season_combo(session: requests.Session, season: int, weapon: str, gen
                 "gender": gender_label,
                 "category": db_category,
                 "fie_fencer_id": fie_id,
-                "rank": f.get("rank"),
+                "rank": int(f.get("rank") or 0) or None,
                 "points": points,
                 "name": normalize_person_name(f.get("name")),
                 "country": normalize_country(f.get("country")),
@@ -222,27 +222,31 @@ def scrape_rankings_history():
     total_skipped = 0
     total_failed = 0
 
-    for season in seasons:
-        for weapon, gender, category in COMBOS:
-            key = combo_done_key(season, weapon, gender, category)
-            if key in done_combos:
-                total_skipped += 1
-                continue
+    try:
+        for season in seasons:
+            for weapon, gender, category in COMBOS:
+                key = combo_done_key(season, weapon, gender, category)
+                if key in done_combos:
+                    total_skipped += 1
+                    continue
 
-            gender_label = "Women's" if gender == "F" else "Men's"
-            label = f"{season} {gender_label} {CATEGORY_MAP[category]} {WEAPON_MAP[weapon]}"
-            print(f"  {label}")
-            try:
-                count = scrape_season_combo(session, season, weapon, gender, category)
-                print(f"    Wrote {count} rows")
-                total_written += count
-                done_combos.add(key)
-                save_done_combos(done_combos)
-            except Exception as exc:
-                print(f"    Failed: {exc}")
-                total_failed += 1
+                gender_label = "Women's" if gender == "F" else "Men's"
+                label = f"{season} {gender_label} {CATEGORY_MAP[category]} {WEAPON_MAP[weapon]}"
+                print(f"  {label}")
+                try:
+                    count = scrape_season_combo(session, season, weapon, gender, category)
+                    print(f"    Wrote {count} rows")
+                    total_written += count
+                    done_combos.add(key)
+                    save_done_combos(done_combos)
+                except Exception as exc:
+                    print(f"    Failed: {exc}")
+                    total_failed += 1
 
-            time.sleep(REQUEST_DELAY)
+                time.sleep(REQUEST_DELAY)
+    except Exception as exc:
+        run_log.error(str(exc))
+        raise
 
     run_log.complete(written=total_written, failed=total_failed, skipped=total_skipped)
     print(

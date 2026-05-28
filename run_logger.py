@@ -42,9 +42,10 @@ class ScraperRunLogger:
             client = self._get_client()
             if not client:
                 return
+            status = "completed_with_errors" if failed > 0 else "completed"
             client.table("fs_scraper_runs").update({
                 "completed_at": datetime.now(timezone.utc).isoformat(),
-                "status": "completed",
+                "status": status,
                 "written": written,
                 "failed": failed,
                 "skipped": skipped,
@@ -65,5 +66,5 @@ class ScraperRunLogger:
                 "status": "error",
                 "metadata": {"error": str(exc_str)[:1000]},
             }).eq("id", self.run_id).execute()
-        except Exception:
-            pass
+        except Exception as exc:
+            print(f"[run_logger] Could not write error log: {exc}")

@@ -275,6 +275,7 @@ class TableParser(HTMLParser):
             self.in_table = True
             self.current_table = {"attrs": data, "rows": []}
             self.current_row = None
+            # Reset row/cell state so inner table tags don't corrupt the outer row
             self.in_row = False
             self.in_cell = False
             self.current_cell = []
@@ -543,23 +544,31 @@ def parse_result_rows(html_text):
                 break
         if rank_col is None:
             continue
+        last_name_col = None
         first_name_col = None
         club_col = None
         country_col = None
         for idx, label in enumerate(header):
+            if idx == rank_col:
+                continue
+            if last_name_col is None and any(token in label for token in ("nom", "name", "surname", "last", "nev", "achternaam", "lastname")):
+                last_name_col = idx
             if any(token in label for token in ("prenom", "first", "forename", "kereszt")):
                 first_name_col = idx
             if any(token in label for token in ("club", "team", "equipe", "egyesulet", "vereniging")):
                 club_col = idx
             if any(token in label for token in ("country", "pays", "nation", "ioc")):
                 country_col = idx
+        # Fall back: first non-rank column is the name column (conventional Engarde layout)
+        if last_name_col is None:
+            last_name_col = next((i for i in range(len(header)) if i != rank_col), None)
         for row in rows[1:]:
             if len(row) < 2:
                 continue
             rank = to_int(row[rank_col])
             if not rank:
                 continue
-            last_name = clean_text(row[1])
+            last_name = clean_text(row[last_name_col]) if last_name_col is not None and len(row) > last_name_col else None
             first_name = clean_text(row[first_name_col]) if first_name_col is not None and len(row) > first_name_col else None
             if first_name and last_name:
                 full_name = title_case(f"{first_name} {last_name}")
