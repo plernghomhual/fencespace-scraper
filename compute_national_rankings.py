@@ -237,7 +237,7 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int
         weapon = normalize_weapon(fencer.get("weapon"))
         category = normalize_category(fencer.get("category"))
         fencer_id = fencer.get("id")
-        if not country or not weapon or not category or fencer_id is None:
+        if not country or not weapon or not category or fencer_id is None or not fencer.get("name"):
             continue
         grouped[(country, weapon, category)].append(fencer)
 
@@ -253,7 +253,10 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int
             ),
         )
         for rank, fencer in enumerate(ranked, start=1):
-            updates[fencer["id"]] = rank
+            fencer_id = fencer["id"]
+            if fencer_id in updates:
+                print(f"  Warning: fencer id={fencer_id} appears in multiple groups; overwriting rank {updates[fencer_id]} -> {rank}")
+            updates[fencer_id] = rank
         summaries.append((country, weapon, category, len(ranked)))
 
     return updates, summaries

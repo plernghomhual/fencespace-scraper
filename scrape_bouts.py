@@ -338,11 +338,22 @@ def fetch_all_tournaments(supabase):
 
 def fetch_existing_bout_tournament_ids(supabase):
     tournament_ids = set()
+    # Try RPC for a DISTINCT query first (avoids full table scan)
+    try:
+        data = supabase.rpc("fs_distinct_bout_tournament_ids").execute().data or []
+        for row in data:
+            if row.get("tournament_id"):
+                tournament_ids.add(row["tournament_id"])
+        return tournament_ids
+    except Exception:
+        pass
+    # Fallback: paginated scan (correct but slow on large tables)
     offset = 0
     while True:
         page = (
             supabase.table("fs_bouts")
             .select("tournament_id")
+            .order("tournament_id")
             .range(offset, offset + PAGE_SIZE - 1)
             .execute()
             .data

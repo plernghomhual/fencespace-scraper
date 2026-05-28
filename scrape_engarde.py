@@ -256,6 +256,7 @@ class TableParser(HTMLParser):
     def __init__(self):
         super().__init__()
         self.tables = []
+        self._stack = []  # (table, row, in_row, in_cell, cell) saved for each nested table
         self.in_table = False
         self.in_row = False
         self.in_cell = False
@@ -266,8 +267,17 @@ class TableParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         data = dict(attrs)
         if tag == "table":
+            if self.in_table:
+                self._stack.append((
+                    self.current_table, self.current_row,
+                    self.in_row, self.in_cell, self.current_cell,
+                ))
             self.in_table = True
             self.current_table = {"attrs": data, "rows": []}
+            self.current_row = None
+            self.in_row = False
+            self.in_cell = False
+            self.current_cell = []
         elif self.in_table and tag == "tr":
             self.in_row = True
             self.current_row = []
@@ -287,8 +297,14 @@ class TableParser(HTMLParser):
             self.current_row = None
         elif tag == "table" and self.in_table:
             self.tables.append(self.current_table)
-            self.in_table = False
-            self.current_table = None
+            if self._stack:
+                (
+                    self.current_table, self.current_row,
+                    self.in_row, self.in_cell, self.current_cell,
+                ) = self._stack.pop()
+            else:
+                self.in_table = False
+                self.current_table = None
 
     def handle_data(self, data):
         if self.in_cell:
@@ -520,8 +536,12 @@ def parse_result_rows(html_text):
         if len(rows) < 2:
             continue
         header = [normalize_key(cell) for cell in rows[0]]
-        rank_col = 0
-        if not any(token in (header[rank_col] if header else "") for token in ("rg", "rank", "rang", "place")):
+        rank_col = None
+        for _idx, _label in enumerate(header):
+            if any(token in _label for token in ("rg", "rank", "rang", "place")):
+                rank_col = _idx
+                break
+        if rank_col is None:
             continue
         first_name_col = None
         club_col = None

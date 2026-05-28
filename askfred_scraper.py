@@ -589,8 +589,9 @@ def fencer_key(usfa_number: Any, name: str | None, club: str | None) -> str:
     usfa = re.sub(r"\D", "", str(usfa_number or ""))
     if usfa:
         return f"askfred:usfa:{usfa}"
-    fallback_source = f"{name or ''}|{club or ''}"
-    return f"askfred:name:{stable_hash(normalize_name_key(fallback_source))}"
+    # Normalize each part first, then join with | so the separator survives normalization
+    fallback_source = f"{normalize_name_key(name or '')}|{normalize_name_key(club or '')}"
+    return f"askfred:name:{stable_hash(fallback_source)}"
 
 
 def merge_metadata(existing: Any, updates: dict[str, Any]) -> dict[str, Any]:

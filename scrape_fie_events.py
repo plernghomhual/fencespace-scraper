@@ -111,7 +111,7 @@ def competition_row(c: dict) -> dict:
         parse_date(c.get("endDate")),
     )
     return {
-        "fie_id": c["competitionId"],
+        "fie_id": c.get("competitionId"),
         "season": c.get("season"),
         "name": c.get("name"),
         "location": c.get("location"),

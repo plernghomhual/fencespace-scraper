@@ -414,12 +414,22 @@ def main(season=None, weapon=None, limit=0):
             time.sleep(1)
             continue
 
-        # Replace rows per tournament so partial/repeated workflow runs stay idempotent.
+        # Fetch existing rows so we can restore them if inserts fail
+        old_rows = supabase.table("fs_results").select("*").eq("tournament_id", tournament_id).execute().data or []
         supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
-
-        # Insert in batches
-        for i in range(0, len(result_rows), 100):
-            supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
+        try:
+            for i in range(0, len(result_rows), 100):
+                supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
+        except Exception as insert_exc:
+            print(f"    Insert failed: {insert_exc}; restoring {len(old_rows)} existing rows")
+            supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+            if old_rows:
+                for i in range(0, len(old_rows), 100):
+                    supabase.table("fs_results").insert(old_rows[i:i+100]).execute()
+            mark_results_failure(tournament_id, current_failures)
+            failed += 1
+            time.sleep(1)
+            continue
 
         supabase.table("fs_tournaments").update({
             "has_results": True,
