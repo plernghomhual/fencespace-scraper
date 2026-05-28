@@ -191,11 +191,8 @@ def scrape_season_combo(session: requests.Session, season: int, weapon: str, gen
     if not rows:
         return 0
 
-    fie_ids = [r["fie_fencer_id"] for r in rows]
-    fencer_map = load_fencer_id_map(fie_ids)
     now = datetime.now(timezone.utc).isoformat()
     for row in rows:
-        row["fencer_id"] = fencer_map.get(row["fie_fencer_id"])
         row["scraped_at"] = now
 
     for i in range(0, len(rows), BATCH_SIZE):

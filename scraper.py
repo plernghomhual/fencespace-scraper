@@ -154,6 +154,11 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                     continue
                 seen_fie_ids.add(fie_id)
                 points_raw = f.get("points", "0") or "0"
+                hand_raw = str(f.get("hand") or "").strip().lower()
+                hand = "right" if hand_raw in {"r", "right"} else "left" if hand_raw in {"l", "left"} else None
+                height_raw = f.get("height")
+                height = int(height_raw) if isinstance(height_raw, (int, float)) and height_raw > 0 else None
+                dob_raw = clean_text(f.get("date"))
                 rows.append({
                     "fie_id": fie_id,
                     "name": name,
@@ -163,6 +168,9 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                     "world_rank": f.get("rank"),
                     "fie_points": int(float(points_raw)),
                     "image_url": f.get("image"),
+                    "date_of_birth": dob_raw if dob_raw and re.match(r"^\d{4}-\d{2}-\d{2}$", dob_raw) else None,
+                    "hand": hand,
+                    "height": height,
                     "updated_at": datetime.now(timezone.utc).isoformat(),
                 })
             if rows:

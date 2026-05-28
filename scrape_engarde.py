@@ -26,7 +26,7 @@ BASE_URL = "https://engarde-service.com"
 SOURCE = "engarde"
 REQUEST_DELAY_SECONDS = 2
 DEFAULT_NROWS = int(os.environ.get("ENGARDE_NROWS", "50"))
-MAX_PAGES = int(os.environ.get("ENGARDE_MAX_PAGES", "5"))
+MAX_PAGES = int(os.environ.get("ENGARDE_MAX_PAGES", "20"))
 COMPETITION_TYPES = os.environ.get("ENGARDE_TYPES", "international,national,local")
 SKIP_FIE_TYPE = os.environ.get("ENGARDE_SKIP_FIE_TYPE", "1") != "0"
 MAX_RETRIES = int(os.environ.get("ENGARDE_MAX_RETRIES", "3"))

@@ -200,17 +200,17 @@ def batch_upsert(table: str, rows: list[dict[str, Any]], on_conflict: str, batch
 
 
 def build_fencer_indexes(fencers: list[dict[str, Any]]) -> tuple[
-    dict[int, dict[str, Any]],
+    dict[Any, dict[str, Any]],
     dict[tuple[str, str, str], dict[str, Any]],
     dict[tuple[str, str, str, str], dict[str, Any]],
 ]:
-    by_id: dict[int, dict[str, Any]] = {}
+    by_id: dict[Any, dict[str, Any]] = {}
     by_fie_weapon_category: dict[tuple[str, str, str], dict[str, Any]] = {}
     by_name_country_weapon_category: dict[tuple[str, str, str, str], dict[str, Any]] = {}
 
     for fencer in fencers:
         fencer_id = fencer.get("id")
-        if isinstance(fencer_id, int):
+        if fencer_id is not None:
             by_id[fencer_id] = fencer
 
         weapon = normalize_weapon(fencer.get("weapon"))
@@ -230,14 +230,14 @@ def build_fencer_indexes(fencers: list[dict[str, Any]]) -> tuple[
     return by_id, by_fie_weapon_category, by_name_country_weapon_category
 
 
-def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[int, int], list[tuple[str, str, str, int]]]:
+def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int], list[tuple[str, str, str, int]]]:
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for fencer in fencers:
         country = clean_text(fencer.get("country"))
         weapon = normalize_weapon(fencer.get("weapon"))
         category = normalize_category(fencer.get("category"))
         fencer_id = fencer.get("id")
-        if not country or not weapon or not category or not isinstance(fencer_id, int):
+        if not country or not weapon or not category or fencer_id is None:
             continue
         grouped[(country, weapon, category)].append(fencer)
 
@@ -253,27 +253,25 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[int, int
             ),
         )
         for rank, fencer in enumerate(ranked, start=1):
-            updates[int(fencer["id"])] = rank
+            updates[fencer["id"]] = rank
         summaries.append((country, weapon, category, len(ranked)))
 
     return updates, summaries
 
 
-def load_tournaments() -> dict[int, dict[str, Any]]:
+def load_tournaments() -> dict[str, dict[str, Any]]:
     tournaments = fetch_all("fs_tournaments", "id,name,weapon,gender,category,type")
-    result: dict[int, dict[str, Any]] = {}
+    result: dict[str, dict[str, Any]] = {}
     for row in tournaments:
-        try:
-            result[int(row["id"])] = row
-        except (TypeError, ValueError, KeyError):
-            pass
+        if row.get("id") is not None:
+            result[str(row["id"])] = row
     return result
 
 
 def compute_results_scores(
     fencers: list[dict[str, Any]],
     tournaments: dict[int, dict[str, Any]],
-) -> tuple[dict[int, float], int]:
+) -> tuple[dict[Any, float], int]:
     by_id, by_fie_weapon_category, by_name_country_weapon_category = build_fencer_indexes(fencers)
     result_rows = fetch_all(
         "fs_results",
@@ -285,10 +283,7 @@ def compute_results_scores(
     unmatched = 0
     for result in result_rows:
         tournament_id = result.get("tournament_id")
-        try:
-            tournament = tournaments.get(int(tournament_id))
-        except (TypeError, ValueError):
-            tournament = None
+        tournament = tournaments.get(str(tournament_id)) if tournament_id is not None else None
         weapon = normalize_weapon(tournament.get("weapon") if tournament else None)
         category = normalize_category(tournament.get("category") if tournament else None, tournament.get("gender") if tournament else None)
         if not weapon or not category:
@@ -297,7 +292,7 @@ def compute_results_scores(
 
         fencer = None
         fencer_id = result.get("fencer_id")
-        if isinstance(fencer_id, int):
+        if fencer_id is not None:
             fencer = by_id.get(fencer_id)
 
         fie_id = clean_text(result.get("fie_fencer_id"))
@@ -310,8 +305,8 @@ def compute_results_scores(
             if name_key and country_key:
                 fencer = by_name_country_weapon_category.get((name_key, country_key, weapon, category))
 
-        if fencer and isinstance(fencer.get("id"), int):
-            scores[int(fencer["id"])] += result_weight(tournament)
+        if fencer and fencer.get("id") is not None:
+            scores[fencer["id"]] += result_weight(tournament)
         else:
             unmatched += 1
 

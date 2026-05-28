@@ -1,0 +1,92 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - list [ref=e6]:
+      - listitem [ref=e7]:
+        - link "FIE" [ref=e8] [cursor=pointer]:
+          - /url: /fie/structure
+      - listitem [ref=e9]:
+        - link "Development" [ref=e10] [cursor=pointer]:
+          - /url: /development
+      - listitem [ref=e11]:
+        - link "Clean Sport" [ref=e12] [cursor=pointer]:
+          - /url: /fie/documents/clean-sport
+      - listitem [ref=e13]:
+        - link "Safe Sport" [ref=e14] [cursor=pointer]:
+          - /url: /fie/documents/safe-sport
+      - listitem [ref=e15]:
+        - link "Referees" [ref=e16] [cursor=pointer]:
+          - /url: /referees
+      - listitem [ref=e17]:
+        - combobox [ref=e18] [cursor=pointer]:
+          - option "English" [selected]
+          - option "Français"
+          - option "Español"
+      - listitem [ref=e19]:
+        - link "Login" [ref=e20] [cursor=pointer]:
+          - /url: /login
+    - generic [ref=e21]:
+      - link "logo" [ref=e22] [cursor=pointer]:
+        - /url: /
+        - img "logo" [ref=e23]
+      - list [ref=e24]:
+        - listitem [ref=e25]:
+          - link "Results & Competitions" [ref=e26] [cursor=pointer]:
+            - /url: /competitions
+        - listitem [ref=e27]:
+          - link "Athletes & Rankings" [ref=e28] [cursor=pointer]:
+            - /url: /athletes
+        - listitem [ref=e29]:
+          - link "Live" [ref=e30] [cursor=pointer]:
+            - /url: /watch
+        - listitem [ref=e31]:
+          - link "Media" [ref=e32] [cursor=pointer]:
+            - /url: /media
+        - listitem [ref=e33]:
+          - link "search" [ref=e34] [cursor=pointer]:
+            - /url: /search
+            - img [ref=e35]
+      - list [ref=e37]:
+        - listitem [ref=e38]:
+          - link "Facebook" [ref=e39] [cursor=pointer]:
+            - /url: https://www.facebook.com/fie.org
+            - img [ref=e40]
+        - listitem [ref=e42]:
+          - link "Twitter" [ref=e43] [cursor=pointer]:
+            - /url: https://twitter.com/FIE_fencing
+            - img [ref=e44]
+        - listitem [ref=e46]:
+          - link "Instagram" [ref=e47] [cursor=pointer]:
+            - /url: https://www.instagram.com/fencing_fie/
+            - img [ref=e48]
+        - listitem [ref=e51]:
+          - link "Weibo" [ref=e52] [cursor=pointer]:
+            - /url: http://weibo.com/internationalfencing?is_all=1
+            - img [ref=e53]
+        - listitem [ref=e55]:
+          - link "Youtube" [ref=e56] [cursor=pointer]:
+            - /url: https://www.youtube.com/user/FIEvideo
+            - img [ref=e57]
+  - generic [ref=e61]:
+    - heading "Error 404" [level=1] [ref=e62]
+    - heading "Not Found" [level=3] [ref=e63]
+    - link "Go back to home" [ref=e64] [cursor=pointer]:
+      - /url: /
+  - contentinfo [ref=e65]:
+    - generic [ref=e68]:
+      - list [ref=e69]:
+        - listitem [ref=e70]:
+          - link "Contact Us" [ref=e71] [cursor=pointer]:
+            - /url: /fie/structure/office
+        - listitem [ref=e72]:
+          - link "Donate" [ref=e73] [cursor=pointer]:
+            - /url: /development/gear
+        - listitem [ref=e74]:
+          - link "Terms & Conditions" [ref=e75] [cursor=pointer]:
+            - /url: /terms-and-conditions
+        - listitem [ref=e76]:
+          - link "Privacy Policy" [ref=e77] [cursor=pointer]:
+            - /url: /privacy-policy
+        - listitem [ref=e78]:
+          - link "Subscribe" [ref=e79] [cursor=pointer]:
+            - /url: /subscribe
+      - generic [ref=e80]: © 2017 FIE International Fencing Federation. All Rights Reserved. No part of this site may be reproduced, stored in a retrieval system or transmitted in any way or by any means (including photocopying, recording or storing it in any medium by electronic means), without the written permission of FIE International Fencing Federation.

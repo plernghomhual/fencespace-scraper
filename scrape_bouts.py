@@ -387,8 +387,8 @@ def load_fencer_map(supabase, bout_rows):
 def attach_fencer_ids(bout_rows, fencer_map):
     for row in bout_rows:
         winner_fie_id = row.pop("_winner_fie_id", None)
-        row["fencer_a"] = fencer_map.get(row["fie_fencer_id_a"])
-        row["fencer_b"] = fencer_map.get(row["fie_fencer_id_b"])
+        row["fencer_a"] = fencer_map.get(row.pop("fie_fencer_id_a", None))
+        row["fencer_b"] = fencer_map.get(row.pop("fie_fencer_id_b", None))
         row["winner"] = fencer_map.get(winner_fie_id) if winner_fie_id else None
     return bout_rows
 
