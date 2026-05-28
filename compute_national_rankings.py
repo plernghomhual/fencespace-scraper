@@ -241,7 +241,7 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int
             continue
         grouped[(country, weapon, category)].append(fencer)
 
-    updates: dict[int, int] = {}
+    updates: dict[str, int] = {}
     summaries: list[tuple[str, str, str, int]] = []
     for (country, weapon, category), rows in sorted(grouped.items()):
         ranked = sorted(
@@ -249,7 +249,7 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int
             key=lambda row: (
                 -numeric(row.get("fie_points")),
                 normalized_key(row.get("name")),
-                int(row.get("id") or 0),
+                str(row.get("id") or ""),
             ),
         )
         for rank, fencer in enumerate(ranked, start=1):
