@@ -360,6 +360,7 @@ def main() -> None:
     result_scores, unmatched_results = compute_results_scores(fencers, tournaments)
     print(f"Computed results scores for {len(result_scores)} fencers ({unmatched_results} top-8 rows unmatched)")
 
+    valid_fencer_ids = {f["id"] for f in fencers if f.get("name")}
     now = datetime.now(timezone.utc).isoformat()
     fencer_updates = [
         {
@@ -369,6 +370,7 @@ def main() -> None:
             "updated_at": now,
         }
         for fencer_id, domestic_rank in sorted(rank_updates.items())
+        if fencer_id in valid_fencer_ids
     ]
     updated_fencers = batch_upsert("fs_fencers", fencer_updates, on_conflict="id") if fencer_updates else 0
 
