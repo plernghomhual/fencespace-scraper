@@ -270,7 +270,9 @@ def upsert_results(tournament_id, result_rows):
         })
     if not db_rows:
         return 0
-    # Delete existing results for this tournament before re-inserting
+    # Delete existing results for this tournament before re-inserting.
+    # Return 0 on partial failure so caller skips marking result done;
+    # next run will delete+reinsert cleanly (idempotent retry).
     supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
@@ -280,6 +282,8 @@ def upsert_results(tournament_id, result_rows):
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")
+    if written < len(db_rows):
+        return 0
     return written
 
 
@@ -332,6 +336,11 @@ def main():
                     continue
 
                 n = upsert_results(tournament_id, result_rows)
+                if n == 0:
+                    print(f"      Insert failed or partial — skipping done mark")
+                    failed += 1
+                    time.sleep(REQUEST_DELAY)
+                    continue
                 print(f"      {n} results inserted")
                 done_ids.add(result_id)
                 set_state(SOURCE, "done_result_ids", list(done_ids))
