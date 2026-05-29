@@ -78,6 +78,40 @@ def classify_event(event_name):
     return {"weapon": weapon, "gender": gender, "team": team}
 
 
+def parse_sport_page(html):
+    """Parse HTML that contains /results/{id} links in first cell and /editions/{id} links in second cell.
+    Used by tests and for any single-page format. Returns list of event dicts."""
+    soup = BeautifulSoup(html, "html.parser")
+    events = []
+    for row in soup.find_all("tr"):
+        cells = row.find_all("td")
+        if len(cells) < 2:
+            continue
+        result_link = cells[0].find("a", href=re.compile(r"/results/\d+"))
+        edition_link = cells[1].find("a", href=re.compile(r"/editions/\d+"))
+        if not result_link or not edition_link:
+            continue
+        result_id = re.search(r"/results/(\d+)", result_link["href"]).group(1)
+        edition_id = re.search(r"/editions/(\d+)", edition_link["href"]).group(1)
+        events.append({
+            "result_id": result_id,
+            "event_name": result_link.text.strip(),
+            "edition_id": edition_id,
+            "edition_name": edition_link.text.strip(),
+        })
+    return events
+
+
+def fetch_sport_page():
+    """Fetch all Olympic fencing events across all known Summer Games editions."""
+    all_events = []
+    for edition_id, edition_name in SUMMER_OLYMPIC_EDITION_IDS:
+        events = fetch_edition_events(edition_id, edition_name)
+        all_events.extend(events)
+        time.sleep(0.5)
+    return all_events
+
+
 def parse_edition_sport_page(html, edition_id, edition_name):
     """Parse /editions/{id}/sports/FEN page. Returns list of event dicts."""
     soup = BeautifulSoup(html, "html.parser")
