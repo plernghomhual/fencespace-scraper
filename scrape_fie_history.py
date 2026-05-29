@@ -129,7 +129,7 @@ def fetch_competitions(session, season):
             if not items:
                 break
             results.extend(items)
-            page_size = data.get("pageSize", 300)
+            page_size = max(data.get("pageSize") or 300, 1)
             if len(items) < page_size or page >= 20:
                 break
             page += 1
@@ -146,14 +146,15 @@ def upsert_tournaments(rows):
         return 0
     seen = {r["fie_id"]: r for r in rows}
     deduped = list(seen.values())
+    written = 0
     for i in range(0, len(deduped), 100):
+        batch = deduped[i:i + 100]
         try:
-            supabase.table("fs_tournaments").upsert(
-                deduped[i:i + 100], on_conflict="fie_id"
-            ).execute()
+            supabase.table("fs_tournaments").upsert(batch, on_conflict="fie_id").execute()
+            written += len(batch)
         except Exception as exc:
             print(f"  Upsert batch failed: {exc}")
-    return len(deduped)
+    return written
 
 
 def main():
@@ -186,8 +187,9 @@ def main():
             n = upsert_tournaments(rows)
             print(f"  Season {season}: {n} tournaments upserted ({len(comps)} fetched)")
             total_written += n
-            done_seasons.add(season)
-            set_state(SOURCE, "done_seasons", list(done_seasons))
+            if season < current_year:
+                done_seasons.add(season)
+                set_state(SOURCE, "done_seasons", list(done_seasons))
         except Exception as exc:
             print(f"  Season {season} failed: {exc}")
             total_failed += 1
