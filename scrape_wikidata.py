@@ -23,6 +23,7 @@ PAGE_SIZE = 5000
 
 # P2423: International Fencing Federation fencer ID (confirmed via probe)
 FIE_ID_PROPERTY = os.environ.get("WIKIDATA_FIE_PROPERTY", "P2423")
+assert re.fullmatch(r"P\d+", FIE_ID_PROPERTY), f"Invalid FIE property: {FIE_ID_PROPERTY}"
 
 HEADERS = {
     "Accept": "application/sparql-results+json",
@@ -139,6 +140,24 @@ def apply_update(fencer_uuid, payload):
     if not payload:
         return False
     try:
+        existing = supabase.table("fs_fencers").select(
+            "date_of_birth,nationality,headshot_url,gender,metadata"
+        ).eq("id", fencer_uuid).single().execute().data
+
+        # Never overwrite existing non-null data
+        for field in ("date_of_birth", "nationality", "headshot_url", "gender"):
+            if existing.get(field) is not None:
+                payload.pop(field, None)
+
+        # Merge metadata — don't replace entire JSONB column
+        if "metadata" in payload:
+            merged = dict(existing.get("metadata") or {})
+            merged.update(payload["metadata"])
+            payload["metadata"] = merged
+
+        if not payload:
+            return False
+
         supabase.table("fs_fencers").update(payload).eq("id", fencer_uuid).execute()
         return True
     except Exception as exc:
@@ -151,42 +170,48 @@ def main():
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 
     run_log = ScraperRunLogger("scrape_wikidata").start()
-    print(f"Wikidata enrichment starting — {datetime.now(timezone.utc).isoformat()}")
-    print(f"  Using FIE ID property: {FIE_ID_PROPERTY}")
+    try:
+        print(f"Wikidata enrichment starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"  Using FIE ID property: {FIE_ID_PROPERTY}")
 
-    bindings = fetch_wikidata_fencers()
-    print(f"Total fencers from Wikidata: {len(bindings)}")
+        bindings = fetch_wikidata_fencers()
+        print(f"Total fencers from Wikidata: {len(bindings)}")
 
-    updated = matched_fie = matched_name = unmatched = 0
-    for b in bindings:
-        data = parse_binding(b)
-        payload = build_update_payload(data)
-        if not payload:
-            continue
+        updated = matched_fie = matched_name = unmatched = 0
+        for b in bindings:
+            data = parse_binding(b)
+            payload = build_update_payload(data)
+            if not payload:
+                continue
 
-        ids = []
-        if data["fie_id"]:
-            ids = match_fencer_by_fie_id(data["fie_id"])
-            if ids:
-                matched_fie += 1
-        if not ids and data["name"] and data["nationality"]:
-            ids = match_fencer_by_name_country(data["name"], data["nationality"])
-            if ids:
-                matched_name += 1
+            ids = []
+            if data["fie_id"]:
+                ids = match_fencer_by_fie_id(data["fie_id"])
+                if ids:
+                    matched_fie += 1
+            if not ids and data["name"] and data["nationality"]:
+                candidates = match_fencer_by_name_country(data["name"], data["nationality"])
+                if len(candidates) == 1:  # skip ambiguous multi-match
+                    ids = candidates
+                    matched_name += 1
 
-        if not ids:
-            unmatched += 1
-            continue
+            if not ids:
+                unmatched += 1
+                continue
 
-        for fencer_uuid in ids:
-            if apply_update(fencer_uuid, payload):
-                updated += 1
+            for fencer_uuid in ids:
+                if apply_update(fencer_uuid, payload):
+                    updated += 1
+            time.sleep(0.05)
 
-    set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
-    run_log.complete(written=updated, skipped=unmatched,
-                     metadata={"matched_fie": matched_fie, "matched_name": matched_name})
-    print(f"\nDone — updated={updated}, matched_by_fie={matched_fie}, "
-          f"matched_by_name={matched_name}, unmatched={unmatched}")
+        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        run_log.complete(written=updated, skipped=unmatched,
+                         metadata={"matched_fie": matched_fie, "matched_name": matched_name})
+        print(f"\nDone — updated={updated}, matched_by_fie={matched_fie}, "
+              f"matched_by_name={matched_name}, unmatched={unmatched}")
+    except Exception as exc:
+        run_log.error(str(exc))
+        raise
 
 
 if __name__ == "__main__":
