@@ -129,7 +129,10 @@ def fetch_competitions(session, season):
             if not items:
                 break
             results.extend(items)
-            page_size = max(data.get("pageSize") or 300, 1)
+            raw_page_size = data.get("pageSize")
+            if raw_page_size == 0:
+                break
+            page_size = max(raw_page_size or 300, 1)
             if len(items) < page_size or page >= 20:
                 break
             page += 1
@@ -187,9 +190,11 @@ def main():
             n = upsert_tournaments(rows)
             print(f"  Season {season}: {n} tournaments upserted ({len(comps)} fetched)")
             total_written += n
-            if season < current_year:
+            if n > 0 and season < current_year:
                 done_seasons.add(season)
                 set_state(SOURCE, "done_seasons", list(done_seasons))
+            elif season < current_year and n == 0:
+                print(f"  Warning: upsert returned 0 for season {season}, will retry next run")
         except Exception as exc:
             print(f"  Season {season} failed: {exc}")
             total_failed += 1

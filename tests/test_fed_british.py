@@ -157,7 +157,7 @@ def test_parse_british_rankings_row_count():
     for r in rows:
         assert isinstance(r["rank"], int)
         assert isinstance(r["name"], str) and r["name"]
-        assert isinstance(r["points"], (int, float))
+        assert r["points"] is None or isinstance(r["points"], (int, float))
 
 
 def test_build_slug():

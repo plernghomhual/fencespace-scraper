@@ -151,8 +151,9 @@ def apply_update(fencer_uuid, payload):
 
         # Merge metadata — don't replace entire JSONB column
         if "metadata" in payload:
-            merged = dict(existing.get("metadata") or {})
-            merged.update(payload["metadata"])
+            existing_meta = existing.get("metadata") or {}
+            existing_meta = existing_meta if isinstance(existing_meta, dict) else {}
+            merged = {**existing_meta, **payload["metadata"]}
             payload["metadata"] = merged
 
         if not payload:
@@ -200,7 +201,7 @@ def main():
                 continue
 
             for fencer_uuid in ids:
-                if apply_update(fencer_uuid, payload):
+                if apply_update(fencer_uuid, dict(payload)):
                     updated += 1
             time.sleep(0.05)
 
