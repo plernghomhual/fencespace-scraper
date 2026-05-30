@@ -83,7 +83,12 @@ def competition_to_tournament_row(comp, season):
         "gender": GENDER_MAP.get(comp.get("gender", ""), comp.get("gender")),
         "category": CATEGORY_MAP.get(comp.get("category", ""), comp.get("category")),
         "type": comp.get("type"),
-        "has_results": bool(comp.get("hasResults", 0)),
+        # FIE API incorrectly reports hasResults=0 for all veteran events;
+        # override for past events (endDate present) so results scraper attempts them.
+        "has_results": bool(comp.get("hasResults", 0)) or (
+            CATEGORY_MAP.get(comp.get("category", "")) == "Veteran"
+            and bool(comp.get("endDate"))
+        ),
         "metadata": {"scraped_by": "scrape_fie_history"},
     }
 

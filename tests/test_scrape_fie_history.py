@@ -75,3 +75,66 @@ def test_seasons_to_scrape():
     assert 2026 in seasons
     assert len(seasons) == 27
     assert seasons == list(range(2000, 2027))
+
+
+def test_veteran_has_results_override():
+    """FIE API wrongly sets hasResults=0 for veteran events; override for past events."""
+    from scrape_fie_history import competition_to_tournament_row
+    comp = {
+        "competitionId": 9999,
+        "name": "Championnats du Monde Vétérans",
+        "country": "FRA",
+        "location": "Paris",
+        "startDate": "01-03-2024",
+        "endDate": "03-03-2024",
+        "weapon": "epee",
+        "gender": "men",
+        "category": "veteran",
+        "type": "individual",
+        "hasResults": 0,
+        "season": 2024,
+    }
+    row = competition_to_tournament_row(comp, 2024)
+    assert row["has_results"] is True
+
+
+def test_non_veteran_zero_results_stays_false():
+    """Non-veteran events with hasResults=0 should remain has_results=False."""
+    from scrape_fie_history import competition_to_tournament_row
+    comp = {
+        "competitionId": 8888,
+        "name": "Grand Prix Paris",
+        "country": "FRA",
+        "location": "Paris",
+        "startDate": "01-03-2024",
+        "endDate": "03-03-2024",
+        "weapon": "foil",
+        "gender": "women",
+        "category": "senior",
+        "type": "individual",
+        "hasResults": 0,
+        "season": 2024,
+    }
+    row = competition_to_tournament_row(comp, 2024)
+    assert row["has_results"] is False
+
+
+def test_veteran_no_end_date_stays_false():
+    """Veteran events without endDate (future) should not be overridden."""
+    from scrape_fie_history import competition_to_tournament_row
+    comp = {
+        "competitionId": 7777,
+        "name": "Championnats du Monde Vétérans",
+        "country": "FRA",
+        "location": "Paris",
+        "startDate": "01-03-2025",
+        "endDate": "",
+        "weapon": "sabre",
+        "gender": "women",
+        "category": "veteran",
+        "type": "individual",
+        "hasResults": 0,
+        "season": 2025,
+    }
+    row = competition_to_tournament_row(comp, 2025)
+    assert row["has_results"] is False
