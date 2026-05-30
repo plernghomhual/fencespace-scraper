@@ -120,22 +120,14 @@ def write_rankings(rows: list[dict], source: str, season: str) -> int:
             row["fencer_id"] = match_fencer(row.get("name", ""), row.get("country"), row.get("fie_id"))
         enriched.append(row)
 
-    combos = {(r["weapon"], r["gender"], r["category"]) for r in enriched}
-    for weapon, gender, category in combos:
-        try:
-            client.table("fs_national_fed_rankings").delete()\
-                .eq("source", source).eq("season", season)\
-                .eq("weapon", weapon).eq("gender", gender).eq("category", category)\
-                .execute()
-        except Exception as exc:
-            print(f"  Delete existing failed ({source}/{season}/{weapon}/{gender}/{category}): {exc}")
-
     written = 0
     for i in range(0, len(enriched), 100):
         batch = enriched[i:i + 100]
         try:
-            client.table("fs_national_fed_rankings").insert(batch).execute()
+            client.table("fs_national_fed_rankings").upsert(
+                batch, on_conflict="source,season,weapon,gender,category,rank"
+            ).execute()
             written += len(batch)
         except Exception as exc:
-            print(f"  Insert batch failed: {exc}")
+            print(f"  Upsert batch failed: {exc}")
     return written

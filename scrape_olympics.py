@@ -236,10 +236,7 @@ def upsert_tournament(event, classification):
         },
     }
     try:
-        existing = supabase.table("fs_tournaments").select("id").eq("source_id", source_id).limit(1).execute().data
-        if existing:
-            return existing[0]["id"]
-        result = supabase.table("fs_tournaments").insert(row).execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
