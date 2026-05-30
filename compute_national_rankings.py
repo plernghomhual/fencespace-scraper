@@ -194,8 +194,11 @@ def batch_upsert(table: str, rows: list[dict[str, Any]], on_conflict: str, batch
     written = 0
     for index in range(0, len(rows), batch_size):
         batch = rows[index:index + batch_size]
-        supabase.table(table).upsert(batch, on_conflict=on_conflict).execute()
-        written += len(batch)
+        try:
+            supabase.table(table).upsert(batch, on_conflict=on_conflict).execute()
+            written += len(batch)
+        except Exception as exc:
+            print(f"  batch_upsert({table}) batch {index//batch_size} failed: {exc}")
     return written
 
 
@@ -237,7 +240,7 @@ def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int
         weapon = normalize_weapon(fencer.get("weapon"))
         category = normalize_category(fencer.get("category"))
         fencer_id = fencer.get("id")
-        if not country or not weapon or not category or fencer_id is None or not fencer.get("name"):
+        if not country or not weapon or not category or fencer_id is None or not (fencer.get("name") or "").strip():
             continue
         grouped[(country, weapon, category)].append(fencer)
 
@@ -363,7 +366,7 @@ def main() -> None:
     result_scores, unmatched_results = compute_results_scores(fencers, tournaments)
     print(f"Computed results scores for {len(result_scores)} fencers ({unmatched_results} top-8 rows unmatched)")
 
-    valid_fencer_ids = {f["id"] for f in fencers if f.get("name")}
+    valid_fencer_ids = {f["id"] for f in fencers if (f.get("name") or "").strip()}
     now = datetime.now(timezone.utc).isoformat()
     fencer_updates = [
         {

@@ -188,6 +188,10 @@ def _get(url, retries=3):
             if r.status_code == 404:
                 return None
             print(f"  HTTP {r.status_code} for {url}")
+            if r.status_code in (429, 500, 502, 503):
+                time.sleep(2 ** attempt * (10 if r.status_code == 429 else 2))
+            else:
+                return None
         except Exception as exc:
             print(f"  fetch {url} attempt {attempt+1} failed: {exc}")
             time.sleep(2 ** attempt)
@@ -260,7 +264,7 @@ def upsert_results(tournament_id, result_rows):
             "tournament_id": tournament_id,
             "name": r["name"],
             "nationality": r["country"],   # fs_results uses 'nationality', not 'country'
-            "rank": r["rank"] if r["rank"] is not None else 0,
+            "rank": r["rank"] if r["rank"] is not None else None,
             "medal": r["medal"],
             "fencer_id": fencer_id,
             "metadata": {"olympedia_athlete_id": r.get("athlete_id")},
