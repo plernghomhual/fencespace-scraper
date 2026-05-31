@@ -142,7 +142,7 @@ def names_match(a, b):
     shorter = tokens_a if len(tokens_a) <= len(tokens_b) else tokens_b
     longer = tokens_a if len(tokens_a) > len(tokens_b) else tokens_b
     overlap = len(shorter & longer) / len(shorter)
-    return overlap >= 0.7
+    return overlap >= 0.5
 
 
 def to_int(value):

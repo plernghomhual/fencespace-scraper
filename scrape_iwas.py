@@ -57,81 +57,95 @@ def parse_ranking_overview(html):
     if not table:
         return []
 
-    rows = table.find_all("tr")
-    if not rows:
+    # Two-row header: row1 = gender groups (colspan), row2 = weapon names
+    thead = table.find("thead") or table
+    header_rows = thead.find_all("tr")
+    if len(header_rows) < 2:
         return []
 
-    # Header row: th[0]=empty, th[1..N]="Epee female", "Epee male", etc.
-    header_cells = rows[0].find_all(["th", "td"])
-    col_meta = []  # (weapon, gender) per column index (0-based, skipping first cell)
-    for cell in header_cells[1:]:
+    # Expand row1 into per-column genders (skip rowspan cells)
+    gender_cols = []
+    for cell in header_rows[0].find_all(["th", "td"]):
+        if cell.get("rowspan"):
+            continue
+        text = cell.get_text(strip=True).lower()
+        colspan = int(cell.get("colspan", 1))
+        if "female" in text or "women" in text:
+            gender = "Women"
+        elif "male" in text or "men" in text:
+            gender = "Men"
+        else:
+            gender = None
+        gender_cols.extend([gender] * colspan)
+
+    # Row2: weapon per column
+    weapon_cols = []
+    for cell in header_rows[1].find_all(["th", "td"]):
         text = cell.get_text(strip=True).lower()
         weapon = None
         for raw, can in WEAPON_MAP.items():
             if raw in text:
                 weapon = can
                 break
-        gender = None
-        if "female" in text or "women" in text:
-            gender = "Women"
-        elif "male" in text or "men" in text:
-            gender = "Men"
-        col_meta.append((weapon, gender))
+        weapon_cols.append(weapon)
+
+    col_meta = list(zip(weapon_cols, gender_cols))
 
     results = []
-    for tr in rows[1:]:
-        cells = tr.find_all(["th", "td"])
+    tbody = table.find("tbody") or table
+    for tr in tbody.find_all("tr", recursive=False):
+        cells = tr.find_all(["th", "td"], recursive=False)
         if not cells:
             continue
-        category = cells[0].get_text(strip=True)
         for i, cell in enumerate(cells[1:]):
-            link = cell.find("a", href=re.compile(r"/show/\d+"))
-            if not link:
-                continue
-            m = re.search(r"/show/(\d+)", link["href"])
-            if not m:
-                continue
-            ranking_id = int(m.group(1))
             weapon, gender = col_meta[i] if i < len(col_meta) else (None, None)
             if not weapon or not gender:
                 continue
-            results.append({
-                "id": ranking_id,
-                "weapon": weapon,
-                "gender": gender,
-                "category": category,
-            })
+            for link in cell.find_all("a", href=re.compile(r"/show/\d+")):
+                m = re.search(r"/show/(\d+)", link["href"])
+                if not m:
+                    continue
+                results.append({
+                    "id": int(m.group(1)),
+                    "weapon": weapon,
+                    "gender": gender,
+                    "category": link.get_text(strip=True),
+                })
     return results
 
 
 def parse_ranking_page(html):
     """Parse /show/{id} detail page. Returns list of {rank, name, country, points}."""
     soup = BeautifulSoup(html, "html.parser")
-    card = soup.find("div", class_="card-body")
-    if not card:
-        return []
-    table = card.find("table", class_="table-striped")
+    # Table structure: Rank | Points | T-P | Name (dropdown+modal) | Nation | YOB | comp columns
+    table = soup.find("table", class_="rankingbody")
     if not table:
         return []
 
     rows = []
-    for tr in table.find_all("tr"):
-        cells = [td.get_text(strip=True) for td in tr.find_all(["td", "th"])]
-        if len(cells) < 3:
+    tbody = table.find("tbody") or table
+    for tr in tbody.find_all("tr", recursive=False):
+        cells = tr.find_all("td", class_="ranking", recursive=False)
+        if len(cells) < 4:
             continue
         try:
-            rank = int(cells[0])
+            rank = int(cells[0].get_text(strip=True))
         except ValueError:
-            continue  # header row
-        points_raw = cells[1] if len(cells) > 1 else None
-        name = cells[2] if len(cells) > 2 else None
-        country = cells[3] if len(cells) > 3 else None
+            continue
         try:
-            points = float(points_raw) if points_raw else None
+            points = float(cells[1].get_text(strip=True))
         except ValueError:
             points = None
+        name_link = cells[3].find("a", class_="dropdown-toggle")
+        if not name_link:
+            continue
+        name = re.sub(r"\s+", " ", name_link.get_text()).strip()
         if not name:
             continue
+        country = None
+        if len(cells) > 4:
+            m = re.search(r"Nationality:\s*([A-Z]{2,3})", cells[4].get("title", ""))
+            country = m.group(1) if m else None
         rows.append({"rank": rank, "name": name, "country": country, "points": points})
     return rows
 

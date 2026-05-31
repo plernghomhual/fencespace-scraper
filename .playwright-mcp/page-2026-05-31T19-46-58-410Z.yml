@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - generic [ref=e5]: Usage of cookies
+    - generic [ref=e6]:
+      - paragraph [ref=e7]: We use first and third party cookies. A cookie is a small text file that we store on your device which contains either data or an unique session identifier.
+      - paragraph [ref=e8]: First party cookies are cookies set by this website. Only Ophardt Online can read this cookie. This is necessary e.g. to track your cookie consent or your login session.
+      - paragraph [ref=e9]: A third party cookie is set by an external service Ophardt Online uses to anaylse traffic to improve your experience or provide payment functionalities.
+      - paragraph [ref=e10]: Please be aware that you probably can not use all functionality if you decline the usage of cookies.
+      - paragraph [ref=e11]:
+        - link "Learn more " [ref=e12] [cursor=pointer]:
+          - /url: /en/terms
+          - text: Learn more
+          - generic [ref=e13]: 
+    - generic [ref=e14]:
+      - link "accept only necessary cookies" [ref=e15] [cursor=pointer]:
+        - /url: /en/cookie_consent/1?uri=https://iwas.ophardt.online/en/search/rankings/1
+      - link "accept all cookies" [ref=e16] [cursor=pointer]:
+        - /url: /en/cookie_consent/2?uri=https://iwas.ophardt.online/en/search/rankings/1
+  - navigation [ref=e17]:
+    - link "Ophardt Team" [ref=e18] [cursor=pointer]:
+      - /url: /en/home
+      - img "Ophardt Team" [ref=e19]
+    - generic [ref=e20]:
+      - list [ref=e21]:
+        - listitem [ref=e22]:
+          - link " Home" [ref=e23] [cursor=pointer]:
+            - /url: /en/home
+            - generic [ref=e24]: 
+            - generic [ref=e25]: Home
+        - listitem [ref=e26]:
+          - link " Calendar" [ref=e27] [cursor=pointer]:
+            - /url: /en/calendar
+            - generic [ref=e28]: 
+            - generic [ref=e29]: Calendar
+        - listitem [ref=e30]:
+          - link " Rankings" [ref=e31] [cursor=pointer]:
+            - /url: /en/search/rankings
+            - generic [ref=e32]: 
+            - generic [ref=e33]: Rankings
+        - listitem [ref=e34]:
+          - button " Biographies" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: 
+            - generic [ref=e37]: Biographies
+        - listitem [ref=e38]:
+          - button " Results" [ref=e39] [cursor=pointer]:
+            - generic [ref=e40]: 
+            - generic [ref=e41]: Results
+        - listitem [ref=e42]:
+          - link " Manual" [ref=e43] [cursor=pointer]:
+            - /url: https://docs.ophardt.online
+            - generic [ref=e44]: 
+            - generic [ref=e45]: Manual
+      - button " Login" [ref=e47] [cursor=pointer]:
+        - generic [ref=e48]: 
+        - text: Login
+      - button " Register" [ref=e50] [cursor=pointer]:
+        - generic [ref=e51]: 
+        - text: Register
+  - generic [ref=e52]:
+    - 'heading "Rankings: World Para Fencing (governed by World Abilitysport)" [level=1] [ref=e53]'
+    - generic [ref=e54]:
+      - combobox [ref=e56]:
+        - option "2026" [selected]
+        - option "2025"
+        - option "2024"
+        - option "2023"
+        - option "2022"
+        - option "2021"
+        - option "2020"
+        - option "2019"
+        - option "2018"
+        - option "2017"
+        - option "2016"
+        - option "2015"
+        - option "2014"
+        - option "2013"
+        - option "2012"
+        - option "2011"
+        - option "2010"
+        - option "2009"
+        - option "2008"
+        - option "2007"
+        - option "2006"
+        - option "2005"
+        - option "2004"
+        - option "2003"
+        - option "2002"
+        - option "2001"
+        - option "2000"
+      - button "" [ref=e57] [cursor=pointer]:
+        - generic [ref=e58]: 
+    - generic [ref=e59]:
+      - heading "WPF" [level=4] [ref=e61]
+      - table [ref=e63]:
+        - rowgroup [ref=e64]:
+          - row "female male mixed" [ref=e65]:
+            - columnheader [ref=e66]
+            - columnheader "female" [ref=e67]
+            - columnheader "male" [ref=e68]
+            - columnheader "mixed" [ref=e69]
+          - row "Epee Foil Sabre Epee Foil Sabre Epee Foil Sabre" [ref=e70]:
+            - columnheader "Epee" [ref=e71]
+            - columnheader "Foil" [ref=e72]
+            - columnheader "Sabre" [ref=e73]
+            - columnheader "Epee" [ref=e74]
+            - columnheader "Foil" [ref=e75]
+            - columnheader "Sabre" [ref=e76]
+            - columnheader "Epee" [ref=e77]
+            - columnheader "Foil" [ref=e78]
+            - columnheader "Sabre" [ref=e79]
+        - rowgroup [ref=e80]:
+          - row "Senior Senior A Individual Senior B Individual Senior C Individual Senior Team Senior A Individual Senior B Individual Senior C Individual Senior Team Senior A Individual Senior B Individual Senior Team Senior A Individual Senior B Individual Senior C Individual Senior Team Senior A Individual Senior B Individual Senior C Individual Senior Team Senior A Individual Senior B Individual Senior Team Senior Team Senior Team Senior Team" [ref=e81]:
+            - rowheader "Senior" [ref=e82]
+            - cell "Senior A Individual Senior B Individual Senior C Individual Senior Team" [ref=e83]:
+              - link "Senior A Individual" [ref=e84] [cursor=pointer]:
+                - /url: /en/search/rankings/show/910
+              - link "Senior B Individual" [ref=e85] [cursor=pointer]:
+                - /url: /en/search/rankings/show/911
+              - link "Senior C Individual" [ref=e86] [cursor=pointer]:
+                - /url: /en/search/rankings/show/912
+              - link "Senior Team" [ref=e87] [cursor=pointer]:
+                - /url: /en/search/rankings/show/909
+            - cell "Senior A Individual Senior B Individual Senior C Individual Senior Team" [ref=e88]:
+              - link "Senior A Individual" [ref=e89] [cursor=pointer]:
+                - /url: /en/search/rankings/show/923
+              - link "Senior B Individual" [ref=e90] [cursor=pointer]:
+                - /url: /en/search/rankings/show/924
+              - link "Senior C Individual" [ref=e91] [cursor=pointer]:
+                - /url: /en/search/rankings/show/925
+              - link "Senior Team" [ref=e92] [cursor=pointer]:
+                - /url: /en/search/rankings/show/922
+            - cell "Senior A Individual Senior B Individual Senior Team" [ref=e93]:
+              - link "Senior A Individual" [ref=e94] [cursor=pointer]:
+                - /url: /en/search/rankings/show/936
+              - link "Senior B Individual" [ref=e95] [cursor=pointer]:
+                - /url: /en/search/rankings/show/937
+              - link "Senior Team" [ref=e96] [cursor=pointer]:
+                - /url: /en/search/rankings/show/935
+            - cell "Senior A Individual Senior B Individual Senior C Individual Senior Team" [ref=e97]:
+              - link "Senior A Individual" [ref=e98] [cursor=pointer]:
+                - /url: /en/search/rankings/show/916
+              - link "Senior B Individual" [ref=e99] [cursor=pointer]:
+                - /url: /en/search/rankings/show/917
+              - link "Senior C Individual" [ref=e100] [cursor=pointer]:
+                - /url: /en/search/rankings/show/918
+              - link "Senior Team" [ref=e101] [cursor=pointer]:
+                - /url: /en/search/rankings/show/915
+            - cell "Senior A Individual Senior B Individual Senior C Individual Senior Team" [ref=e102]:
+              - link "Senior A Individual" [ref=e103] [cursor=pointer]:
+                - /url: /en/search/rankings/show/929
+              - link "Senior B Individual" [ref=e104] [cursor=pointer]:
+                - /url: /en/search/rankings/show/930
+              - link "Senior C Individual" [ref=e105] [cursor=pointer]:
+                - /url: /en/search/rankings/show/931
+              - link "Senior Team" [ref=e106] [cursor=pointer]:
+                - /url: /en/search/rankings/show/928
+            - cell "Senior A Individual Senior B Individual Senior Team" [ref=e107]:
+              - link "Senior A Individual" [ref=e108] [cursor=pointer]:
+                - /url: /en/search/rankings/show/941
+              - link "Senior B Individual" [ref=e109] [cursor=pointer]:
+                - /url: /en/search/rankings/show/942
+              - link "Senior Team" [ref=e110] [cursor=pointer]:
+                - /url: /en/search/rankings/show/940
+            - cell "Senior Team" [ref=e111]:
+              - link "Senior Team" [ref=e112] [cursor=pointer]:
+                - /url: /en/search/rankings/show/921
+            - cell "Senior Team" [ref=e113]:
+              - link "Senior Team" [ref=e114] [cursor=pointer]:
+                - /url: /en/search/rankings/show/934
+            - cell "Senior Team" [ref=e115]:
+              - link "Senior Team" [ref=e116] [cursor=pointer]:
+                - /url: /en/search/rankings/show/945
+          - row "U17 U17 Individual U17 Individual U17 Individual U17 Individual U17 Individual U17 Individual" [ref=e117]:
+            - rowheader "U17" [ref=e118]
+            - cell "U17 Individual" [ref=e119]:
+              - link "U17 Individual" [ref=e120] [cursor=pointer]:
+                - /url: /en/search/rankings/show/913
+            - cell "U17 Individual" [ref=e121]:
+              - link "U17 Individual" [ref=e122] [cursor=pointer]:
+                - /url: /en/search/rankings/show/926
+            - cell "U17 Individual" [ref=e123]:
+              - link "U17 Individual" [ref=e124] [cursor=pointer]:
+                - /url: /en/search/rankings/show/938
+            - cell "U17 Individual" [ref=e125]:
+              - link "U17 Individual" [ref=e126] [cursor=pointer]:
+                - /url: /en/search/rankings/show/919
+            - cell "U17 Individual" [ref=e127]:
+              - link "U17 Individual" [ref=e128] [cursor=pointer]:
+                - /url: /en/search/rankings/show/932
+            - cell "U17 Individual" [ref=e129]:
+              - link "U17 Individual" [ref=e130] [cursor=pointer]:
+                - /url: /en/search/rankings/show/943
+            - cell [ref=e131]
+            - cell [ref=e132]
+            - cell [ref=e133]
+          - row "U23 U23 A/B Individual U23 A/B Individual U23 A/B Individual U23 A/B Individual U23 A/B Individual U23 A/B Individual" [ref=e134]:
+            - rowheader "U23" [ref=e135]
+            - cell "U23 A/B Individual" [ref=e136]:
+              - link "U23 A/B Individual" [ref=e137] [cursor=pointer]:
+                - /url: /en/search/rankings/show/914
+            - cell "U23 A/B Individual" [ref=e138]:
+              - link "U23 A/B Individual" [ref=e139] [cursor=pointer]:
+                - /url: /en/search/rankings/show/927
+            - cell "U23 A/B Individual" [ref=e140]:
+              - link "U23 A/B Individual" [ref=e141] [cursor=pointer]:
+                - /url: /en/search/rankings/show/939
+            - cell "U23 A/B Individual" [ref=e142]:
+              - link "U23 A/B Individual" [ref=e143] [cursor=pointer]:
+                - /url: /en/search/rankings/show/920
+            - cell "U23 A/B Individual" [ref=e144]:
+              - link "U23 A/B Individual" [ref=e145] [cursor=pointer]:
+                - /url: /en/search/rankings/show/933
+            - cell "U23 A/B Individual" [ref=e146]:
+              - link "U23 A/B Individual" [ref=e147] [cursor=pointer]:
+                - /url: /en/search/rankings/show/944
+            - cell [ref=e148]
+            - cell [ref=e149]
+            - cell [ref=e150]
+  - navigation [ref=e151]:
+    - link "© 2026 OphardtTeam Sportevent" [ref=e152] [cursor=pointer]:
+      - /url: http://www.ophardt-team.org/
+    - generic [ref=e153]: "Server time: May 31, 2026, 9:46:53 PM"
+    - list [ref=e154]:
+      - listitem [ref=e155]:
+        - link "Terms and Data protection" [ref=e156] [cursor=pointer]:
+          - /url: /en/terms
+      - listitem [ref=e157]:
+        - link "Imprint" [ref=e158] [cursor=pointer]:
+          - /url: /en/imprint
+    - list [ref=e159]:
+      - listitem [ref=e160]:
+        - link "Fencing" [ref=e161] [cursor=pointer]:
+          - /url: https://fencing.ophardt.online/en
+      - listitem [ref=e162]:
+        - link "World Para Fencing" [ref=e163] [cursor=pointer]:
+          - /url: https://iwas.ophardt.online/en

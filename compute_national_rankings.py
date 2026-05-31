@@ -205,10 +205,12 @@ def batch_upsert(table: str, rows: list[dict[str, Any]], on_conflict: str, batch
 def build_fencer_indexes(fencers: list[dict[str, Any]]) -> tuple[
     dict[Any, dict[str, Any]],
     dict[tuple[str, str, str], dict[str, Any]],
+    dict[str, dict[str, Any]],
     dict[tuple[str, str, str, str], dict[str, Any]],
 ]:
     by_id: dict[Any, dict[str, Any]] = {}
     by_fie_weapon_category: dict[tuple[str, str, str], dict[str, Any]] = {}
+    by_fie_id_only: dict[str, dict[str, Any]] = {}
     by_name_country_weapon_category: dict[tuple[str, str, str, str], dict[str, Any]] = {}
 
     for fencer in fencers:
@@ -224,13 +226,14 @@ def build_fencer_indexes(fencers: list[dict[str, Any]]) -> tuple[
         fie_id = clean_text(fencer.get("fie_id"))
         if fie_id:
             by_fie_weapon_category[(fie_id, weapon, category)] = fencer
+            by_fie_id_only.setdefault(fie_id, fencer)
 
         name_key = normalized_key(fencer.get("name"))
         country_key = normalized_key(fencer.get("country"))
         if name_key and country_key:
             by_name_country_weapon_category[(name_key, country_key, weapon, category)] = fencer
 
-    return by_id, by_fie_weapon_category, by_name_country_weapon_category
+    return by_id, by_fie_weapon_category, by_fie_id_only, by_name_country_weapon_category
 
 
 def compute_domestic_ranks(fencers: list[dict[str, Any]]) -> tuple[dict[Any, int], list[tuple[str, str, str, int]]]:
@@ -278,7 +281,7 @@ def compute_results_scores(
     fencers: list[dict[str, Any]],
     tournaments: dict[int, dict[str, Any]],
 ) -> tuple[dict[Any, float], int]:
-    by_id, by_fie_weapon_category, by_name_country_weapon_category = build_fencer_indexes(fencers)
+    by_id, by_fie_weapon_category, by_fie_id_only, by_name_country_weapon_category = build_fencer_indexes(fencers)
     result_rows = fetch_all(
         "fs_results",
         "tournament_id,fencer_id,fie_fencer_id,rank,name,country",
@@ -304,6 +307,8 @@ def compute_results_scores(
         fie_id = clean_text(result.get("fie_fencer_id"))
         if not fencer and fie_id:
             fencer = by_fie_weapon_category.get((fie_id, weapon, category))
+        if not fencer and fie_id:
+            fencer = by_fie_id_only.get(fie_id)
 
         if not fencer:
             name_key = normalized_key(result.get("name"))
