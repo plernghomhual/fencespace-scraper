@@ -28,7 +28,7 @@ from fed_rankings_common import build_ranking_row, write_rankings
 SOURCE = "british_fencing"
 COUNTRY = "GBR"
 REQUEST_DELAY = 1.5
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"}
 
 BASE_URL = "https://www.britishfencing.com/rankings-v2"
 

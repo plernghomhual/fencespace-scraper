@@ -120,9 +120,18 @@ def write_rankings(rows: list[dict], source: str, season: str) -> int:
             row["fencer_id"] = match_fencer(row.get("name", ""), row.get("country"), row.get("fie_id"))
         enriched.append(row)
 
+    seen_keys: set = set()
+    deduped = []
+    for row in enriched:
+        key = (row.get("source"), row.get("season"), row.get("weapon"),
+               row.get("gender"), row.get("category"), row.get("rank"))
+        if key not in seen_keys:
+            seen_keys.add(key)
+            deduped.append(row)
+
     written = 0
-    for i in range(0, len(enriched), 100):
-        batch = enriched[i:i + 100]
+    for i in range(0, len(deduped), 100):
+        batch = deduped[i:i + 100]
         try:
             client.table("fs_national_fed_rankings").upsert(
                 batch, on_conflict="source,season,weapon,gender,category,rank"

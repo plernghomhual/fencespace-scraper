@@ -226,7 +226,7 @@ def scrape_rankings_history():
         for season in seasons:
             for weapon, gender, category in COMBOS:
                 key = combo_done_key(season, weapon, gender, category)
-                if key in done_combos:
+                if key in done_combos and season != current_year:
                     total_skipped += 1
                     continue
 

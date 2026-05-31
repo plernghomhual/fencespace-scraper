@@ -262,6 +262,7 @@ def discover_urls_main(season=None):
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .is_("competition_url_id", "null")\
+        .not_.is_("fie_id", "null")\
         .execute().data
 
     tournaments_no_url = filter_tournaments(tournaments_no_url, season=season)
@@ -305,6 +306,7 @@ def main(season=None, weapon=None, limit=0):
         .lte("end_date", today)\
         .eq("is_sub_competition", False)\
         .is_("competition_url_id", "null")\
+        .not_.is_("fie_id", "null")\
         .neq("results_unavailable", True)\
         .execute().data
 

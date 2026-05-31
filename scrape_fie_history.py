@@ -71,14 +71,18 @@ def seasons_to_scrape(earliest, current):
 
 def competition_to_tournament_row(comp, season):
     """Map a FIE API competition item dict to a fs_tournaments row dict."""
+    start_date = normalize_fie_date(comp.get("startDate"))
+    end_date = normalize_fie_date(comp.get("endDate"))
+    if start_date and end_date and end_date < start_date:
+        start_date, end_date = end_date, start_date
     return {
         "fie_id": comp["competitionId"],
         "name": comp.get("name"),
         "season": str(season),
         "country": comp.get("country"),
         "location": comp.get("location"),
-        "start_date": normalize_fie_date(comp.get("startDate")),
-        "end_date": normalize_fie_date(comp.get("endDate")),
+        "start_date": start_date,
+        "end_date": end_date,
         "weapon": WEAPON_MAP.get(comp.get("weapon", ""), comp.get("weapon")),
         "gender": GENDER_MAP.get(comp.get("gender", ""), comp.get("gender")),
         "category": CATEGORY_MAP.get(comp.get("category", ""), comp.get("category")),

@@ -78,9 +78,7 @@ def parse_rankings_table(html: str) -> list[dict]:
     # The nested per-tournament detail sub-tables live inside <td> elements;
     # their <tr> children are NOT direct children of <tbody>, so they are
     # skipped automatically.
-    tbody = ranking_table.find("tbody")
-    if tbody is None:
-        return []
+    tbody = ranking_table.find("tbody") or ranking_table
 
     results = []
     for row in tbody.find_all("tr", recursive=False):

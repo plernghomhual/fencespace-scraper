@@ -259,12 +259,14 @@ def upsert_results(tournament_id, result_rows):
     """Write result rows to fs_results. Uses actual column names: nationality (not country)."""
     db_rows = []
     for r in result_rows:
+        if r["rank"] is None:
+            continue
         fencer_id = _match_fencer(r["name"], r["country"]) if r["name"] and r["country"] else None
         db_rows.append({
             "tournament_id": tournament_id,
             "name": r["name"],
             "nationality": r["country"],   # fs_results uses 'nationality', not 'country'
-            "rank": r["rank"] if r["rank"] is not None else None,
+            "rank": r["rank"],
             "medal": r["medal"],
             "fencer_id": fencer_id,
             "metadata": {"olympedia_athlete_id": r.get("athlete_id")},

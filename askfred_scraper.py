@@ -735,7 +735,6 @@ def upsert_results(rows: list[dict[str, Any]]):
             supabase.table("fs_results")
             .delete()
             .eq("tournament_id", tournament_id)
-            .like("fie_fencer_id", "askfred:%")
             .execute()
         )
 
