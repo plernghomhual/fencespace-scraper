@@ -3,6 +3,8 @@ import re
 import time
 from datetime import datetime, timezone
 
+from season_utils import normalize_season
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
@@ -61,7 +63,7 @@ def normalize_category(raw: str) -> str | None:
 def build_ranking_row(
     *,
     source: str,
-    season: str,
+    season: str | int,
     weapon: str,
     gender: str,
     category: str,
@@ -76,7 +78,7 @@ def build_ranking_row(
 ) -> dict:
     return {
         "source": source,
-        "season": season,
+        "season": normalize_season(season),
         "weapon": weapon,
         "gender": gender,
         "category": category,
@@ -109,14 +111,16 @@ def match_fencer(name: str, country: str | None, fie_id: str | None) -> str | No
     return None
 
 
-def write_rankings(rows: list[dict], source: str, season: str) -> int:
+def write_rankings(rows: list[dict], source: str, season: str | int) -> int:
     client = get_supabase()
     if not client or not rows:
         return 0
+    normalized_season = normalize_season(season)
     enriched = []
     for row in rows:
+        row = dict(row)
+        row["season"] = normalize_season(row.get("season") or normalized_season)
         if not row.get("fencer_id"):
-            row = dict(row)
             row["fencer_id"] = match_fencer(row.get("name", ""), row.get("country"), row.get("fie_id"))
         enriched.append(row)
 

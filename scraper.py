@@ -7,6 +7,7 @@ import calendar
 import re
 
 from run_logger import ScraperRunLogger
+from season_utils import current_fie_season
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -122,6 +123,58 @@ def batch_upsert(table: str, rows: list[dict], on_conflict: str, batch_size: int
         ).execute()
 
 
+def fencer_completeness_score(row: dict) -> tuple[int, int]:
+    fields = (
+        "name", "country", "weapon", "category", "world_rank", "fie_points",
+        "image_url", "date_of_birth", "hand", "height",
+    )
+    populated = sum(1 for field in fields if row.get(field) not in (None, ""))
+    name = clean_text(row.get("name")) or ""
+    name_score = len(name.split()) * 100 + len(name)
+    return populated, name_score
+
+
+def dedupe_fencers_by_fie_id(rows: list[dict]) -> list[dict]:
+    deduped: dict[str, dict] = {}
+    order: list[str] = []
+    for row in rows:
+        fie_id = clean_text(row.get("fie_id"))
+        if not fie_id:
+            continue
+
+        normalized = dict(row)
+        normalized["fie_id"] = fie_id
+        if fie_id not in deduped:
+            deduped[fie_id] = normalized
+            order.append(fie_id)
+            continue
+
+        if fencer_completeness_score(normalized) > fencer_completeness_score(deduped[fie_id]):
+            deduped[fie_id] = normalized
+
+    return [deduped[fie_id] for fie_id in order]
+
+
+def upsert_fencer_rows(rows: list[dict]) -> None:
+    if not rows:
+        return
+    try:
+        batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
+    except Exception as upsert_exc:
+        msg = str(upsert_exc)
+        if "23505" in msg or "21000" in msg or "unique" in msg.lower():
+            print("  Batch upsert conflict after dedup, falling back to row-by-row")
+            for row in rows:
+                try:
+                    supabase.table("fs_fencers").upsert(
+                        [row], on_conflict="fie_id,weapon,category"
+                    ).execute()
+                except Exception as row_exc:
+                    print(f"    Row upsert failed for fie_id={row.get('fie_id')}: {row_exc}")
+        else:
+            raise
+
+
 def scrape_rankings(weapon: str, gender: str, category: str, label: str):
     category_label = CATEGORY_MAP.get(category, category)
     gender_label = "Women's" if gender == "F" else "Men's"
@@ -131,11 +184,12 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
     page = 1
     total = 0
     seen_fie_ids: set = set()
+    collected_rows: list[dict] = []
     while True:
         payload = {
             "weapon": weapon, "gender": gender, "category": category,
             "country": "", "name": "", "page": page,
-            "season": str(datetime.now(timezone.utc).year),
+            "season": str(current_fie_season()),
         }
         try:
             res = requests.post("https://fie.org/athletes", headers=ATHLETE_HEADERS, json=payload, timeout=15)
@@ -177,22 +231,7 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                     "height": height,
                     "updated_at": datetime.now(timezone.utc).isoformat(),
                 })
-            if rows:
-                try:
-                    batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
-                except Exception as upsert_exc:
-                    msg = str(upsert_exc)
-                    if "23505" in msg or "21000" in msg or "unique" in msg.lower():
-                        print(f"  Batch upsert conflict on page {page}, falling back to row-by-row")
-                        for row in rows:
-                            try:
-                                supabase.table("fs_fencers").upsert(
-                                    [row], on_conflict="fie_id,weapon,category"
-                                ).execute()
-                            except Exception as row_exc:
-                                print(f"    Row upsert failed for fie_id={row.get('fie_id')}: {row_exc}")
-                    else:
-                        raise
+            collected_rows.extend(rows)
             total += len(athletes)
             print(f"  Page {page} — {len(athletes)} fencers (total: {total})")
             if len(athletes) < 100:
@@ -206,6 +245,23 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
             print(f"  Error on page {page}: {e}")
             break
     print(f"Done — {label}: {total} fencers")
+    return collected_rows
+
+
+def scrape_all_rankings(combos: list[dict] | None = None, pause_seconds: float = 2) -> int:
+    combos = combos or WEAPONS
+    all_rows: list[dict] = []
+    for index, combo in enumerate(combos, start=1):
+        print(f"\nRanking combination {index}/{len(combos)}")
+        all_rows.extend(scrape_rankings(combo["weapon"], combo["gender"], combo["category"], combo["label"]))
+        if index < len(combos) and pause_seconds:
+            time.sleep(pause_seconds)
+
+    deduped_rows = dedupe_fencers_by_fie_id(all_rows)
+    skipped = len(all_rows) - len(deduped_rows)
+    print(f"Upserting {len(deduped_rows)} unique fencers ({skipped} duplicate combo rows skipped)")
+    upsert_fencer_rows(deduped_rows)
+    return len(deduped_rows)
 
 # ── Competition scraper ──────────────────────────────────────────────────────
 
@@ -336,11 +392,7 @@ def main():
     run_log = ScraperRunLogger("scraper").start()
     total_fencers = 0
     try:
-        for index, w in enumerate(WEAPONS, start=1):
-            print(f"\nRanking combination {index}/{len(WEAPONS)}")
-            scrape_rankings(w["weapon"], w["gender"], w["category"], w["label"])
-            if index < len(WEAPONS):
-                time.sleep(2)
+        total_fencers = scrape_all_rankings()
         scrape_competitions()
         run_log.complete(written=total_fencers, metadata={"combos": len(WEAPONS)})
     except Exception as exc:

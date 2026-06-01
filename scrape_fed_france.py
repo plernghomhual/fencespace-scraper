@@ -22,6 +22,7 @@ from bs4 import BeautifulSoup
 
 from fed_rankings_common import build_ranking_row, write_rankings
 from run_logger import ScraperRunLogger
+from season_utils import season_from_string, season_to_string
 
 SOURCE = "fff_france"
 COUNTRY = "FRA"
@@ -57,14 +58,13 @@ RANKING_COMBOS = [
 
 def current_season() -> str:
     now = datetime.now(timezone.utc)
-    year = now.year
-    return f"{year-1}-{year}" if now.month < 7 else f"{year}-{year+1}"
+    season_end_year = now.year if now.month < 7 else now.year + 1
+    return season_to_string(season_end_year)
 
 
 def _season_year(season: str) -> str:
     """Return the end-year of the season string ('2025-2026' → '2026')."""
-    parts = season.split("-")
-    return parts[-1] if parts else str(datetime.now(timezone.utc).year)
+    return str(season_from_string(season))
 
 
 def discover_fiche_id(weapon: str, gender: str, category: str, season_year: str) -> str | None:

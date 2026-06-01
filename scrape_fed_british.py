@@ -24,6 +24,7 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from fed_rankings_common import build_ranking_row, write_rankings
+from season_utils import season_to_string
 
 SOURCE = "british_fencing"
 COUNTRY = "GBR"
@@ -131,8 +132,8 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     now = datetime.now(timezone.utc)
-    year = now.year
-    return f"{year-1}-{year}" if now.month < 7 else f"{year}-{year+1}"
+    season_end_year = now.year if now.month < 7 else now.year + 1
+    return season_to_string(season_end_year)
 
 
 def main():

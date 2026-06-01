@@ -1,0 +1,409 @@
+openapi: 3.0.3
+info:
+  title: FenceSpace Export API
+  version: 1.0.0
+  description: Read-only JSON API for fencers, tournaments, rankings, head-to-head records, and country depth analytics.
+servers:
+  - url: https://api.fencespace.example
+security:
+  - ApiKeyAuth: []
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 50
+      description: Page size.
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      description: Zero-based offset.
+  schemas:
+    Pagination:
+      type: object
+      required: [limit, offset, count]
+      properties:
+        limit:
+          type: integer
+        offset:
+          type: integer
+        count:
+          type: integer
+    Fencer:
+      type: object
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+        fie_id:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        weapon:
+          type: string
+        category:
+          type: string
+        world_rank:
+          type: integer
+        fie_points:
+          type: number
+    FencerProfile:
+      type: object
+      required: [profile, social, equipment]
+      properties:
+        profile:
+          $ref: "#/components/schemas/Fencer"
+        career_stats:
+          type: object
+          nullable: true
+          additionalProperties: true
+        social:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        equipment:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Tournament:
+      type: object
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+        fie_id:
+          type: string
+        season:
+          type: integer
+        name:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+    Result:
+      type: object
+      additionalProperties: true
+      properties:
+        tournament_id:
+          type: string
+        fencer_id:
+          type: string
+          nullable: true
+        rank:
+          type: integer
+        name:
+          type: string
+        nationality:
+          type: string
+    Ranking:
+      type: object
+      additionalProperties: true
+      properties:
+        season:
+          type: integer
+        weapon:
+          type: string
+        gender:
+          type: string
+        category:
+          type: string
+        rank:
+          type: integer
+        name:
+          type: string
+        points:
+          type: number
+    HeadToHead:
+      type: object
+      additionalProperties: true
+      properties:
+        fencer_a_id:
+          type: string
+        fencer_b_id:
+          type: string
+        weapon:
+          type: string
+        a_wins:
+          type: integer
+        b_wins:
+          type: integer
+        a_touches:
+          type: integer
+        b_touches:
+          type: integer
+        bouts_total:
+          type: integer
+        last_meeting_date:
+          type: string
+          format: date
+    CountryDepth:
+      type: object
+      additionalProperties: true
+      properties:
+        country:
+          type: string
+        weapon:
+          type: string
+        category:
+          type: string
+        fencers_in_top16:
+          type: integer
+        fencers_in_top32:
+          type: integer
+        fencers_in_top64:
+          type: integer
+        total_ranked:
+          type: integer
+        avg_world_rank:
+          type: number
+    ListResponse:
+      type: object
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+paths:
+  /fencer/{id}:
+    get:
+      summary: Get a fencer profile
+      description: Returns the fencer profile plus career stats, social media links, and equipment records when those dependent tables exist.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Fencer profile.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FencerProfile"
+        "401":
+          description: Missing or invalid API key.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Fencer not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /fencer/search:
+    get:
+      summary: Search fencers
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: country
+          in: query
+          schema:
+            type: string
+        - name: weapon
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Matching fencers.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ListResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Fencer"
+  /tournaments:
+    get:
+      summary: List tournaments
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: country
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Matching tournaments.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ListResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Tournament"
+  /tournaments/{id}/results:
+    get:
+      summary: Tournament results
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Results for the tournament.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ListResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Result"
+  /rankings:
+    get:
+      summary: List rankings
+      parameters:
+        - name: season
+          in: query
+          schema:
+            type: integer
+        - name: weapon
+          in: query
+          schema:
+            type: string
+        - name: gender
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Ranking rows.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ListResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Ranking"
+  /h2h/{fencer_a}/{fencer_b}:
+    get:
+      summary: Head-to-head stats
+      parameters:
+        - name: fencer_a
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fencer_b
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Head-to-head records by weapon.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [fencer_a, fencer_b, data]
+                properties:
+                  fencer_a:
+                    type: string
+                  fencer_b:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/HeadToHead"
+  /countries/{code}/depth:
+    get:
+      summary: Country depth analysis
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Country depth rows.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/ListResponse"
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/CountryDepth"

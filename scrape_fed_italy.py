@@ -1,110 +1,158 @@
 """
-scrape_fed_italy.py — Italian Fencing Federation (Federscherma) national rankings scraper.
+scrape_fed_italy.py — Italian Fencing Federation national rankings scraper.
 
-Site: https://federscherma.it/
-Probe findings (2026-05-29):
-  - The site is a WordPress CMS. All "classifiche/" paths redirect to an old 2010 news post.
-  - Olympic weapon rankings (Foil/Epee/Sabre) are NOT exposed as structured HTML tables.
-  - Rankings exist as legacy .xls (BIFF format) files served via the WordPress document manager
-    plugin at: /wp-content/plugins/if_document_manager/forceDownload.php?ID_file=<ID>
-  - The only accessible "Ranking" section is Paralympic rankings (wheelchair fencing), which
-    also uses the same forceDownload XLS distribution.
-  - No xlrd/openpyxl library is installed in this venv; BIFF XLS parsing is not possible
-    without adding a dependency.
-
-Current behaviour:
-  fetch_rankings_page() returns None for all 12 combos — the scraper logs all as failed.
-  parse_rankings_table() contains a fully working generic HTML table parser for Italian column
-  headers (Pos/Posizione=rank, Atleta/Nome=name, Società/Societa/Club=club, Punti=points).
-  This parser will work immediately if Federscherma ever publishes ranked HTML tables.
-
-To enable live scraping, install xlrd or openpyxl and implement XLS parsing in
-fetch_rankings_page() / parse_xls_rankings_file().
+Federscherma publishes ranking documents as spreadsheet downloads. Current
+documents are OpenXML workbooks served through the WordPress document manager;
+older links may be BIFF .xls files. The parser therefore tries openpyxl first
+and falls back to xlrd.
 """
 
-import os
+from __future__ import annotations
+
+from datetime import datetime, timezone
+from html import unescape
+from io import BytesIO
 import re
 import time
-from datetime import datetime, timezone
+import unicodedata
 
 import requests
-from bs4 import BeautifulSoup
 
-from run_logger import ScraperRunLogger
 from fed_rankings_common import build_ranking_row, write_rankings
+from run_logger import ScraperRunLogger
+from scraper_state import set_state
 
 SOURCE = "fis_italy"
 COUNTRY = "ITA"
 REQUEST_DELAY = 1.5
-HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)"}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)"
+}
 
 BASE_URL = "https://federscherma.it"
-
-# Italian column header aliases → normalised key
-_RANK_HEADERS = {"pos", "posizione", "rank", "#"}
-_NAME_HEADERS = {"atleta", "nome", "athlete", "name"}
-_CLUB_HEADERS = {"società", "societa", "club", "società sportiva", "affiliazione"}
-_POINTS_HEADERS = {"punti", "points", "punteggio", "pt", "pts"}
+DOCUMENT_SEARCH_URL = f"{BASE_URL}/wp-json/wp/v2/search"
+DOCUMENT_POST_URL = f"{BASE_URL}/wp-json/wp/v2/documento"
+DOWNLOAD_URL = (
+    f"{BASE_URL}/wp-content/plugins/if_document_manager/forceDownload.php?ID_file={{document_id}}"
+)
 
 RANKING_COMBOS = [
-    ("Foil",  "Men",   "Senior"),
-    ("Foil",  "Women", "Senior"),
-    ("Epee",  "Men",   "Senior"),
-    ("Epee",  "Women", "Senior"),
-    ("Sabre", "Men",   "Senior"),
+    ("Foil", "Men", "Senior"),
+    ("Foil", "Women", "Senior"),
+    ("Epee", "Men", "Senior"),
+    ("Epee", "Women", "Senior"),
+    ("Sabre", "Men", "Senior"),
     ("Sabre", "Women", "Senior"),
-    ("Foil",  "Men",   "Junior"),
-    ("Foil",  "Women", "Junior"),
-    ("Epee",  "Men",   "Junior"),
-    ("Epee",  "Women", "Junior"),
-    ("Sabre", "Men",   "Junior"),
+    ("Foil", "Men", "Junior"),
+    ("Foil", "Women", "Junior"),
+    ("Epee", "Men", "Junior"),
+    ("Epee", "Women", "Junior"),
+    ("Sabre", "Men", "Junior"),
     ("Sabre", "Women", "Junior"),
 ]
 
+CATEGORY_SEARCH = {
+    "Senior": {
+        "query": "ranking assoluti",
+        "required": ("ranking", "assoluti"),
+        "excluded": ("master", "gpg", "u23", "cadetti", "paralimpico", "non vedenti"),
+    },
+    "Junior": {
+        "query": "ranking giovani",
+        "required": ("ranking", "giovani"),
+        "excluded": ("gpg", "cadetti", "master", "paralimpico", "non vedenti"),
+    },
+}
 
-def _parse_points(raw: str) -> float | None:
-    """
-    Parse a points string into a float.
+WEAPON_SHEET_CODES = {"Foil": "F", "Epee": "SP", "Sabre": "SC"}
+GENDER_SHEET_CODES = {"Men": "M", "Women": "F"}
+CATEGORY_SHEET_CODES = {"Senior": "A", "Junior": "G"}
+WEAPON_TITLE_WORDS = {"Foil": "fioretto", "Epee": "spada", "Sabre": "sciabola"}
+GENDER_TITLE_WORDS = {"Men": "maschile", "Women": "femminile"}
+CATEGORY_TITLE_WORDS = {
+    "Senior": ("assoluto", "assoluti"),
+    "Junior": ("giovani", "junior"),
+}
 
-    Handles:
-    - Comma as thousands separator: "1,250" → 1250.0
-    - Comma as decimal separator: "1,5" → 1.5
-    - Dot as thousands separator: "1.250" → 1250.0  (3-digit group)
-    - Standard floats: "1250", "1250.5"
-    """
-    s = raw.strip().replace(" ", "")
-    if not s:
+_RANK_HEADERS = {"pos", "posizione", "rank", "#"}
+_NAME_HEADERS = {"atleta", "nome", "athlete", "name"}
+_CLUB_HEADERS = {"societa", "club", "societa sportiva", "affiliazione"}
+_POINTS_HEADERS = {"punti", "points", "punteggio", "pt", "pts", "totale", "total"}
+
+
+def _strip_accents(text: str) -> str:
+    normalized = unicodedata.normalize("NFKD", text)
+    return "".join(ch for ch in normalized if not unicodedata.combining(ch))
+
+
+def _normalise_header(value) -> str:
+    text = _strip_accents(str(value or "").lower().strip())
+    text = re.sub(r"[^a-z0-9#]+", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _normalise_text(value: str) -> str:
+    text = _strip_accents(value.lower())
+    text = re.sub(r"[^a-z0-9]+", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _cell_text(value) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, float) and value.is_integer():
+        return str(int(value))
+    return str(value).strip()
+
+
+def _parse_rank(value) -> int | None:
+    if value is None:
         return None
-    # Detect thousands-separator comma: digit,exactly-3-digits (possibly more groups)
-    # e.g. "1,250" or "1,250,000"
-    if re.match(r"^\d{1,3}(,\d{3})+$", s):
-        s = s.replace(",", "")
-    # Detect thousands-separator dot: same pattern with dot
-    elif re.match(r"^\d{1,3}(\.\d{3})+$", s):
-        s = s.replace(".", "")
-    # Comma as decimal separator (e.g. "1,5")
-    elif "," in s and "." not in s:
-        s = s.replace(",", ".")
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value) if value.is_integer() else None
+    match = re.match(r"^\s*(\d+)", str(value).strip())
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _parse_points(value) -> float | None:
+    if value is None or value == "":
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    text = str(value).strip().replace("\xa0", "").replace(" ", "")
+    if not text:
+        return None
+
+    comma_pos = text.rfind(",")
+    dot_pos = text.rfind(".")
+    if comma_pos != -1 and dot_pos != -1:
+        if comma_pos > dot_pos:
+            text = text.replace(".", "").replace(",", ".")
+        else:
+            text = text.replace(",", "")
+    elif comma_pos != -1:
+        if re.match(r"^\d{1,3}(,\d{3})+$", text):
+            text = text.replace(",", "")
+        else:
+            text = text.replace(",", ".")
+    elif dot_pos != -1 and re.match(r"^\d{1,3}(\.\d{3})+$", text):
+        text = text.replace(".", "")
+
     try:
-        return float(s)
+        return float(text)
     except ValueError:
         return None
 
 
-def _normalise_header(text: str) -> str:
-    """Lowercase, strip accents lightly, remove punctuation for header matching."""
-    return re.sub(r"[^\w\s]", "", text.lower().strip())
-
-
-def _detect_columns(header_cells: list[str]) -> dict[str, int]:
-    """
-    Given a list of header cell texts, return a mapping:
-      rank_col, name_col, club_col, points_col → column index.
-    Returns only the keys that were matched.
-    """
-    mapping = {}
-    for idx, raw in enumerate(header_cells):
-        key = _normalise_header(raw)
+def _detect_columns(row: list) -> dict[str, int]:
+    mapping: dict[str, int] = {}
+    for idx, value in enumerate(row):
+        key = _normalise_header(value)
         if key in _RANK_HEADERS and "rank_col" not in mapping:
             mapping["rank_col"] = idx
         elif key in _NAME_HEADERS and "name_col" not in mapping:
@@ -116,115 +164,222 @@ def _detect_columns(header_cells: list[str]) -> dict[str, int]:
     return mapping
 
 
-def parse_rankings_table(html: str) -> list[dict]:
-    """
-    Parse an Italian-style fencing rankings HTML page.
+def _sheet_matches_combo(
+    sheet_name: str,
+    rows: list[list],
+    *,
+    weapon: str | None = None,
+    gender: str | None = None,
+    category: str | None = None,
+) -> bool:
+    if not any((weapon, gender, category)):
+        return True
 
-    Supports two column-detection strategies:
-    1. Header-based: detects Italian/English headers (Pos/Posizione, Atleta/Nome,
-       Società, Punti) and maps them to rank/name/club/points.
-    2. Positional fallback: assumes first numeric column = rank, second text = name,
-       third text = club, last numeric = points — same convention as British scraper.
+    if weapon and gender and category:
+        expected = (
+            f"{WEAPON_SHEET_CODES.get(weapon, '')}"
+            f"{GENDER_SHEET_CODES.get(gender, '')}"
+            f"{CATEGORY_SHEET_CODES.get(category, '')}"
+        )
+        compact_name = re.sub(r"[^A-Z0-9]", "", sheet_name.upper())
+        if expected and compact_name == expected:
+            return True
 
-    Returns a list of dicts: {rank: int, name: str, club: str|None, points: float|None}
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    table = soup.find("table")
-    if not table:
-        return []
+    sample_cells = [sheet_name]
+    for row in rows[:6]:
+        sample_cells.extend(_cell_text(value) for value in row[:8])
+    text = _normalise_text(" ".join(sample_cells))
 
-    results = []
-    col_map: dict[str, int] = {}
-    header_detected = False
+    if weapon and WEAPON_TITLE_WORDS.get(weapon, "") not in text:
+        return False
+    if gender and GENDER_TITLE_WORDS.get(gender, "") not in text:
+        return False
+    if category and not any(word in text for word in CATEGORY_TITLE_WORDS.get(category, ())):
+        return False
+    return True
 
-    for row in table.find_all("tr"):
-        cells = row.find_all(["td", "th"])
-        if not cells:
-            continue
-        texts = [c.get_text(strip=True) for c in cells]
 
-        # Try to detect header row
-        if not header_detected:
-            candidate = _detect_columns(texts)
+def _parse_sheet_rows(rows: list[list]) -> list[dict]:
+    header_map: dict[str, int] | None = None
+    parsed: list[dict] = []
+
+    for row in rows:
+        values = list(row)
+        if header_map is None:
+            candidate = _detect_columns(values)
             if "rank_col" in candidate and "name_col" in candidate:
-                col_map = candidate
-                header_detected = True
-                continue  # skip the header row itself
-            # Positional fallback: check if first cell is a digit
-            if texts and texts[0].isdigit():
-                # No header found yet, use positional convention
-                header_detected = True
-                col_map = {}  # empty = positional mode
-
-        if not header_detected:
+                header_map = candidate
             continue
 
-        # Positional mode (no headers found)
-        if not col_map:
-            if len(texts) < 2:
-                continue
-            rank_text = texts[0]
-            if not rank_text.isdigit():
-                continue
-            try:
-                rank = int(rank_text)
-            except ValueError:
-                continue
-            name = texts[1]
-            club = texts[2] if len(texts) > 2 else None
-            points = _parse_points(texts[-1]) if len(texts) >= 4 else None
-            results.append({
+        max_col = max(header_map.values())
+        if len(values) <= max_col:
+            continue
+
+        rank = _parse_rank(values[header_map["rank_col"]])
+        name = _cell_text(values[header_map["name_col"]])
+        if rank is None or not name:
+            continue
+
+        club = None
+        if "club_col" in header_map:
+            club = _cell_text(values[header_map["club_col"]]) or None
+
+        points = None
+        if "points_col" in header_map:
+            points = _parse_points(values[header_map["points_col"]])
+
+        parsed.append(
+            {
                 "rank": rank,
                 "name": name,
-                "club": club or None,
+                "club": club,
                 "points": points,
-            })
-            continue
+            }
+        )
 
-        # Header-based mode
-        if len(texts) <= max(col_map.values()):
-            continue
+    return parsed
 
-        rank_text = texts[col_map["rank_col"]]
-        if not rank_text.isdigit():
-            continue
-        try:
-            rank = int(rank_text)
-        except ValueError:
-            continue
 
-        name = texts[col_map["name_col"]]
-        club = texts[col_map["club_col"]].strip() if "club_col" in col_map else None
-        if "points_col" in col_map:
-            points = _parse_points(texts[col_map["points_col"]])
-        else:
-            points = None
+def _parse_openpyxl_workbook(
+    file_bytes: bytes,
+    *,
+    weapon: str | None = None,
+    gender: str | None = None,
+    category: str | None = None,
+) -> list[dict]:
+    from openpyxl import load_workbook
 
-        results.append({
-            "rank": rank,
-            "name": name,
-            "club": club or None,
-            "points": points,
-        })
+    workbook = load_workbook(BytesIO(file_bytes), read_only=True, data_only=True)
+    try:
+        results: list[dict] = []
+        for sheet in workbook.worksheets:
+            rows = [list(row) for row in sheet.iter_rows(values_only=True)]
+            if _sheet_matches_combo(sheet.title, rows, weapon=weapon, gender=gender, category=category):
+                results.extend(_parse_sheet_rows(rows))
+        return results
+    finally:
+        workbook.close()
 
+
+def _parse_xlrd_workbook(
+    file_bytes: bytes,
+    *,
+    weapon: str | None = None,
+    gender: str | None = None,
+    category: str | None = None,
+) -> list[dict]:
+    import xlrd
+
+    workbook = xlrd.open_workbook(file_contents=file_bytes)
+    results: list[dict] = []
+    for sheet in workbook.sheets():
+        rows = [sheet.row_values(row_idx) for row_idx in range(sheet.nrows)]
+        if _sheet_matches_combo(sheet.name, rows, weapon=weapon, gender=gender, category=category):
+            results.extend(_parse_sheet_rows(rows))
     return results
 
 
-def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
-    """
-    Attempt to fetch an Italian national ranking HTML page for the given combo.
+def parse_rankings_xls(
+    file_bytes: bytes,
+    *,
+    weapon: str | None = None,
+    gender: str | None = None,
+    category: str | None = None,
+) -> list[dict]:
+    """Parse ranking rows from an XLSX workbook, falling back to BIFF XLS."""
+    if not file_bytes:
+        return []
 
-    Current status: federscherma.it does not expose Olympic weapon rankings as HTML
-    tables. All /classifiche/ and /ranking/ paths redirect to an unrelated 2010 news
-    post. Rankings are distributed as legacy XLS files via a WordPress document manager
-    plugin which requires xlrd/openpyxl (not installed in this venv).
+    try:
+        return _parse_openpyxl_workbook(
+            file_bytes, weapon=weapon, gender=gender, category=category
+        )
+    except Exception:
+        pass
 
-    Returns None for all combos until the site structure improves or XLS parsing
-    is added.
-    """
-    # Placeholder: no publicly accessible structured ranking page found.
-    # Returning None causes the main loop to count this as a failed/skipped combo.
+    try:
+        return _parse_xlrd_workbook(file_bytes, weapon=weapon, gender=gender, category=category)
+    except Exception as exc:
+        raise ValueError(
+            "Could not parse Federscherma ranking workbook with openpyxl or xlrd"
+        ) from exc
+
+
+def _search_documents(query: str) -> list[dict]:
+    response = requests.get(
+        DOCUMENT_SEARCH_URL,
+        headers=HEADERS,
+        params={"search": query, "per_page": 30},
+        timeout=20,
+    )
+    response.raise_for_status()
+    data = response.json()
+    return data if isinstance(data, list) else []
+
+
+def _document_by_slug(slug: str) -> dict | None:
+    response = requests.get(
+        DOCUMENT_POST_URL,
+        headers=HEADERS,
+        params={"slug": slug},
+        timeout=20,
+    )
+    response.raise_for_status()
+    data = response.json()
+    if isinstance(data, list) and data:
+        return data[0]
     return None
+
+
+def _slug_from_url(url: str) -> str | None:
+    clean = url.rstrip("/")
+    if not clean:
+        return None
+    return clean.split("/")[-1] or None
+
+
+def _title_matches(title: str, *, required: tuple[str, ...], excluded: tuple[str, ...]) -> bool:
+    text = _normalise_text(unescape(title))
+    return all(word in text for word in required) and not any(word in text for word in excluded)
+
+
+def discover_latest_ranking_documents() -> dict[str, dict]:
+    """Return latest Federscherma ranking document metadata for Senior and Junior."""
+    documents: dict[str, dict] = {}
+
+    for category, criteria in CATEGORY_SEARCH.items():
+        for item in _search_documents(criteria["query"]):
+            title = unescape(str(item.get("title") or ""))
+            if not _title_matches(
+                title,
+                required=criteria["required"],
+                excluded=criteria["excluded"],
+            ):
+                continue
+
+            page_url = str(item.get("url") or item.get("link") or "")
+            slug = _slug_from_url(page_url)
+            document = _document_by_slug(slug) if slug else None
+            document_id = document.get("id") if document else item.get("id")
+            if not document_id:
+                continue
+
+            documents[category] = {
+                "category": category,
+                "title": title,
+                "page_url": page_url,
+                "document_id": int(document_id),
+                "download_url": DOWNLOAD_URL.format(document_id=int(document_id)),
+            }
+            break
+
+    return documents
+
+
+def download_ranking_file(url: str) -> bytes:
+    response = requests.get(url, headers=HEADERS, timeout=40)
+    response.raise_for_status()
+    return response.content
 
 
 def current_season() -> str:
@@ -233,53 +388,104 @@ def current_season() -> str:
     return f"{year-1}-{year}" if now.month < 7 else f"{year}-{year+1}"
 
 
+def _combo_label(weapon: str, gender: str, category: str) -> str:
+    return f"{category} {gender} {weapon}"
+
+
 def main():
     run_log = ScraperRunLogger("scrape_fed_italy").start()
     season = current_season()
     print(f"FIS Italy rankings — season {season}")
-    print(
-        "NOTE: federscherma.it does not expose structured HTML rankings.\n"
-        "      Rankings are stored as legacy XLS files (requires xlrd/openpyxl).\n"
-        "      All combos will be recorded as failed/unavailable."
-    )
-    total_written = total_failed = 0
 
-    for weapon, gender, category in RANKING_COMBOS:
-        print(f"  {weapon} {gender} {category}...")
-        html = fetch_rankings_page(weapon, gender, category)
-        if not html:
-            total_failed += 1
-            continue
+    total_written = 0
+    total_failed = 0
+    total_skipped = 0
+    combos_with_rows: list[str] = []
+    file_cache: dict[str, bytes] = {}
 
-        parsed = parse_rankings_table(html)
-        if not parsed:
-            print(f"    No rows parsed")
-            total_failed += 1
+    try:
+        documents = discover_latest_ranking_documents()
+        if documents:
+            set_state(SOURCE, "latest_documents", documents)
+        else:
+            print("  No Federscherma ranking documents found")
+
+        for category, document in documents.items():
+            print(f"  {category} document: {document['title']} -> {document['download_url']}")
+
+        for weapon, gender, category in RANKING_COMBOS:
+            label = _combo_label(weapon, gender, category)
+            print(f"  {label}...")
+            document = documents.get(category)
+            if not document:
+                print("    No ranking workbook found")
+                total_skipped += 1
+                continue
+
+            try:
+                if category not in file_cache:
+                    file_cache[category] = download_ranking_file(document["download_url"])
+                parsed = parse_rankings_xls(
+                    file_cache[category],
+                    weapon=weapon,
+                    gender=gender,
+                    category=category,
+                )
+            except Exception as exc:
+                print(f"    Failed to download/parse workbook: {exc}")
+                total_failed += 1
+                time.sleep(REQUEST_DELAY)
+                continue
+
+            if not parsed:
+                print("    No rows parsed")
+                total_skipped += 1
+                time.sleep(REQUEST_DELAY)
+                continue
+
+            rows = [
+                build_ranking_row(
+                    source=SOURCE,
+                    season=season,
+                    weapon=weapon,
+                    gender=gender,
+                    category=category,
+                    rank=row["rank"],
+                    name=row["name"],
+                    country=COUNTRY,
+                    club=row.get("club"),
+                    points=row.get("points"),
+                    metadata={
+                        "source_page": document["page_url"],
+                        "download_url": document["download_url"],
+                    },
+                )
+                for row in parsed
+            ]
+            written = write_rankings(rows, source=SOURCE, season=season)
+            print(f"    Parsed {len(rows)} rows; written {written} rows")
+            combos_with_rows.append(label)
+            total_written += written
             time.sleep(REQUEST_DELAY)
-            continue
 
-        rows = [
-            build_ranking_row(
-                source=SOURCE,
-                season=season,
-                weapon=weapon,
-                gender=gender,
-                category=category,
-                rank=r["rank"],
-                name=r["name"],
-                country=COUNTRY,
-                club=r.get("club"),
-                points=r.get("points"),
-            )
-            for r in parsed
-        ]
-        n = write_rankings(rows, source=SOURCE, season=season)
-        print(f"    Written {n} rows")
-        total_written += n
-        time.sleep(REQUEST_DELAY)
-
-    run_log.complete(written=total_written, failed=total_failed)
-    print(f"Done — written={total_written}, failed={total_failed}")
+        metadata = {
+            "documents": documents,
+            "combos_with_rows": combos_with_rows,
+            "combos_attempted": len(RANKING_COMBOS),
+        }
+        run_log.complete(
+            written=total_written,
+            failed=total_failed,
+            skipped=total_skipped,
+            metadata=metadata,
+        )
+        print(
+            f"Done — written={total_written}, failed={total_failed}, skipped={total_skipped}, "
+            f"combos_with_rows={len(combos_with_rows)}/{len(RANKING_COMBOS)}"
+        )
+    except Exception as exc:
+        run_log.error(str(exc))
+        print(f"Fatal error: {exc}")
 
 
 if __name__ == "__main__":

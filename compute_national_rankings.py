@@ -42,11 +42,40 @@ GENDER_MAP = {
     "women's": "Women's",
 }
 
-LEVEL_WEIGHTS = (
-    (("world championship", "world championships", "championnats du monde", "championships world", "chm"), 5.0),
-    (("grand prix", "gp"), 3.0),
-    (("world cup", "wc"), 2.0),
-    (("national", "nat"), 1.0),
+TYPE_WEIGHTS = {
+    "WCH": 5.0,
+    "CHM": 5.0,
+    "WORLDCHAMPIONSHIP": 5.0,
+    "WORLDCHAMPIONSHIPS": 5.0,
+    "OG": 5.0,
+    "OLYMPICS": 5.0,
+    "OLYMPICGAMES": 5.0,
+    "GP": 4.0,
+    "GRANDPRIX": 4.0,
+    "WC": 3.0,
+    "WORLDCUP": 3.0,
+    "CC": 2.5,
+    "ZCH": 2.5,
+    "CONTINENTALCHAMPIONSHIP": 2.5,
+    "CONTINENTALCHAMPIONSHIPS": 2.5,
+    "ZONALCHAMPIONSHIP": 2.5,
+    "ZONALCHAMPIONSHIPS": 2.5,
+    "SAT": 1.5,
+    "SATELLITE": 1.5,
+    "NAT": 1.0,
+    "NATIONAL": 1.0,
+    "NATIONALCHAMPIONSHIP": 1.0,
+    "NCAACHAMPIONSHIP": 1.0,
+    "NCAA": 1.0,
+}
+
+TEXT_LEVEL_WEIGHTS = (
+    (("olympic games", "olympics", "world championship", "world championships", "championnats du monde", "championships world", "wch", "chm"), 5.0),
+    (("grand prix", "gp"), 4.0),
+    (("world cup", "wc"), 3.0),
+    (("continental championship", "continental championships", "zonal championship", "zonal championships", "asian championship", "european championship", "pan american championship", "african championship", "cc"), 2.5),
+    (("satellite", "sat"), 1.5),
+    (("national", "nat", "ncaa"), 1.0),
 )
 
 SCHEMA_SQL = """
@@ -119,15 +148,30 @@ def label_group(country: str, weapon: str, category: str) -> str:
     return f"{country} {weapon} {category}"
 
 
+def tournament_type_key(value: Any) -> str:
+    text = normalized_key(value)
+    return re.sub(r"[^a-z0-9]+", "", text).upper()
+
+
+def haystack_contains(haystack: str, token: str) -> bool:
+    if len(token) <= 3 and token.isalnum():
+        return re.search(rf"(?<![a-z0-9]){re.escape(token)}(?![a-z0-9])", haystack) is not None
+    return token in haystack
+
+
 def result_weight(tournament: dict[str, Any] | None) -> float:
     if not tournament:
         return 1.0
+    type_key = tournament_type_key(tournament.get("type"))
+    if type_key in TYPE_WEIGHTS:
+        return TYPE_WEIGHTS[type_key]
+
     haystack = " ".join(
         clean_text(tournament.get(field)) or ""
-        for field in ("type", "name", "category")
+        for field in ("name", "category")
     ).casefold()
-    for tokens, weight in LEVEL_WEIGHTS:
-        if any(token in haystack for token in tokens):
+    for tokens, weight in TEXT_LEVEL_WEIGHTS:
+        if any(haystack_contains(haystack, token) for token in tokens):
             return weight
     return 1.0
 
