@@ -124,7 +124,7 @@ Notes:
 - [x] Read project lessons, current task state, and Olympics scraper pattern.
 - [x] Probe Olympedia and official Mediterranean Games fencing sources.
 - [x] Write failing tests for edition discovery, title classification, medal parsing, and missing result tables.
-- [ ] Implement `scrape_mediterranean_games.py` for structured public editions with skipped-edition warnings.
+- [x] Implement `scrape_mediterranean_games.py` for structured public editions with skipped-edition warnings.
 - [x] Run targeted and relevant full verification; fix failures.
 - [x] Final review: files changed, behavior changed, verification, risks.
 
@@ -289,7 +289,7 @@ Final review:
 - [x] Write failing Belgium parser/fetch tests with realistic Ophardt fixtures.
 - [x] Implement `scrape_fed_bel.py` with parser, fetcher, season fallback, dedupe, run logging, and writes.
 - [x] Run targeted and relevant full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - `season_utils.py` is not present in this checkout; Belgium scraper should use a local fallback while remaining compatible with future `season_utils.normalize_season()`.
@@ -360,9 +360,9 @@ Final review:
 - [x] Read `askfred_scraper.py`, `scrape_results.py`, and `scrape_olympics.py` patterns.
 - [x] Probe requested FRED hosts and current public AskFRED surface.
 - [x] Write failing tests with captured public CSV/HTML fixture shape.
-- [ ] Implement `scrape_fred.py` with discovery, result parsing, fencer matching, and upserts.
-- [ ] Run focused and relevant full verification.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Implement `scrape_fred.py` with discovery, result parsing, fencer matching, and upserts.
+- [x] Run focused and relevant full verification.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 ---
 
@@ -426,8 +426,8 @@ Each agent = one file (or small file group), tests-first, no cross-dependencies.
 - [x] Write failing tests for migration list, generate, dry-run, and hash mismatch handling.
 - [x] Implement `scripts/migrate.py` with list/apply/generate/dry-run/status.
 - [x] Write `supabase/migrations/README.md` usage examples and operational notes.
-- [ ] Run targeted and relevant full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run targeted and relevant full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - Keep scope to `scripts/migrate.py`, `supabase/migrations/README.md`, `tests/test_migrate_cli.py`, and task/wiki memory.
@@ -564,8 +564,8 @@ Notes:
 - [x] Inspect Wikidata SPARQL pattern, identity grouping, transfer cross-checks, run logging, and state patterns.
 - [x] Write failing tests for timed P27 history, unordered multi-citizenship, identity-expanded fencer updates, transfer consistency checks, and optional transfer table absence.
 - [x] Implement `enrich_nationality_history.py` with Wikidata SPARQL fetch, history parsing, fs_fencers metadata updates, identity expansion, transfer cross-checking, run logging, and state update.
-- [ ] Run targeted and relevant full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run targeted and relevant full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - Keep changes scoped to `enrich_nationality_history.py` and `tests/test_nationality_history.py`; do not edit `.github/workflows/`.
@@ -587,8 +587,8 @@ Final review:
 - [x] Write failing tests for active, retired, unknown, and single-season fencer longevity metrics.
 - [x] Add `supabase/migrations/20260601_longevity.sql` for `fs_fencer_longevity`.
 - [x] Implement `compute_longevity.py` with paginated reads, date/season normalization, run logging, state update, and batched upserts.
-- [ ] Run targeted and full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run targeted and full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - Keep scope to `compute_longevity.py`, `tests/test_longevity.py`, `supabase/migrations/20260601_longevity.sql`, and task/wiki memory.
@@ -612,8 +612,8 @@ Notes:
 - [x] Write failing tests for country, fencer, and tier medal aggregation plus migration DDL.
 - [x] Implement `compute_medal_tables.py` with paginated reads, tier normalization, batched upserts, run logging, and state summary.
 - [x] Add `supabase/migrations/20260601_medal_tables.sql`.
-- [ ] Run targeted and full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run targeted and full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - `fs_results` may store country as `nationality` and/or `country`; prefer `country` with `nationality` fallback.
@@ -711,8 +711,8 @@ Final review:
 - [x] Write failing parser, update-payload, Supabase update, and migration tests.
 - [x] Implement `scrape_physical_stats.py` using FIE profile and Wikipedia infobox sources.
 - [x] Add `supabase/migrations/20260601_physical_stats.sql`.
-- [ ] Run targeted and full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run targeted and full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - Store `height` and `reach` in centimeters and `weight` in kilograms to match existing `scraper.py` height behavior.
@@ -732,11 +732,11 @@ Notes:
 ## Active Work: Agent 33 — Fencer Name Variant Database
 
 - [x] Read relevant project lessons and current identity table contract.
-- [ ] Write failing tests for script detection, identity grouping, source dedupe, migration DDL, and Supabase upsert behavior.
-- [ ] Implement `compute_name_variants.py` using `fs_fencer_identities` row-id/FIE-id grouping.
-- [ ] Add `supabase/migrations/20260601_name_variants.sql`.
-- [ ] Run targeted and full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Write failing tests for script detection, identity grouping, source dedupe, migration DDL, and Supabase upsert behavior.
+- [x] Implement `compute_name_variants.py` using `fs_fencer_identities` row-id/FIE-id grouping.
+- [x] Add `supabase/migrations/20260601_name_variants.sql`.
+- [x] Run targeted and full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 ---
 
@@ -868,7 +868,7 @@ Final review:
 - [x] Write failing parser tests with realistic bilingual Hong Kong fixtures.
 - [x] Implement `scrape_fed_hkg.py` using `fed_rankings_common`, `ScraperRunLogger`, and `season_utils`.
 - [x] Run targeted and relevant full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - `season_utils.py` exists in this checkout; Hong Kong scraper should use `normalize_season(current_fie_season())`.
@@ -1199,8 +1199,8 @@ Final review:
 - [x] Write failing tests for country depth buckets, ranked-row filtering, club normalization, and Supabase upsert behavior.
 - [x] Implement `compute_country_analytics.py` with paginated `fs_fencers` reads, aggregations, run logging, and state summary.
 - [x] Add `fs_country_depth` and `fs_club_rankings` migration.
-- [ ] Run focused and full verification; fix failures.
-- [ ] Final review: files changed, behavior changed, verification, risks.
+- [x] Run focused and full verification; fix failures.
+- [x] Final review: files changed, behavior changed, verification, risks.
 
 Notes:
 - `fs_fencer_identities` is preferred by project lessons, but this checkout has only tests/prompts for it; no current implementation or migration is present, so Agent 25 will aggregate raw `fs_fencers` rows.

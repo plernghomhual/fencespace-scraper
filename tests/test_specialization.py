@@ -236,11 +236,16 @@ class FakeTable:
         end = self.range_end if self.range_end is not None else len(self.client.tables[self.name]) - 1
         return FakeResult(self.client.tables[self.name][self.range_start : end + 1])
 
+    def upsert(self, rows, on_conflict=None):
+        self.client.upserted.setdefault(self.name, []).extend(rows)
+        return self
+
 
 class FakeSupabase:
     def __init__(self, tables):
         self.tables = tables
         self.selects = []
+        self.upserted = {}
 
     def table(self, name):
         return FakeTable(self, name)
@@ -282,6 +287,7 @@ def test_compute_specialization_fetches_inputs_and_returns_compact_summary():
                     "fs_fencer_row_ids": [FENCER_ALICE_FOIL, FENCER_ALICE_EPEE_ROW],
                 }
             ],
+            "fs_fencer_specialization": [],
         }
     )
 

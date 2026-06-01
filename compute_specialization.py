@@ -761,6 +761,48 @@ def compact_summary(
     }
 
 
+_SPECIALIZE_TABLE = "fs_fencer_specialization"
+_BATCH_SIZE = 200
+
+
+def _persist_specialization_rows(
+    client,
+    fencer_rows: list[dict[str, Any]],
+    computed_at: str,
+) -> int:
+    written = 0
+    for i in range(0, len(fencer_rows), _BATCH_SIZE):
+        batch = []
+        for row in fencer_rows[i : i + _BATCH_SIZE]:
+            batch.append({
+                "fencer_id": row["fencer_id"],
+                "classification": row["classification"],
+                "primary_weapon": row.get("primary_weapon"),
+                "weapons": row.get("weapons", []),
+                "total_results": row.get("total_results", 0),
+                "total_competitions": row.get("total_competitions", 0),
+                "ranked_results": row.get("ranked_results", 0),
+                "avg_rank": row.get("avg_rank"),
+                "best_rank": row.get("best_rank"),
+                "worst_rank": row.get("worst_rank"),
+                "medal_count": row.get("medal_count", 0),
+                "medals_per_competition": row.get("medals_per_competition"),
+                "per_weapon": row.get("per_weapon", {}),
+                "season_primary_weapons": row.get("season_primary_weapons", {}),
+                "changed_primary_weapon": row.get("changed_primary_weapon", False),
+                "weapon_switches": row.get("weapon_switches", []),
+                "categories": row.get("categories", []),
+                "computed_at": computed_at,
+            })
+        (
+            client.table(_SPECIALIZE_TABLE)
+            .upsert(batch, on_conflict="fencer_id")
+            .execute()
+        )
+        written += len(batch)
+    return written
+
+
 def compute_specialization(
     *,
     client=None,
@@ -793,13 +835,16 @@ def compute_specialization(
         )
         summary["report"] = report
 
+        written = _persist_specialization_rows(client, report["fencers"], report["computed_at"])
+
         state_summary = {key: value for key, value in summary.items() if key != "report"}
         state_summary["computed_at"] = report["computed_at"]
+        state_summary["rows_written"] = written
         if update_state:
             set_state(SOURCE, "last_run", state_summary)
         if run_log:
             run_log.complete(
-                written=summary["fencers_analyzed"],
+                written=written,
                 failed=0,
                 skipped=summary["skipped_results"],
                 metadata=state_summary,

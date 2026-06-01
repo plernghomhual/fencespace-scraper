@@ -671,6 +671,7 @@ def collect_result_rows(
             askfred_fencer_key = fencer_key(row.get("Usfa Number"), name, club)
             metadata = {
                 "source": "askfred",
+                "askfred_fencer_key": askfred_fencer_key,
                 "askfred_tournament_uuid": ref.askfred_id,
                 "askfred_tournament_name": event["tournament_name"],
                 "askfred_event_uuid": event.get("event_uuid"),
@@ -692,7 +693,7 @@ def collect_result_rows(
             result_rows.append(
                 {
                     "tournament_id": tournament_id,
-                    "fie_fencer_id": askfred_fencer_key,
+                    "fie_fencer_id": None,  # fs_results.fie_fencer_id is INTEGER; AskFRED keys are non-numeric strings
                     "fencer_id": fencer_id,
                     "rank": rank,
                     "placement": rank,
