@@ -26,7 +26,7 @@ from urllib.parse import urlencode
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 
@@ -336,7 +336,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(
+        response = federation_request("get",
             RANKING_ENDPOINT,
             headers=HEADERS,
             params=params,

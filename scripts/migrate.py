@@ -29,6 +29,16 @@ TRACKING_TABLE_SQL = """CREATE TABLE IF NOT EXISTS fs_schema_migrations (
     hash text,
     success boolean DEFAULT true
 );
+ALTER TABLE fs_schema_migrations ENABLE ROW LEVEL SECURITY;
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+        REVOKE ALL ON fs_schema_migrations FROM anon;
+    END IF;
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+        REVOKE ALL ON fs_schema_migrations FROM authenticated;
+    END IF;
+END $$;
 """
 
 SqlExecutor = Callable[[str], None]
@@ -268,10 +278,14 @@ def command_generate(migrations_dir: Path, name: str, stdout: TextIO) -> int:
     return 0
 
 
-def command_apply(migrations_dir: Path, client: Any, sql_executor: SqlExecutor, stdout: TextIO, stderr: TextIO) -> int:
+def command_apply(
+    migrations_dir: Path,
+    client: Any,
+    sql_executor: SqlExecutor | None,
+    stdout: TextIO,
+    stderr: TextIO,
+) -> int:
     migrations = discover_migrations(migrations_dir)
-    sql_executor(TRACKING_TABLE_SQL)
-
     rows = fetch_migration_rows(client)
     validate_applied_hashes(migrations, rows)
     pending = pending_migrations(migrations, rows)
@@ -279,6 +293,9 @@ def command_apply(migrations_dir: Path, client: Any, sql_executor: SqlExecutor, 
     if not pending:
         print("No pending migrations.", file=stdout)
         return 0
+
+    sql_executor = sql_executor or build_psql_executor()
+    sql_executor(TRACKING_TABLE_SQL)
 
     applied_count = 0
     for migration in pending:
@@ -353,7 +370,6 @@ def main(
         if args.command == "status":
             return command_status(args.migrations_dir, client, stdout)
         if args.command == "apply":
-            sql_executor = sql_executor or build_psql_executor()
             return command_apply(args.migrations_dir, client, sql_executor, stdout, stderr)
     except MigrationHashMismatch as exc:
         for message in exc.messages:

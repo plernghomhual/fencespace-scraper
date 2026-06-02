@@ -27,6 +27,7 @@ NOMINATIM_USER_AGENT = os.environ.get(
 )
 REQUEST_DELAY = float(os.environ.get("NOMINATIM_REQUEST_DELAY", "1.0"))
 BATCH_SIZE = 1000
+NOMINATIM_FAILURE_CACHE_KEY = "nominatim_failure_cache"
 
 KNOWN_VENUES = {
     "stade pierre de coubertin": "Stade Pierre de Coubertin",
@@ -108,6 +109,25 @@ def location_key(city: str, country: str) -> str:
 
 def venue_key(name: str, city: str, country: str) -> tuple[str, str, str]:
     return (fold_text(name), fold_text(city), fold_text(country))
+
+
+def _failure_cache(value: Any) -> dict[str, dict[str, Any]]:
+    if not isinstance(value, dict):
+        return {}
+    return {
+        clean_text(key): dict(entry)
+        for key, entry in value.items()
+        if clean_text(key) and isinstance(entry, dict)
+    }
+
+
+def _new_failure_cache_entry(city: str, country: str, reason: str) -> dict[str, Any]:
+    return {
+        "city": city,
+        "country": country,
+        "reason": reason,
+        "failed_at": datetime.now(timezone.utc).isoformat(),
+    }
 
 
 def known_venue_match(text: str) -> str | None:
@@ -405,12 +425,13 @@ def enrich_locations(
 
     processed_locations = _state_list(state_get(SOURCE, "processed_locations"))
     ungeocodable_locations = _state_list(state_get(SOURCE, "ungeocodable_locations"))
+    nominatim_failure_cache = _failure_cache(state_get(SOURCE, NOMINATIM_FAILURE_CACHE_KEY))
     grouped = group_tournaments(tournaments)
     geocode_requests = 0
 
     for (city, country), venues in sorted(grouped.items()):
         loc_key = location_key(city, country)
-        if loc_key in ungeocodable_locations:
+        if loc_key in ungeocodable_locations or loc_key in nominatim_failure_cache:
             summary.skipped += sum(len(rows) for rows in venues.values())
             continue
 
@@ -428,8 +449,14 @@ def enrich_locations(
                 summary.failed += 1
                 summary.skipped += sum(len(rows) for rows in venues.values())
                 ungeocodable_locations.add(loc_key)
+                nominatim_failure_cache[loc_key] = _new_failure_cache_entry(
+                    city,
+                    country,
+                    "no_result",
+                )
                 continue
             summary.geocoded += 1
+            nominatim_failure_cache.pop(loc_key, None)
 
         processed_locations.add(loc_key)
 
@@ -456,6 +483,7 @@ def enrich_locations(
 
     state_set(SOURCE, "processed_locations", sorted(processed_locations))
     state_set(SOURCE, "ungeocodable_locations", sorted(ungeocodable_locations))
+    state_set(SOURCE, NOMINATIM_FAILURE_CACHE_KEY, nominatim_failure_cache)
     state_set(
         SOURCE,
         "last_run",

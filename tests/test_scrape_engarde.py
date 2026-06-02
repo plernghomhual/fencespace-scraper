@@ -59,6 +59,32 @@ RESULTS_HTML = """
 """
 
 
+SPANISH_RESULTS_HTML = """
+<!doctype html>
+<html>
+<body>
+  <table>
+    <tr><th>Cl.</th><th>Apellido-nom</th><th>Nombre</th><th>Club</th></tr>
+    <tr><td>1</td><td>GONZALEZ CARVAJAL MARTINEZ</td><td>Joaquin</td><td>CE-M</td></tr>
+  </table>
+</body>
+</html>
+"""
+
+
+UKRAINIAN_RESULTS_HTML = """
+<!doctype html>
+<html>
+<body>
+  <table>
+    <tr><th>№</th><th>Прізвище</th><th>Ім'я</th><th>Спорт.організація</th><th>Статус</th></tr>
+    <tr><td>1</td><td>СТАЦЕНКО</td><td>Олексій</td><td>ДШВСМ, ЗСУ</td><td></td></tr>
+  </table>
+</body>
+</html>
+"""
+
+
 POOL_HTML = """
 <!doctype html>
 <html>
@@ -122,6 +148,42 @@ def test_parse_results_table():
     assert rows[0]["first_name"] == "Sandro"
     assert rows[0]["country"] == "GEO"
     assert rows[1]["name"] == "Enver Yildirim"
+
+
+def test_parse_results_table_handles_live_spanish_headers():
+    from scrape_engarde import parse_results_table
+
+    rows = parse_results_table(SPANISH_RESULTS_HTML)
+
+    assert rows == [
+        {
+            "rank": 1,
+            "name": "Joaquin Gonzalez Carvajal Martinez",
+            "last_name": "Gonzalez Carvajal Martinez",
+            "first_name": "Joaquin",
+            "club": "CE-M",
+            "country": None,
+            "raw_cells": ["1", "GONZALEZ CARVAJAL MARTINEZ", "Joaquin", "CE-M"],
+        }
+    ]
+
+
+def test_parse_results_table_handles_live_cyrillic_headers():
+    from scrape_engarde import parse_results_table
+
+    rows = parse_results_table(UKRAINIAN_RESULTS_HTML)
+
+    assert rows == [
+        {
+            "rank": 1,
+            "name": "Олексій Стаценко",
+            "last_name": "Стаценко",
+            "first_name": "Олексій",
+            "club": "ДШВСМ, ЗСУ",
+            "country": None,
+            "raw_cells": ["1", "СТАЦЕНКО", "Олексій", "ДШВСМ, ЗСУ", ""],
+        }
+    ]
 
 
 def test_parse_pool_bouts():

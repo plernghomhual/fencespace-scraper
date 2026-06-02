@@ -34,7 +34,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "kor_fencing"
@@ -335,7 +335,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
     for template in RANKING_URL_TEMPLATES:
         url = template.format(weapon=weapon.lower(), gender=gender.lower(), category=category.lower())
         try:
-            response = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+            response = federation_request("get", url, headers=HEADERS, timeout=20, allow_redirects=True)
         except requests.RequestException as exc:
             print(f"    Request error for {url}: {exc}")
             continue

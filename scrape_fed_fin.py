@@ -23,7 +23,7 @@ from typing import Iterable
 import requests
 from bs4 import BeautifulSoup, Tag
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "fin_fencing"
@@ -230,7 +230,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+        response = federation_request("get", url, headers=HEADERS, timeout=20, allow_redirects=True)
     except requests.RequestException as exc:
         print(f"    Request error for {url}: {exc}")
         return None

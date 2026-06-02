@@ -104,6 +104,13 @@ def test_public_views_exclude_sensitive_columns():
     assert "grant select on public.v_tournament_public to anon" in normalized
 
 
+def test_public_views_are_security_invoker():
+    normalized = _normalized(_sql())
+
+    assert "security_invoker = true" in normalized
+    assert normalized.count("security_invoker = true") >= 2
+
+
 def test_authenticated_subscriber_policies_check_jwt_app_metadata():
     normalized = _normalized(_sql())
 

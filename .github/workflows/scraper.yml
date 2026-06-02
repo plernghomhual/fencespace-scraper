@@ -82,13 +82,6 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python scrape_results.py
 
-      - name: Run AskFRED scraper
-        continue-on-error: true
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python askfred_scraper.py
-
       - name: Run Engarde scraper
         continue-on-error: true
         env:

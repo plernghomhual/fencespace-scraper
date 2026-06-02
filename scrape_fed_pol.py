@@ -28,7 +28,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "pol_fencing"
@@ -283,7 +283,7 @@ def _get_with_retry(url: str) -> requests.Response | None:
     max_attempts = 3
     for attempt in range(max_attempts):
         try:
-            response = requests.get(url, headers=HEADERS, timeout=25, allow_redirects=True)
+            response = federation_request("get", url, headers=HEADERS, timeout=25, allow_redirects=True)
             if response.status_code in _TRANSIENT_HTTP_STATUSES and attempt < max_attempts - 1:
                 time.sleep(REQUEST_DELAY * (attempt + 1))
                 continue

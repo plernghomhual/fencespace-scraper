@@ -4,4 +4,5 @@
 -- This prevents duplicate rows from multi-run incremental scraping.
 CREATE UNIQUE INDEX IF NOT EXISTS idx_fs_results_tournament_name_nofieid
     ON public.fs_results (tournament_id, lower(name))
-    WHERE fie_fencer_id IS NULL;
+    WHERE fie_fencer_id IS NULL
+      AND metadata ? 'fred_fencer_key';

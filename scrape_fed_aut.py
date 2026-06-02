@@ -25,7 +25,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "aut_fencing"
@@ -209,7 +209,7 @@ def _has_rankings_table(html_or_text: str) -> bool:
 def _discover_latest_rankings_url() -> str | None:
     """Find the latest public ÖFV season ranking URL linked from the home page."""
     try:
-        response = requests.get(f"{BASE_URL}/de", headers=HEADERS, timeout=20, allow_redirects=True)
+        response = federation_request("get", f"{BASE_URL}/de", headers=HEADERS, timeout=20, allow_redirects=True)
         if response.status_code != 200:
             return None
     except requests.RequestException:
@@ -333,7 +333,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         headers = dict(HEADERS)
         headers["Referer"] = url
         try:
-            response = requests.post(
+            response = federation_request("post",
                 url,
                 data=payload,
                 headers=headers,
@@ -362,7 +362,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
                 headers = dict(HEADERS)
                 headers["Referer"] = latest_url
                 try:
-                    latest_response = requests.post(
+                    latest_response = federation_request("post",
                         latest_url,
                         data=payload,
                         headers=headers,

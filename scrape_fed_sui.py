@@ -24,7 +24,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 try:
@@ -262,7 +262,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+        response = federation_request("get", url, headers=HEADERS, timeout=20, allow_redirects=True)
         if response.status_code == 200:
             return response.text
         print(f"    HTTP {response.status_code} for {url}")

@@ -35,36 +35,36 @@ Agent 30 — Create `v_fencer_public` view that exposes all needed athlete field
 
 ## TIER-3 FEDERATIONS (30 agents)
 
-Agent 31 — Mexico (FME) — esgrima.com.mx
-Agent 32 — Colombia (FEC) — esgrimacolombia.com
-Agent 33 — Venezuela (FVA) — fevenesgrima.com
-Agent 34 — Chile (FChE) — esgrima.cl
-Agent 35 — Turkey (TF) — turkiyeeskrimfederasyonu.gov.tr
-Agent 36 — Iran (IRI) — iranfencing.ir
-Agent 37 — Kazakhstan (KAZ) — fencing.kz
-Agent 38 — Thailand (THA) — thaifencing.com
-Agent 39 — Chinese Taipei (TPE) — fencing.org.tw
-Agent 40 — Morocco (MAR) — frmescrime.ma
-Agent 41 — Tunisia (TUN) — ftescrime.org
-Agent 42 — South Africa (RSA) — southafricanfencing.org.za
-Agent 43 — Ireland (IRL) — irishfencing.net
-Agent 44 — Portugal (POR) — fpferreira.pt
-Agent 45 — Greece (GRE) — ellinikiothoskopia.gr
-Agent 46 — Croatia (CRO) — macevap.hr
-Agent 47 — Serbia (SRB) — mkmescevanje.rs
-Agent 48 — Bulgaria (BUL) — bulfencing.com
-Agent 49 — Slovakia (SVK) — slovakfencing.sk
-Agent 50 — Slovenia (SLO) — vezenje.si
-Agent 51 — Lithuania (LTU) — lff.lt
-Agent 52 — Latvia (LVA) — paukošana.lv
-Agent 53 — Estonia (EST) — epee.ee
-Agent 54 — Azerbaijan (AZE) — azfencing.az
-Agent 55 — Puerto Rico (PUR) — fpuesgrima.org
-Agent 56 — Dominican Republic (DOM) — fedogrimard.org
-Agent 57 — Jamaica (JAM) — jamaicafencing.com
-Agent 58 — Cyprus (CYP) — cyprusfencing.com
-Agent 59 — Iceland (ISL) — skylmingar.is
-Agent 60 — Malta (MLT) — maltafencing.com
+Agent 31 — Mexico (FME)
+Agent 32 — Colombia (FEC)
+Agent 33 — Venezuela (FVA)
+Agent 34 — Chile (FChE)
+Agent 35 — Turkey (TF)
+Agent 36 — Iran (IRI)
+Agent 37 — Kazakhstan (KAZ)
+Agent 38 — Thailand (THA)
+Agent 39 — Chinese Taipei (TPE)
+Agent 40 — Morocco (MAR)
+Agent 41 — Tunisia (TUN)
+Agent 42 — South Africa (RSA)
+Agent 43 — Ireland (IRL)
+Agent 44 — Portugal (POR)
+Agent 45 — Greece (GRE)
+Agent 46 — Croatia (CRO)
+Agent 47 — Serbia (SRB)
+Agent 48 — Bulgaria (BUL)
+Agent 49 — Slovakia (SVK)
+Agent 50 — Slovenia (SLO)
+Agent 51 — Lithuania (LTU)
+Agent 52 — Latvia (LVA)
+Agent 53 — Estonia (EST)
+Agent 54 — Azerbaijan (AZE)
+Agent 55 — Puerto Rico (PUR)
+Agent 56 — Dominican Republic (DOM)
+Agent 57 — Jamaica (JAM)
+Agent 58 — Cyprus (CYP)
+Agent 59 — Iceland (ISL)
+Agent 60 — Malta (MLT)
 
 ## MORE TOURNAMENTS (15 agents)
 

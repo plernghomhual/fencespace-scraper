@@ -5,9 +5,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from enrich_locations import (
     GeocodeResult,
+    NOMINATIM_FAILURE_CACHE_KEY,
     enrich_locations,
     extract_venue_name,
     geocode_location,
+    location_key,
     parse_nominatim_result,
 )
 
@@ -351,6 +353,78 @@ def test_enrich_locations_records_ungeocodable_location_without_upsert_or_link()
     assert summary.skipped == 1
     assert client.tables["fs_venues"] == []
     assert client.tables["fs_tournaments"][0]["metadata"] == {}
+
+
+def test_enrich_locations_skips_cached_nominatim_failure_without_geocoding():
+    client = FakeClient(
+        [
+            {
+                "id": "t1",
+                "name": "Atlantis Cup",
+                "city": "Atlantis",
+                "country": "Ocean",
+                "metadata": {},
+            }
+        ]
+    )
+    geocoder = FakeGeocoder(
+        {
+            ("Atlantis", "Ocean"): GeocodeResult(1.0, 2.0, "OC", {}),
+        }
+    )
+    key = location_key("Atlantis", "Ocean")
+    state = {
+        NOMINATIM_FAILURE_CACHE_KEY: {
+            key: {
+                "city": "Atlantis",
+                "country": "Ocean",
+                "reason": "no_result",
+                "failed_at": "2026-06-01T00:00:00+00:00",
+            }
+        }
+    }
+
+    summary = enrich_locations(
+        client,
+        geocode_func=geocoder,
+        state_get=lambda _source, state_key: state.get(state_key),
+        state_set=lambda _source, state_key, value: state.__setitem__(state_key, value),
+    )
+
+    assert geocoder.calls == []
+    assert summary.failed == 0
+    assert summary.skipped == 1
+    assert client.tables["fs_venues"] == []
+
+
+def test_enrich_locations_persists_nominatim_failure_cache_on_failed_geocode():
+    client = FakeClient(
+        [
+            {
+                "id": "t1",
+                "name": "Atlantis Cup",
+                "city": "Atlantis",
+                "country": "Ocean",
+                "metadata": {},
+            }
+        ]
+    )
+    geocoder = FakeGeocoder({("Atlantis", "Ocean"): None})
+    state = {}
+
+    enrich_locations(
+        client,
+        geocode_func=geocoder,
+        state_get=lambda _source, state_key: state.get(state_key),
+        state_set=lambda _source, state_key, value: state.__setitem__(state_key, value),
+    )
+
+    key = location_key("Atlantis", "Ocean")
+    failure_cache = state[NOMINATIM_FAILURE_CACHE_KEY]
+    assert failure_cache[key]["city"] == "Atlantis"
+    assert failure_cache[key]["country"] == "Ocean"
+    assert failure_cache[key]["reason"] == "no_result"
+    assert failure_cache[key]["failed_at"]
 
 
 def test_enrich_locations_sleeps_one_second_between_geocode_requests():

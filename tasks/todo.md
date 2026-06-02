@@ -1,5 +1,57 @@
 # Operation: Insane Fencing Database
 
+## Active Work: Final 2 User Restatement
+
+- [x] Re-check production migration command prerequisites.
+- [x] Attempt literal `python scripts/migrate.py apply` command from this shell.
+- [x] Verify current production migration tracker state via Supabase MCP.
+- [x] Make `apply` skip psql/DB URL setup when all migrations are already applied.
+- [x] Probe live Engarde endpoints and identify result parser root cause.
+- [x] Add live-shape regression tests for Engarde result headers.
+- [x] Fix Engarde result parser and run focused/full verification.
+
+Notes:
+- User supplied `SUPABASE_URL` and a service-role key for the production project. Do not print or commit the key.
+- `python scripts/migrate.py apply` with those env vars no longer requires `SUPABASE_DB_URL`/`DATABASE_URL` when there are no pending migrations. This was fixed in `scripts/migrate.py` and covered by `tests/test_migrate_cli.py`.
+- The non-escalated production command failed on sandbox DNS: `ERROR: [Errno 8] nodename nor servname provided, or not known`.
+- The escalated production command was blocked by the Codex usage-limit approval gate, so the literal networked command did not complete from this shell.
+- This checkout has 30 SQL migration files under `supabase/migrations`, not 31.
+- Production Supabase project `aqisovwkxlyauxeknrne` still verifies at 30 successful rows in `public.fs_schema_migrations`.
+- Live Engarde probe reached `https://engarde-service.com/`, `/prog/getCompeForDisplay.php`, and current `/competition/.../clasfinal.htm` pages. Current individual result tables include Spanish `Apellido-nom`/`Nombre` and Ukrainian `Прізвище`/`Ім'я`/`Спорт.організація` headers.
+
+Final review:
+- Files changed for this restatement: `scripts/migrate.py`, `tests/test_migrate_cli.py`, `scrape_engarde.py`, `tests/test_scrape_engarde.py`, `tasks/todo.md`.
+- Behavior changed: `parse_results_table()` now preserves Unicode header labels and recognizes Spanish/Cyrillic surname, first-name, club/organization, and country headers instead of erasing them through ASCII-only normalization.
+- Behavior changed: `scripts/migrate.py apply` computes pending migrations through Supabase REST before building the psql executor, so a fully-applied production DB can return `No pending migrations.` using only URL + service key.
+- Verification performed: red Engarde regression failed 2/8 before parser patch; red migration CLI regression failed before lazy psql setup; focused `tests/test_migrate_cli.py` passed 7/7 after patch; focused `tests/test_scrape_engarde.py tests/test_migrate_cli.py -q` passed 14/14 after parser patch; `py_compile scrape_engarde.py scripts/migrate.py` passed; full `tests/ -q` passed 675/675 with one Starlette/httpx dependency warning.
+- Remaining risk: final post-patch live re-fetch was blocked by escalation usage limits, but the failing tests use snippets captured from the live probe during this session.
+
+## Active Work: Final 5 Audit Fixes
+
+- [x] Read lessons and current task state.
+- [x] Apply Supabase migrations through production MCP access and verify tracking state.
+- [x] Verify Engarde live endpoint blocker and record actionable evidence.
+- [x] Wire `RateLimiter` to remaining non-FIE federation scrapers.
+- [x] Remove redundant FRED workflow entry.
+- [x] Add persistent Nominatim failure cache to `enrich_locations.py`.
+- [x] Run focused/full verification and write final review.
+
+Notes:
+- User confirmed exactly five items remain: E1/J1, E5/K5, K2, H3, I4.
+- Avoid unrelated cleanup and do not revert existing dirty worktree files.
+- Supabase production project `aqisovwkxlyauxeknrne` now has 30 successful rows in `public.fs_schema_migrations`.
+- SQL Editor failed for the user with `permission denied for schema public`; production apply continued through MCP/Postgres access after explicit user approval.
+- Generated paste-ready SQL Editor bundle remains available at `/tmp/fencespace_supabase_sql_editor_migrations.sql` and `tasks/fencespace_supabase_sql_editor_migrations.sql`; split batches are in `tasks/sql_editor_batches/`.
+- `idx_fs_results_tournament_name_nofieid` was corrected to dedupe only FRED rows with `metadata ? 'fred_fencer_key'`, avoiding destructive cleanup of existing non-FRED duplicate names.
+- `public.fs_schema_migrations` has RLS enabled and no anon/authenticated SELECT privilege. Supabase advisor still reports older unrelated security findings, plus INFO-only no-policy lints for service-only tables.
+
+Final review:
+- Files changed: `.github/workflows/scraper.yml`, `fed_rankings_common.py`, `enrich_locations.py`, `scrape_engarde.py`, `scripts/migrate.py`, `supabase/migrations/README.md`, `supabase/migrations/20260601_rls_policies.sql`, `supabase/migrations/20260602_fred_result_dedup.sql`, `tests/test_fed_rate_limiter_wiring.py`, `tests/test_migrate_cli.py`, `tests/test_rls_policy_sql.py`, `tests/test_scrape_fred.py`, `tests/test_venues.py`, `tests/test_workflow_integrity.py`, generated SQL bundles, and 25 `scrape_fed_*.py` target federation scrapers.
+- Behavior changed: target federation scrapers now use shared rate-limited `federation_request()`; deprecated `askfred_scraper.py` no longer runs in `scraper.yml`; `enrich_locations.py` persists Nominatim no-result failures in `fs_scraper_state` and skips cached failures; Engarde endpoint notes now include 2026-06-02 live probe evidence; migration tracking is RLS-hardened; public RLS views are security-invoker.
+- Production verification: `public.fs_schema_migrations` has 30 successful rows; FRED result dedup index exists with the `metadata ? 'fred_fencer_key'` predicate; migration tracker RLS is enabled with anon/authenticated SELECT revoked.
+- Local verification performed: focused regression suite passed 59/59; full `tests/` suite passed 673/673 with one dependency warning.
+- Remaining risk: production security advisor still reports older project-wide lints outside these five items, including existing security-definer views `fs_public_fencers`/`fs_public_country_rankings` and RLS-disabled scraper state/run tables.
+
 ## Active Work: Agent 69 — US College Fencing Scholarships
 
 - [x] Read project lessons and current task state.

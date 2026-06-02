@@ -28,7 +28,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "swe_fencing"
@@ -324,7 +324,7 @@ def _discover_ranking_urls(season: str) -> dict[tuple[str, str, str], str]:
     discovered: dict[tuple[str, str, str], str] = {}
     start_year = season.split("-", 1)[0]
     try:
-        response = requests.get(
+        response = federation_request("get",
             RANKINGS_INDEX_URL,
             params={"season": start_year},
             headers=HEADERS,
@@ -397,7 +397,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+        response = federation_request("get", url, headers=HEADERS, timeout=20, allow_redirects=True)
     except requests.RequestException as exc:
         print(f"    Request error for {url}: {exc}")
         return None

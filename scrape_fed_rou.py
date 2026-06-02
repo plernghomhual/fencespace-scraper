@@ -25,7 +25,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "rou_fencing"
@@ -315,7 +315,7 @@ def discover_ranking_urls() -> dict[tuple[str, str, str], str]:
 
     discovered = dict(_STATIC_RANKING_URLS)
     try:
-        response = requests.get(RANKING_INDEX_URL, headers=HEADERS, timeout=20, allow_redirects=True)
+        response = federation_request("get", RANKING_INDEX_URL, headers=HEADERS, timeout=20, allow_redirects=True)
         if response.status_code != 200:
             print(f"    Ranking index HTTP {response.status_code}: {RANKING_INDEX_URL}")
             _ranking_url_cache = discovered
@@ -358,7 +358,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(url, headers=HEADERS, timeout=30, allow_redirects=True)
+        response = federation_request("get", url, headers=HEADERS, timeout=30, allow_redirects=True)
         if response.status_code != 200:
             print(f"    HTTP {response.status_code} for {url}")
             return None

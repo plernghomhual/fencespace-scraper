@@ -1,7 +1,11 @@
 import os
 import sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 RESULTS_INDEX_HTML = """
@@ -202,6 +206,12 @@ def test_csv_rows_group_into_fred_tournament_rows():
     assert womens_epee["category"] == "VetCombined"
     assert womens_epee["type"] == "FRED"
     assert womens_epee["metadata"]["fred_tournament_uuid"] == "9e83a990-db92-4e10-889f-4e5e32f9497a"
+
+
+def test_fred_result_dedup_index_is_scoped_to_fred_rows():
+    migration = (ROOT / "supabase/migrations/20260602_fred_result_dedup.sql").read_text()
+
+    assert "metadata ? 'fred_fencer_key'" in migration
 
 
 def test_collect_result_rows_matches_usa_fencers_by_id_then_name_country():

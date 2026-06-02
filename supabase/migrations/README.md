@@ -68,9 +68,11 @@ CREATE TABLE IF NOT EXISTS fs_schema_migrations (
     hash text,
     success boolean DEFAULT true
 );
+ALTER TABLE fs_schema_migrations ENABLE ROW LEVEL SECURITY;
 ```
 
-`apply` creates the tracking table before running pending migration files.
+`apply` creates the tracking table before running pending migration files. It
+also revokes anon/authenticated access when those Supabase roles exist.
 
 ## Hash Safety
 

@@ -23,7 +23,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
 
@@ -317,7 +317,7 @@ def _discover_ranking_links(season_year: str) -> dict[tuple[str, str, str], str]
         return _RANKING_LINK_CACHE[season_year]
 
     try:
-        response = requests.get(
+        response = federation_request("get",
             BASE_URL,
             headers=HEADERS,
             params={"season": season_year},
@@ -349,7 +349,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
     try:
-        response = requests.get(url, headers=HEADERS, timeout=25, allow_redirects=True)
+        response = federation_request("get", url, headers=HEADERS, timeout=25, allow_redirects=True)
     except requests.RequestException as exc:
         print(f"    Ranking request error for {url}: {exc}")
         return None

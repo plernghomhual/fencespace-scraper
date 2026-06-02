@@ -33,7 +33,7 @@ import requests
 from bs4 import BeautifulSoup
 from openpyxl import load_workbook
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 
@@ -372,7 +372,7 @@ def _download_workbook(weapon: str) -> bytes | None:
         return None
 
     try:
-        page = requests.get(page_url, headers=HEADERS, timeout=30, allow_redirects=True)
+        page = federation_request("get", page_url, headers=HEADERS, timeout=30, allow_redirects=True)
     except requests.RequestException as exc:
         print(f"    Request error for {page_url}: {exc}")
         return None
@@ -388,7 +388,7 @@ def _download_workbook(weapon: str) -> bytes | None:
 
     download_url = urljoin(page_url, link.get("data-downloadurl", ""))
     try:
-        response = requests.get(download_url, headers=HEADERS, timeout=45, allow_redirects=True)
+        response = federation_request("get", download_url, headers=HEADERS, timeout=45, allow_redirects=True)
     except requests.RequestException as exc:
         print(f"    Request error for {download_url}: {exc}")
         return None

@@ -68,6 +68,16 @@ Engarde endpoint findings from 2026-06-01 probe:
   related tableau links -> direct-elimination bracket HTML.
 - Legacy index.php?Compe=...&Event=...&Organisme=...&page=...&zz=menu returned
   menu HTML only in the probe, not the result table body.
+
+2026-06-02 verification:
+- GET / still returns 200 text/html.
+- POST /prog/getCompeForDisplay.php still returns 200 text/xml with live <comp>
+  nodes; pages 1-10 returned 50 competitions each in a smoke probe.
+- POST /prog/getTournoisForDisplay.php still returns 200 text/json with events.
+- An old hard-coded example `/competition/life/em15cp` now returns 404, but
+  current XML-derived competition URLs such as
+  `/competition/po_uff/chu2026/smt/clasfinal.htm` return 200 and parse final
+  rows plus pool/tableau bouts.
 """
 
 
@@ -636,6 +646,44 @@ def discover_bout_links(base_url, html_text):
 
 
 _RANK_TOKENS = ("rg", "rank", "rang", "place", "pos", "position", "cl", "nr", "no", "clas")
+_LAST_NAME_TOKENS = (
+    "nom",
+    "name",
+    "surname",
+    "last",
+    "nev",
+    "achternaam",
+    "lastname",
+    "apellido",
+    "cognom",
+    "прізвище",
+    "фамилия",
+)
+_FIRST_NAME_TOKENS = (
+    "prenom",
+    "first",
+    "forename",
+    "kereszt",
+    "nombre",
+    "имя",
+    "ім",
+)
+_CLUB_TOKENS = (
+    "club",
+    "team",
+    "equipe",
+    "egyesulet",
+    "vereniging",
+    "sport",
+    "орган",
+)
+_COUNTRY_TOKENS = ("country", "pays", "nation", "ioc", "pais", "país", "країна", "страна")
+
+
+def header_key(value):
+    text = strip_accents(clean_text(value) or "").lower()
+    text = re.sub(r"[^\w]+", " ", text, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _detect_rank_col(header, data_rows):
@@ -658,7 +706,7 @@ def parse_results_table(html_text):
         rows = table_rows(table)
         if len(rows) < 2:
             continue
-        header = [normalize_key(cell) for cell in rows[0]]
+        header = [header_key(cell) for cell in rows[0]]
         rank_col = _detect_rank_col(header, rows[1:])
         if rank_col is None:
             continue
@@ -670,16 +718,13 @@ def parse_results_table(html_text):
         for idx, label in enumerate(header):
             if idx == rank_col:
                 continue
-            if last_name_col is None and any(
-                token in label
-                for token in ("nom", "name", "surname", "last", "nev", "achternaam", "lastname")
-            ):
+            if last_name_col is None and any(token in label for token in _LAST_NAME_TOKENS):
                 last_name_col = idx
-            if first_name_col is None and any(token in label for token in ("prenom", "first", "forename", "kereszt")):
+            if first_name_col is None and any(token in label for token in _FIRST_NAME_TOKENS):
                 first_name_col = idx
-            if club_col is None and any(token in label for token in ("club", "team", "equipe", "egyesulet", "vereniging")):
+            if club_col is None and any(token in label for token in _CLUB_TOKENS):
                 club_col = idx
-            if country_col is None and any(token in label for token in ("country", "pays", "nation", "ioc")):
+            if country_col is None and any(token in label for token in _COUNTRY_TOKENS):
                 country_col = idx
         if last_name_col is None:
             last_name_col = next((i for i in range(len(header)) if i != rank_col), None)

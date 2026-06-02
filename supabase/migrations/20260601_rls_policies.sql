@@ -21,7 +21,7 @@ ALTER TABLE public.fs_rankings_history ENABLE ROW LEVEL SECURITY;
 -- Public-safe views expose only fields intended for anonymous readers. These
 -- are fixed projection views, because anon has no direct base-table SELECT.
 CREATE OR REPLACE VIEW public.v_fencer_public
-WITH (security_barrier = true) AS
+WITH (security_barrier = true, security_invoker = true) AS
 SELECT
     id,
     name,
@@ -34,7 +34,7 @@ SELECT
 FROM public.fs_fencers;
 
 CREATE OR REPLACE VIEW public.v_tournament_public
-WITH (security_barrier = true) AS
+WITH (security_barrier = true, security_invoker = true) AS
 SELECT
     id,
     name,

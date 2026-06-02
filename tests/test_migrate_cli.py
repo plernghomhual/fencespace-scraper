@@ -159,12 +159,37 @@ def test_apply_executes_pending_sql_and_records_success(capsys, tmp_path):
     assert exit_code == 0
     assert "Applied 1 migration(s)." in capsys.readouterr().out
     assert "CREATE TABLE IF NOT EXISTS fs_schema_migrations" in sql_executor.sql[0]
+    assert "ALTER TABLE fs_schema_migrations ENABLE ROW LEVEL SECURITY" in sql_executor.sql[0]
+    assert "REVOKE ALL ON fs_schema_migrations FROM anon" in sql_executor.sql[0]
+    assert "REVOKE ALL ON fs_schema_migrations FROM authenticated" in sql_executor.sql[0]
     assert sql_executor.sql[1] == migration.read_text(encoding="utf-8")
     assert client.upserts[0]["table"] == "fs_schema_migrations"
     assert client.upserts[0]["on_conflict"] == "filename"
     assert client.upserts[0]["row"]["filename"] == migration.name
     assert client.upserts[0]["row"]["hash"] == file_hash(migration)
     assert client.upserts[0]["row"]["success"] is True
+
+
+def test_apply_with_no_pending_migrations_does_not_require_sql_executor(capsys, tmp_path):
+    from scripts import migrate
+
+    migration = write_migration(tmp_path, "20260601_existing.sql", "select 1;\n")
+    client = FakeSupabase([
+        {
+            "filename": migration.name,
+            "hash": file_hash(migration),
+            "success": True,
+        }
+    ])
+
+    exit_code = migrate.main(
+        ["--migrations-dir", str(tmp_path), "apply"],
+        client=client,
+        sql_executor=None,
+    )
+
+    assert exit_code == 0
+    assert "No pending migrations." in capsys.readouterr().out
 
 
 def test_status_reports_last_applied_and_pending_count(capsys, tmp_path):

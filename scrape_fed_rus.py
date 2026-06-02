@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "rus_fencing"
@@ -279,7 +279,7 @@ def _ranking_params(weapon: str, gender: str, category: str) -> dict[str, str]:
 def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
     """Fetch one rusfencing.ru ranking page; return None on HTTP or network failure."""
     try:
-        response = requests.get(
+        response = federation_request("get",
             BASE_URL,
             params=_ranking_params(weapon, gender, category),
             headers=HEADERS,

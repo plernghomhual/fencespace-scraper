@@ -30,7 +30,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "bel_fencing"
@@ -257,7 +257,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
     last_error = None
     for attempt in range(1, 4):
         try:
-            response = requests.get(url, headers=HEADERS, timeout=20, allow_redirects=True)
+            response = federation_request("get", url, headers=HEADERS, timeout=20, allow_redirects=True)
         except requests.RequestException as exc:
             last_error = exc
             print(f"    Request error for {url} (attempt {attempt}/3): {exc}")

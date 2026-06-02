@@ -24,7 +24,7 @@ from datetime import datetime, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "hun_fencing"
@@ -278,7 +278,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
     for attempt in range(2):
         try:
-            response = requests.get(
+            response = federation_request("get",
                 BASE_URL,
                 params=params,
                 headers=HEADERS,

@@ -30,7 +30,7 @@ from typing import Any
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "chn_fencing"
@@ -270,7 +270,7 @@ def parse_rankings_table(html_or_text: str) -> list[dict]:
 
 def _get_json(url: str, params: dict[str, Any] | None = None) -> dict | None:
     try:
-        response = requests.get(
+        response = federation_request("get",
             url,
             params=params,
             headers=HEADERS,

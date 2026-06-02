@@ -19,11 +19,14 @@ CORE_SCRAPERS = [
     "scrape_fie_events.py",
     "scrape_rankings_history.py",
     "scrape_results.py",
-    "askfred_scraper.py",
     "scrape_engarde.py",
     "scrape_bouts.py",
     "scrape_clubs.py",
 ]
+
+DEPRECATED_WORKFLOW_SCRIPTS = {
+    "askfred_scraper.py",
+}
 
 EXISTING_FEDERATION_SCRAPERS = [
     "scrape_fed_british.py",
@@ -246,6 +249,13 @@ def test_six_hour_scraper_workflow_contains_required_scripts_once_and_in_order()
         assert scripts.count(script) == 1, f"{script} should appear once in scraper.yml"
     # Global step ordering is not enforced with parallel jobs; job `needs:` dependencies
     # ensure correct execution order between phases. Only check containment here.
+
+
+def test_deprecated_scrapers_are_not_scheduled():
+    scripts = workflow_scripts(load_workflow(SCRAPER_WORKFLOW))
+
+    for script in DEPRECATED_WORKFLOW_SCRIPTS:
+        assert script not in scripts, f"{script} is deprecated and should not run in scraper.yml"
 
 
 def test_analytics_job_waits_for_all_scraper_jobs():

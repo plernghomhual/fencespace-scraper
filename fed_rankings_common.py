@@ -2,13 +2,18 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
+import requests
+
+from scripts.rate_limiter import RateLimiter
 from season_utils import normalize_season
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 _supabase = None
+_federation_limiter = RateLimiter(default_rps=1.0, jitter=0.2, backoff=5.0)
 
 
 def get_supabase():
@@ -17,6 +22,36 @@ def get_supabase():
         from supabase import create_client
         _supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
     return _supabase
+
+
+def _domain_for_url(url: str) -> str:
+    parsed = urlparse(url)
+    return parsed.netloc or parsed.path or "federation"
+
+
+def federation_request(method: str, url: str, **kwargs):
+    """Rate-limited HTTP request helper for federation scraper sources."""
+    domain = _domain_for_url(url)
+    _federation_limiter.wait(domain)
+    request_method = method.lower()
+    if request_method == "get":
+        requester = requests.get
+    elif request_method == "post":
+        requester = requests.post
+    else:
+        raise ValueError(f"Unsupported federation request method: {method}")
+
+    try:
+        response = requester(url, **kwargs)
+    except requests.RequestException:
+        _federation_limiter.record_failure(domain)
+        raise
+
+    if response.status_code == 429 or response.status_code >= 500:
+        _federation_limiter.record_failure(domain)
+    else:
+        _federation_limiter.record_success(domain)
+    return response
 
 
 WEAPON_ALIASES = {

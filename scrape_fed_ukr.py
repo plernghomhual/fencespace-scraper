@@ -26,7 +26,7 @@ import pdfplumber
 import requests
 from bs4 import BeautifulSoup
 
-from fed_rankings_common import build_ranking_row, write_rankings
+from fed_rankings_common import build_ranking_row, federation_request, write_rankings
 from run_logger import ScraperRunLogger
 
 SOURCE = "ukr_fencing"
@@ -264,7 +264,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
     last_error = ""
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
-            response = requests.get(url, headers=HEADERS, timeout=30, allow_redirects=True)
+            response = federation_request("get", url, headers=HEADERS, timeout=30, allow_redirects=True)
         except requests.RequestException as exc:
             last_error = str(exc)
             if attempt < MAX_ATTEMPTS:
