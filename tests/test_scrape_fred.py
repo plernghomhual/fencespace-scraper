@@ -243,7 +243,8 @@ def test_collect_result_rows_matches_usa_fencers_by_id_then_name_country():
     sandra = next(row for row in rows if row["name"] == "Sandra Marchant")
     alex = next(row for row in rows if row["name"] == "Alex Kim")
     assert kira["fencer_id"] == "fencer-by-usfa"
-    assert kira["fie_fencer_id"] == "fred:usfa:100313729"
+    assert kira["fie_fencer_id"] is None  # INTEGER column; FRED key stored in metadata
+    assert kira["metadata"]["fred_fencer_key"] == "fred:usfa:100313729"
     assert kira["metadata"]["match_method"] == "usa_fencing_id"
     assert sandra["fencer_id"] == "fencer-by-name"
     assert sandra["metadata"]["match_method"] == "exact_name_country"

@@ -621,11 +621,12 @@ def collect_result_rows(
             rating_before = clean_text(row.get("Rating Before Event"))
             rating_earned = clean_text(row.get("Rating Earned"))
 
+            fred_fencer_key = result_fencer_key(source_id, row, name, club)
             result_rows.append(
                 {
                     "tournament_id": tournament_id,
                     "fencer_id": matched.get("id") if matched else None,
-                    "fie_fencer_id": result_fencer_key(source_id, row, name, club),
+                    "fie_fencer_id": None,  # fs_results.fie_fencer_id is INTEGER; FRED keys are non-numeric strings
                     "rank": rank,
                     "placement": rank,
                     "name": name,
@@ -634,6 +635,7 @@ def collect_result_rows(
                     "metadata": {
                         "source": SOURCE,
                         "source_id": source_id,
+                        "fred_fencer_key": fred_fencer_key,
                         "fred_event_id": event.get("event_id"),
                         "fred_event_name": event.get("event_name"),
                         "fred_event_path": event.get("event_path"),
