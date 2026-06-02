@@ -21,6 +21,7 @@ import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from scripts.rate_limiter import RateLimiter as _RateLimiter
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -36,6 +37,7 @@ SOURCE = "fie_history"
 # Probe result: 2001=18, 2002=24, 2003=347 — use 2003 as the practical baseline.
 EARLIEST_SEASON = int(os.environ.get("FIE_HISTORY_EARLIEST_SEASON", 2003))
 REQUEST_DELAY = 1.5
+_fie_limiter = _RateLimiter(default_rps=0.67, jitter=0.2, backoff=5.0)
 
 COMP_HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)",
@@ -145,7 +147,7 @@ def fetch_competitions(session, season):
             if len(items) < page_size or page >= 20:
                 break
             page += 1
-            time.sleep(0.5)
+            _fie_limiter.wait("fie.org")
         except Exception as exc:
             print(f"    Fetch failed (season={season} page={page}): {exc}")
             break
@@ -208,7 +210,7 @@ def main():
             print(f"  Season {season} failed: {exc}")
             total_failed += 1
 
-        time.sleep(REQUEST_DELAY)
+        _fie_limiter.wait("fie.org")
 
     run_log.complete(written=total_written, failed=total_failed)
     print(f"\nDone — written={total_written}, failed={total_failed}")

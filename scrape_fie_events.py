@@ -13,6 +13,7 @@ import requests
 from supabase import create_client
 
 from run_logger import ScraperRunLogger
+from scripts.rate_limiter import RateLimiter as _RateLimiter
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -23,6 +24,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 LOOK_AHEAD_YEARS = int(os.environ.get("FIE_EVENTS_LOOK_AHEAD", "2"))
 REQUEST_DELAY = float(os.environ.get("FIE_EVENTS_DELAY", "0.5"))
+_fie_limiter = _RateLimiter(default_rps=2.0, jitter=0.2, backoff=5.0)
 
 COMP_HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0)",
@@ -169,7 +171,7 @@ def scrape_fie_events():
                     all_items[str(comp_id)] = item
             if items:
                 print(f"  {year}-{month:02d}: {len(items)} items")
-            time.sleep(REQUEST_DELAY)
+            _fie_limiter.wait("fie.org")
 
     print(f"Fetched {len(all_items)} unique FIE competitions")
     if not all_items:

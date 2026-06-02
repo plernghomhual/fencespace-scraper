@@ -23,12 +23,14 @@ from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from scripts.rate_limiter import RateLimiter as _RateLimiter
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 STATE_SOURCE = "scrape_news"
 REQUEST_DELAY = float(os.environ.get("NEWS_REQUEST_DELAY", "1.0"))
+_news_limiter = _RateLimiter(default_rps=1.0, jitter=0.2, backoff=5.0)
 MAX_ARTICLES_PER_SOURCE = int(os.environ.get("NEWS_MAX_ARTICLES_PER_SOURCE", "50"))
 REFETCH_SEEN = os.environ.get("NEWS_REFETCH_SEEN", "").lower() in {"1", "true", "yes"}
 PAGE_SIZE = 1000
@@ -479,7 +481,7 @@ def scrape_source(
         except Exception as exc:
             failed += 1
             print(f"  Article fetch/parse failed for {url}: {exc}")
-        time.sleep(REQUEST_DELAY)
+        _news_limiter.wait(source_site)
 
     return rows, failed, skipped, successful_urls
 
@@ -507,7 +509,7 @@ def scrape_news() -> dict:
         successful_urls.extend(source_successful_urls)
         total_failed += failed
         total_skipped += skipped
-        time.sleep(REQUEST_DELAY)
+        _news_limiter.wait("fie.org")
 
     written = upsert_articles(client, all_rows)
     combined_seen = [url for url in seen_state if isinstance(seen_state, list) and url not in successful_urls]
