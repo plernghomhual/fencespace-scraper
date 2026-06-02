@@ -141,8 +141,8 @@ def fencer_completeness_score(row: dict) -> tuple[int, int]:
 
 
 def dedupe_fencers_by_fie_id(rows: list[dict]) -> list[dict]:
-    deduped: dict[str, dict] = {}
-    order: list[str] = []
+    deduped: dict[tuple[str, str, str], dict] = {}
+    order: list[tuple[str, str, str]] = []
     for row in rows:
         fie_id = clean_text(row.get("fie_id"))
         if not fie_id:
@@ -150,15 +150,18 @@ def dedupe_fencers_by_fie_id(rows: list[dict]) -> list[dict]:
 
         normalized = dict(row)
         normalized["fie_id"] = fie_id
-        if fie_id not in deduped:
-            deduped[fie_id] = normalized
-            order.append(fie_id)
+        weapon = clean_text(row.get("weapon")) or ""
+        category = clean_text(row.get("category")) or ""
+        key = (fie_id, weapon, category)
+        if key not in deduped:
+            deduped[key] = normalized
+            order.append(key)
             continue
 
-        if fencer_completeness_score(normalized) > fencer_completeness_score(deduped[fie_id]):
-            deduped[fie_id] = normalized
+        if fencer_completeness_score(normalized) > fencer_completeness_score(deduped[key]):
+            deduped[key] = normalized
 
-    return [deduped[fie_id] for fie_id in order]
+    return [deduped[key] for key in order]
 
 
 def upsert_fencer_rows(rows: list[dict]) -> None:

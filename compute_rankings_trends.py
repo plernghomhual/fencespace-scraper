@@ -10,7 +10,7 @@ SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 PAGE_SIZE = 1000
 UPSERT_BATCH_SIZE = 200
-TREND_CONFLICT_COLUMNS = "fencer_id,weapon,category,season"
+TREND_CONFLICT_COLUMNS = "fie_fencer_id,weapon,category,season"
 PROJECTION_WEIGHTS = (0.5, 0.3, 0.2)
 
 
@@ -65,18 +65,18 @@ def weighted_projection(values: list[int | float | None]) -> float | None:
 
 
 def normalize_history_row(row: dict[str, Any]) -> tuple[dict[str, Any] | None, bool]:
-    fencer_id = clean_text(row.get("fencer_id") or row.get("fie_fencer_id"))
+    fie_fencer_id = clean_text(row.get("fie_fencer_id") or row.get("fencer_id"))
     weapon = clean_text(row.get("weapon"))
     category = clean_text(row.get("category"))
     season = coerce_int(row.get("season"))
     rank = coerce_int(row.get("rank"))
 
-    if not fencer_id or not weapon or not category or season is None or rank is None:
+    if not fie_fencer_id or not weapon or not category or season is None or rank is None:
         return None, True
 
     return (
         {
-            "fencer_id": fencer_id,
+            "fie_fencer_id": fie_fencer_id,
             "weapon": weapon,
             "category": category,
             "season": season,
@@ -110,10 +110,10 @@ def build_trend_rows(
         if was_skipped:
             skipped += 1
             continue
-        grouped[(row["fencer_id"], row["weapon"], row["category"])].append(row)
+        grouped[(row["fie_fencer_id"], row["weapon"], row["category"])].append(row)
 
     trend_rows: list[dict[str, Any]] = []
-    for (fencer_id, weapon, category), rows in sorted(grouped.items()):
+    for (fie_fencer_id, weapon, category), rows in sorted(grouped.items()):
         rows_by_season: dict[int, dict[str, Any]] = {}
         for row in sorted(rows, key=lambda item: (item["season"], item["rank"])):
             rows_by_season.setdefault(row["season"], row)
@@ -142,7 +142,7 @@ def build_trend_rows(
 
             trend_rows.append(
                 {
-                    "fencer_id": fencer_id,
+                    "fie_fencer_id": fie_fencer_id,
                     "weapon": weapon,
                     "category": category,
                     "season": row["season"],
@@ -205,7 +205,7 @@ def upsert_trend_rows(client, rows: list[dict[str, Any]]) -> tuple[int, int]:
 
 def _probe_trends_table(client) -> None:
     """Raise early if fs_rankings_trends does not exist, before wasting computation."""
-    client.table("fs_rankings_trends").select("fencer_id").limit(0).execute()
+    client.table("fs_rankings_trends").select("fie_fencer_id").limit(0).execute()
 
 
 def compute_rankings_trends(client=None, log_run: bool = True) -> dict[str, int]:

@@ -245,8 +245,8 @@ def aggregate_career_stats(
             add_tournament_dimensions(stat, tournament, result)
 
     for bout in bouts:
-        fencer_a = canonical_fencer_id(bout.get("fencer_a"), identity_map)
-        fencer_b = canonical_fencer_id(bout.get("fencer_b"), identity_map)
+        fencer_a = canonical_fencer_id(bout.get("fencer_a_id"), identity_map)
+        fencer_b = canonical_fencer_id(bout.get("fencer_b_id"), identity_map)
         if not fencer_a or not fencer_b or fencer_a == fencer_b:
             continue
 
@@ -327,7 +327,7 @@ def compute_career_stats(
         bouts = fetch_all(
             client,
             "fs_bouts",
-            "tournament_id,fencer_a,fencer_b,score_a,score_b",
+            "tournament_id,fencer_a_id,fencer_b_id,score_a,score_b",
             page_size=page_size,
         )
         identity_map, identity_rows = load_identity_map(client, page_size=page_size)
