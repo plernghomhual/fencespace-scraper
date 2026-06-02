@@ -17,6 +17,12 @@ from bs4 import BeautifulSoup
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _limiter = _RateLimiter(default_rps=1.0, jitter=0.2, backoff=5.0)
+except ImportError:
+    _limiter = None
+
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -255,22 +261,32 @@ class EngardeClient:
         self.session.headers.update(HEADERS)
 
     def request(self, method, path_or_url, **kwargs):
+        from urllib.parse import urlparse
         url = path_or_url if path_or_url.startswith("http") else urljoin(self.base_url + "/", path_or_url)
+        domain = urlparse(url).netloc
         last_response = None
         for attempt in range(1, self.max_retries + 1):
+            if _limiter:
+                _limiter.wait(domain)
+            else:
+                time.sleep(self.request_delay)
             try:
                 response = self.session.request(method, url, timeout=30, **kwargs)
                 content_type = response.headers.get("content-type", "")
                 print(f"  {method} {url} -> {response.status_code} {content_type}")
                 if response.status_code not in {429, 500, 502, 503, 504}:
-                    time.sleep(self.request_delay)
+                    if _limiter:
+                        _limiter.record_success(domain)
                     return response
                 last_response = response
+                if _limiter:
+                    _limiter.record_failure(domain)
             except requests.RequestException as exc:
                 print(f"  {method} {url} failed (attempt {attempt}/{self.max_retries}): {exc}")
+                if _limiter:
+                    _limiter.record_failure(domain)
             if attempt < self.max_retries:
                 time.sleep(2 ** attempt)
-        time.sleep(self.request_delay)
         return last_response
 
     def post_form(self, path, data, accept="*/*"):
@@ -592,8 +608,22 @@ def discover_links(base_url, html_text, wanted):
     return list(dict.fromkeys(links))
 
 
+_RESULT_SUFFIXES = [
+    "clasfinal.htm",
+    "classement.htm",
+    "classement_final.htm",
+    "clas_final.htm",
+    "resultat.htm",
+    "ranking.htm",
+    "rankings.htm",
+    "finale.htm",
+    "classificationfinale.htm",
+]
+
+
 def discover_result_links(base_url, html_text):
-    return discover_links(base_url, html_text, ["clasfinal.htm", "classement.htm"])
+    tokens = ["clasfinal", "classement", "resultat", "ranking", "finale", "classification"]
+    return discover_links(base_url, html_text, tokens)
 
 
 def discover_bout_links(base_url, html_text):
@@ -605,6 +635,22 @@ def discover_bout_links(base_url, html_text):
     ]
 
 
+_RANK_TOKENS = ("rg", "rank", "rang", "place", "pos", "position", "cl", "nr", "no", "clas")
+
+
+def _detect_rank_col(header, data_rows):
+    for idx, label in enumerate(header):
+        if any(token in label for token in _RANK_TOKENS):
+            return idx
+    # Fallback: first column is all numeric in data rows
+    if data_rows:
+        first_col_values = [row[0] for row in data_rows if row]
+        numeric = sum(1 for v in first_col_values if to_int(clean_text(v)) is not None)
+        if numeric >= len(first_col_values) * 0.7:
+            return 0
+    return None
+
+
 def parse_results_table(html_text):
     soup = BeautifulSoup(html_text or "", "html.parser")
     result_rows = []
@@ -613,13 +659,7 @@ def parse_results_table(html_text):
         if len(rows) < 2:
             continue
         header = [normalize_key(cell) for cell in rows[0]]
-        rank_col = next(
-            (
-                idx for idx, label in enumerate(header)
-                if any(token in label for token in ("rg", "rank", "rang", "place"))
-            ),
-            None,
-        )
+        rank_col = _detect_rank_col(header, rows[1:])
         if rank_col is None:
             continue
 
@@ -844,15 +884,28 @@ def fetch_result_rows(client, comp):
 
     base_url = competition_url(comp)
     base_html = client.get_text(base_url)
-    if not base_html:
-        return [], final_url
-    for link in discover_result_links(base_url, base_html):
-        if link == final_url:
+    tried = {final_url}
+    if base_html:
+        for link in discover_result_links(base_url, base_html):
+            if link in tried:
+                continue
+            tried.add(link)
+            link_html = client.get_text(link)
+            rows = parse_results_table(link_html or "")
+            if rows:
+                return rows, link
+
+    # Probe known fallback suffixes not found via link discovery
+    for suffix in _RESULT_SUFFIXES:
+        url = competition_url(comp, suffix)
+        if url in tried:
             continue
-        link_html = client.get_text(link)
-        rows = parse_results_table(link_html or "")
+        tried.add(url)
+        html_text = client.get_text(url)
+        rows = parse_results_table(html_text or "")
         if rows:
-            return rows, link
+            return rows, url
+
     return [], final_url
 
 

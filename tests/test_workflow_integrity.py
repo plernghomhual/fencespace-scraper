@@ -175,8 +175,10 @@ def script_from_step(step):
 
 def workflow_steps(workflow):
     jobs = workflow["jobs"]
-    assert len(jobs) == 1
-    return next(iter(jobs.values()))["steps"]
+    all_steps = []
+    for job in jobs.values():
+        all_steps.extend(job.get("steps", []))
+    return all_steps
 
 
 def workflow_triggers(workflow):
@@ -216,9 +218,25 @@ def test_workflow_schedules_are_expected():
 
 
 def test_discover_competition_urls_runs_before_results_scraper():
-    scripts = workflow_scripts(load_workflow(SCRAPER_WORKFLOW))
+    workflow = load_workflow(SCRAPER_WORKFLOW)
+    jobs = workflow["jobs"]
 
-    assert scripts.index("discover_competition_urls.py") < scripts.index("scrape_results.py")
+    def find_job(script):
+        for job_name, job in jobs.items():
+            for step in job.get("steps", []):
+                if script == script_from_step(step):
+                    return job_name
+        return None
+
+    discover_job = find_job("discover_competition_urls.py")
+    results_job = find_job("scrape_results.py")
+    assert discover_job is not None
+    assert results_job is not None
+    # results_job must directly or transitively depend on discover_job
+    needs = set(jobs[results_job].get("needs", []))
+    assert discover_job in needs or any(
+        discover_job in set(jobs[n].get("needs", [])) for n in needs
+    )
 
 
 def test_six_hour_scraper_workflow_contains_required_scripts_once_and_in_order():
@@ -226,7 +244,19 @@ def test_six_hour_scraper_workflow_contains_required_scripts_once_and_in_order()
 
     for script in SIX_HOUR_SCRIPTS:
         assert scripts.count(script) == 1, f"{script} should appear once in scraper.yml"
-    assert_subsequence(scripts, SIX_HOUR_SCRIPTS)
+    # Global step ordering is not enforced with parallel jobs; job `needs:` dependencies
+    # ensure correct execution order between phases. Only check containment here.
+
+
+def test_analytics_job_waits_for_all_scraper_jobs():
+    workflow = load_workflow(SCRAPER_WORKFLOW)
+    jobs = workflow["jobs"]
+    assert "analytics" in jobs, "analytics job must exist"
+    analytics_needs = set(jobs["analytics"].get("needs", []))
+    expected_needs = {"fie-scrapers", "federation-scrapers", "competition-scrapers", "enrichment"}
+    assert analytics_needs == expected_needs, (
+        f"analytics job must depend on all scraper jobs; got {analytics_needs}"
+    )
 
 
 def test_live_results_workflow_only_runs_live_watcher():
@@ -253,10 +283,16 @@ def test_prompt_scripts_only_appear_in_intended_workflows():
         assert actual == intended, f"{script} workflows should be {intended}, got {actual}"
 
 
+INFRASTRUCTURE_SCRIPTS = {
+    "scripts/migrate.py",
+}
+
+
 def test_each_python_script_step_has_continue_on_error_and_supabase_env():
     for filename, workflow in all_workflows().items():
         for step in workflow_steps(workflow):
-            if not script_from_step(step):
+            script = script_from_step(step)
+            if not script or script in INFRASTRUCTURE_SCRIPTS:
                 continue
             assert step.get("continue-on-error") is True, f"{filename}: {step['name']}"
             env = step.get("env", {})

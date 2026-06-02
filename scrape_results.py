@@ -10,6 +10,12 @@ from supabase import create_client
 
 from run_logger import ScraperRunLogger
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=1.0, jitter=0.15, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -205,7 +211,10 @@ def discover_competition_url_ids(tournaments):
                 }, timeout=15)
                 items = res.json().get("items", [])
                 all_items.extend(items)
-                time.sleep(0.3)
+                if _fie_limiter:
+                    _fie_limiter.wait("fie.org", rps=3.0)
+                else:
+                    time.sleep(0.3)
             except Exception:
                 continue
 

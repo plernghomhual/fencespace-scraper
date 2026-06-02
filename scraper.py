@@ -9,6 +9,12 @@ import re
 from run_logger import ScraperRunLogger
 from season_utils import current_fie_season
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=1.0, jitter=0.15, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -237,7 +243,10 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
             if len(athletes) < 100:
                 break
             page += 1
-            time.sleep(1)
+            if _fie_limiter:
+                _fie_limiter.wait("fie.org")
+            else:
+                time.sleep(1)
         except requests.exceptions.RequestException as e:
             print(f"  Connection error on page {page}: {e}")
             break
@@ -332,7 +341,10 @@ def scrape_competitions():
             result = fetch_comp_range(s, from_d, to_d, status=status)
             if result is None:
                 s = make_comp_session()
-                time.sleep(1)
+                if _fie_limiter:
+                    _fie_limiter.wait("fie.org")
+                else:
+                    time.sleep(1)
                 result = fetch_comp_range(s, from_d, to_d, status=status) or []
             all_rows.extend(result)
 
