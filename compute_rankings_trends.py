@@ -10,7 +10,7 @@ SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 PAGE_SIZE = 1000
 UPSERT_BATCH_SIZE = 200
-TREND_CONFLICT_COLUMNS = "fie_fencer_id,weapon,category,season"
+TREND_CONFLICT_COLUMNS = "fencer_id,weapon,category,season"
 PROJECTION_WEIGHTS = (0.5, 0.3, 0.2)
 
 
@@ -142,7 +142,7 @@ def build_trend_rows(
 
             trend_rows.append(
                 {
-                    "fie_fencer_id": fie_fencer_id,
+                    "fencer_id": fie_fencer_id,
                     "weapon": weapon,
                     "category": category,
                     "season": row["season"],
@@ -205,7 +205,7 @@ def upsert_trend_rows(client, rows: list[dict[str, Any]]) -> tuple[int, int]:
 
 def _probe_trends_table(client) -> None:
     """Raise early if fs_rankings_trends does not exist, before wasting computation."""
-    client.table("fs_rankings_trends").select("fie_fencer_id").limit(0).execute()
+    client.table("fs_rankings_trends").select("fencer_id").limit(0).execute()
 
 
 def compute_rankings_trends(client=None, log_run: bool = True) -> dict[str, int]:

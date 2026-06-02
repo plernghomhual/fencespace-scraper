@@ -15,7 +15,7 @@ PAGE_SIZE = 1000
 UPDATE_BATCH_SIZE = 100
 SOURCE = "compute_head_to_head"
 
-BOUT_SELECT = "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b"
+BOUT_SELECT = "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b"
 TOURNAMENT_SELECT = "id,weapon,end_date"
 
 WEAPON_MAP = {
@@ -123,8 +123,8 @@ def fetch_bouts(supabase) -> list[dict[str, Any]]:
         supabase,
         "fs_bouts",
         BOUT_SELECT,
-        configure=lambda query: query.not_.is_("fencer_a_id", "null").not_.is_(
-            "fencer_b_id", "null"
+        configure=lambda query: query.not_.is_("fencer_a", "null").not_.is_(
+            "fencer_b", "null"
         ),
     )
 
@@ -180,7 +180,7 @@ def build_head_to_head_rows(
     skipped = 0
 
     for bout in bouts:
-        pair = canonical_pair(bout.get("fencer_a_id"), bout.get("fencer_b_id"))
+        pair = canonical_pair(bout.get("fencer_a"), bout.get("fencer_b"))
         score_a = to_int(bout.get("score_a"))
         score_b = to_int(bout.get("score_b"))
         weapon = bout_weapon(bout, tournaments)
@@ -189,7 +189,7 @@ def build_head_to_head_rows(
             continue
 
         canonical_a, canonical_b = pair
-        bout_a = normalize_uuid(bout.get("fencer_a_id"))
+        bout_a = normalize_uuid(bout.get("fencer_a"))
         if bout_a == canonical_a:
             canonical_a_score = score_a
             canonical_b_score = score_b
