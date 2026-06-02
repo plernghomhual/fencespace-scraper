@@ -182,7 +182,7 @@ Risks: [remaining risks or skipped checks]
 
 ---
 
-## Agent 3 — Create fs_fencer_stats table (bout stats)
+## Agent 3 — Create fs_fencer_stats table: total_bouts, wins, losses, win_pct, current_streak
 
 Complete this task fully and correctly to the best of your ability.
 Do not do a shallow pass.
@@ -12011,3 +12011,39 @@ Missing scripts: []
 Tests: pytest tests/test_workflow_integrity.py -v
 Risks: [remaining risks or skipped checks]
 ```
+
+---
+
+## Dispatch Schedule & Rules
+
+### Rules for all agents
+- Probe current public URLs before coding any scraper or enrichment module that uses an external source.
+- Write or update tests for parser, compute, schema, API, or frontend logic before implementation whenever practical.
+- Do not edit `.github/workflows/` except Agent 160.
+- Prefer stubs that exit 0 with clear probe evidence over brittle fake scrapers when a source is blocked, login-only, paid/API-key-only, geoblocked, JS-only with no public API, or has no durable public data.
+- Keep changes scoped to the listed files unless a migration, requirement, docs file, or test file is explicitly required by the implementation.
+- For database writes, use existing Supabase/run-logger/state patterns and avoid destructive migrations.
+- For fencer/result matching, prefer FIE ID, then canonical identity, then conservative name+country matching; log unmatched rows instead of silently creating null-fencer orphans.
+- For seasons, use existing `season_utils.py` if present and never mix integer FIE seasons with `YYYY-YYYY` strings without normalization.
+- For social/media/minor/privacy-sensitive agents, use public/API-backed sources only and do not bypass logins or infer private facts.
+
+Every agent must finish with the output format defined in its own prompt.
+
+### Dependency Coordination
+Run a baseline first: `.venv/bin/python -m pytest tests/ -v` from the project root.
+
+| Batch | Agents | Dependency notes |
+|-------|--------|------------------|
+| 0 | Baseline only | Record current test state before dispatch. |
+| 1 | 1–23, 30 | Core schema/data/view work. Respect per-agent dependencies inside each prompt. |
+| 2 | 24–29 | API data wiring after the relevant schemas/compute outputs exist. |
+| 3 | 31–60 | Tier-3 federation scrapers; parallel-safe. Use existing `season_utils.py` if present. |
+| 4 | 61–75 | More tournament/result sources; parallel-safe except shared helper discoveries. |
+| 5 | 76–90 | Deeper analytics; best after results/bouts/rankings exist. |
+| 6 | 91–105 | Enrichment; best after fencer identity/bio/public-source fields exist. |
+| 7 | 106–130 | Product/frontend/API surfaces; best after public views and data APIs exist. |
+| 8 | 131–145 | Marketplace/social modules; respect product/social schema dependencies in prompts. |
+| 9 | 146–159 | Advanced/experimental modules; run after their listed data dependencies. |
+| 10 | 160 | CI merge; must run last and is the only workflow-editing agent. |
+
+If running many agents in parallel, avoid assigning two agents that declare the same file.
