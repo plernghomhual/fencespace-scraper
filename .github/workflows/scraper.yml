@@ -19,15 +19,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Check migration status
+      - name: Install postgresql-client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Apply pending migrations
         continue-on-error: true
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           if [ -n "$SUPABASE_DB_URL" ]; then
-            python scripts/migrate.py status
+            python scripts/migrate.py apply
           else
-            echo "SUPABASE_DB_URL not set — skipping migration status check"
+            echo "SUPABASE_DB_URL not set — skipping migration apply"
           fi
 
       - name: Discover competition URLs
@@ -705,6 +710,13 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python scripts/data_quality_check.py
+
+      - name: Merge fencer identities
+        continue-on-error: true
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/merge_fencer_identities.py
 
       - name: Compute national rankings
         continue-on-error: true

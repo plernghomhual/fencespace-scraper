@@ -18,6 +18,12 @@ import requests
 
 from run_logger import ScraperRunLogger
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=0.67, jitter=0.2, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
@@ -238,7 +244,11 @@ def main() -> None:
                 if resp.status_code != 200:
                     print(f"  {fie_id}: HTTP {resp.status_code}")
                     failed += 1
-                    time.sleep(REQUEST_DELAY)
+                    if _fie_limiter:
+                        _fie_limiter.record_failure("fie.org")
+                        _fie_limiter.wait("fie.org")
+                    else:
+                        time.sleep(REQUEST_DELAY)
                     continue
 
                 ranking_rows = parse_tab_ranking(resp.text)
@@ -247,7 +257,10 @@ def main() -> None:
                 if not ranking_rows:
                     print(f"  {fie_id}: no _tabRanking data")
                     skipped += 1
-                    time.sleep(REQUEST_DELAY)
+                    if _fie_limiter:
+                        _fie_limiter.wait("fie.org")
+                    else:
+                        time.sleep(REQUEST_DELAY)
                     continue
 
                 n = upsert_career_rankings(
@@ -261,8 +274,13 @@ def main() -> None:
             except Exception as exc:
                 print(f"  {fie_id}: error — {exc}")
                 failed += 1
+                if _fie_limiter:
+                    _fie_limiter.record_failure("fie.org")
 
-            time.sleep(REQUEST_DELAY)
+            if _fie_limiter:
+                _fie_limiter.wait("fie.org")
+            else:
+                time.sleep(REQUEST_DELAY)
 
         run_log.complete(written=written, failed=failed, skipped=skipped)
         print(f"\nDone — written={written}, failed={failed}, skipped={skipped}")

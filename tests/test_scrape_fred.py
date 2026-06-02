@@ -284,4 +284,4 @@ def test_upserts_use_source_id_and_result_conflict_keys(monkeypatch):
     assert tournament_upsert["kwargs"] == {"on_conflict": "source_id"}
     assert result_upsert["table"] == "fs_results"
     assert result_upsert["action"] == "upsert"
-    assert result_upsert["kwargs"] == {"on_conflict": "tournament_id,fie_fencer_id"}
+    assert result_upsert["kwargs"] == {"on_conflict": "tournament_id,name"}

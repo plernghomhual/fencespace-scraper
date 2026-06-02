@@ -14,6 +14,12 @@ from supabase import create_client
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=0.67, jitter=0.2, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
+
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
@@ -186,7 +192,10 @@ def scrape_season_combo(session: requests.Session, season: int, weapon: str, gen
         if len(athletes) < 100:
             break
         page += 1
-        time.sleep(REQUEST_DELAY)
+        if _fie_limiter:
+            _fie_limiter.wait("fie.org")
+        else:
+            time.sleep(REQUEST_DELAY)
 
     if not rows:
         return 0
@@ -242,8 +251,13 @@ def scrape_rankings_history():
                 except Exception as exc:
                     print(f"    Failed: {exc}")
                     total_failed += 1
+                    if _fie_limiter:
+                        _fie_limiter.record_failure("fie.org")
 
-                time.sleep(REQUEST_DELAY)
+                if _fie_limiter:
+                    _fie_limiter.wait("fie.org")
+                else:
+                    time.sleep(REQUEST_DELAY)
     except Exception as exc:
         run_log.error(str(exc))
         raise

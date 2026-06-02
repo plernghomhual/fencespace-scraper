@@ -174,6 +174,9 @@ class FakeTable:
         self.end = end
         return self
 
+    def limit(self, n):
+        return self
+
     def upsert(self, rows, on_conflict):
         self.pending_upsert = rows
         self.pending_conflict = on_conflict
@@ -215,9 +218,8 @@ def test_compute_rankings_trends_fetches_history_and_upserts_rows():
     result = compute_rankings_trends(client=client, log_run=False)
 
     assert result == {"read": 2, "written": 2, "failed": 0, "skipped": 0}
-    assert client.selects == [
-        ("fs_rankings_history", "fie_fencer_id,season,weapon,category,rank,points")
-    ]
+    assert ("fs_rankings_history", "fie_fencer_id,season,weapon,category,rank,points") in client.selects
+    assert ("fs_rankings_trends", "fencer_id") in client.selects
     assert client.orders == ["fie_fencer_id", "weapon", "category", "season"]
     assert len(client.upserts) == 1
     assert client.upserts[0]["table"] == "fs_rankings_trends"

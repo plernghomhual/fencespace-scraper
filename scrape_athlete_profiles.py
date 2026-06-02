@@ -12,6 +12,12 @@ from supabase import create_client
 
 from run_logger import ScraperRunLogger
 
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=0.67, jitter=0.2, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
+
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -582,7 +588,10 @@ def scrape_athlete_profiles():
             flushed_total += flushed
             print(f"Flushed {flushed} updates (total flushed: {flushed_total})")
 
-        time.sleep(REQUEST_DELAY_SECONDS)
+        if _fie_limiter:
+            _fie_limiter.wait("fie.org")
+        else:
+            time.sleep(REQUEST_DELAY_SECONDS)
 
     flushed = flush_updates(pending_updates)
     flushed_total += flushed

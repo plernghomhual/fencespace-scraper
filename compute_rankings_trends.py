@@ -203,11 +203,17 @@ def upsert_trend_rows(client, rows: list[dict[str, Any]]) -> tuple[int, int]:
     return written, failed
 
 
+def _probe_trends_table(client) -> None:
+    """Raise early if fs_rankings_trends does not exist, before wasting computation."""
+    client.table("fs_rankings_trends").select("fencer_id").limit(0).execute()
+
+
 def compute_rankings_trends(client=None, log_run: bool = True) -> dict[str, int]:
     client = client or get_supabase_client()
     run_log = ScraperRunLogger("compute_rankings_trends").start() if log_run else None
 
     try:
+        _probe_trends_table(client)
         history_rows = fetch_rankings_history(client)
         trend_rows, skipped = build_trend_rows(history_rows)
         written, failed = upsert_trend_rows(client, trend_rows) if trend_rows else (0, 0)

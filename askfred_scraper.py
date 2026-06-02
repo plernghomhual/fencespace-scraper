@@ -718,7 +718,7 @@ def upsert_results(rows: list[dict[str, Any]]):
         return
 
     try:
-        batch_upsert("fs_results", rows, on_conflict="tournament_id,fie_fencer_id")
+        batch_upsert("fs_results", rows, on_conflict="tournament_id,name")
         return
     except Exception as exc:
         message = str(exc)

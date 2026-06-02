@@ -1,15 +1,23 @@
 import json
 import os
 import re
+import threading
 import time
 import traceback
 import uuid
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 
 import requests
 from supabase import Client, create_client
 
 from run_logger import ScraperRunLogger
+
+try:
+    from scripts.rate_limiter import RateLimiter as _RateLimiter
+    _fie_limiter = _RateLimiter(default_rps=0.5, jitter=0.2, backoff=5.0)
+except ImportError:
+    _fie_limiter = None
 
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -24,6 +32,7 @@ BATCH_SIZE = 100
 PAGE_SIZE = 1000
 RECENT_DAYS = 14
 RATE_LIMIT_SECONDS = 2
+MAX_WORKERS = int(os.environ.get("BOUTS_MAX_WORKERS", "5"))
 
 
 def get_supabase_client() -> Client:
@@ -431,6 +440,66 @@ def batch_upsert_bouts(supabase, rows):
             ).execute()
 
 
+def _scrape_one_tournament(tournament, session, supabase, existing_bout_ids, lock):
+    """Fetch and upsert bouts for a single tournament. Returns (status, bout_count)."""
+    tournament_id = tournament["id"]
+    name = tournament.get("name") or tournament_id
+    season = tournament.get("season") or datetime.now(timezone.utc).year
+    url_id = tournament.get("competition_url_id")
+    recent = is_recent_tournament(tournament)
+
+    try:
+        if _fie_limiter:
+            _fie_limiter.wait("fie.org")
+        else:
+            time.sleep(RATE_LIMIT_SECONDS)
+
+        url, html = fetch_competition_page(session, season, url_id)
+        window_data = extract_window_json(html)
+        print(f"  [{name}] Fetched {url}; window keys: {', '.join(window_data.keys()) or 'none'}")
+
+        bout_rows = extract_bouts(tournament_id, window_data)
+        if not bout_rows:
+            print(f"  [{name}] No bout data found")
+            return "no_bouts", 0
+
+        with lock:
+            already_exists = tournament_id in existing_bout_ids
+
+        if already_exists and recent:
+            print(f"  [{name}] Recent tournament: deleting existing bouts before reload")
+            supabase.table("fs_bouts").delete().eq("tournament_id", tournament_id).execute()
+
+        fencer_map = load_fencer_map(supabase, bout_rows)
+        unmatched = sorted(
+            {
+                value
+                for row in bout_rows
+                for value in (row.get("fie_fencer_id_a"), row.get("fie_fencer_id_b"))
+                if value and value not in fencer_map
+            }
+        )
+        final_rows = attach_fencer_ids(bout_rows, fencer_map)
+        batch_upsert_bouts(supabase, final_rows)
+
+        print(
+            f"  [{name}] Upserted {len(final_rows)} bouts; "
+            f"matched {len(fencer_map)} FIE IDs; unmatched {len(unmatched)}"
+        )
+        with lock:
+            existing_bout_ids.add(tournament_id)
+        if _fie_limiter:
+            _fie_limiter.record_success("fie.org")
+        return "scraped", len(final_rows)
+
+    except Exception as exc:
+        print(f"  [{name}] Error: {exc}")
+        traceback.print_exc()
+        if _fie_limiter:
+            _fie_limiter.record_failure("fie.org")
+        return "failed", 0
+
+
 def scrape_bouts():
     print(f"Bout scraper starting - {datetime.now(timezone.utc).isoformat()}")
     run_log = ScraperRunLogger("scrape_bouts").start()
@@ -443,64 +512,40 @@ def scrape_bouts():
     print(f"Found {len(tournaments)} tournaments with results and FIE URL IDs")
     print(f"Found existing bouts for {len(existing_bout_ids)} tournaments")
 
+    lock = threading.Lock()
     scraped = 0
     skipped = 0
     no_bouts = 0
     failed = 0
 
-    for index, tournament in enumerate(tournaments, start=1):
+    to_scrape = []
+    for tournament in tournaments:
         tournament_id = tournament["id"]
-        name = tournament.get("name") or tournament_id
-        season = tournament.get("season") or datetime.now(timezone.utc).year
-        url_id = tournament.get("competition_url_id")
         recent = is_recent_tournament(tournament)
-
         if tournament_id in existing_bout_ids and not recent:
-            print(f"[{index}/{len(tournaments)}] Skipping {name} - bouts already exist")
             skipped += 1
-            continue
+        else:
+            to_scrape.append(tournament)
 
-        print(f"[{index}/{len(tournaments)}] Scraping {name} ({season}/{url_id})")
-        try:
-            url, html = fetch_competition_page(session, season, url_id)
-            window_data = extract_window_json(html)
-            print(f"  Fetched {url}; window keys: {', '.join(window_data.keys()) or 'none'}")
+    print(f"Scraping {len(to_scrape)} tournaments ({skipped} skipped) with {MAX_WORKERS} workers")
 
-            bout_rows = extract_bouts(tournament_id, window_data)
-            if not bout_rows:
-                print("  No bout data found")
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(_scrape_one_tournament, t, session, supabase, existing_bout_ids, lock): t
+            for t in to_scrape
+        }
+        for i, future in enumerate(as_completed(futures), start=1):
+            tournament = futures[future]
+            name = tournament.get("name") or tournament["id"]
+            status, _ = future.result()
+            if status == "scraped":
+                scraped += 1
+            elif status == "no_bouts":
                 no_bouts += 1
-                continue
-
-            if tournament_id in existing_bout_ids and recent:
-                print("  Recent tournament: deleting existing bouts before reload")
-                supabase.table("fs_bouts").delete().eq("tournament_id", tournament_id).execute()
-
-            fencer_map = load_fencer_map(supabase, bout_rows)
-            # Compute unmatched BEFORE attach_fencer_ids pops the keys
-            unmatched = sorted(
-                {
-                    value
-                    for row in bout_rows
-                    for value in (row.get("fie_fencer_id_a"), row.get("fie_fencer_id_b"))
-                    if value and value not in fencer_map
-                }
-            )
-            final_rows = attach_fencer_ids(bout_rows, fencer_map)
-            batch_upsert_bouts(supabase, final_rows)
-
-            print(
-                f"  Upserted {len(final_rows)} bouts; "
-                f"matched {len(fencer_map)} FIE IDs; unmatched {len(unmatched)}"
-            )
-            scraped += 1
-            existing_bout_ids.add(tournament_id)
-        except Exception as exc:
-            print(f"  Error scraping tournament {tournament_id}: {exc}")
-            traceback.print_exc()
-            failed += 1
-        finally:
-            time.sleep(RATE_LIMIT_SECONDS)
+            else:
+                failed += 1
+            if i % 50 == 0:
+                print(f"Progress: {i}/{len(to_scrape)} processed")
 
     run_log.complete(written=scraped, failed=failed, skipped=skipped + no_bouts)
     print(
