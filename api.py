@@ -8,6 +8,17 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+import importlib.util
+import pathlib
+
+
+def _load_v1_router(name: str):
+    path = pathlib.Path(__file__).parent / "api" / "v1" / f"{name}.py"
+    spec = importlib.util.spec_from_file_location(f"_api_v1_{name}", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -297,3 +308,14 @@ def country_depth(
         offset=offset,
     )
     return paginated_payload(rows, limit, offset)
+
+
+for _v1_name in (
+    "fencer_h2h",
+    "fencer_milestones",
+    "fencer_ranking_trajectory",
+    "fencer_stats",
+    "tournament_brackets",
+    "tournament_details",
+):
+    app.include_router(_load_v1_router(_v1_name).router)
