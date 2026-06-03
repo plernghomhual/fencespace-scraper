@@ -6,7 +6,7 @@ import time
 import unicodedata
 from datetime import datetime, timezone
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, unquote, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -36,9 +36,19 @@ HEADERS = {
 }
 
 FENCER_SELECT = (
-    "id,name,country,nationality,metadata,bio_text,wikipedia_url,"
-    "birth_place,nickname,height,weight"
+    "id,name,country,nationality,metadata,bio,birth_date,birth_place,"
+    "bio_source,bio_text,wikipedia_url,nickname,height,weight"
 )
+PENDING_FIELD_FILTER = "bio.is.null,birth_date.is.null,birth_place.is.null,bio_source.is.null"
+MATCH_FILTERS = (
+    ("metadata->>wikidata_id", "not.is", "null"),
+    ("wikipedia_url", "not.is", "null"),
+    ("metadata->>wikipedia_url", "not.is", "null"),
+    ("metadata->>wiki_url", "not.is", "null"),
+    ("metadata->>wikipedia_title", "not.is", "null"),
+    ("metadata->>wiki_title", "not.is", "null"),
+)
+BIO_REFRESH_MIN_EXTRA_CHARS = 24
 
 COUNTRY_LANGUAGES = {
     "ARG": ["es"],
@@ -189,6 +199,16 @@ def fencer_wikidata_id(fencer: dict[str, Any]) -> str | None:
     return normalize_wikidata_id(metadata.get("wikidata_id") or fencer.get("wikidata_id"))
 
 
+def value_from_fencer_or_metadata(fencer: dict[str, Any], keys: list[str]) -> Any:
+    metadata = metadata_dict(fencer.get("metadata"))
+    for key in keys:
+        if fencer.get(key) not in (None, ""):
+            return fencer.get(key)
+        if metadata.get(key) not in (None, ""):
+            return metadata.get(key)
+    return None
+
+
 def language_candidates(fencer: dict[str, Any]) -> list[str]:
     languages: list[str] = []
     for field in ("country", "nationality"):
@@ -220,15 +240,19 @@ def request_json(
             sleep_func(REQUEST_DELAY)
 
 
-def fetch_wikidata_sitelinks(
+def fetch_wikidata_entity(
     qid: str,
     *,
     session: requests.Session,
     sleep_func=time.sleep,
-) -> dict[str, str]:
+) -> dict[str, Any]:
     url = f"https://www.wikidata.org/wiki/Special:EntityData/{qid}.json"
     payload = request_json(session, url, sleep_func=sleep_func)
     entity = (payload or {}).get("entities", {}).get(qid, {})
+    return entity if isinstance(entity, dict) else {}
+
+
+def wikidata_sitelinks_from_entity(entity: dict[str, Any]) -> dict[str, str]:
     sitelinks = entity.get("sitelinks") or {}
     if not isinstance(sitelinks, dict):
         return {}
@@ -239,6 +263,104 @@ def fetch_wikidata_sitelinks(
     }
 
 
+def fetch_wikidata_sitelinks(
+    qid: str,
+    *,
+    session: requests.Session,
+    sleep_func=time.sleep,
+) -> dict[str, str]:
+    return wikidata_sitelinks_from_entity(
+        fetch_wikidata_entity(qid, session=session, sleep_func=sleep_func)
+    )
+
+
+def first_wikidata_claim_value(entity: dict[str, Any], property_id: str) -> Any:
+    claims = entity.get("claims") or {}
+    property_claims = claims.get(property_id) if isinstance(claims, dict) else None
+    if not isinstance(property_claims, list):
+        return None
+    for claim in property_claims:
+        snak = claim.get("mainsnak") if isinstance(claim, dict) else None
+        datavalue = (snak or {}).get("datavalue") if isinstance(snak, dict) else None
+        value = (datavalue or {}).get("value") if isinstance(datavalue, dict) else None
+        if value is not None:
+            return value
+    return None
+
+
+def parse_wikidata_time_value(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return None
+    try:
+        precision = int(value.get("precision") or 0)
+    except (TypeError, ValueError):
+        precision = 0
+    if precision < 11:
+        return None
+
+    raw_time = str(value.get("time") or "")
+    match = re.match(r"^\+?(\d{4})-(\d{2})-(\d{2})T", raw_time)
+    if not match:
+        return None
+    year, month, day = match.groups()
+    if month == "00" or day == "00":
+        return None
+    try:
+        datetime.strptime(f"{year}-{month}-{day}", "%Y-%m-%d")
+    except ValueError:
+        return None
+    return f"{year}-{month}-{day}"
+
+
+def wikidata_item_id(value: Any) -> str | None:
+    if not isinstance(value, dict):
+        return None
+    qid = normalize_wikidata_id(value.get("id"))
+    if qid:
+        return qid
+    numeric_id = value.get("numeric-id")
+    return normalize_wikidata_id(str(numeric_id)) if numeric_id is not None else None
+
+
+def wikidata_entity_label(entity: dict[str, Any]) -> str | None:
+    labels = entity.get("labels") or {}
+    if not isinstance(labels, dict):
+        return None
+    preferred = labels.get("en")
+    if isinstance(preferred, dict):
+        label = clean_text(preferred.get("value"))
+        if label:
+            return label
+    for value in labels.values():
+        if isinstance(value, dict):
+            label = clean_text(value.get("value"))
+            if label:
+                return label
+    return None
+
+
+def fetch_wikidata_birth_details(
+    entity: dict[str, Any],
+    *,
+    session: requests.Session,
+    sleep_func=time.sleep,
+) -> dict[str, str]:
+    details: dict[str, str] = {}
+
+    birth_date = parse_wikidata_time_value(first_wikidata_claim_value(entity, "P569"))
+    if birth_date:
+        details["birth_date"] = birth_date
+
+    place_qid = wikidata_item_id(first_wikidata_claim_value(entity, "P19"))
+    if place_qid:
+        place_entity = fetch_wikidata_entity(place_qid, session=session, sleep_func=sleep_func)
+        birth_place = wikidata_entity_label(place_entity)
+        if birth_place:
+            details["birth_place"] = birth_place
+
+    return details
+
+
 def first_paragraph(extract: str | None) -> str | None:
     text = (extract or "").strip()
     if not text:
@@ -247,18 +369,31 @@ def first_paragraph(extract: str | None) -> str | None:
     return clean_text(paragraphs[0] if paragraphs else text)
 
 
-def summary_to_enrichment(payload: dict[str, Any] | None) -> dict[str, str] | None:
+def parse_wikipedia_summary(payload: dict[str, Any] | None) -> dict[str, str] | None:
     if not payload or payload.get("type") == "disambiguation":
         return None
-    bio_text = first_paragraph(payload.get("extract"))
-    if not bio_text:
+    bio = first_paragraph(payload.get("extract"))
+    if not bio:
         return None
     content_urls = payload.get("content_urls") or {}
     desktop = content_urls.get("desktop") if isinstance(content_urls, dict) else {}
     page_url = (desktop or {}).get("page") or payload.get("page_url")
+    result = {"bio": bio, "bio_text": bio}
+    source = clean_text(page_url)
+    if source:
+        result["wikipedia_url"] = source
+        result["bio_source"] = source
+    return result
+
+
+def summary_to_enrichment(payload: dict[str, Any] | None) -> dict[str, str] | None:
+    parsed = parse_wikipedia_summary(payload)
+    if not parsed:
+        return None
     return {
-        "bio_text": bio_text,
-        "wikipedia_url": clean_text(page_url),
+        key: parsed[key]
+        for key in ("bio_text", "wikipedia_url")
+        if parsed.get(key)
     }
 
 
@@ -395,6 +530,85 @@ def fetch_infobox_details(
     return parse_infobox_details(page_html if isinstance(page_html, str) else None)
 
 
+def wikipedia_reference_from_url(url: Any) -> tuple[str, str] | None:
+    text = clean_text(url)
+    if not text:
+        return None
+    parsed = urlparse(text)
+    host_parts = parsed.netloc.lower().split(".")
+    if len(host_parts) < 3 or host_parts[-2:] != ["wikipedia", "org"]:
+        return None
+    lang = host_parts[0]
+    path = parsed.path or ""
+    if not path.startswith("/wiki/"):
+        return None
+    title = clean_text(unquote(path.removeprefix("/wiki/")).replace("_", " "))
+    if not title:
+        return None
+    return lang, title
+
+
+def existing_wikipedia_references(fencer: dict[str, Any]) -> list[tuple[str, str]]:
+    references: list[tuple[str, str]] = []
+
+    url = value_from_fencer_or_metadata(
+        fencer,
+        ["wikipedia_url", "wiki_url", "wikipedia_page_url"],
+    )
+    parsed_url = wikipedia_reference_from_url(url)
+    if parsed_url:
+        references.append(parsed_url)
+
+    title = clean_text(
+        value_from_fencer_or_metadata(
+            fencer,
+            ["wikipedia_title", "wiki_title", "wikipedia_page_title"],
+        )
+    )
+    if title:
+        lang = clean_text(
+            value_from_fencer_or_metadata(
+                fencer,
+                ["wikipedia_lang", "wikipedia_language", "wiki_lang"],
+            )
+        )
+        languages = [lang] if lang else language_candidates(fencer)
+        for candidate_lang in languages:
+            ref = (candidate_lang, title)
+            if ref not in references:
+                references.append(ref)
+
+    return references
+
+
+def fetch_page_enrichment(
+    title: str,
+    lang: str,
+    *,
+    session: requests.Session,
+    wikidata_details: dict[str, str] | None = None,
+    sleep_func=time.sleep,
+) -> dict[str, str] | None:
+    summary = fetch_summary(title, lang, session=session, sleep_func=sleep_func)
+    if not summary:
+        return None
+
+    details = fetch_infobox_details(title, lang, session=session, sleep_func=sleep_func)
+    if "birth_place" not in details:
+        birth_place = extract_birth_place_from_bio_text(summary.get("bio_text"))
+        if birth_place:
+            details["birth_place"] = birth_place
+
+    result = {
+        **summary,
+        **(wikidata_details or {}),
+        **details,
+        "language": lang,
+        "title": title,
+    }
+    return {key: value for key, value in result.items() if value}
+
+
 def fetch_wikipedia_enrichment(
     fencer: dict[str, Any],
     *,
@@ -402,30 +616,62 @@ def fetch_wikipedia_enrichment(
     sleep_func=time.sleep,
 ) -> dict[str, str] | None:
     qid = fencer_wikidata_id(fencer)
-    if not qid:
-        return None
-
     session = session or requests.Session()
-    sitelinks = fetch_wikidata_sitelinks(qid, session=session, sleep_func=sleep_func)
-    for lang in language_candidates(fencer):
-        title = sitelinks.get(lang)
-        if not title:
-            continue
 
-        summary = fetch_summary(title, lang, session=session, sleep_func=sleep_func)
-        if not summary:
-            continue
+    if qid:
+        entity = fetch_wikidata_entity(qid, session=session, sleep_func=sleep_func)
+        wikidata_details = fetch_wikidata_birth_details(
+            entity,
+            session=session,
+            sleep_func=sleep_func,
+        )
+        sitelinks = wikidata_sitelinks_from_entity(entity)
+        for lang in language_candidates(fencer):
+            title = sitelinks.get(lang)
+            if not title:
+                continue
 
-        details = fetch_infobox_details(title, lang, session=session, sleep_func=sleep_func)
-        if "birth_place" not in details:
-            birth_place = extract_birth_place_from_bio_text(summary.get("bio_text"))
-            if birth_place:
-                details["birth_place"] = birth_place
+            result = fetch_page_enrichment(
+                title,
+                lang,
+                session=session,
+                wikidata_details=wikidata_details,
+                sleep_func=sleep_func,
+            )
+            if result:
+                return result
 
-        result = {**summary, **details, "language": lang, "title": title}
-        return {key: value for key, value in result.items() if value}
+        if wikidata_details:
+            wikidata_details["bio_source"] = f"https://www.wikidata.org/wiki/{qid}"
+            return wikidata_details
+
+    for lang, title in existing_wikipedia_references(fencer):
+        result = fetch_page_enrichment(
+            title,
+            lang,
+            session=session,
+            wikidata_details=None,
+            sleep_func=sleep_func,
+        )
+        if result:
+            return result
 
     return None
+
+
+def source_matches(existing_source: str | None, new_source: str | None) -> bool:
+    existing = clean_text(existing_source)
+    new = clean_text(new_source)
+    return bool(existing and new and existing.rstrip("/") == new.rstrip("/"))
+
+
+def should_update_bio(fencer: dict[str, Any], new_bio: str, new_source: str | None) -> bool:
+    existing_bio = clean_text(fencer.get("bio"))
+    if not existing_bio:
+        return True
+    if not source_matches(clean_text(fencer.get("bio_source")), new_source):
+        return False
+    return len(new_bio) >= len(existing_bio) + BIO_REFRESH_MIN_EXTRA_CHARS
 
 
 def build_update_payload(
@@ -435,11 +681,47 @@ def build_update_payload(
     if not enrichment:
         return {}
     payload: dict[str, str] = {}
-    for field in ("bio_text", "wikipedia_url", "birth_place", "nickname", "height", "weight"):
+
+    bio = clean_text(enrichment.get("bio") or enrichment.get("bio_text"))
+    source = clean_text(enrichment.get("bio_source") or enrichment.get("wikipedia_url"))
+
+    if bio:
+        if "bio" in fencer and should_update_bio(fencer, bio, source):
+            payload["bio"] = bio
+        if "bio_text" in fencer and not clean_text(fencer.get("bio_text")):
+            payload["bio_text"] = bio
+
+    if source:
+        if "wikipedia_url" in fencer and not clean_text(fencer.get("wikipedia_url")):
+            payload["wikipedia_url"] = source
+        if (
+            "bio_source" in fencer
+            and not clean_text(fencer.get("bio_source"))
+            and any(field in payload for field in ("bio", "birth_date", "birth_place", "bio_text"))
+        ):
+            payload["bio_source"] = source
+
+    for field in ("birth_date", "birth_place", "nickname", "height", "weight"):
         value = clean_text(enrichment.get(field))
-        if value and not clean_text(fencer.get(field)):
+        if value and field in fencer and not clean_text(fencer.get(field)):
             payload[field] = value
+
+    if source and "bio_source" in fencer and not clean_text(fencer.get("bio_source")):
+        if any(field in payload for field in ("bio", "birth_date", "birth_place")):
+            payload["bio_source"] = source
+
     return payload
+
+
+def apply_pending_field_filter(query: Any) -> Any:
+    or_filter = getattr(query, "or_", None)
+    if callable(or_filter):
+        return or_filter(PENDING_FIELD_FILTER)
+    return query.is_("bio_text", "null")
+
+
+def fencer_has_confident_wikipedia_source(fencer: dict[str, Any]) -> bool:
+    return bool(fencer_wikidata_id(fencer) or existing_wikipedia_references(fencer))
 
 
 def load_pending_fencers(limit: int = PAGE_SIZE) -> list[dict[str, Any]]:
@@ -447,16 +729,27 @@ def load_pending_fencers(limit: int = PAGE_SIZE) -> list[dict[str, Any]]:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 
     last_fencer_id = get_state(SOURCE, "last_fencer_id")
-    query = (
-        supabase.table("fs_fencers")
-        .select(FENCER_SELECT)
-        .filter("metadata->>wikidata_id", "not.is", "null")
-        .is_("bio_text", "null")
-    )
-    if last_fencer_id:
-        query = query.gt("id", last_fencer_id)
-    result = query.order("id").limit(limit).execute()
-    return result.data or []
+    rows_by_id: dict[str, dict[str, Any]] = {}
+
+    for column, operator, value in MATCH_FILTERS:
+        query = (
+            supabase.table("fs_fencers")
+            .select(FENCER_SELECT)
+            .filter(column, operator, value)
+        )
+        query = apply_pending_field_filter(query)
+        if last_fencer_id:
+            query = query.gt("id", last_fencer_id)
+        result = query.order("id").limit(limit).execute()
+        for row in result.data or []:
+            if not fencer_has_confident_wikipedia_source(row):
+                continue
+            key = clean_text(row.get("id")) or json.dumps(row, sort_keys=True)
+            rows_by_id.setdefault(key, row)
+            if len(rows_by_id) >= limit:
+                return list(rows_by_id.values())
+
+    return list(rows_by_id.values())
 
 
 def update_fencer(fencer_id: str, payload: dict[str, str]) -> bool:
@@ -473,8 +766,12 @@ def process_fencer(
     sleep_func=time.sleep,
 ) -> str:
     enrichment = fetch_wikipedia_enrichment(fencer, session=session, sleep_func=sleep_func)
+    if not enrichment:
+        print(f"  Skipped fencer {fencer.get('id')}: no confident Wikipedia/Wikidata match")
+        return "skipped"
     payload = build_update_payload(fencer, enrichment)
     if not payload:
+        print(f"  Skipped fencer {fencer.get('id')}: no empty or lower-quality bio fields")
         return "skipped"
     update_fencer(fencer["id"], payload)
     return "written"

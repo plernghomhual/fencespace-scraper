@@ -1,0 +1,17 @@
+services:
+  graphql-api:
+    image: python:3.14-slim
+    working_dir: /app
+    command: sh -c "pip install -r requirements.txt && uvicorn graphql.app:app --host 0.0.0.0 --port 8001"
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+    environment:
+      FENCESPACE_API_KEY: ${FENCESPACE_API_KEY:-dev-secret}
+      FS_API_KEY: ${FS_API_KEY:-}
+      API_KEY: ${API_KEY:-}
+      FENCESPACE_RATE_LIMIT_PER_MINUTE: ${FENCESPACE_RATE_LIMIT_PER_MINUTE:-100}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY:-}
+      SUPABASE_KEY: ${SUPABASE_KEY:-}
