@@ -323,9 +323,9 @@ def test_build_bout_rows_include_weapon_names_and_stable_ids():
 
     assert rows[0]["id"] == rows[0]["id"]
     assert rows[0]["tournament_id"] == "tournament-1"
-    assert rows[0]["fencer_a"] == "fencer-samir"
-    assert rows[0]["fencer_b"] == "fencer-nicky"
-    assert rows[0]["winner"] == "fencer-nicky"
+    assert rows[0]["fencer_a_id"] == "fencer-samir"
+    assert rows[0]["fencer_b_id"] == "fencer-nicky"
+    assert rows[0]["winner_id"] == "fencer-nicky"
     assert rows[0]["score_a"] == 2
     assert rows[0]["score_b"] == 5
     assert rows[0]["weapon"] == "Sabre"

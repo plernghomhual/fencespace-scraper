@@ -683,11 +683,11 @@ def build_bout_rows(tournament_id, bouts, fencer_index):
             {
                 "id": make_bout_id(tournament_id, bout.source_key),
                 "tournament_id": tournament_id,
-                "fencer_a": fencer_a_id,
-                "fencer_b": fencer_b_id,
+                "fencer_a_id": fencer_a_id,
+                "fencer_b_id": fencer_b_id,
                 "score_a": bout.score_a,
                 "score_b": bout.score_b,
-                "winner": winner,
+                "winner_id": winner,
                 "round": f"Round {bout.round_number or '?'} Match {bout.match_number or '?'}",
                 "weapon": bout.weapon,
                 "metadata": {

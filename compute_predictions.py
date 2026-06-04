@@ -31,8 +31,6 @@ TARGET_EVENT_SELECTS = (
     "id,name,type,season",
 )
 FENCER_SELECTS = (
-    "id,fie_id,name,country,weapon,category,world_rank,active,elo_rating",
-    "id,fie_id,name,country,weapon,category,world_rank,active",
     "id,fie_id,name,country,weapon,category,world_rank",
     "id,fie_id,name,country,weapon,world_rank",
 )
@@ -45,7 +43,7 @@ RESULT_SELECTS = (
 RANKINGS_SELECT = "fie_fencer_id,season,weapon,category,rank,points,name,country"
 PERFORMANCE_SELECT = "fencer_id,weapon,competitions_count,avg_delta,overperformance_rate"
 STRENGTH_SELECT = "tournament_id,strength_score,total_fie_ranked"
-TREND_SELECT = "fencer_id,weapon,category,projected_next_rank,trend_direction,rank_change,points_change"
+TREND_SELECT = "fie_fencer_id,weapon,category,projected_next_rank,trend_direction,rank_change,points_change"
 MEDAL_SELECT = "scope,fencer_id,tier,gold,silver,bronze,total"
 CAREER_SELECT = "fencer_id,total_competitions,gold_medals,silver_medals,bronze_medals,legacy_score"
 ELO_SELECT = "fencer_id,weapon,rating,peak_rating"
@@ -522,7 +520,7 @@ def build_strength_lookup(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any
 def build_trend_lookup(rows: list[dict[str, Any]]) -> dict[tuple[str, str | None, str | None], dict[str, Any]]:
     lookup = {}
     for row in rows:
-        fencer_id = clean_text(row.get("fencer_id"))
+        fencer_id = clean_text(row.get("fie_fencer_id") or row.get("fencer_id"))
         if not fencer_id:
             continue
         lookup[(fencer_id, normalize_weapon(row.get("weapon")), normalize_category(row.get("category")))] = row

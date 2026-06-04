@@ -19,10 +19,7 @@ OUTPUT_TABLE = "fs_medal_efficiency"
 MIN_MEDAL_SAMPLE = 3
 MIN_COMPETITION_SAMPLE = 3
 
-MEDAL_TABLE_COLUMNS = (
-    "id,scope,country,country_code,season,tier,competition_tier,competition_type,"
-    "gold,silver,bronze,total"
-)
+MEDAL_TABLE_COLUMNS = "id,scope,country,fencer_id,tier,gold,silver,bronze,total"
 COUNTRY_DEPTH_COLUMNS = "country,country_code,season,weapon,category,total_ranked"
 COUNTRY_CODE_COLUMNS = "country,country_code,iso3,ioc,noc,name,country_name"
 POPULATION_COLUMNS = "country,country_code,iso3,iso_alpha3,ioc,noc,season,population"
