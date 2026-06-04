@@ -520,7 +520,8 @@ def build_anomaly_rows(
     ranked_rows, unusual_by_fencer = ranking_rows(valid_bouts, fencer_ranks, created_at)
     rows.extend(ranked_rows)
     rows.extend(repeated_pattern_rows(valid_bouts, unusual_by_fencer, created_at))
-    rows.extend(betting_rows(valid_bouts, created_at))
+    # fs_bouts.metadata removed from schema; public_betting_data_mismatch disabled until restored
+    # rows.extend(betting_rows(valid_bouts, created_at))
 
     rows.sort(key=lambda row: (row["bout_id"], row["anomaly_type"]))
     return rows, skipped

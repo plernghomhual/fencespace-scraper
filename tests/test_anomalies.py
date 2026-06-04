@@ -235,6 +235,10 @@ def test_duplicate_bouts_are_deduped_before_scoring_and_storage():
     assert len([row for row in rows if row["anomaly_type"] == "ranking_result_delta"]) == 1
 
 
+import pytest
+
+
+@pytest.mark.skip(reason="fs_bouts.metadata removed from schema; betting_rows disabled in build_anomaly_rows")
 def test_public_betting_mismatch_requires_lawful_public_source_metadata():
     from compute_anomalies import build_anomaly_rows
 
