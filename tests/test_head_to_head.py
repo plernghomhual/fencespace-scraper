@@ -24,56 +24,56 @@ def test_build_head_to_head_rows_canonicalizes_pairs_and_skips_incomplete_bouts(
         {
             "id": "bout-1",
             "tournament_id": "foil-1",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": HIGH_FENCER,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": HIGH_FENCER,
             "score_a": 15,
             "score_b": 10,
         },
         {
             "id": "bout-2",
             "tournament_id": "foil-2",
-            "fencer_a": HIGH_FENCER,
-            "fencer_b": LOW_FENCER,
+            "fencer_a_id": HIGH_FENCER,
+            "fencer_b_id": LOW_FENCER,
             "score_a": "15",
             "score_b": "14",
         },
         {
             "id": "bout-3",
             "tournament_id": "epee-1",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": HIGH_FENCER,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": HIGH_FENCER,
             "score_a": 12,
             "score_b": 15,
         },
         {
             "id": "null-score",
             "tournament_id": "foil-1",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": HIGH_FENCER,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": HIGH_FENCER,
             "score_a": None,
             "score_b": 15,
         },
         {
             "id": "null-fencer",
             "tournament_id": "foil-1",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": None,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": None,
             "score_a": 15,
             "score_b": 9,
         },
         {
             "id": "self-bout",
             "tournament_id": "foil-1",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": LOW_FENCER,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": LOW_FENCER,
             "score_a": 15,
             "score_b": 9,
         },
         {
             "id": "missing-weapon",
             "tournament_id": "missing-weapon",
-            "fencer_a": LOW_FENCER,
-            "fencer_b": OTHER_FENCER,
+            "fencer_a_id": LOW_FENCER,
+            "fencer_b_id": OTHER_FENCER,
             "score_a": 15,
             "score_b": 9,
         },
@@ -164,24 +164,24 @@ class FakeSupabase:
                 {
                     "id": "bout-1",
                     "tournament_id": "foil-1",
-                    "fencer_a": LOW_FENCER,
-                    "fencer_b": HIGH_FENCER,
+                    "fencer_a_id": LOW_FENCER,
+                    "fencer_b_id": HIGH_FENCER,
                     "score_a": 15,
                     "score_b": 10,
                 },
                 {
                     "id": "incomplete",
                     "tournament_id": "foil-1",
-                    "fencer_a": LOW_FENCER,
-                    "fencer_b": HIGH_FENCER,
+                    "fencer_a_id": LOW_FENCER,
+                    "fencer_b_id": HIGH_FENCER,
                     "score_a": None,
                     "score_b": 10,
                 },
                 {
                     "id": "filtered",
                     "tournament_id": "foil-1",
-                    "fencer_a": LOW_FENCER,
-                    "fencer_b": None,
+                    "fencer_a_id": LOW_FENCER,
+                    "fencer_b_id": None,
                     "score_a": 15,
                     "score_b": 10,
                 },
@@ -204,8 +204,8 @@ def test_compute_head_to_head_queries_non_null_bouts_and_upserts_rows():
 
     summary = compute_head_to_head(fake, now=NOW)
 
-    assert ("fs_bouts", "fencer_a") in fake.not_null_filters
-    assert ("fs_bouts", "fencer_b") in fake.not_null_filters
+    assert ("fs_bouts", "fencer_a_id") in fake.not_null_filters
+    assert ("fs_bouts", "fencer_b_id") in fake.not_null_filters
     assert summary == {"bouts_loaded": 2, "rows_written": 1, "skipped": 1}
     assert len(fake.upserts) == 1
     table_name, rows, conflict = fake.upserts[0]

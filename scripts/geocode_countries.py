@@ -1,13 +1,18 @@
 import argparse
 import os
 import re
+import sys
 import time
 import unicodedata
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Callable, Iterable
 
 import requests
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state

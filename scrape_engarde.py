@@ -1031,8 +1031,8 @@ def bout_rows_for_db(tournament_id, parsed_bouts, fencer_index):
         rows.append({
             "id": make_bout_id(tournament_id, bout["source_key"]),
             "tournament_id": tournament_id,
-            "fencer_a": fencer_a.get("id") if fencer_a else None,
-            "fencer_b": fencer_b.get("id") if fencer_b else None,
+            "fencer_a_id": fencer_a.get("id") if fencer_a else None,
+            "fencer_b_id": fencer_b.get("id") if fencer_b else None,
             "score_a": score_a,
             "score_b": score_b,
             "round": bout.get("round"),

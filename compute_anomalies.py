@@ -17,7 +17,7 @@ BATCH_SIZE = 100
 SOURCE = "compute_anomalies"
 MODEL_VERSION = "sports_integrity_v1"
 
-BOUT_SELECT = "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b,metadata"
+BOUT_SELECT = "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b"
 FENCER_SELECT = "id,world_rank"
 TOURNAMENT_SELECT = "id,weapon,name,start_date,end_date"
 ANOMALY_SELECT = "bout_id,anomaly_type,model_version,reviewed"
@@ -127,8 +127,8 @@ def dedupe_key(bout: dict[str, Any]) -> tuple[Any, ...]:
     if bout_id:
         return ("id", bout_id)
 
-    fencer_a = clean_text(bout.get("fencer_a"))
-    fencer_b = clean_text(bout.get("fencer_b"))
+    fencer_a = clean_text(bout.get("fencer_a_id"))
+    fencer_b = clean_text(bout.get("fencer_b_id"))
     pair = tuple(sorted([fencer_a or "", fencer_b or ""]))
     return (
         "signature",
@@ -143,8 +143,8 @@ def dedupe_key(bout: dict[str, Any]) -> tuple[Any, ...]:
 def normalize_valid_bout(bout: dict[str, Any]) -> dict[str, Any] | None:
     bout_id = clean_text(bout.get("id"))
     tournament_id = clean_text(bout.get("tournament_id"))
-    fencer_a = clean_text(bout.get("fencer_a"))
-    fencer_b = clean_text(bout.get("fencer_b"))
+    fencer_a = clean_text(bout.get("fencer_a_id"))
+    fencer_b = clean_text(bout.get("fencer_b_id"))
     winner_id = clean_text(bout.get("winner_id"))
     score_a = coerce_int(bout.get("score_a"))
     score_b = coerce_int(bout.get("score_b"))
@@ -394,8 +394,8 @@ def repeated_pattern_rows(
                 "bout_ids": [bout["id"] for bout in unusual_bouts],
             },
             source_fields=[
-                "fs_bouts.fencer_a",
-                "fs_bouts.fencer_b",
+                "fs_bouts.fencer_a_id",
+                "fs_bouts.fencer_b_id",
                 "fs_bouts.winner_id",
                 "fs_fencers.world_rank",
             ],

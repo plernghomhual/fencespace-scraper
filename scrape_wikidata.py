@@ -94,18 +94,35 @@ def build_update_payload(data):
     return payload
 
 
+def _sparql_fetch(query):
+    for attempt in range(3):
+        try:
+            r = requests.get(
+                SPARQL_URL,
+                params={"query": query, "format": "json"},
+                headers=HEADERS,
+                timeout=45,
+            )
+            r.raise_for_status()
+            return r.json()
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
+            if attempt == 2:
+                raise
+            wait = 15 * (attempt + 1)
+            print(f"  [wikidata] SPARQL timeout (attempt {attempt + 1}/3), retrying in {wait}s: {exc}")
+            time.sleep(wait)
+
+
 def fetch_wikidata_fencers():
     results = []
     offset = 0
     while True:
         query = SPARQL_QUERY.format(fie_prop=FIE_ID_PROPERTY, limit=PAGE_SIZE, offset=offset)
         try:
-            r = requests.get(SPARQL_URL, params={"query": query, "format": "json"},
-                             headers=HEADERS, timeout=60)
-            if r.status_code != 200:
-                print(f"  SPARQL error {r.status_code}")
+            data = _sparql_fetch(query)
+            if data is None:
                 break
-            bindings = r.json()["results"]["bindings"]
+            bindings = data["results"]["bindings"]
             if not bindings:
                 break
             results.extend(bindings)

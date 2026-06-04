@@ -42,7 +42,7 @@ def fencers_fixture():
             "category": "Men's Senior",
             "world_rank": 1,
             "active": True,
-            "elo_rating": 1860,
+            "rating": 1860,
         },
         {
             "id": BOB,
@@ -442,7 +442,7 @@ def test_compute_predictions_fetches_inputs_and_upserts_predictions_and_backtest
     assert summary["backtest_rows"] == 1
     assert summary["written"] == 4
     assert ("fs_rankings_history", "fie_fencer_id,season,weapon,category,rank,points,name,country") in client.selects
-    assert ("fs_fencer_elo", "fencer_id,weapon,rating,elo_rating") in client.selects
+    assert ("fs_fencer_elo", "fencer_id,weapon,rating,peak_rating") in client.selects
 
     prediction_upsert = client.upserts[0]
     assert prediction_upsert["table"] == "fs_predictions"

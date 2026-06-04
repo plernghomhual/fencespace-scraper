@@ -3,9 +3,13 @@ from __future__ import annotations
 import os
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Callable
 
 from supabase import create_client
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state

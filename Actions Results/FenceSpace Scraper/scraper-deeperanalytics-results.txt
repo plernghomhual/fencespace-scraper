@@ -1,0 +1,1020 @@
+﻿2026-06-03T23:43:15.7098979Z Current runner version: '2.334.0'
+2026-06-03T23:43:15.7126087Z ##[group]Runner Image Provisioner
+2026-06-03T23:43:15.7127036Z Hosted Compute Agent
+2026-06-03T23:43:15.7127749Z Version: 20260520.533
+2026-06-03T23:43:15.7128504Z Commit: 189110e25284a9812c124fd27b339e2fb4f2f9db
+2026-06-03T23:43:15.7129312Z Build Date: 2026-05-20T17:44:04Z
+2026-06-03T23:43:15.7130030Z Worker ID: {061c27bd-d78b-4253-b1ab-b1c89ae52093}
+2026-06-03T23:43:15.7130752Z Azure Region: westus
+2026-06-03T23:43:15.7131429Z ##[endgroup]
+2026-06-03T23:43:15.7133351Z ##[group]Operating System
+2026-06-03T23:43:15.7134130Z Ubuntu
+2026-06-03T23:43:15.7134693Z 24.04.4
+2026-06-03T23:43:15.7135213Z LTS
+2026-06-03T23:43:15.7135833Z ##[endgroup]
+2026-06-03T23:43:15.7136490Z ##[group]Runner Image
+2026-06-03T23:43:15.7137174Z Image: ubuntu-24.04
+2026-06-03T23:43:15.7137773Z Version: 20260525.161.1
+2026-06-03T23:43:15.7139132Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260525.161/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-03T23:43:15.7140755Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260525.161
+2026-06-03T23:43:15.7141798Z ##[endgroup]
+2026-06-03T23:43:15.7143460Z ##[group]GITHUB_TOKEN Permissions
+2026-06-03T23:43:15.7145527Z Contents: read
+2026-06-03T23:43:15.7146202Z Metadata: read
+2026-06-03T23:43:15.7146871Z Packages: read
+2026-06-03T23:43:15.7147478Z ##[endgroup]
+2026-06-03T23:43:15.7149771Z Secret source: Actions
+2026-06-03T23:43:15.7150694Z Prepare workflow directory
+2026-06-03T23:43:15.7560503Z Prepare all required actions
+2026-06-03T23:43:15.7598661Z Getting action download info
+2026-06-03T23:43:16.2549699Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-06-03T23:43:16.3679959Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-06-03T23:43:16.5450883Z Complete job name: deeper-analytics
+2026-06-03T23:43:16.6229130Z ##[group]Run actions/checkout@v4
+2026-06-03T23:43:16.6230061Z with:
+2026-06-03T23:43:16.6230572Z   repository: plernghomhual/fencespace-scraper
+2026-06-03T23:43:16.6235573Z   token: ***
+2026-06-03T23:43:16.6236025Z   ssh-strict: true
+2026-06-03T23:43:16.6236487Z   ssh-user: git
+2026-06-03T23:43:16.6236986Z   persist-credentials: true
+2026-06-03T23:43:16.6237519Z   clean: true
+2026-06-03T23:43:16.6237983Z   sparse-checkout-cone-mode: true
+2026-06-03T23:43:16.6238520Z   fetch-depth: 1
+2026-06-03T23:43:16.6238964Z   fetch-tags: false
+2026-06-03T23:43:16.6239420Z   show-progress: true
+2026-06-03T23:43:16.6239885Z   lfs: false
+2026-06-03T23:43:16.6240316Z   submodules: false
+2026-06-03T23:43:16.6240779Z   set-safe-directory: true
+2026-06-03T23:43:16.6241558Z env:
+2026-06-03T23:43:16.6242207Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:43:16.6242793Z ##[endgroup]
+2026-06-03T23:43:16.7240655Z Syncing repository: plernghomhual/fencespace-scraper
+2026-06-03T23:43:16.7242952Z ##[group]Getting Git version info
+2026-06-03T23:43:16.7243845Z Working directory is '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T23:43:16.7245015Z [command]/usr/bin/git version
+2026-06-03T23:43:16.7316933Z git version 2.54.0
+2026-06-03T23:43:16.7370142Z ##[endgroup]
+2026-06-03T23:43:16.7384299Z Temporarily overriding HOME='/home/runner/work/_temp/a0240a7b-a9b2-410b-87cf-726b6cfaa822' before making global git config changes
+2026-06-03T23:43:16.7388936Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T23:43:16.7391379Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T23:43:16.7438719Z Deleting the contents of '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T23:43:16.7442204Z ##[group]Initializing the repository
+2026-06-03T23:43:16.7446723Z [command]/usr/bin/git init /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T23:43:16.7543536Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-03T23:43:16.7545445Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-03T23:43:16.7546575Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-03T23:43:16.7547731Z hint: call:
+2026-06-03T23:43:16.7548219Z hint:
+2026-06-03T23:43:16.7549136Z hint: 	git config --global init.defaultBranch <name>
+2026-06-03T23:43:16.7550159Z hint:
+2026-06-03T23:43:16.7550938Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-03T23:43:16.7553114Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-03T23:43:16.7554707Z hint:
+2026-06-03T23:43:16.7555602Z hint: 	git branch -m <name>
+2026-06-03T23:43:16.7556584Z hint:
+2026-06-03T23:43:16.7557793Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-03T23:43:16.7559831Z Initialized empty Git repository in /home/runner/work/fencespace-scraper/fencespace-scraper/.git/
+2026-06-03T23:43:16.7563507Z [command]/usr/bin/git remote add origin https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T23:43:16.7624586Z ##[endgroup]
+2026-06-03T23:43:16.7625944Z ##[group]Disabling automatic garbage collection
+2026-06-03T23:43:16.7628913Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-03T23:43:16.7666286Z ##[endgroup]
+2026-06-03T23:43:16.7667734Z ##[group]Setting up auth
+2026-06-03T23:43:16.7672722Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T23:43:16.7709158Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T23:43:16.8069361Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T23:43:16.8105953Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T23:43:16.8359252Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T23:43:16.8390915Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T23:43:16.8610309Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-03T23:43:16.8645629Z ##[endgroup]
+2026-06-03T23:43:16.8646503Z ##[group]Fetching the repository
+2026-06-03T23:43:16.8654578Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +584d2ceca644571bf8fee6973576d9000d6784ee:refs/remotes/origin/main
+2026-06-03T23:43:17.8195762Z From https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T23:43:17.8197228Z  * [new ref]         584d2ceca644571bf8fee6973576d9000d6784ee -> origin/main
+2026-06-03T23:43:17.8245340Z ##[endgroup]
+2026-06-03T23:43:17.8246858Z ##[group]Determining the checkout info
+2026-06-03T23:43:17.8248867Z ##[endgroup]
+2026-06-03T23:43:17.8249841Z [command]/usr/bin/git sparse-checkout disable
+2026-06-03T23:43:17.8290049Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-03T23:43:17.8319782Z ##[group]Checking out the ref
+2026-06-03T23:43:17.8324384Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-06-03T23:43:17.8910160Z Switched to a new branch 'main'
+2026-06-03T23:43:17.8914757Z branch 'main' set up to track 'origin/main'.
+2026-06-03T23:43:17.8921210Z ##[endgroup]
+2026-06-03T23:43:17.8965869Z [command]/usr/bin/git log -1 --format=%H
+2026-06-03T23:43:17.8988803Z 584d2ceca644571bf8fee6973576d9000d6784ee
+2026-06-03T23:43:17.9409417Z ##[group]Run actions/setup-python@v5
+2026-06-03T23:43:17.9410710Z with:
+2026-06-03T23:43:17.9411698Z   python-version: 3.11
+2026-06-03T23:43:17.9412983Z   check-latest: false
+2026-06-03T23:43:17.9424423Z   token: ***
+2026-06-03T23:43:17.9425489Z   update-environment: true
+2026-06-03T23:43:17.9426863Z   allow-prereleases: false
+2026-06-03T23:43:17.9427992Z   freethreaded: false
+2026-06-03T23:43:17.9429015Z env:
+2026-06-03T23:43:17.9429999Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:43:17.9431210Z ##[endgroup]
+2026-06-03T23:43:18.0798004Z ##[group]Installed versions
+2026-06-03T23:43:18.0905025Z (node:2255) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T23:43:18.0909607Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T23:43:18.0913377Z Successfully set up CPython (3.11.15)
+2026-06-03T23:43:18.0916985Z ##[endgroup]
+2026-06-03T23:43:18.1087594Z ##[group]Run pip install -r requirements.txt
+2026-06-03T23:43:18.1089018Z [36;1mpip install -r requirements.txt[0m
+2026-06-03T23:43:18.1130982Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:43:18.1132289Z env:
+2026-06-03T23:43:18.1133240Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:43:18.1134695Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:18.1136406Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:43:18.1138129Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:18.1139689Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:18.1141268Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:18.1143008Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:43:18.1144348Z ##[endgroup]
+2026-06-03T23:43:18.9847895Z Collecting requests (from -r requirements.txt (line 1))
+2026-06-03T23:43:19.0391659Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-06-03T23:43:19.0646211Z Collecting supabase (from -r requirements.txt (line 2))
+2026-06-03T23:43:19.0694938Z   Downloading supabase-2.30.1-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T23:43:19.0849836Z Collecting beautifulsoup4 (from -r requirements.txt (line 3))
+2026-06-03T23:43:19.0887050Z   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+2026-06-03T23:43:19.1158527Z Collecting pdfplumber (from -r requirements.txt (line 4))
+2026-06-03T23:43:19.1191025Z   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+2026-06-03T23:43:19.1453917Z Collecting openpyxl (from -r requirements.txt (line 5))
+2026-06-03T23:43:19.1482332Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T23:43:19.1593794Z Collecting xlrd (from -r requirements.txt (line 6))
+2026-06-03T23:43:19.1621418Z   Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T23:43:19.1734940Z Collecting xlwt (from -r requirements.txt (line 7))
+2026-06-03T23:43:19.1774555Z   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T23:43:19.2208437Z Collecting fastapi (from -r requirements.txt (line 8))
+2026-06-03T23:43:19.2236822Z   Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+2026-06-03T23:43:19.2493984Z Collecting uvicorn (from -r requirements.txt (line 9))
+2026-06-03T23:43:19.2520511Z   Downloading uvicorn-0.49.0-py3-none-any.whl.metadata (6.7 kB)
+2026-06-03T23:43:19.3272736Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T23:43:19.3314299Z   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-06-03T23:43:19.4783663Z Collecting Pillow (from -r requirements.txt (line 11))
+2026-06-03T23:43:19.4824663Z   Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-06-03T23:43:19.5182997Z Collecting streamlit (from -r requirements.txt (line 12))
+2026-06-03T23:43:19.5213244Z   Downloading streamlit-1.58.0-py3-none-any.whl.metadata (9.6 kB)
+2026-06-03T23:43:19.5581651Z Collecting plotly (from -r requirements.txt (line 13))
+2026-06-03T23:43:19.5611789Z   Downloading plotly-6.8.0-py3-none-any.whl.metadata (9.0 kB)
+2026-06-03T23:43:19.6645807Z Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+2026-06-03T23:43:19.6680885Z   Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-06-03T23:43:19.6851757Z Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+2026-06-03T23:43:19.6881044Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-06-03T23:43:19.7094950Z Collecting urllib3<3,>=1.26 (from requests->-r requirements.txt (line 1))
+2026-06-03T23:43:19.7120490Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-06-03T23:43:19.7289027Z Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 1))
+2026-06-03T23:43:19.7326861Z   Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T23:43:19.7498547Z Collecting realtime==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.7593197Z   Downloading realtime-2.30.1-py3-none-any.whl.metadata (7.0 kB)
+2026-06-03T23:43:19.7732067Z Collecting supabase-functions==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.7759143Z   Downloading supabase_functions-2.30.1-py3-none-any.whl.metadata (2.4 kB)
+2026-06-03T23:43:19.7957297Z Collecting storage3==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.7986776Z   Downloading storage3-2.30.1-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T23:43:19.8126550Z Collecting supabase-auth==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.8154365Z   Downloading supabase_auth-2.30.1-py3-none-any.whl.metadata (6.4 kB)
+2026-06-03T23:43:19.8316348Z Collecting postgrest==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.8347016Z   Downloading postgrest-2.30.1-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T23:43:19.8510865Z Collecting httpx<0.29,>=0.26 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:19.8541349Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T23:43:20.0770210Z Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.0805726Z   Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (94 kB)
+2026-06-03T23:43:20.1067239Z Collecting deprecation>=2.1.0 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.1102671Z   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T23:43:20.2025961Z Collecting pydantic<3.0,>=1.9 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.2057511Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-06-03T23:43:20.2462918Z Collecting typing-extensions>=4.14.0 (from realtime==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.2493940Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-06-03T23:43:20.2544696Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T23:43:20.2578317Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-06-03T23:43:20.3312797Z Collecting pyiceberg>=0.10.0 (from storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.3350507Z   Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+2026-06-03T23:43:20.3558066Z Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.3585495Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T23:43:20.3702767Z Collecting strenum>=0.4.15 (from supabase-functions==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.3730753Z   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-06-03T23:43:20.3903428Z Collecting anyio (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.3933638Z   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+2026-06-03T23:43:20.4133895Z Collecting httpcore==1.* (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4182788Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-06-03T23:43:20.4303804Z Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4337308Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-06-03T23:43:20.4501767Z Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4533219Z   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+2026-06-03T23:43:20.4648791Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4677917Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T23:43:20.4790662Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4819176Z   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T23:43:20.4933428Z Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:20.4961666Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T23:43:21.1141695Z Collecting pydantic-core==2.46.4 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:21.1176829Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-06-03T23:43:21.1281888Z Collecting typing-inspection>=0.4.2 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:21.1310673Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T23:43:21.1464979Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r requirements.txt (line 3))
+2026-06-03T23:43:21.1504297Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T23:43:21.1639736Z Collecting pdfminer.six==20251230 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T23:43:21.1668546Z   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T23:43:21.2667992Z Collecting pypdfium2>=4.18.0 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T23:43:21.2701904Z   Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (68 kB)
+2026-06-03T23:43:21.4306774Z Collecting cryptography>=36.0.0 (from pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T23:43:21.4337741Z   Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-06-03T23:43:21.4439690Z Collecting et-xmlfile (from openpyxl->-r requirements.txt (line 5))
+2026-06-03T23:43:21.4467219Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-06-03T23:43:21.4677041Z Collecting starlette>=0.46.0 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T23:43:21.4706263Z   Downloading starlette-1.2.1-py3-none-any.whl.metadata (6.3 kB)
+2026-06-03T23:43:21.4846783Z Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T23:43:21.4877411Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-06-03T23:43:21.5032294Z Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 9))
+2026-06-03T23:43:21.5062338Z   Downloading click-8.4.1-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T23:43:21.5268670Z Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.5301448Z   Downloading altair-6.1.0-py3-none-any.whl.metadata (11 kB)
+2026-06-03T23:43:21.5445198Z Collecting blinker<2,>=1.5.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.5472358Z   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T23:43:21.5621325Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.5650804Z   Downloading cachetools-7.1.4-py3-none-any.whl.metadata (5.5 kB)
+2026-06-03T23:43:21.5919775Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.5952914Z   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+2026-06-03T23:43:21.8095359Z Collecting numpy<3,>=1.23 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.8128958Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-06-03T23:43:21.8280252Z Collecting packaging>=20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.8307718Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T23:43:21.9297690Z Collecting pandas<4,>=1.4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.9329055Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-06-03T23:43:21.9698780Z Collecting pydeck<1,>=0.8.0b4 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:21.9727657Z   Downloading pydeck-0.9.2-py2.py3-none-any.whl.metadata (4.2 kB)
+2026-06-03T23:43:22.1062741Z Collecting protobuf<8,>=3.20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.1096800Z   Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-06-03T23:43:22.1845076Z Collecting pyarrow>=7.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.1875049Z   Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+2026-06-03T23:43:22.2030351Z Collecting tenacity<10,>=8.1.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.2057200Z   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T23:43:22.2200934Z Collecting toml<2,>=0.10.1 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.2231155Z   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T23:43:22.2566490Z Collecting httptools>=0.6.3 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.2594931Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-06-03T23:43:22.2726158Z Collecting python-multipart>=0.0.10 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.2757113Z   Downloading python_multipart-0.0.30-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T23:43:22.2869643Z Collecting itsdangerous>=2.1.2 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.2899443Z   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-06-03T23:43:22.3284416Z Collecting watchdog<7,>=2.1.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.3315441Z   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+2026-06-03T23:43:22.3483641Z Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.3513220Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T23:43:22.4134211Z Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.4166697Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-06-03T23:43:22.4451414Z Collecting narwhals>=2.4.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.4485407Z   Downloading narwhals-2.22.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T23:43:22.4646944Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.4678697Z   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T23:43:22.4784633Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.4814521Z   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T23:43:22.4962414Z Collecting python-dateutil>=2.8.2 (from pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.4993593Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-06-03T23:43:22.6050330Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T23:43:22.6082688Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-06-03T23:43:22.6243892Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T23:43:22.6271041Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-06-03T23:43:22.6750540Z Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.6781105Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-06-03T23:43:22.6918318Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.6945337Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-06-03T23:43:22.7060253Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.7088496Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T23:43:22.7266961Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:22.7308961Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-06-03T23:43:23.0124445Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:23.0160276Z   Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-06-03T23:43:23.0659598Z Collecting mmh3<6.0.0,>=4.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.0690966Z   Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+2026-06-03T23:43:23.1035528Z Collecting rich<15.0.0,>=10.11.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.1062929Z   Downloading rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+2026-06-03T23:43:23.1206029Z Collecting strictyaml<2.0.0,>=1.7.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.1238281Z   Downloading strictyaml-1.7.3-py3-none-any.whl.metadata (11 kB)
+2026-06-03T23:43:23.1432819Z Collecting fsspec>=2023.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.1465225Z   Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+2026-06-03T23:43:23.1845534Z Collecting pyparsing<4.0.0,>=3.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.1874427Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-06-03T23:43:23.2413391Z Collecting pyroaring<2.0.0,>=1.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.2457640Z   Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-06-03T23:43:23.2512087Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:23.2541139Z   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+2026-06-03T23:43:23.3140288Z Collecting zstandard<1.0.0,>=0.13.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.3173102Z   Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB)
+2026-06-03T23:43:23.3353523Z Collecting markdown-it-py>=2.2.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.3385619Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-06-03T23:43:23.3567402Z Collecting pygments<3.0.0,>=2.13.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.3594564Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T23:43:23.3765120Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.3791003Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T23:43:23.4031205Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T23:43:23.4058472Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-06-03T23:43:23.6187880Z Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.6243232Z   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-06-03T23:43:23.7368953Z Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T23:43:23.7401893Z   Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-06-03T23:43:23.7522368Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-06-03T23:43:23.7584792Z Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (214 kB)
+2026-06-03T23:43:23.7642441Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-06-03T23:43:23.7694096Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-06-03T23:43:23.7761711Z Downloading supabase-2.30.1-py3-none-any.whl (16 kB)
+2026-06-03T23:43:23.7815977Z Downloading postgrest-2.30.1-py3-none-any.whl (23 kB)
+2026-06-03T23:43:23.7870836Z Downloading realtime-2.30.1-py3-none-any.whl (22 kB)
+2026-06-03T23:43:23.7923718Z Downloading storage3-2.30.1-py3-none-any.whl (28 kB)
+2026-06-03T23:43:23.7974705Z Downloading supabase_auth-2.30.1-py3-none-any.whl (48 kB)
+2026-06-03T23:43:23.8030399Z Downloading supabase_functions-2.30.1-py3-none-any.whl (8.8 kB)
+2026-06-03T23:43:23.8081391Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-06-03T23:43:23.8134819Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-06-03T23:43:23.8185625Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-06-03T23:43:23.8237570Z Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+2026-06-03T23:43:23.8288697Z Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+2026-06-03T23:43:23.8346624Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-06-03T23:43:23.8402899Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-06-03T23:43:23.8478582Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-06-03T23:43:23.8591417Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 217.8 MB/s  0:00:00
+2026-06-03T23:43:23.8622643Z Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+2026-06-03T23:43:23.8709251Z Downloading pdfplumber-0.11.9-py3-none-any.whl (60 kB)
+2026-06-03T23:43:23.8768543Z Downloading pdfminer_six-20251230-py3-none-any.whl (6.6 MB)
+2026-06-03T23:43:23.9018171Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 279.7 MB/s  0:00:00
+2026-06-03T23:43:23.9052185Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-06-03T23:43:23.9106534Z Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+2026-06-03T23:43:23.9187554Z Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+2026-06-03T23:43:23.9241051Z Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+2026-06-03T23:43:23.9292632Z Downloading uvicorn-0.49.0-py3-none-any.whl (71 kB)
+2026-06-03T23:43:23.9352216Z Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-06-03T23:43:23.9669957Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 234.1 MB/s  0:00:00
+2026-06-03T23:43:23.9718615Z Downloading streamlit-1.58.0-py3-none-any.whl (9.2 MB)
+2026-06-03T23:43:24.0387507Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 140.7 MB/s  0:00:00
+2026-06-03T23:43:24.0417526Z Downloading altair-6.1.0-py3-none-any.whl (796 kB)
+2026-06-03T23:43:24.0491925Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.0/797.0 kB 102.9 MB/s  0:00:00
+2026-06-03T23:43:24.0527032Z Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-06-03T23:43:24.0607412Z Downloading click-8.4.1-py3-none-any.whl (116 kB)
+2026-06-03T23:43:24.0668412Z Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+2026-06-03T23:43:24.0732860Z Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+2026-06-03T23:43:24.0795350Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-06-03T23:43:24.1475608Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 253.5 MB/s  0:00:00
+2026-06-03T23:43:24.1510325Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-06-03T23:43:24.1972709Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 261.1 MB/s  0:00:00
+2026-06-03T23:43:24.2004172Z Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-06-03T23:43:24.2067828Z Downloading pydeck-0.9.2-py2.py3-none-any.whl (11.3 MB)
+2026-06-03T23:43:24.2505783Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 269.7 MB/s  0:00:00
+2026-06-03T23:43:24.2535772Z Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+2026-06-03T23:43:24.2588323Z Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+2026-06-03T23:43:24.2661051Z Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+2026-06-03T23:43:24.2714560Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-06-03T23:43:24.2778249Z Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+2026-06-03T23:43:24.2837343Z Downloading plotly-6.8.0-py3-none-any.whl (9.9 MB)
+2026-06-03T23:43:24.3464695Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 165.7 MB/s  0:00:00
+2026-06-03T23:43:24.3500935Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-06-03T23:43:24.3554531Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-06-03T23:43:24.3605635Z Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+2026-06-03T23:43:24.4264902Z Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+2026-06-03T23:43:24.4325353Z Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-06-03T23:43:24.4507564Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 290.9 MB/s  0:00:00
+2026-06-03T23:43:24.4538693Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2026-06-03T23:43:24.4596187Z Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T23:43:24.4650407Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-06-03T23:43:24.4706365Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-06-03T23:43:24.4764095Z Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-06-03T23:43:24.4815659Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-06-03T23:43:24.4894429Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-06-03T23:43:24.4959824Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-06-03T23:43:24.5012102Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-06-03T23:43:24.5060191Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-06-03T23:43:24.5124207Z Downloading narwhals-2.22.0-py3-none-any.whl (453 kB)
+2026-06-03T23:43:24.5294481Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-06-03T23:43:24.5375025Z Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (48.8 MB)
+2026-06-03T23:43:24.7578435Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.8/48.8 MB 223.3 MB/s  0:00:00
+2026-06-03T23:43:24.7657687Z Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (721 kB)
+2026-06-03T23:43:24.7708494Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 721.2/721.2 kB 150.6 MB/s  0:00:00
+2026-06-03T23:43:24.7752906Z Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+2026-06-03T23:43:24.7834050Z Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (103 kB)
+2026-06-03T23:43:24.7885312Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-06-03T23:43:24.7984267Z Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.2 MB)
+2026-06-03T23:43:24.8138734Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 153.1 MB/s  0:00:00
+2026-06-03T23:43:24.8172778Z Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+2026-06-03T23:43:24.8233397Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-06-03T23:43:24.8304294Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 233.5 MB/s  0:00:00
+2026-06-03T23:43:24.8335738Z Downloading strictyaml-1.7.3-py3-none-any.whl (123 kB)
+2026-06-03T23:43:24.8397639Z Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+2026-06-03T23:43:24.8604143Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 294.6 MB/s  0:00:00
+2026-06-03T23:43:24.8636630Z Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+2026-06-03T23:43:24.8691817Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-06-03T23:43:24.8740856Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-06-03T23:43:24.8788141Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-06-03T23:43:24.8845963Z Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-06-03T23:43:24.9038815Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 209.7 MB/s  0:00:00
+2026-06-03T23:43:24.9072904Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-06-03T23:43:24.9128641Z Downloading python_multipart-0.0.30-py3-none-any.whl (29 kB)
+2026-06-03T23:43:24.9180413Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-06-03T23:43:24.9249382Z Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (378 kB)
+2026-06-03T23:43:24.9308937Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T23:43:24.9362389Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-06-03T23:43:24.9419860Z Downloading starlette-1.2.1-py3-none-any.whl (73 kB)
+2026-06-03T23:43:24.9472837Z Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-06-03T23:43:24.9570778Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-06-03T23:43:24.9625980Z Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (106 kB)
+2026-06-03T23:43:24.9682368Z Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2026-06-03T23:43:24.9745411Z Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (58 kB)
+2026-06-03T23:43:24.9795937Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-06-03T23:43:24.9844913Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-06-03T23:43:25.3372493Z Installing collected packages: xlwt, strenum, pyroaring, zstandard, xlrd, websockets, watchdog, urllib3, typing-extensions, toml, tenacity, soupsieve, smmap, six, rpds-py, python-multipart, pypdfium2, pyparsing, pyjwt, pygments, pycparser, pyarrow, protobuf, propcache, Pillow, packaging, numpy, narwhals, multidict, mmh3, mdurl, MarkupSafe, itsdangerous, idna, hyperframe, httptools, hpack, h11, fsspec, et-xmlfile, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, yarl, uvicorn, typing-inspection, requests, referencing, python-dateutil, pydantic-core, plotly, openpyxl, markdown-it-py, jinja2, httpcore, h2, gitdb, deprecation, cffi, beautifulsoup4, anyio, strictyaml, starlette, rich, pydeck, pydantic, pandas, jsonschema-specifications, httpx, gitpython, cryptography, realtime, pyiceberg, pdfminer.six, jsonschema, fastapi, supabase-functions, supabase-auth, storage3, postgrest, pdfplumber, altair, supabase, streamlit
+2026-06-03T23:43:41.2867628Z 
+2026-06-03T23:43:41.2908955Z Successfully installed MarkupSafe-3.0.3 Pillow-12.2.0 altair-6.1.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 beautifulsoup4-4.14.3 blinker-1.9.0 cachetools-6.2.6 certifi-2026.5.20 cffi-2.0.0 charset_normalizer-3.4.7 click-8.4.1 cryptography-48.0.0 deprecation-2.1.0 et-xmlfile-2.0.0 fastapi-0.136.3 fsspec-2026.4.0 gitdb-4.0.12 gitpython-3.1.50 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 narwhals-2.22.0 numpy-2.4.6 openpyxl-3.1.5 packaging-26.2 pandas-3.0.3 pdfminer.six-20251230 pdfplumber-0.11.9 plotly-6.8.0 postgrest-2.30.1 propcache-0.5.2 protobuf-7.35.0 pyarrow-24.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydeck-0.9.2 pygments-2.20.0 pyiceberg-0.11.1 pyjwt-2.13.0 pyparsing-3.3.2 pypdfium2-5.9.0 pyroaring-1.1.0 python-dateutil-2.9.0.post0 python-multipart-0.0.30 realtime-2.30.1 referencing-0.37.0 requests-2.34.2 rich-14.3.4 rpds-py-2026.5.1 six-1.17.0 smmap-5.0.3 soupsieve-2.8.4 starlette-1.2.1 storage3-2.30.1 streamlit-1.58.0 strenum-0.4.15 strictyaml-1.7.3 supabase-2.30.1 supabase-auth-2.30.1 supabase-functions-2.30.1 tenacity-9.1.4 toml-0.10.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.49.0 watchdog-6.0.0 websockets-15.0.1 xlrd-2.0.2 xlwt-1.3.0 yarl-1.24.2 zstandard-0.25.0
+2026-06-03T23:43:41.2916753Z 
+2026-06-03T23:43:41.2917084Z [notice] A new release of pip is available: 26.1.1 -> 26.1.2
+2026-06-03T23:43:41.2917723Z [notice] To update, run: pip install --upgrade pip
+2026-06-03T23:43:41.5456990Z ##[group]Run python compute_elo.py
+2026-06-03T23:43:41.5457354Z [36;1mpython compute_elo.py[0m
+2026-06-03T23:43:41.5486815Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:43:41.5487119Z env:
+2026-06-03T23:43:41.5487375Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:43:41.5487806Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:41.5488348Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:43:41.5488881Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:41.5489351Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:41.5489820Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:43:41.5490298Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:43:41.5491164Z   SUPABASE_URL: ***
+2026-06-03T23:43:41.5493112Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T23:43:41.5493408Z ##[endgroup]
+2026-06-03T23:44:27.1084242Z Previous Elo state: {'dry_run': False, 'skipped': 120284, 'bouts_read': 144259, 'bouts_used': 23975, 'updated_at': '2026-06-03T19:19:11.711489+00:00', 'rows_written': 6637, 'identity_rows': 11561, 'rows_computed': 6637, 'skipped_null_scores': 193, 'skipped_team_events': 0, 'skipped_tied_scores': 5883, 'skipped_duplicate_bouts': 0, 'skipped_missing_context': 0, 'skipped_missing_fencers': 114208, 'skipped_incomplete_events': 0}
+2026-06-03T23:44:27.1087473Z Elo recompute complete: 6637 rows computed, 6637 rows written, 120284 bouts skipped
+2026-06-03T23:44:27.2340005Z ##[group]Run python compute_anomalies.py
+2026-06-03T23:44:27.2340420Z [36;1mpython compute_anomalies.py[0m
+2026-06-03T23:44:27.2368151Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:44:27.2368467Z env:
+2026-06-03T23:44:27.2368745Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:44:27.2369211Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:27.2369796Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:44:27.2370372Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:27.2370884Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:27.2371392Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:27.2371901Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:44:27.2372833Z   SUPABASE_URL: ***
+2026-06-03T23:44:27.2374628Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T23:44:27.2374947Z ##[endgroup]
+2026-06-03T23:44:28.8697354Z Traceback (most recent call last):
+2026-06-03T23:44:28.8710905Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_anomalies.py", line 672, in <module>
+2026-06-03T23:44:28.8712365Z Anomaly computation starting - 2026-06-03T23:44:28.408711+00:00
+2026-06-03T23:44:28.8713054Z     main()
+2026-06-03T23:44:28.8713927Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_anomalies.py", line 662, in main
+2026-06-03T23:44:28.8714911Z     summary = compute_anomalies()
+2026-06-03T23:44:28.8715372Z               ^^^^^^^^^^^^^^^^^^^
+2026-06-03T23:44:28.8716399Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_anomalies.py", line 616, in compute_anomalies
+2026-06-03T23:44:28.8717631Z     bouts = fetch_all(client, "fs_bouts", BOUT_SELECT, page_size=page_size)
+2026-06-03T23:44:28.8718388Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T23:44:28.8719364Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_anomalies.py", line 542, in fetch_all
+2026-06-03T23:44:28.8720063Z     .execute()
+2026-06-03T23:44:28.8720314Z      ^^^^^^^^^
+2026-06-03T23:44:28.8721040Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T23:44:28.8721870Z     raise APIError(dict(json_obj))
+2026-06-03T23:44:28.8723063Z postgrest.exceptions.APIError: {'message': 'column fs_bouts.fencer_a does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_bouts.fencer_a_id".', 'details': None}
+2026-06-03T23:44:28.9918052Z ##[error]Process completed with exit code 1.
+2026-06-03T23:44:28.9968836Z ##[group]Run python compute_brackets.py
+2026-06-03T23:44:28.9969210Z [36;1mpython compute_brackets.py[0m
+2026-06-03T23:44:28.9997675Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:44:28.9997986Z env:
+2026-06-03T23:44:28.9998251Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:44:28.9998684Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:28.9999222Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:44:28.9999763Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:29.0000235Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:29.0000908Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:44:29.0001395Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:44:29.0002259Z   SUPABASE_URL: ***
+2026-06-03T23:44:29.0003975Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T23:44:29.0004271Z ##[endgroup]
+2026-06-03T23:45:40.4541048Z brackets: 0 written, 0 failed, 1117 skipped
+2026-06-03T23:45:40.7568903Z ##[group]Run python compute_clutch.py
+2026-06-03T23:45:40.7569263Z [36;1mpython compute_clutch.py[0m
+2026-06-03T23:45:40.7596169Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:45:40.7596428Z env:
+2026-06-03T23:45:40.7596648Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:45:40.7597005Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:45:40.7597459Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:45:40.7597913Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:45:40.7598304Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:45:40.7598712Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:45:40.7599099Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:45:40.7599625Z   SUPABASE_URL: ***
+2026-06-03T23:45:40.7600996Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T23:45:40.7601245Z ##[endgroup]
+2026-06-03T23:46:18.9284879Z Previous clutch state: {'skipped': 291, 'written': 32, 'bouts_read': 144259, 'updated_at': '2026-06-03T19:19:54.946599+00:00', 'clutch_rows': 32, 'fencers_read': 15734, 'results_read': 107473, 'skip_reasons': [{'reason': 'insufficient_elimination_bouts', 'fencer_id': '63e893a6-0f22-4a23-85c2-5e72eb599858', 'tournament_id': '2c4cb178-ff45-4c67-9dc2-669ebf282717'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '828a85a7-ce22-4946-8840-7c7faece50a6', 'tournament_id': 'b9a55e3d-1336-4eb1-a3fb-4753b2711cb8'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '116bef7f-039f-465a-bf8f-e30b4b9a9521', 'tournament_id': 'b9a55e3d-1336-4eb1-a3fb-4753b2711cb8'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'bc5dca38-8dcb-4e2f-9ce1-fa94ad7c8a09', 'tournament_id': 'b9a55e3d-1336-4eb1-a3fb-4753b2711cb8'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'dda846d1-76fd-483d-b385-393e6c1c6c6f', 'tournament_id': 'b9a55e3d-1336-4eb1-a3fb-4753b2711cb8'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '695875c5-dcb8-45fc-9136-402952a04fec', 'tournament_id': '0b02f03e-7245-4f57-9b66-c32bb0a4ca11'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '6a12e070-0c9d-493d-9dc3-0022fed7a802', 'tournament_id': 'ab366761-d82a-4fd6-9cc1-506dad9ae4a7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '70ef793e-5e55-4fe8-83e7-591b03387906', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '9a1d3cf9-56a1-4735-9d2e-41e6ce902785', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '04918dda-6a2e-45c3-ad58-348bf0fd2d59', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '2cbf3de7-1389-45b2-bc5e-70d234f5d318', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'ac2eca71-0f78-41d5-8cc1-be50fe21abd9', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '847a7136-4074-4d66-9807-2858ddce17fe', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '5cf416c4-4545-47f4-9da9-3eb73fccb8ae', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '67fea639-28dc-4285-9856-e62109c067fa', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '995a3df2-9592-474e-a63f-4a8cf05deed3', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'a13da2be-f8d5-442c-a25c-954b4cd93711', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '38cc9f71-c844-4a31-b997-1e81b88d6c34', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'ba2e31cd-4631-495b-ac5c-028957e320cd', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'e80bfee3-5a54-4f63-9eee-3495629a682d', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '1e9da14b-fcc5-460b-8dd3-24ee3b208692', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '08528fff-b678-4dd9-a2fd-d23bd360014a', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '9f58c248-09b0-43cc-a39f-2ce00cbbc69d', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'edb9e710-e547-4acc-9014-fab9e0158496', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '855cc63b-0f8b-4562-9bb4-9fb585061ecf', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '1c1bcbd5-eb1e-432c-97b9-d1c37bfcc282', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '0884d7c3-911e-4310-b656-d02382b24d43', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '34da6777-4cef-48f3-a1a9-ac8653e89591', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'd9a74c4c-8dbb-4c9d-bc16-b5b09155a56a', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'b9881259-d8db-4772-bd55-185321a8022b', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '81189c81-e35b-44a0-acbb-7f8ba22ca388', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '0676c050-4206-4fc9-a948-cc5b94e450f7', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '93d64f3b-cabe-4cd5-add9-92765ed66c12', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '7b2838fa-5c82-4acc-894d-c1af95711389', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '69a7e902-04df-4fbb-884c-85768816f92c', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'b5d3a660-5592-4d23-8653-98a20ba0b389', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '292066a6-39a9-4313-9d15-2e3ee89359c8', 'tournament_id': 'bdd08139-db84-40da-8572-9ba6ce5e0e65'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '3f6e2828-61f1-4c0a-8c2f-24635936113c', 'tournament_id': 'efaab7f2-8920-4814-b94e-df332e0f2ff4'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'c36179e8-7e27-4b47-8792-1700d4abdb0a', 'tournament_id': '23e52583-d607-4b70-87e3-8d5f35c451dc'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '44c3be4b-8fc8-4719-a9e1-0ad42fbfc979', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '1a52743d-3fce-4c09-b04d-3ab7459da2a7', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '6c39a67d-94a0-4fd8-84a2-d104974aa058', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'a9b8654d-6ced-4699-b168-50fcdf86f68f', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '5cc283f5-f75f-43b5-a526-b01f3e5c22cd', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '727201b6-8096-463f-b84e-3dc9ada724b1', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'd1497a2e-956d-4cb7-99bb-fde6743fb4f2', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'b7f28be0-ac8c-4a26-9447-ea7565891e40', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '6a864ca9-3cfc-4964-a841-beeaec88c299', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '31ca0486-5fee-45f0-bbcd-c2b6cf97de4c', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '373bdd52-9546-4a41-b409-e2c38283dfbc', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '407c2c0b-3a6c-438e-a8ef-e73227f00406', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '98a31135-27e1-414c-aada-cc9bfeececb3', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'e5597134-cd94-4b0c-a608-b19f2a0d4954', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'f4f47873-6784-42f2-9052-16e0da23e026', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'f58a3afe-9b51-4314-bbfd-86f3e89d877e', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '0bbfad0d-df89-4b6c-9780-e6efa421fdf3', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '53c49bf5-7944-4247-81b3-2fe8023d066d', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '471a6490-72f7-4448-9dc5-79dc5aaf35b7', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'dd366872-4aae-4c60-a5ad-ae137134a95e', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '3d3e72ab-0235-4658-b93e-8d55cee01980', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '678cfa33-4dae-4401-8a2a-511a0b86fdd5', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '4e2f83d3-2936-476b-86d4-1c4518c55fad', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '82a65b1e-0bf2-47ad-9adc-2dbd2cdf78c2', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '9668e247-c1ff-4c0a-81f9-4ddf9a7cdbe6', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'bb7824fd-064c-4f55-939e-55f84831379e', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '4b9fe6ab-5046-4205-97f1-d8f6507018d5', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '7aa7f730-b5cf-4104-9f95-638e84a01bce', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'c5ffd57f-1a51-4d47-b806-c7b732702e2a', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'df5fa442-d806-4f99-9c32-6234b4168f6f', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '829b70ad-c9f9-4a95-98ce-65d820f6e7da', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '2504e177-5a89-46e5-98d8-09825e9a2561', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '749055dd-6e7f-4232-94a5-db2151cac8e6', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '0f8abedb-0340-4789-b7bb-af36f27e311f', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '1e4d3a8b-3f87-4846-ade5-6280db3dcc03', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'ba346676-7a4d-4817-93a4-b7218a1e8415', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '9cb73320-d1e0-483b-917f-a8632bc29f53', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'a64ffc01-6289-4a22-a2af-b1551f5ac492', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '19984a7d-fdaa-40ef-88d1-82bcdcfa29b2', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '42bceced-f5ad-4e92-80c6-f2fb9a0b69d8', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'e059ef35-29a9-4335-9b48-06adab5396bf', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '1233f217-02f2-4a37-82b8-ce5866895f43', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '9d1910b5-6590-45e0-bc82-1d84ffb135a5', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '56f55d43-5ef5-4339-81e4-b6c9c2f48a6f', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '34182928-42d7-4942-8f8c-901d6be96013', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '3f6e2828-61f1-4c0a-8c2f-24635936113c', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '31d569ef-f149-472b-8c2f-c2133fc59928', 'tournament_id': '11aa7c49-a8f0-4d8d-9021-4861a715677c'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'cb8e3a92-4925-4026-9d59-55ea59d7d1ec', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'd2cc656c-a264-46e7-8e70-3ebcfdd663da', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '0187a839-39e4-4fb7-8ec2-7a165d03a8a5', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '68431e1f-6011-4f5e-a264-6b57cca85162', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '65feffbe-39df-4dde-99bb-74c3333bf372', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'f3e21dbe-155c-4411-bad6-61a00b54da99', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'abe235b2-0e38-437c-8d87-75120dc066e7', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '5adb993d-9c9a-4c55-90b5-2fdc6378cf9c', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '838a91dc-b269-4cf4-a1cb-ed1c0173c527', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '59f4ec4c-b9b5-4ead-8f53-012254f647cf', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'a49e0d54-531f-4ea4-9043-0ddcd95b496b', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '8b57d8e1-20e5-4fd8-a640-2f59b1a483b9', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': 'fa06a39c-cdff-448f-b0e8-4afcc1729875', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}, {'reason': 'insufficient_elimination_bouts', 'fencer_id': '35f57f4e-635d-409a-94af-e96c64f7d901', 'tournament_id': '1d9eb97b-72d5-4b8a-a3cd-cd2788bf76c7'}], 'tournaments_read': 6006, 'performance_rows_read': 1475}
+2026-06-03T23:46:18.9339764Z Clutch computation starting - 2026-06-03T23:45:41.837644+00:00
+2026-06-03T23:46:18.9340263Z Clutch computation complete - 32 rows built, 32 rows upserted, 291 skipped
+2026-06-03T23:46:19.1025451Z ##[group]Run python compute_upsets.py
+2026-06-03T23:46:19.1026005Z [36;1mpython compute_upsets.py[0m
+2026-06-03T23:46:19.1064824Z shell: /usr/bin/bash -e {0}
+2026-06-03T23:46:19.1065275Z env:
+2026-06-03T23:46:19.1065666Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T23:46:19.1066315Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:46:19.1067136Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T23:46:19.1067960Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:46:19.1068680Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:46:19.1069391Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T23:46:19.1070174Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T23:46:19.1071110Z   SUPABASE_URL: ***
+2026-06-03T23:46:19.1074013Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T23:46:19.1074501Z ##[endgroup]
+2026-06-04T00:11:02.5939823Z upsets: 0 written, 0 failed, 3155 skipped
+2026-06-04T00:11:02.7688708Z ##[group]Run python compute_predictions.py
+2026-06-04T00:11:02.7689354Z [36;1mpython compute_predictions.py[0m
+2026-06-04T00:11:02.7729077Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:11:02.7729524Z env:
+2026-06-04T00:11:02.7729912Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:11:02.7730581Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:11:02.7731477Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:11:02.7732610Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:11:02.7733326Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:11:02.7734041Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:11:02.7734754Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:11:02.7735848Z   SUPABASE_URL: ***
+2026-06-04T00:11:02.7738581Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:11:02.7739052Z ##[endgroup]
+2026-06-04T00:12:18.3013808Z Prediction computation starting - 2026-06-04T00:11:03.437358+00:00
+2026-06-04T00:12:18.3016170Z Optional prediction input skipped: fs_rankings_trends: {'message': 'column fs_rankings_trends.fencer_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:18.3018564Z Optional prediction input skipped: fs_fencer_career_stats: {'message': 'column fs_fencer_career_stats.total_medals does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:18.3020775Z Optional prediction input skipped: fs_fencer_elo: {'message': 'column fs_fencer_elo.elo_rating does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_fencer_elo.peak_rating".', 'details': None}
+2026-06-04T00:12:18.3022921Z Prediction computation complete - target_events=12, prediction_rows=0, backtest_rows=0, written=0, skipped=12
+2026-06-04T00:12:18.4904374Z ##[group]Run python compute_form_tracker.py
+2026-06-04T00:12:18.4905328Z [36;1mpython compute_form_tracker.py[0m
+2026-06-04T00:12:18.4945659Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:12:18.4946105Z env:
+2026-06-04T00:12:18.4946515Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:12:18.4947207Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:18.4948021Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:12:18.4948941Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:18.4949771Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:18.4950593Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:18.4951405Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:12:18.4953053Z   SUPABASE_URL: ***
+2026-06-04T00:12:18.4955893Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:12:18.4956416Z ##[endgroup]
+2026-06-04T00:12:41.5709946Z Form tracker computation starting - 2026-06-04T00:12:19.145371+00:00
+2026-06-04T00:12:41.5711439Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:41.5713632Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:41.5715174Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:41.5716956Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:12:41.5719092Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:12:41.5721237Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:12:41.5723312Z   Identity select fallback: {'message': 'column fs_fencer_identities.canonical_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:12:41.5724591Z Form tracker computation complete - 1351 rows built, 1351 rows upserted, 102285 skipped
+2026-06-04T00:12:41.7505564Z ##[group]Run python compute_career_milestones.py
+2026-06-04T00:12:41.7506050Z [36;1mpython compute_career_milestones.py[0m
+2026-06-04T00:12:41.7533516Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:12:41.7533810Z env:
+2026-06-04T00:12:41.7534063Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:12:41.7534494Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:41.7535016Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:12:41.7535567Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:41.7536045Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:41.7536516Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:12:41.7536990Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:12:41.7537615Z   SUPABASE_URL: ***
+2026-06-04T00:12:41.7539247Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:12:41.7539535Z ##[endgroup]
+2026-06-04T00:15:33.2842962Z Career milestone computation starting - 2026-06-04T00:12:42.429636+00:00
+2026-06-04T00:15:33.2844171Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:15:33.2845575Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:15:33.2847074Z   Select fallback for fs_rankings_history: {'message': 'column fs_rankings_history.fencer_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:15:33.2849805Z   Select fallback for fs_fencer_identities: {'message': 'column fs_fencer_identities.canonical_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:15:33.2852176Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:15:33.2853816Z Career milestone computation complete - 82657 rows built, 82657 rows upserted, 46886 rows skipped, 0 rows failed
+2026-06-04T00:15:33.4526688Z ##[group]Run python compute_difficulty_trend.py
+2026-06-04T00:15:33.4527235Z [36;1mpython compute_difficulty_trend.py[0m
+2026-06-04T00:15:33.4554610Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:15:33.4554918Z env:
+2026-06-04T00:15:33.4555190Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:15:33.4555661Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:15:33.4556243Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:15:33.4556810Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:15:33.4557321Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:15:33.4557830Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:15:33.4558342Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:15:33.4559005Z   SUPABASE_URL: ***
+2026-06-04T00:15:33.4560789Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:15:33.4561096Z ##[endgroup]
+2026-06-04T00:16:03.4118748Z Previous difficulty trend state: {'skipped': 2812, 'trend_rows': 176, 'updated_at': '2026-06-03T19:45:50.156939+00:00', 'results_read': 107473, 'rankings_read': 100438, 'tournaments_read': 6006, 'strength_rows_read': 3565}
+2026-06-04T00:16:03.4120461Z Competition difficulty trend computation starting - 2026-06-04T00:15:34.680975+00:00
+2026-06-04T00:16:03.4121438Z Competition difficulty trend computation complete - trend_rows=176, skipped=2812
+2026-06-04T00:16:03.5889947Z ##[group]Run python compute_youth_talent.py
+2026-06-04T00:16:03.5890380Z [36;1mpython compute_youth_talent.py[0m
+2026-06-04T00:16:03.5917391Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:16:03.5917662Z env:
+2026-06-04T00:16:03.5917897Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:16:03.5918313Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:16:03.5918799Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:16:03.5919285Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:16:03.5919719Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:16:03.5920166Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:16:03.5920634Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:16:03.5921236Z   SUPABASE_URL: ***
+2026-06-04T00:16:03.5923240Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:16:03.5923532Z ##[endgroup]
+2026-06-04T00:17:10.5184241Z Traceback (most recent call last):
+2026-06-04T00:17:10.5186211Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_youth_talent.py", line 492, in <module>
+2026-06-04T00:17:10.5187616Z     print(compute_youth_talent())
+2026-06-04T00:17:10.5188448Z           ^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:17:10.5192598Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_youth_talent.py", line 483, in compute_youth_talent
+2026-06-04T00:17:10.5193846Z     run_log.complete(written, failed, skipped)
+2026-06-04T00:17:10.5194615Z TypeError: ScraperRunLogger.complete() takes 1 positional argument but 4 were given
+2026-06-04T00:17:10.7471942Z ##[error]Process completed with exit code 1.
+2026-06-04T00:17:10.7506544Z ##[group]Run python compute_junior_conversion.py
+2026-06-04T00:17:10.7507046Z [36;1mpython compute_junior_conversion.py[0m
+2026-06-04T00:17:10.7534778Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:17:10.7535262Z env:
+2026-06-04T00:17:10.7535516Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:17:10.7535941Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:17:10.7536469Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:17:10.7536998Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:17:10.7537464Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:17:10.7537963Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:17:10.7538477Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:17:10.7539121Z   SUPABASE_URL: ***
+2026-06-04T00:17:10.7540899Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:17:10.7541210Z ##[endgroup]
+2026-06-04T00:18:14.8773268Z Junior conversion computation starting - 2026-06-04T00:17:11.402857+00:00
+2026-06-04T00:18:14.8774707Z   Select fallback for fs_rankings_history: {'message': 'column fs_rankings_history.fencer_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:18:14.8776140Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:18:14.8777756Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:18:14.8779677Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.date does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_tournaments.name".', 'details': None}
+2026-06-04T00:18:14.8781257Z   Select fallback for fs_fencers: {'message': 'column fs_fencers.dob does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:18:14.8782975Z   Select fallback for fs_fencer_identities: {'message': 'column fs_fencer_identities.canonical_id does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:18:14.8784361Z Junior conversion computation complete - rankings=100529, results=107473, rows_written=23010, failed=0, skipped=136627
+2026-06-04T00:18:15.0739123Z ##[group]Run python compute_peak_age.py
+2026-06-04T00:18:15.0739530Z [36;1mpython compute_peak_age.py[0m
+2026-06-04T00:18:15.0766941Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:18:15.0767232Z env:
+2026-06-04T00:18:15.0767484Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:18:15.0767914Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:15.0768436Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:18:15.0768966Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:15.0769437Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:15.0769909Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:15.0770379Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:18:15.0770990Z   SUPABASE_URL: ***
+2026-06-04T00:18:15.0773085Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:18:15.0773384Z ##[endgroup]
+2026-06-04T00:18:52.6951658Z Peak performance age analysis
+2026-06-04T00:18:52.6954710Z Thresholds: ages 10.0-90.0 inclusive; exact YYYY-MM-DD birth/result dates only; sparse cohorts need n>=5
+2026-06-04T00:18:52.6956434Z Summary: observations_used=1892, report_rows=92, skipped_total=206110
+2026-06-04T00:18:52.6957978Z weapon | gender | category | country | tier | source | n | peak_range | median | mean | status
+2026-06-04T00:18:52.6959658Z Epee | Men | Cadet | ALL | unknown | result | 35 | 15.5-16.73 | 16.2 | 18.16 | ok
+2026-06-04T00:18:52.6961154Z Epee | Men | Junior | ALL | unknown | result | 40 | 16.4-18.89 | 17.82 | 17.66 | ok
+2026-06-04T00:18:52.6962890Z Epee | Men | M11 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6964083Z Epee | Men | M13 | ALL | unknown | result | 21 | 15.32-23.83 | 22.14 | 27.05 | ok
+2026-06-04T00:18:52.6965241Z Epee | Men | M15 | ALL | unknown | result | 17 | 15.27-23.83 | 18.91 | 20.05 | ok
+2026-06-04T00:18:52.6966059Z Epee | Men | M17 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6966872Z Epee | Men | M20 | ALL | unknown | result | 34 | 18.1-19.81 | 18.93 | 19.15 | ok
+2026-06-04T00:18:52.6967605Z Epee | Men | M23 | ALL | unknown | result | 12 | 19.27-21.82 | 20.13 | 20.22 | ok
+2026-06-04T00:18:52.6968358Z Epee | Men | Senior | ALL | unknown | result | 106 | 18.85-25.8 | 22.09 | 24.9 | ok
+2026-06-04T00:18:52.6969180Z Epee | Men | U10 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6970040Z Epee | Men | U12 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6970891Z Epee | Men | U13 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6971717Z Epee | Men | Veteran | ALL | unknown | result | 86 | 49.39-65.33 | 55.23 | 55.19 | ok
+2026-06-04T00:18:52.6972687Z Epee | Mixed | Cadet | ALL | unknown | result | 3 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6973395Z Epee | Mixed | U10 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6974055Z Epee | Mixed | U12 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6974681Z Epee | Women | Cadet | ALL | unknown | result | 30 | 15.37-26.43 | 16.07 | 22.28 | ok
+2026-06-04T00:18:52.6975278Z Epee | Women | Junior | ALL | unknown | result | 30 | 16.13-18.2 | 16.95 | 16.97 | ok
+2026-06-04T00:18:52.6975913Z Epee | Women | M11 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6976521Z Epee | Women | M13 | ALL | unknown | result | 5 | 12.79-17.8 | 13.21 | 14.79 | ok
+2026-06-04T00:18:52.6977081Z Epee | Women | M15 | ALL | unknown | result | 9 | 14.61-15.28 | 15.08 | 16.03 | ok
+2026-06-04T00:18:52.6977642Z Epee | Women | M17 | ALL | unknown | result | 9 | 16.03-17.29 | 16.15 | 16.61 | ok
+2026-06-04T00:18:52.6978211Z Epee | Women | M20 | ALL | unknown | result | 23 | 17.6-19.2 | 18.81 | 18.47 | ok
+2026-06-04T00:18:52.6979019Z Epee | Women | M23 | ALL | unknown | result | 14 | 18.87-22.6 | 20.71 | 20.62 | ok
+2026-06-04T00:18:52.6979644Z Epee | Women | M9 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6980276Z Epee | Women | Senior | ALL | unknown | result | 94 | 18.34-25.09 | 21.21 | 24.89 | ok
+2026-06-04T00:18:52.6980912Z Epee | Women | U10 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6981567Z Epee | Women | U12 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6982441Z Epee | Women | U14 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6983055Z Epee | Women | U17 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6983680Z Epee | Women | Veteran | ALL | unknown | result | 99 | 50.77-64.75 | 57.06 | 57.54 | ok
+2026-06-04T00:18:52.6984246Z Foil | Men | Cadet | ALL | unknown | result | 29 | 14.82-16.51 | 16.08 | 16.64 | ok
+2026-06-04T00:18:52.6984773Z Foil | Men | Junior | ALL | unknown | result | 34 | 17.0-18.73 | 17.9 | 17.6 | ok
+2026-06-04T00:18:52.6985328Z Foil | Men | M11 | ALL | unknown | result | 9 | 23.89-50.44 | 24.01 | 33.19 | ok
+2026-06-04T00:18:52.6985824Z Foil | Men | M13 | ALL | unknown | result | 10 | 12.34-24.0 | 13.57 | 17.08 | ok
+2026-06-04T00:18:52.6986324Z Foil | Men | M15 | ALL | unknown | result | 28 | 13.44-15.11 | 14.31 | 17.17 | ok
+2026-06-04T00:18:52.6986824Z Foil | Men | M17 | ALL | unknown | result | 26 | 15.73-17.33 | 17.23 | 21.06 | ok
+2026-06-04T00:18:52.6987323Z Foil | Men | M20 | ALL | unknown | result | 22 | 17.27-18.98 | 18.41 | 18.15 | ok
+2026-06-04T00:18:52.6987826Z Foil | Men | M23 | ALL | unknown | result | 13 | 20.7-21.83 | 21.06 | 20.94 | ok
+2026-06-04T00:18:52.6988366Z Foil | Men | M9 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6989079Z Foil | Men | Senior | ALL | unknown | result | 63 | 17.98-25.56 | 21.21 | 22.51 | ok
+2026-06-04T00:18:52.6989599Z Foil | Men | U10 | ALL | unknown | result | 6 | 13.46-44.81 | 31.15 | 29.39 | ok
+2026-06-04T00:18:52.6990148Z Foil | Men | U12 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6990737Z Foil | Men | U14 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6991321Z Foil | Men | U17 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6991872Z Foil | Men | Veteran | ALL | unknown | result | 48 | 50.82-67.64 | 53.95 | 57.56 | ok
+2026-06-04T00:18:52.6992688Z Foil | Mixed | Cadet | ALL | unknown | result | 5 | 13.47-15.18 | 14.97 | 20.51 | ok
+2026-06-04T00:18:52.6993239Z Foil | Mixed | Junior | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6993851Z Foil | Mixed | Senior | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6994422Z Foil | Mixed | U10 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6994973Z Foil | Mixed | U12 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.6995493Z Foil | Women | Cadet | ALL | unknown | result | 37 | 15.13-20.88 | 16.35 | 18.73 | ok
+2026-06-04T00:18:52.6995984Z Foil | Women | Junior | ALL | unknown | result | 25 | 15.67-17.43 | 16.35 | 16.28 | ok
+2026-06-04T00:18:52.6996514Z Foil | Women | M11 | ALL | unknown | result | 7 | 12.91-17.39 | 14.87 | 17.67 | ok
+2026-06-04T00:18:52.6996989Z Foil | Women | M13 | ALL | unknown | result | 10 | 10.83-11.35 | 11.14 | 11.25 | ok
+2026-06-04T00:18:52.6997451Z Foil | Women | M15 | ALL | unknown | result | 21 | 14.42-18.91 | 15.3 | 18.41 | ok
+2026-06-04T00:18:52.6997920Z Foil | Women | M17 | ALL | unknown | result | 12 | 15.32-16.95 | 16.31 | 16.75 | ok
+2026-06-04T00:18:52.6998391Z Foil | Women | M20 | ALL | unknown | result | 25 | 18.14-19.91 | 19.15 | 21.12 | ok
+2026-06-04T00:18:52.6999031Z Foil | Women | M23 | ALL | unknown | result | 15 | 19.76-22.97 | 22.56 | 21.49 | ok
+2026-06-04T00:18:52.6999550Z Foil | Women | M9 | ALL | unknown | result | 3 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7000073Z Foil | Women | Senior | ALL | unknown | result | 73 | 17.81-30.58 | 22.74 | 24.86 | ok
+2026-06-04T00:18:52.7000695Z Foil | Women | U10 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7001245Z Foil | Women | U12 | ALL | unknown | result | 7 | 11.7-32.56 | 20.54 | 23.63 | ok
+2026-06-04T00:18:52.7001752Z Foil | Women | U14 | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7002559Z Foil | Women | Veteran | ALL | unknown | result | 66 | 50.96-66.15 | 56.92 | 56.74 | ok
+2026-06-04T00:18:52.7003076Z Sabre | Men | Cadet | ALL | unknown | result | 18 | 14.23-16.49 | 16.02 | 15.64 | ok
+2026-06-04T00:18:52.7003558Z Sabre | Men | Junior | ALL | unknown | result | 30 | 17.93-19.59 | 18.85 | 24.68 | ok
+2026-06-04T00:18:52.7004034Z Sabre | Men | M11 | ALL | unknown | result | 10 | 18.57-55.49 | 32.34 | 37.03 | ok
+2026-06-04T00:18:52.7004506Z Sabre | Men | M13 | ALL | unknown | result | 13 | 13.34-18.57 | 18.51 | 19.24 | ok
+2026-06-04T00:18:52.7004953Z Sabre | Men | M15 | ALL | unknown | result | 13 | 13.89-14.65 | 14.11 | 14.92 | ok
+2026-06-04T00:18:52.7005412Z Sabre | Men | M20 | ALL | unknown | result | 26 | 18.13-19.92 | 19.06 | 19.17 | ok
+2026-06-04T00:18:52.7005855Z Sabre | Men | M23 | ALL | unknown | result | 16 | 18.93-20.88 | 19.88 | 20.06 | ok
+2026-06-04T00:18:52.7006345Z Sabre | Men | M9 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7006847Z Sabre | Men | Senior | ALL | unknown | result | 89 | 18.33-23.1 | 20.49 | 23.72 | ok
+2026-06-04T00:18:52.7007372Z Sabre | Men | U12 | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7008018Z Sabre | Men | U17 | ALL | unknown | result | 6 | 15.87-17.2 | 16.96 | 16.58 | ok
+2026-06-04T00:18:52.7008512Z Sabre | Men | Veteran | ALL | unknown | result | 55 | 48.51-69.61 | 59.01 | 58.77 | ok
+2026-06-04T00:18:52.7009043Z Sabre | Mixed | M15 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7009613Z Sabre | Mixed | Senior | ALL | unknown | result | 2 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7010191Z Sabre | Mixed | Veteran | ALL | unknown | result | 1 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7010726Z Sabre | Women | Cadet | ALL | unknown | result | 29 | 13.84-15.98 | 15.1 | 14.97 | ok
+2026-06-04T00:18:52.7011220Z Sabre | Women | Junior | ALL | unknown | result | 37 | 15.43-18.04 | 16.89 | 16.5 | ok
+2026-06-04T00:18:52.7011706Z Sabre | Women | M11 | ALL | unknown | result | 15 | 15.19-21.87 | 19.9 | 22.09 | ok
+2026-06-04T00:18:52.7012428Z Sabre | Women | M13 | ALL | unknown | result | 18 | 12.85-14.14 | 13.18 | 17.08 | ok
+2026-06-04T00:18:52.7012909Z Sabre | Women | M15 | ALL | unknown | result | 17 | 14.14-15.14 | 14.52 | 14.63 | ok
+2026-06-04T00:18:52.7013371Z Sabre | Women | M17 | ALL | unknown | result | 11 | 15.32-16.51 | 16.2 | 16.12 | ok
+2026-06-04T00:18:52.7013846Z Sabre | Women | M20 | ALL | unknown | result | 27 | 17.6-19.64 | 19.26 | 18.61 | ok
+2026-06-04T00:18:52.7014307Z Sabre | Women | M23 | ALL | unknown | result | 14 | 17.4-19.87 | 18.05 | 18.57 | ok
+2026-06-04T00:18:52.7014807Z Sabre | Women | M9 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7015332Z Sabre | Women | Senior | ALL | unknown | result | 84 | 17.48-23.63 | 19.89 | 22.64 | ok
+2026-06-04T00:18:52.7015867Z Sabre | Women | U17 | ALL | unknown | result | 4 | insufficient sample | None | None | sparse
+2026-06-04T00:18:52.7137286Z Sabre | Women | Veteran | ALL | unknown | result | 43 | 46.13-62.23 | 58.22 | 57.49 | ok
+2026-06-04T00:18:52.8408904Z ##[group]Run python compute_home_advantage.py
+2026-06-04T00:18:52.8409396Z [36;1mpython compute_home_advantage.py[0m
+2026-06-04T00:18:52.8436184Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:18:52.8436492Z env:
+2026-06-04T00:18:52.8436762Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:18:52.8437224Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:52.8437790Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:18:52.8438355Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:52.8438890Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:52.8439405Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:18:52.8439915Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:18:52.8440615Z   SUPABASE_URL: ***
+2026-06-04T00:18:52.8442600Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:18:52.8442913Z ##[endgroup]
+2026-06-04T00:19:38.7765350Z Traceback (most recent call last):
+2026-06-04T00:19:38.7766770Z Home advantage computation starting - 2026-06-04T00:18:53.501624+00:00
+2026-06-04T00:19:38.7769202Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_home_advantage.py", line 932, in <module>
+2026-06-04T00:19:38.7771952Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:19:38.7774403Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:19:38.7776500Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:19:38.7778902Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.country_code does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:19:38.7780739Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.country_code does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:19:38.7782508Z     main()
+2026-06-04T00:19:38.7785503Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_home_advantage.py", line 921, in main
+2026-06-04T00:19:38.7786401Z     summary = compute_home_advantage()
+2026-06-04T00:19:38.7786826Z               ^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:19:38.7787830Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_home_advantage.py", line 874, in compute_home_advantage
+2026-06-04T00:19:38.7789059Z     aggregate_rows = build_home_advantage_aggregate_rows(detail_rows, updated_at=timestamp)
+2026-06-04T00:19:38.7789843Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:19:38.7790995Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_home_advantage.py", line 742, in build_home_advantage_aggregate_rows
+2026-06-04T00:19:38.7792512Z     for (country, weapon, gender, category, tier, status), rows in sorted(grouped.items()):
+2026-06-04T00:19:38.7793255Z                                                                    ^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:19:38.7793919Z TypeError: '<' not supported between instances of 'str' and 'NoneType'
+2026-06-04T00:19:39.1885706Z ##[error]Process completed with exit code 1.
+2026-06-04T00:19:39.1919129Z ##[group]Run python compute_country_specialization.py
+2026-06-04T00:19:39.1919652Z [36;1mpython compute_country_specialization.py[0m
+2026-06-04T00:19:39.1946755Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:19:39.1947065Z env:
+2026-06-04T00:19:39.1947340Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:19:39.1947801Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:19:39.1948383Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:19:39.1948956Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:19:39.1949469Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:19:39.1950001Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:19:39.1950517Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:19:39.1951199Z   SUPABASE_URL: ***
+2026-06-04T00:19:39.1953290Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:19:39.1953611Z ##[endgroup]
+2026-06-04T00:20:20.5244891Z Country specialization computation starting - 2026-06-04T00:19:39.834556+00:00
+2026-06-04T00:20:20.5247415Z   Select fallback for fs_results: {'message': 'column fs_results.weapon does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:20:20.5250344Z   Select fallback for fs_tournaments: {'message': 'column fs_tournaments.tier does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-04T00:20:20.5254781Z   fs_country_specialization upsert batch 0 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5259187Z   fs_country_specialization upsert batch 1 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5262847Z   fs_country_specialization upsert batch 2 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5266251Z   fs_country_specialization upsert batch 3 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5269563Z   fs_country_specialization upsert batch 4 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5273335Z   fs_country_specialization upsert batch 5 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5276499Z   fs_country_specialization upsert batch 6 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5279478Z   fs_country_specialization upsert batch 7 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5282619Z   fs_country_specialization upsert batch 8 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5286199Z   fs_country_specialization upsert batch 9 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5289194Z   fs_country_specialization upsert batch 10 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5292516Z   fs_country_specialization upsert batch 11 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5295045Z   fs_country_specialization upsert batch 12 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5296754Z   fs_country_specialization upsert batch 13 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5298432Z   fs_country_specialization upsert batch 14 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5300107Z   fs_country_specialization upsert batch 15 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5301783Z   fs_country_specialization upsert batch 16 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5303989Z   fs_country_specialization upsert batch 17 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5305686Z   fs_country_specialization upsert batch 18 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5307604Z   fs_country_specialization upsert batch 19 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5309275Z   fs_country_specialization upsert batch 20 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5310947Z   fs_country_specialization upsert batch 21 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5312764Z   fs_country_specialization upsert batch 22 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5314581Z   fs_country_specialization upsert batch 23 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5317404Z   fs_country_specialization upsert batch 24 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5319931Z   fs_country_specialization upsert batch 25 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5321655Z   fs_country_specialization upsert batch 26 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5323517Z   fs_country_specialization upsert batch 27 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5325198Z   fs_country_specialization upsert batch 28 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:20.5326878Z   fs_country_specialization upsert batch 29 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0449535Z   fs_country_specialization upsert batch 30 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0455985Z   fs_country_specialization upsert batch 31 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0459912Z   fs_country_specialization upsert batch 32 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0464600Z   fs_country_specialization upsert batch 33 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0468085Z   fs_country_specialization upsert batch 34 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0471345Z   fs_country_specialization upsert batch 35 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0474886Z   fs_country_specialization upsert batch 36 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0478010Z   fs_country_specialization upsert batch 37 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0480931Z   fs_country_specialization upsert batch 38 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0484267Z   fs_country_specialization upsert batch 39 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0487306Z   fs_country_specialization upsert batch 40 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0490343Z   fs_country_specialization upsert batch 41 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0493755Z   fs_country_specialization upsert batch 42 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0495873Z   fs_country_specialization upsert batch 43 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0497590Z   fs_country_specialization upsert batch 44 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0499331Z   fs_country_specialization upsert batch 45 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0501031Z   fs_country_specialization upsert batch 46 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0503031Z   fs_country_specialization upsert batch 47 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0504950Z   fs_country_specialization upsert batch 48 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0506639Z   fs_country_specialization upsert batch 49 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0508319Z   fs_country_specialization upsert batch 50 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0510004Z   fs_country_specialization upsert batch 51 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0511804Z   fs_country_specialization upsert batch 52 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0513629Z   fs_country_specialization upsert batch 53 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0516148Z   fs_country_specialization upsert batch 54 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0518818Z   fs_country_specialization upsert batch 55 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0520549Z   fs_country_specialization upsert batch 56 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0522404Z   fs_country_specialization upsert batch 57 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0524101Z   fs_country_specialization upsert batch 58 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0525796Z   fs_country_specialization upsert batch 59 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0527491Z   fs_country_specialization upsert batch 60 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:24.0529189Z   fs_country_specialization upsert batch 61 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3041325Z   fs_country_specialization upsert batch 62 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3046900Z   fs_country_specialization upsert batch 63 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3050457Z   fs_country_specialization upsert batch 64 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3054333Z   fs_country_specialization upsert batch 65 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3058068Z   fs_country_specialization upsert batch 66 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3060995Z   fs_country_specialization upsert batch 67 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3064132Z   fs_country_specialization upsert batch 68 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3067045Z   fs_country_specialization upsert batch 69 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3070011Z   fs_country_specialization upsert batch 70 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3073258Z   fs_country_specialization upsert batch 71 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3076356Z   fs_country_specialization upsert batch 72 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3078871Z   fs_country_specialization upsert batch 73 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3080600Z   fs_country_specialization upsert batch 74 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3082603Z   fs_country_specialization upsert batch 75 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3084541Z   fs_country_specialization upsert batch 76 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3086224Z   fs_country_specialization upsert batch 77 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3087909Z   fs_country_specialization upsert batch 78 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3089584Z   fs_country_specialization upsert batch 79 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3091373Z   fs_country_specialization upsert batch 80 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3093218Z   fs_country_specialization upsert batch 81 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3094900Z   fs_country_specialization upsert batch 82 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3096599Z   fs_country_specialization upsert batch 83 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3099386Z   fs_country_specialization upsert batch 84 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3101818Z   fs_country_specialization upsert batch 85 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3103714Z   fs_country_specialization upsert batch 86 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3105432Z   fs_country_specialization upsert batch 87 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3107109Z   fs_country_specialization upsert batch 88 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3108790Z   fs_country_specialization upsert batch 89 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3110463Z   fs_country_specialization upsert batch 90 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3113026Z   fs_country_specialization upsert batch 91 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3114802Z   fs_country_specialization upsert batch 92 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:27.3116494Z   fs_country_specialization upsert batch 93 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5633993Z   fs_country_specialization upsert batch 94 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5639365Z   fs_country_specialization upsert batch 95 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5642948Z   fs_country_specialization upsert batch 96 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5646395Z   fs_country_specialization upsert batch 97 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5649460Z   fs_country_specialization upsert batch 98 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5652490Z   fs_country_specialization upsert batch 99 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5655308Z   fs_country_specialization upsert batch 100 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5658148Z   fs_country_specialization upsert batch 101 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5660932Z   fs_country_specialization upsert batch 102 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5663894Z   fs_country_specialization upsert batch 103 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5666688Z   fs_country_specialization upsert batch 104 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5669927Z   fs_country_specialization upsert batch 105 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5673130Z   fs_country_specialization upsert batch 106 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5676136Z   fs_country_specialization upsert batch 107 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5679111Z   fs_country_specialization upsert batch 108 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5681057Z   fs_country_specialization upsert batch 109 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5683082Z   fs_country_specialization upsert batch 110 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5684782Z   fs_country_specialization upsert batch 111 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5686496Z   fs_country_specialization upsert batch 112 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5688186Z   fs_country_specialization upsert batch 113 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5689862Z   fs_country_specialization upsert batch 114 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5691537Z   fs_country_specialization upsert batch 115 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5693361Z   fs_country_specialization upsert batch 116 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5695064Z   fs_country_specialization upsert batch 117 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5696741Z   fs_country_specialization upsert batch 118 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5699570Z   fs_country_specialization upsert batch 119 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5702280Z   fs_country_specialization upsert batch 120 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5704006Z   fs_country_specialization upsert batch 121 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5705699Z   fs_country_specialization upsert batch 122 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5707565Z   fs_country_specialization upsert batch 123 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5709273Z   fs_country_specialization upsert batch 124 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:30.5710957Z   fs_country_specialization upsert batch 125 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8905068Z   fs_country_specialization upsert batch 126 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8910529Z   fs_country_specialization upsert batch 127 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8914033Z   fs_country_specialization upsert batch 128 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8917054Z   fs_country_specialization upsert batch 129 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8920192Z   fs_country_specialization upsert batch 130 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8923291Z   fs_country_specialization upsert batch 131 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8926065Z   fs_country_specialization upsert batch 132 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8929298Z   fs_country_specialization upsert batch 133 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8932286Z   fs_country_specialization upsert batch 134 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8935083Z   fs_country_specialization upsert batch 135 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8937908Z   fs_country_specialization upsert batch 136 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8941143Z   fs_country_specialization upsert batch 137 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8944263Z   fs_country_specialization upsert batch 138 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8947255Z   fs_country_specialization upsert batch 139 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8950199Z   fs_country_specialization upsert batch 140 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8951960Z   fs_country_specialization upsert batch 141 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8953959Z   fs_country_specialization upsert batch 142 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8955639Z   fs_country_specialization upsert batch 143 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8957335Z   fs_country_specialization upsert batch 144 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8959011Z   fs_country_specialization upsert batch 145 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8960691Z   fs_country_specialization upsert batch 146 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8962613Z   fs_country_specialization upsert batch 147 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8964485Z   fs_country_specialization upsert batch 148 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8966160Z   fs_country_specialization upsert batch 149 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8967828Z   fs_country_specialization upsert batch 150 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8969508Z   fs_country_specialization upsert batch 151 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8971366Z   fs_country_specialization upsert batch 152 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8974802Z   fs_country_specialization upsert batch 153 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8976956Z   fs_country_specialization upsert batch 154 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8978695Z   fs_country_specialization upsert batch 155 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8980383Z   fs_country_specialization upsert batch 156 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:33.8982367Z   fs_country_specialization upsert batch 157 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0043925Z   fs_country_specialization upsert batch 158 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0046856Z   fs_country_specialization upsert batch 159 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0049557Z   fs_country_specialization upsert batch 160 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0052459Z   fs_country_specialization upsert batch 161 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0055626Z   fs_country_specialization upsert batch 162 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0058276Z   fs_country_specialization upsert batch 163 failed: {'message': "Could not find the table 'public.fs_country_specialization' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fs_fencer_specialization'", 'details': None}
+2026-06-04T00:20:35.0060209Z Country specialization computation complete - 32796 rows, 0 written, 32796 failed, 10058 skipped
+2026-06-04T00:20:35.1237208Z ##[group]Run python compute_fencer_stats.py
+2026-06-04T00:20:35.1237623Z [36;1mpython compute_fencer_stats.py[0m
+2026-06-04T00:20:35.1264316Z shell: /usr/bin/bash -e {0}
+2026-06-04T00:20:35.1264611Z env:
+2026-06-04T00:20:35.1264847Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-04T00:20:35.1265249Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:20:35.1265758Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-04T00:20:35.1266271Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:20:35.1266713Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:20:35.1267152Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-04T00:20:35.1267600Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-04T00:20:35.1268184Z   SUPABASE_URL: ***
+2026-06-04T00:20:35.1269814Z   SUPABASE_SERVICE_KEY: ***
+2026-06-04T00:20:35.1270084Z ##[endgroup]
+2026-06-04T00:20:36.5478575Z Traceback (most recent call last):
+2026-06-04T00:20:36.5480586Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_fencer_stats.py", line 514, in <module>
+2026-06-04T00:20:36.5482439Z     main()
+2026-06-04T00:20:36.5483810Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_fencer_stats.py", line 501, in main
+2026-06-04T00:20:36.5485271Z     summary = compute_fencer_stats()
+2026-06-04T00:20:36.5485958Z               ^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:20:36.5487466Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_fencer_stats.py", line 460, in compute_fencer_stats
+2026-06-04T00:20:36.5488877Z     bouts = fetch_all(client, "fs_bouts", BOUT_SELECT, page_size=page_size)
+2026-06-04T00:20:36.5489545Z             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-04T00:20:36.5490528Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/compute_fencer_stats.py", line 134, in fetch_all
+2026-06-04T00:20:36.5491384Z     .execute()
+2026-06-04T00:20:36.5491690Z      ^^^^^^^^^
+2026-06-04T00:20:36.5492824Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-04T00:20:36.5493843Z     raise APIError(dict(json_obj))
+2026-06-04T00:20:36.5513806Z postgrest.exceptions.APIError: {'message': 'column fs_bouts.fencer_a does not exist', 'code': '42703', 'hint': 'Perhaps you meant to reference the column "fs_bouts.fencer_a_id".', 'details': None}
+2026-06-04T00:20:36.6806074Z ##[error]Process completed with exit code 1.
+2026-06-04T00:20:36.6878844Z Post job cleanup.
+2026-06-04T00:20:36.8212174Z (node:2825) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-04T00:20:36.8213358Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-04T00:20:36.8385229Z Post job cleanup.
+2026-06-04T00:20:36.9212722Z [command]/usr/bin/git version
+2026-06-04T00:20:36.9250827Z git version 2.54.0
+2026-06-04T00:20:36.9320457Z Temporarily overriding HOME='/home/runner/work/_temp/ff8e6512-f63d-4783-b759-f6771969bca3' before making global git config changes
+2026-06-04T00:20:36.9322727Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-04T00:20:36.9326929Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-04T00:20:36.9362885Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-04T00:20:36.9396760Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-04T00:20:36.9623837Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-04T00:20:36.9648906Z http.https://github.com/.extraheader
+2026-06-04T00:20:36.9660462Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-06-04T00:20:36.9691629Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-04T00:20:36.9915541Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-04T00:20:36.9946571Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-04T00:20:37.0311170Z Cleaning up orphan processes
+2026-06-04T00:20:37.0728766Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

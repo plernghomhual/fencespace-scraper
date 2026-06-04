@@ -480,10 +480,14 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         description="Compare fencer data between two stored sources.",
     )
-    parser.add_argument("--source-a", required=True, help="First source, e.g. FIE")
-    parser.add_argument("--source-b", required=True, help="Second source, e.g. british_fencing")
+    parser.add_argument("--source-a", default=None, help="First source, e.g. FIE")
+    parser.add_argument("--source-b", default=None, help="Second source, e.g. british_fencing")
     parser.add_argument("--output", help="Optional path to write the detailed JSON report")
     args = parser.parse_args(argv)
+
+    if args.source_a is None or args.source_b is None:
+        print("No --source-a / --source-b provided; skipping reconciliation.")
+        return 0
 
     report = reconcile(args.source_a, args.source_b)
     _print_report(report)

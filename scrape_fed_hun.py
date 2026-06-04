@@ -361,6 +361,8 @@ def main():
             f"written={total_written}, parsed={parsed_total}, "
             f"failed={total_failed}, skipped={total_skipped}"
         )
+        if total_written == 0 and (total_skipped + total_failed) > 0:
+            print(f"[WARNING] {SOURCE}: zero rows written after processing all targets — check URL config or source availability")
     except Exception as exc:
         run_log.error(str(exc))
         raise

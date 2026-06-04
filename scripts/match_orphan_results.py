@@ -3,11 +3,15 @@ from __future__ import annotations
 import csv
 import os
 import re
+import sys
 import unicodedata
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state

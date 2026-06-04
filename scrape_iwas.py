@@ -27,12 +27,18 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; FenceSpace/1.0; +https://fencespace.app)",
     "Cookie": "cookie_consent=2",
 }
+PARAFENCING_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; FenceSpaceBot/1.0; +https://fencespace.com/bot)",
+}
 
 WEAPON_MAP = {
     "epee": "Epee", "épée": "Epee",
     "foil": "Foil", "fleuret": "Foil",
     "sabre": "Sabre", "saber": "Sabre",
 }
+
+NON_FENCING_LABELS = {"single sticks", "full results"}
+BOYS_LABELS = {"boys"}
 
 
 def _get(url, retries=3):
@@ -236,8 +242,22 @@ def parse_event_label(label):
     Examples:
         "Epee male Senior Individual A" → ("Epee", "Men", "Senior A")
         "Foil female U23 Individual B"  → ("Foil", "Women", "U23 B")
+        "Single Sticks" / "Full results" → (None, None, None) with log
+        "Boys"  → (None, "Men", "Junior")
+        "Open"  → (None, None, "Senior")
     """
-    label_lower = label.lower()
+    label_lower = label.lower().strip()
+
+    if label_lower in NON_FENCING_LABELS:
+        print(f"  [scrape_iwas] Skipping non-fencing event label: {label!r}")
+        return None, None, None
+
+    if label_lower in BOYS_LABELS:
+        return None, "Men", "Junior"
+
+    if label_lower == "open":
+        return None, None, "Senior"
+
     weapon = None
     for raw, can in WEAPON_MAP.items():
         if raw in label_lower:
@@ -310,7 +330,22 @@ def parse_results_page(html):
 
 def discover_result_ids():
     """Scrape parafencing.org historic results page for IWAS result IDs."""
-    html = _get(f"{PARAFENCING_BASE}/results-and-rankings/historic-results/")
+    url = f"{PARAFENCING_BASE}/results-and-rankings/historic-results/"
+    try:
+        r = requests.get(url, headers=PARAFENCING_HEADERS, timeout=20)
+        if r.status_code == 403:
+            print(
+                f"[scrape_iwas] WARNING: parafencing.org returned 403 — source may require "
+                f"authentication or has blocked automated access. Results from this source will be missing."
+            )
+            return []
+        if r.status_code != 200:
+            print(f"  HTTP {r.status_code} for {url}")
+            return []
+        html = r.text
+    except Exception as exc:
+        print(f"  fetch {url} failed: {exc}")
+        return []
     if not html:
         return []
     soup = BeautifulSoup(html, "html.parser")

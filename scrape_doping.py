@@ -20,6 +20,7 @@ HEADERS = {"User-Agent": "FenceSpaceBot/1.0 (+https://fencespace.local)"}
 BATCH_SIZE = 100
 DEFAULT_RATE_LIMIT_SECONDS = 1.0
 
+# TODO: This URL returns 404 — update when FIE publishes a new sanctions PDF.
 FIE_SANCTIONS_URL = "https://static.fie.org/uploads/39/196318-SANCTIONS.pdf"
 FIE_CLEAN_SPORT_URL = "https://fie.org/fie/documents/clean-sport/11"
 ITA_ANNA_KUN_URL = (
@@ -323,6 +324,15 @@ def fetch_source(source: DopingSource) -> FetchedContent:
         timeout=25,
         allow_redirects=True,
     )
+    if response.status_code == 404 and source.source_kind == "fie_sanctions_pdf":
+        print(
+            f"[scrape_doping] WARNING: FIE sanctions PDF URL returned 404 — "
+            f"URL may have changed. Update FIE_SANCTIONS_URL in scrape_doping.py. "
+            f"URL: {source.url}"
+        )
+        raise requests.exceptions.HTTPError(
+            f"404 for {source.url}", response=response
+        )
     response.raise_for_status()
     return FetchedContent(
         content=response.content,

@@ -23,10 +23,8 @@ HIGH_CONFIDENCE_RESULTS = 3
 USE_LLM_SUMMARIES = False
 
 BOUT_SELECTS = (
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b,round,weapon,metadata",
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b,round,weapon",
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b,round",
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b",
 )
 RESULT_SELECTS = (
     "tournament_id,fencer_id,rank,placement,weapon",
@@ -755,8 +753,8 @@ def build_technique_analysis_rows(
             stats["result_ranks"].append(rank)
 
     for bout in bouts:
-        fencer_a = canonical_fencer_id(bout.get("fencer_a"), identity_map)
-        fencer_b = canonical_fencer_id(bout.get("fencer_b"), identity_map)
+        fencer_a = canonical_fencer_id(bout.get("fencer_a_id"), identity_map)
+        fencer_b = canonical_fencer_id(bout.get("fencer_b_id"), identity_map)
         score_a = to_int(bout.get("score_a"))
         score_b = to_int(bout.get("score_b"))
         weapon = bout_weapon(bout, tournaments_by_id, profiles, (fencer_a, fencer_b))

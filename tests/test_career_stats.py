@@ -47,22 +47,22 @@ def test_aggregate_career_stats_groups_identities_and_counts_medals_average_and_
     bouts = [
         {
             "tournament_id": "tournament-2025-foil",
-            "fencer_a": FENCER_ALICE_FOIL,
-            "fencer_b": FENCER_BOB,
+            "fencer_a_id": FENCER_ALICE_FOIL,
+            "fencer_b_id": FENCER_BOB,
             "score_a": 15,
             "score_b": 10,
         },
         {
             "tournament_id": "tournament-2026-epee",
-            "fencer_a": FENCER_CAROL,
-            "fencer_b": FENCER_ALICE_EPEE,
+            "fencer_a_id": FENCER_CAROL,
+            "fencer_b_id": FENCER_ALICE_EPEE,
             "score_a": 11,
             "score_b": 15,
         },
         {
             "tournament_id": "tournament-2026-sabre",
-            "fencer_a": FENCER_BOB,
-            "fencer_b": FENCER_CAROL,
+            "fencer_a_id": FENCER_BOB,
+            "fencer_b_id": FENCER_CAROL,
             "score_a": None,
             "score_b": 7,
         },
@@ -190,8 +190,8 @@ def test_compute_career_stats_fetches_tables_and_upserts_per_canonical_fencer():
             "fs_bouts": [
                 {
                     "tournament_id": "tournament-2025-foil",
-                    "fencer_a": FENCER_ALICE_FOIL,
-                    "fencer_b": FENCER_BOB,
+                    "fencer_a_id": FENCER_ALICE_FOIL,
+                    "fencer_b_id": FENCER_BOB,
                     "score_a": 15,
                     "score_b": 9,
                 }

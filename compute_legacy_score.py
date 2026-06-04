@@ -29,9 +29,9 @@ RESULT_SELECTS = (
     "id,tournament_id,fencer_id,rank,placement,medal",
 )
 TOURNAMENT_SELECTS = (
-    "id,tier,type,competition_type,competition_tier,season,start_date,end_date,date,weapon,gender,category",
-    "id,tier,type,competition_type,season,start_date,end_date,date,weapon,gender,category",
-    "id,type,season,start_date,end_date,date,weapon,gender,category",
+    "id,tier,type,competition_type,competition_tier,season,start_date,end_date,weapon,gender,category",
+    "id,tier,type,competition_type,season,start_date,end_date,weapon,gender,category",
+    "id,type,season,start_date,end_date,weapon,gender,category",
 )
 IDENTITY_SELECTS = (
     "id,canonical_name,country,fs_fencer_row_ids",

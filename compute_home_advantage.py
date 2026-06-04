@@ -739,7 +739,9 @@ def build_home_advantage_aggregate_rows(
         ].append(row)
 
     aggregate_rows: list[dict[str, Any]] = []
-    for (country, weapon, gender, category, tier, status), rows in sorted(grouped.items()):
+    for (country, weapon, gender, category, tier, status), rows in sorted(
+        grouped.items(), key=lambda item: tuple(v or "" for v in item[0])
+    ):
         medals = [row.get("actual_medal") for row in rows]
         aggregate_rows.append(
             {

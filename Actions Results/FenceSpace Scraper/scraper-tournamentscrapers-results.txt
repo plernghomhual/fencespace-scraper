@@ -1,0 +1,1741 @@
+﻿2026-06-03T20:46:09.4122982Z Current runner version: '2.334.0'
+2026-06-03T20:46:09.4149237Z ##[group]Runner Image Provisioner
+2026-06-03T20:46:09.4150158Z Hosted Compute Agent
+2026-06-03T20:46:09.4150830Z Version: 20260520.533
+2026-06-03T20:46:09.4151502Z Commit: 189110e25284a9812c124fd27b339e2fb4f2f9db
+2026-06-03T20:46:09.4152539Z Build Date: 2026-05-20T17:44:04Z
+2026-06-03T20:46:09.4153278Z Worker ID: {5727b3e4-11e3-415e-844a-3fa87f97e55d}
+2026-06-03T20:46:09.4154043Z Azure Region: eastus
+2026-06-03T20:46:09.4154662Z ##[endgroup]
+2026-06-03T20:46:09.4156188Z ##[group]Operating System
+2026-06-03T20:46:09.4156943Z Ubuntu
+2026-06-03T20:46:09.4157516Z 24.04.4
+2026-06-03T20:46:09.4158065Z LTS
+2026-06-03T20:46:09.4158600Z ##[endgroup]
+2026-06-03T20:46:09.4159189Z ##[group]Runner Image
+2026-06-03T20:46:09.4159899Z Image: ubuntu-24.04
+2026-06-03T20:46:09.4160485Z Version: 20260525.161.1
+2026-06-03T20:46:09.4162020Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260525.161/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-03T20:46:09.4163612Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260525.161
+2026-06-03T20:46:09.4164698Z ##[endgroup]
+2026-06-03T20:46:09.4165904Z ##[group]GITHUB_TOKEN Permissions
+2026-06-03T20:46:09.4168117Z Contents: read
+2026-06-03T20:46:09.4168753Z Metadata: read
+2026-06-03T20:46:09.4169498Z Packages: read
+2026-06-03T20:46:09.4170071Z ##[endgroup]
+2026-06-03T20:46:09.4172521Z Secret source: Actions
+2026-06-03T20:46:09.4173571Z Prepare workflow directory
+2026-06-03T20:46:09.4568155Z Prepare all required actions
+2026-06-03T20:46:09.4606739Z Getting action download info
+2026-06-03T20:46:09.8507327Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-06-03T20:46:09.9749015Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-06-03T20:46:10.1616429Z Complete job name: tournament-scrapers
+2026-06-03T20:46:10.2465238Z ##[group]Run actions/checkout@v4
+2026-06-03T20:46:10.2466287Z with:
+2026-06-03T20:46:10.2466880Z   repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.2471474Z   token: ***
+2026-06-03T20:46:10.2472195Z   ssh-strict: true
+2026-06-03T20:46:10.2472696Z   ssh-user: git
+2026-06-03T20:46:10.2473219Z   persist-credentials: true
+2026-06-03T20:46:10.2473762Z   clean: true
+2026-06-03T20:46:10.2474263Z   sparse-checkout-cone-mode: true
+2026-06-03T20:46:10.2474845Z   fetch-depth: 1
+2026-06-03T20:46:10.2475330Z   fetch-tags: false
+2026-06-03T20:46:10.2475840Z   show-progress: true
+2026-06-03T20:46:10.2476346Z   lfs: false
+2026-06-03T20:46:10.2476803Z   submodules: false
+2026-06-03T20:46:10.2477289Z   set-safe-directory: true
+2026-06-03T20:46:10.2478072Z env:
+2026-06-03T20:46:10.2478578Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:10.2479193Z ##[endgroup]
+2026-06-03T20:46:10.3471068Z Syncing repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.3473735Z ##[group]Getting Git version info
+2026-06-03T20:46:10.3474699Z Working directory is '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3476127Z [command]/usr/bin/git version
+2026-06-03T20:46:10.3535930Z git version 2.54.0
+2026-06-03T20:46:10.3558112Z ##[endgroup]
+2026-06-03T20:46:10.3571484Z Temporarily overriding HOME='/home/runner/work/_temp/35c6d845-0cc0-4c0a-ae0f-d02b41206e4a' before making global git config changes
+2026-06-03T20:46:10.3575348Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T20:46:10.3578306Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.3626148Z Deleting the contents of '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3631279Z ##[group]Initializing the repository
+2026-06-03T20:46:10.3637194Z [command]/usr/bin/git init /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.3742529Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-03T20:46:10.3745599Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-03T20:46:10.3748103Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-03T20:46:10.3749213Z hint: call:
+2026-06-03T20:46:10.3749778Z hint:
+2026-06-03T20:46:10.3750747Z hint: 	git config --global init.defaultBranch <name>
+2026-06-03T20:46:10.3752511Z hint:
+2026-06-03T20:46:10.3753674Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-03T20:46:10.3754960Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-03T20:46:10.3755823Z hint:
+2026-06-03T20:46:10.3756316Z hint: 	git branch -m <name>
+2026-06-03T20:46:10.3756878Z hint:
+2026-06-03T20:46:10.3757821Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-03T20:46:10.3759588Z Initialized empty Git repository in /home/runner/work/fencespace-scraper/fencespace-scraper/.git/
+2026-06-03T20:46:10.3762271Z [command]/usr/bin/git remote add origin https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.3811531Z ##[endgroup]
+2026-06-03T20:46:10.3814549Z ##[group]Disabling automatic garbage collection
+2026-06-03T20:46:10.3816721Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-03T20:46:10.3854648Z ##[endgroup]
+2026-06-03T20:46:10.3856350Z ##[group]Setting up auth
+2026-06-03T20:46:10.3863706Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T20:46:10.3905282Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T20:46:10.4272918Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T20:46:10.4310258Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T20:46:10.4569648Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T20:46:10.4614107Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T20:46:10.4875173Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-03T20:46:10.4913855Z ##[endgroup]
+2026-06-03T20:46:10.4914777Z ##[group]Fetching the repository
+2026-06-03T20:46:10.4925826Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +584d2ceca644571bf8fee6973576d9000d6784ee:refs/remotes/origin/main
+2026-06-03T20:46:11.0616959Z From https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:11.0621429Z  * [new ref]         584d2ceca644571bf8fee6973576d9000d6784ee -> origin/main
+2026-06-03T20:46:11.0657237Z ##[endgroup]
+2026-06-03T20:46:11.0659197Z ##[group]Determining the checkout info
+2026-06-03T20:46:11.0661361Z ##[endgroup]
+2026-06-03T20:46:11.0664475Z [command]/usr/bin/git sparse-checkout disable
+2026-06-03T20:46:11.0710234Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-03T20:46:11.0739749Z ##[group]Checking out the ref
+2026-06-03T20:46:11.0743650Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-06-03T20:46:11.1313301Z Switched to a new branch 'main'
+2026-06-03T20:46:11.1318646Z branch 'main' set up to track 'origin/main'.
+2026-06-03T20:46:11.1325756Z ##[endgroup]
+2026-06-03T20:46:11.1406992Z [command]/usr/bin/git log -1 --format=%H
+2026-06-03T20:46:11.1432539Z 584d2ceca644571bf8fee6973576d9000d6784ee
+2026-06-03T20:46:11.1877249Z ##[group]Run actions/setup-python@v5
+2026-06-03T20:46:11.1878563Z with:
+2026-06-03T20:46:11.1879465Z   python-version: 3.11
+2026-06-03T20:46:11.1880531Z   check-latest: false
+2026-06-03T20:46:11.1892406Z   token: ***
+2026-06-03T20:46:11.1893407Z   update-environment: true
+2026-06-03T20:46:11.1894825Z   allow-prereleases: false
+2026-06-03T20:46:11.1895900Z   freethreaded: false
+2026-06-03T20:46:11.1896870Z env:
+2026-06-03T20:46:11.1897803Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.1899069Z ##[endgroup]
+2026-06-03T20:46:11.3241502Z ##[group]Installed versions
+2026-06-03T20:46:11.3335069Z (node:2206) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T20:46:11.3341890Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T20:46:11.3344894Z Successfully set up CPython (3.11.15)
+2026-06-03T20:46:11.3347456Z ##[endgroup]
+2026-06-03T20:46:11.3520348Z ##[group]Run pip install -r requirements.txt
+2026-06-03T20:46:11.3522154Z [36;1mpip install -r requirements.txt[0m
+2026-06-03T20:46:11.3565922Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:11.3567000Z env:
+2026-06-03T20:46:11.3567913Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.3569443Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3571322Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:11.3573479Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3575233Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3576968Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3578722Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:11.3580190Z ##[endgroup]
+2026-06-03T20:46:12.2415606Z Collecting requests (from -r requirements.txt (line 1))
+2026-06-03T20:46:12.3117665Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-06-03T20:46:12.3406802Z Collecting supabase (from -r requirements.txt (line 2))
+2026-06-03T20:46:12.3456695Z   Downloading supabase-2.30.1-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:12.3636804Z Collecting beautifulsoup4 (from -r requirements.txt (line 3))
+2026-06-03T20:46:12.3682634Z   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+2026-06-03T20:46:12.3967015Z Collecting pdfplumber (from -r requirements.txt (line 4))
+2026-06-03T20:46:12.4010497Z   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+2026-06-03T20:46:12.4310295Z Collecting openpyxl (from -r requirements.txt (line 5))
+2026-06-03T20:46:12.4353895Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:12.4469788Z Collecting xlrd (from -r requirements.txt (line 6))
+2026-06-03T20:46:12.4509856Z   Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.4621469Z Collecting xlwt (from -r requirements.txt (line 7))
+2026-06-03T20:46:12.4663772Z   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.5108588Z Collecting fastapi (from -r requirements.txt (line 8))
+2026-06-03T20:46:12.5156141Z   Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+2026-06-03T20:46:12.5417463Z Collecting uvicorn (from -r requirements.txt (line 9))
+2026-06-03T20:46:12.5460185Z   Downloading uvicorn-0.48.0-py3-none-any.whl.metadata (6.7 kB)
+2026-06-03T20:46:12.6234233Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:12.6279506Z   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:12.7742602Z Collecting Pillow (from -r requirements.txt (line 11))
+2026-06-03T20:46:12.7786824Z   Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-06-03T20:46:12.8157880Z Collecting streamlit (from -r requirements.txt (line 12))
+2026-06-03T20:46:12.8205799Z   Downloading streamlit-1.58.0-py3-none-any.whl.metadata (9.6 kB)
+2026-06-03T20:46:12.8545524Z Collecting plotly (from -r requirements.txt (line 13))
+2026-06-03T20:46:12.8588909Z   Downloading plotly-6.8.0-py3-none-any.whl.metadata (9.0 kB)
+2026-06-03T20:46:12.9675955Z Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.9721311Z   Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-06-03T20:46:12.9880343Z Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.9922548Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-06-03T20:46:13.0122848Z Collecting urllib3<3,>=1.26 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.0164548Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-06-03T20:46:13.0342159Z Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.0382993Z   Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:13.0551329Z Collecting realtime==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0598343Z   Downloading realtime-2.30.1-py3-none-any.whl.metadata (7.0 kB)
+2026-06-03T20:46:13.0753333Z Collecting supabase-functions==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0793519Z   Downloading supabase_functions-2.30.1-py3-none-any.whl.metadata (2.4 kB)
+2026-06-03T20:46:13.0953723Z Collecting storage3==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0993192Z   Downloading storage3-2.30.1-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:13.1139174Z Collecting supabase-auth==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1183492Z   Downloading supabase_auth-2.30.1-py3-none-any.whl.metadata (6.4 kB)
+2026-06-03T20:46:13.1336603Z Collecting postgrest==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1376872Z   Downloading postgrest-2.30.1-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.1554423Z Collecting httpx<0.29,>=0.26 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1598939Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:13.3783276Z Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3827816Z   Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (94 kB)
+2026-06-03T20:46:13.4025454Z Collecting deprecation>=2.1.0 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4078688Z   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.5040187Z Collecting pydantic<3.0,>=1.9 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.5086827Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-06-03T20:46:13.5538045Z Collecting typing-extensions>=4.14.0 (from realtime==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.5610291Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-06-03T20:46:13.5660869Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:13.5705208Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:13.6468823Z Collecting pyiceberg>=0.10.0 (from storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6524622Z   Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+2026-06-03T20:46:13.6746732Z Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6789233Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.6910196Z Collecting strenum>=0.4.15 (from supabase-functions==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6950114Z   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-06-03T20:46:13.7137509Z Collecting anyio (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7185800Z   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+2026-06-03T20:46:13.7343558Z Collecting httpcore==1.* (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7395139Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-06-03T20:46:13.7521302Z Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7560922Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-06-03T20:46:13.7740282Z Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7789179Z   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+2026-06-03T20:46:13.7916996Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7960419Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:13.8076660Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.8127673Z   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.8256295Z Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.8298049Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:14.4346999Z Collecting pydantic-core==2.46.4 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.4391368Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.4505516Z Collecting typing-inspection>=0.4.2 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.4547186Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.4706560Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r requirements.txt (line 3))
+2026-06-03T20:46:14.4747329Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:14.4879322Z Collecting pdfminer.six==20251230 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.4918432Z   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.6006329Z Collecting pypdfium2>=4.18.0 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.6052891Z   Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (68 kB)
+2026-06-03T20:46:14.7655843Z Collecting cryptography>=36.0.0 (from pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.7699892Z   Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.7815542Z Collecting et-xmlfile (from openpyxl->-r requirements.txt (line 5))
+2026-06-03T20:46:14.7857580Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-06-03T20:46:14.8083080Z Collecting starlette>=0.46.0 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.8128211Z   Downloading starlette-1.2.1-py3-none-any.whl.metadata (6.3 kB)
+2026-06-03T20:46:14.8280413Z Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.8321660Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.8491941Z Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 9))
+2026-06-03T20:46:14.8531378Z   Downloading click-8.4.1-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.8704091Z Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.8759582Z   Downloading altair-6.1.0-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:14.8921095Z Collecting blinker<2,>=1.5.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.8961290Z   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:14.9117962Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.9157574Z   Downloading cachetools-7.1.4-py3-none-any.whl.metadata (5.5 kB)
+2026-06-03T20:46:14.9366393Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.9408108Z   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+2026-06-03T20:46:15.1619621Z Collecting numpy<3,>=1.23 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1669682Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:15.1836047Z Collecting packaging>=20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1875674Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.2906405Z Collecting pandas<4,>=1.4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.2954194Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-06-03T20:46:15.3341567Z Collecting pydeck<1,>=0.8.0b4 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3383001Z   Downloading pydeck-0.9.2-py2.py3-none-any.whl.metadata (4.2 kB)
+2026-06-03T20:46:15.4783506Z Collecting protobuf<8,>=3.20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4828277Z   Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-06-03T20:46:15.5592474Z Collecting pyarrow>=7.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5639814Z   Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+2026-06-03T20:46:15.5811574Z Collecting tenacity<10,>=8.1.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5855801Z   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.5965554Z Collecting toml<2,>=0.10.1 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6008482Z   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:15.6337910Z Collecting httptools>=0.6.3 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6383575Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.6529565Z Collecting python-multipart>=0.0.10 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6576609Z   Downloading python_multipart-0.0.30-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:15.6703127Z Collecting itsdangerous>=2.1.2 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6744813Z   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-06-03T20:46:15.7152218Z Collecting watchdog<7,>=2.1.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.7205411Z   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+2026-06-03T20:46:15.7392790Z Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.7434585Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:15.8084799Z Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8132867Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-06-03T20:46:15.8442139Z Collecting narwhals>=2.4.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8489397Z   Downloading narwhals-2.22.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:15.8675281Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8713622Z   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.8842645Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8880541Z   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:15.9067277Z Collecting python-dateutil>=2.8.2 (from pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9116826Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-06-03T20:46:16.0217017Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:16.0260708Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-06-03T20:46:16.0388861Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:16.0429294Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-06-03T20:46:16.0931643Z Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.0979965Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-06-03T20:46:16.1123262Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1164527Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-06-03T20:46:16.1290397Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1331663Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:16.1528430Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1573286Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-06-03T20:46:16.4560893Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.4610643Z   Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-06-03T20:46:16.5130132Z Collecting mmh3<6.0.0,>=4.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5177251Z   Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+2026-06-03T20:46:16.5548251Z Collecting rich<15.0.0,>=10.11.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5592195Z   Downloading rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+2026-06-03T20:46:16.5741400Z Collecting strictyaml<2.0.0,>=1.7.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5783502Z   Downloading strictyaml-1.7.3-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:16.5996963Z Collecting fsspec>=2023.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.6041800Z   Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+2026-06-03T20:46:16.6402229Z Collecting pyparsing<4.0.0,>=3.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.6445462Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-06-03T20:46:16.6999482Z Collecting pyroaring<2.0.0,>=1.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.7044707Z   Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-06-03T20:46:16.7096681Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.7140352Z   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+2026-06-03T20:46:16.7773475Z Collecting zstandard<1.0.0,>=0.13.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.7823035Z   Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB)
+2026-06-03T20:46:16.8011596Z Collecting markdown-it-py>=2.2.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.8053768Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-06-03T20:46:16.8263251Z Collecting pygments<3.0.0,>=2.13.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.8308000Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:16.8476990Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.8518366Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:16.8783494Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.8828127Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-06-03T20:46:17.0951993Z Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.1000152Z   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-06-03T20:46:17.2264438Z Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.2311001Z   Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-06-03T20:46:17.2452135Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-06-03T20:46:17.2526970Z Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (214 kB)
+2026-06-03T20:46:17.2610035Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-06-03T20:46:17.2673315Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-06-03T20:46:17.2736820Z Downloading supabase-2.30.1-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.2800937Z Downloading postgrest-2.30.1-py3-none-any.whl (23 kB)
+2026-06-03T20:46:17.2861829Z Downloading realtime-2.30.1-py3-none-any.whl (22 kB)
+2026-06-03T20:46:17.2929958Z Downloading storage3-2.30.1-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.2995694Z Downloading supabase_auth-2.30.1-py3-none-any.whl (48 kB)
+2026-06-03T20:46:17.3059464Z Downloading supabase_functions-2.30.1-py3-none-any.whl (8.8 kB)
+2026-06-03T20:46:17.3123394Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-06-03T20:46:17.3193184Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:17.3259640Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-06-03T20:46:17.3323222Z Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+2026-06-03T20:46:17.3384666Z Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+2026-06-03T20:46:17.3448668Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:17.3507751Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-06-03T20:46:17.3600118Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-06-03T20:46:17.3714201Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 211.3 MB/s  0:00:00
+2026-06-03T20:46:17.3756496Z Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+2026-06-03T20:46:17.3827213Z Downloading pdfplumber-0.11.9-py3-none-any.whl (60 kB)
+2026-06-03T20:46:17.3899851Z Downloading pdfminer_six-20251230-py3-none-any.whl (6.6 MB)
+2026-06-03T20:46:17.4189338Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 241.7 MB/s  0:00:00
+2026-06-03T20:46:17.4232597Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-06-03T20:46:17.4300670Z Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+2026-06-03T20:46:17.4374626Z Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+2026-06-03T20:46:17.4439072Z Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+2026-06-03T20:46:17.4506924Z Downloading uvicorn-0.48.0-py3-none-any.whl (71 kB)
+2026-06-03T20:46:17.4576143Z Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-06-03T20:46:17.4805226Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 337.7 MB/s  0:00:00
+2026-06-03T20:46:17.4850919Z Downloading streamlit-1.58.0-py3-none-any.whl (9.2 MB)
+2026-06-03T20:46:17.5502614Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 145.8 MB/s  0:00:00
+2026-06-03T20:46:17.5547463Z Downloading altair-6.1.0-py3-none-any.whl (796 kB)
+2026-06-03T20:46:17.5604668Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.0/797.0 kB 161.5 MB/s  0:00:00
+2026-06-03T20:46:17.5650137Z Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-06-03T20:46:17.5712166Z Downloading click-8.4.1-py3-none-any.whl (116 kB)
+2026-06-03T20:46:17.5777256Z Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+2026-06-03T20:46:17.5844450Z Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+2026-06-03T20:46:17.5905468Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-06-03T20:46:17.6385937Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 365.5 MB/s  0:00:00
+2026-06-03T20:46:17.6432962Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-06-03T20:46:17.6794514Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 328.3 MB/s  0:00:00
+2026-06-03T20:46:17.6841020Z Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-06-03T20:46:17.6914604Z Downloading pydeck-0.9.2-py2.py3-none-any.whl (11.3 MB)
+2026-06-03T20:46:17.7655007Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 154.8 MB/s  0:00:00
+2026-06-03T20:46:17.7700248Z Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+2026-06-03T20:46:17.7761618Z Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.7826245Z Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.7893885Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-06-03T20:46:17.7957835Z Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+2026-06-03T20:46:17.8120224Z Downloading plotly-6.8.0-py3-none-any.whl (9.9 MB)
+2026-06-03T20:46:17.8469323Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 300.1 MB/s  0:00:00
+2026-06-03T20:46:17.8520547Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-06-03T20:46:17.8581483Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:17.8645773Z Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+2026-06-03T20:46:17.8714869Z Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.8786871Z Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-06-03T20:46:17.8967110Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 293.6 MB/s  0:00:00
+2026-06-03T20:46:17.9014812Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2026-06-03T20:46:17.9086185Z Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.9148210Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-06-03T20:46:17.9223097Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-06-03T20:46:17.9303614Z Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.9379600Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.9451685Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-06-03T20:46:17.9519883Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-06-03T20:46:17.9600506Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-06-03T20:46:17.9664800Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-06-03T20:46:17.9741915Z Downloading narwhals-2.22.0-py3-none-any.whl (453 kB)
+2026-06-03T20:46:17.9829853Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-06-03T20:46:17.9895997Z Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (48.8 MB)
+2026-06-03T20:46:18.1694312Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.8/48.8 MB 274.6 MB/s  0:00:00
+2026-06-03T20:46:18.1741016Z Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (721 kB)
+2026-06-03T20:46:18.1812846Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 721.2/721.2 kB 101.9 MB/s  0:00:00
+2026-06-03T20:46:18.1856659Z Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+2026-06-03T20:46:18.1921049Z Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (103 kB)
+2026-06-03T20:46:18.1987728Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-06-03T20:46:18.2058684Z Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.2 MB)
+2026-06-03T20:46:18.2261298Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 165.0 MB/s  0:00:00
+2026-06-03T20:46:18.2310843Z Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+2026-06-03T20:46:18.2392005Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-06-03T20:46:18.2468315Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 182.2 MB/s  0:00:00
+2026-06-03T20:46:18.2514335Z Downloading strictyaml-1.7.3-py3-none-any.whl (123 kB)
+2026-06-03T20:46:18.2584644Z Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+2026-06-03T20:46:18.2814110Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 260.2 MB/s  0:00:00
+2026-06-03T20:46:18.2859311Z Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+2026-06-03T20:46:18.2932524Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-06-03T20:46:18.2998221Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-06-03T20:46:18.3058391Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-06-03T20:46:18.3196029Z Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-06-03T20:46:18.3337358Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 301.2 MB/s  0:00:00
+2026-06-03T20:46:18.3384289Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-06-03T20:46:18.3460349Z Downloading python_multipart-0.0.30-py3-none-any.whl (29 kB)
+2026-06-03T20:46:18.3522416Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-06-03T20:46:18.3588270Z Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (378 kB)
+2026-06-03T20:46:18.3670665Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:18.3735591Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-06-03T20:46:18.3806154Z Downloading starlette-1.2.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:18.3871910Z Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-06-03T20:46:18.3931255Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-06-03T20:46:18.3992745Z Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (106 kB)
+2026-06-03T20:46:18.4058108Z Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2026-06-03T20:46:18.4124392Z Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (58 kB)
+2026-06-03T20:46:18.4188440Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-06-03T20:46:18.4262157Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-06-03T20:46:18.7779848Z Installing collected packages: xlwt, strenum, pyroaring, zstandard, xlrd, websockets, watchdog, urllib3, typing-extensions, toml, tenacity, soupsieve, smmap, six, rpds-py, python-multipart, pypdfium2, pyparsing, pyjwt, pygments, pycparser, pyarrow, protobuf, propcache, Pillow, packaging, numpy, narwhals, multidict, mmh3, mdurl, MarkupSafe, itsdangerous, idna, hyperframe, httptools, hpack, h11, fsspec, et-xmlfile, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, yarl, uvicorn, typing-inspection, requests, referencing, python-dateutil, pydantic-core, plotly, openpyxl, markdown-it-py, jinja2, httpcore, h2, gitdb, deprecation, cffi, beautifulsoup4, anyio, strictyaml, starlette, rich, pydeck, pydantic, pandas, jsonschema-specifications, httpx, gitpython, cryptography, realtime, pyiceberg, pdfminer.six, jsonschema, fastapi, supabase-functions, supabase-auth, storage3, postgrest, pdfplumber, altair, supabase, streamlit
+2026-06-03T20:46:35.1186934Z 
+2026-06-03T20:46:35.1229516Z Successfully installed MarkupSafe-3.0.3 Pillow-12.2.0 altair-6.1.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 beautifulsoup4-4.14.3 blinker-1.9.0 cachetools-6.2.6 certifi-2026.5.20 cffi-2.0.0 charset_normalizer-3.4.7 click-8.4.1 cryptography-48.0.0 deprecation-2.1.0 et-xmlfile-2.0.0 fastapi-0.136.3 fsspec-2026.4.0 gitdb-4.0.12 gitpython-3.1.50 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 narwhals-2.22.0 numpy-2.4.6 openpyxl-3.1.5 packaging-26.2 pandas-3.0.3 pdfminer.six-20251230 pdfplumber-0.11.9 plotly-6.8.0 postgrest-2.30.1 propcache-0.5.2 protobuf-7.35.0 pyarrow-24.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydeck-0.9.2 pygments-2.20.0 pyiceberg-0.11.1 pyjwt-2.13.0 pyparsing-3.3.2 pypdfium2-5.9.0 pyroaring-1.1.0 python-dateutil-2.9.0.post0 python-multipart-0.0.30 realtime-2.30.1 referencing-0.37.0 requests-2.34.2 rich-14.3.4 rpds-py-2026.5.1 six-1.17.0 smmap-5.0.3 soupsieve-2.8.4 starlette-1.2.1 storage3-2.30.1 streamlit-1.58.0 strenum-0.4.15 strictyaml-1.7.3 supabase-2.30.1 supabase-auth-2.30.1 supabase-functions-2.30.1 tenacity-9.1.4 toml-0.10.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.48.0 watchdog-6.0.0 websockets-15.0.1 xlrd-2.0.2 xlwt-1.3.0 yarl-1.24.2 zstandard-0.25.0
+2026-06-03T20:46:35.1239994Z 
+2026-06-03T20:46:35.1240738Z [notice] A new release of pip is available: 26.1.1 -> 26.1.2
+2026-06-03T20:46:35.1241556Z [notice] To update, run: pip install --upgrade pip
+2026-06-03T20:46:35.4604839Z ##[group]Run python scrape_fie_pools.py
+2026-06-03T20:46:35.4605225Z [36;1mpython scrape_fie_pools.py[0m
+2026-06-03T20:46:35.4632289Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:35.4632561Z env:
+2026-06-03T20:46:35.4632788Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:35.4633167Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.4633627Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:35.4634113Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.4634530Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.4634929Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.4635331Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:35.4636214Z   SUPABASE_URL: ***
+2026-06-03T20:46:35.4637555Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:35.4637813Z ##[endgroup]
+2026-06-03T20:46:38.8373160Z Traceback (most recent call last):
+2026-06-03T20:46:38.8380655Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_pools.py", line 781, in <module>
+2026-06-03T20:46:38.8381993Z FIE pool scraper starting - 2026-06-03T20:46:37.901352+00:00
+2026-06-03T20:46:38.8382990Z     main()
+2026-06-03T20:46:38.8384254Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_pools.py", line 777, in main
+2026-06-03T20:46:38.8385165Z     scrape_fie_pools(limit=limit)
+2026-06-03T20:46:38.8386097Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_pools.py", line 730, in scrape_fie_pools
+2026-06-03T20:46:38.8387130Z     tournaments = fetch_pool_tournaments(client, limit=limit)
+2026-06-03T20:46:38.8387720Z                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:46:38.8388754Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_pools.py", line 530, in fetch_pool_tournaments
+2026-06-03T20:46:38.8389706Z     .execute()
+2026-06-03T20:46:38.8390040Z      ^^^^^^^^^
+2026-06-03T20:46:38.8390813Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T20:46:38.8391494Z     raise APIError(dict(json_obj))
+2026-06-03T20:46:38.8392369Z postgrest.exceptions.APIError: {'message': 'column fs_tournaments.is_team does not exist', 'code': '42703', 'hint': None, 'details': None}
+2026-06-03T20:46:38.9894855Z ##[error]Process completed with exit code 1.
+2026-06-03T20:46:38.9965080Z ##[group]Run python scrape_fie_satellite.py
+2026-06-03T20:46:38.9965495Z [36;1mpython scrape_fie_satellite.py[0m
+2026-06-03T20:46:38.9992740Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:38.9993035Z env:
+2026-06-03T20:46:38.9993289Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:38.9993723Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:38.9994237Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:38.9994736Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:38.9995184Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:38.9995632Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:38.9996094Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:38.9996838Z   SUPABASE_URL: ***
+2026-06-03T20:46:38.9998345Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:38.9998626Z ##[endgroup]
+2026-06-03T20:46:45.4476459Z Traceback (most recent call last):
+2026-06-03T20:46:45.4477157Z FIE Satellite/Challenge season 2003
+2026-06-03T20:46:45.4480868Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 779, in upsert_tournament_rows
+2026-06-03T20:46:45.4482789Z     client.table("fs_tournaments").upsert(batch, on_conflict="source_id").execute()
+2026-06-03T20:46:45.4484984Z   Tournament upsert failed; retrying without fie_id: {'message': "Could not find the 'source_url' column of 'fs_tournaments' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+2026-06-03T20:46:45.4487324Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T20:46:45.4488708Z     raise APIError(dict(json_obj))
+2026-06-03T20:46:45.4490125Z postgrest.exceptions.APIError: {'message': "Could not find the 'source_url' column of 'fs_tournaments' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+2026-06-03T20:46:45.4491382Z 
+2026-06-03T20:46:45.4491973Z During handling of the above exception, another exception occurred:
+2026-06-03T20:46:45.4492555Z 
+2026-06-03T20:46:45.4492762Z Traceback (most recent call last):
+2026-06-03T20:46:45.4493864Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 1070, in <module>
+2026-06-03T20:46:45.4495248Z     main()
+2026-06-03T20:46:45.4496176Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 1066, in main
+2026-06-03T20:46:45.4497078Z     return scrape_fie_satellite()
+2026-06-03T20:46:45.4497487Z            ^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:46:45.4498427Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 1021, in scrape_fie_satellite
+2026-06-03T20:46:45.4499520Z     season_summary, season_unmatched = process_competitions(
+2026-06-03T20:46:45.4500068Z                                        ^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:46:45.4501074Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 888, in process_competitions
+2026-06-03T20:46:45.4502293Z     id_map = upsert_tournament_rows(client, rows)
+2026-06-03T20:46:45.4502788Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:46:45.4503805Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fie_satellite.py", line 796, in upsert_tournament_rows
+2026-06-03T20:46:45.4504752Z     ).execute()
+2026-06-03T20:46:45.4505064Z       ^^^^^^^^^
+2026-06-03T20:46:45.4505995Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T20:46:45.4507077Z     raise APIError(dict(json_obj))
+2026-06-03T20:46:45.4508209Z postgrest.exceptions.APIError: {'message': "Could not find the 'source_url' column of 'fs_tournaments' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+2026-06-03T20:46:45.6143999Z ##[error]Process completed with exit code 1.
+2026-06-03T20:46:45.6185822Z ##[group]Run python scrape_national_champs.py
+2026-06-03T20:46:45.6186257Z [36;1mpython scrape_national_champs.py[0m
+2026-06-03T20:46:45.6212816Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:45.6213116Z env:
+2026-06-03T20:46:45.6213370Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:45.6213798Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:45.6214298Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:45.6214805Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:45.6215262Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:45.6215731Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:45.6216204Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:45.6216826Z   SUPABASE_URL: ***
+2026-06-03T20:46:45.6218405Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:45.6218709Z ##[endgroup]
+2026-06-03T20:46:55.6727690Z National championships scraper starting - 2026-06-03T20:46:46.512770+00:00
+2026-06-03T20:46:55.6728474Z ITA skipped: no parseable result rows
+2026-06-03T20:46:55.6728963Z FRA skipped: no parseable result rows
+2026-06-03T20:46:55.6729417Z GER skipped: no parseable result rows
+2026-06-03T20:46:55.6731255Z HKG skipped: fetch/parse failed: HTTPSConnectionPool(host='www.hkfa.org.hk', port=443): Max retries exceeded with url: /EN/results.html?mID=7 (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)')))
+2026-06-03T20:46:55.6733859Z   Probe evidence: HKFA results index links public 2025 Hong Kong Open result PDFs; PDF text includes Name, Club, Country, and ranking fields.
+2026-06-03T20:46:55.6734862Z POL skipped: no parseable result rows
+2026-06-03T20:46:55.6735331Z BRA skipped: no parseable result rows
+2026-06-03T20:46:55.6735788Z Done - written=0, failed=0, skipped=20
+2026-06-03T20:46:55.8212836Z ##[group]Run python scrape_veterans.py
+2026-06-03T20:46:55.8213246Z [36;1mpython scrape_veterans.py[0m
+2026-06-03T20:46:55.8239223Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:55.8239480Z env:
+2026-06-03T20:46:55.8239715Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:55.8240096Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:55.8240756Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:55.8241199Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:55.8241598Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:55.8242144Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:55.8242539Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:55.8243086Z   SUPABASE_URL: ***
+2026-06-03T20:46:55.8244397Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:55.8244654Z ##[endgroup]
+2026-06-03T20:47:01.8066934Z Traceback (most recent call last):
+2026-06-03T20:47:01.8068421Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_veterans.py", line 675, in <module>
+2026-06-03T20:47:01.8069539Z     main()
+2026-06-03T20:47:01.8073230Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_veterans.py", line 670, in main
+2026-06-03T20:47:01.8083062Z     result = run()
+2026-06-03T20:47:01.8083645Z              ^^^^^
+2026-06-03T20:47:01.8084778Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_veterans.py", line 642, in run
+2026-06-03T20:47:01.8086097Z     result = upsert_results(client, tournament_id, event, fencer_index, unmatched_log_path)
+2026-06-03T20:47:01.8087042Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:47:01.8088364Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_veterans.py", line 575, in upsert_results
+2026-06-03T20:47:01.8089471Z     client.table("fs_results").insert(batch).execute()
+2026-06-03T20:47:01.8090863Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T20:47:01.8092178Z     raise APIError(dict(json_obj))
+2026-06-03T20:47:01.8093456Z postgrest.exceptions.APIError: {'message': "Could not find the 'category' column of 'fs_results' in the schema cache", 'code': 'PGRST204', 'hint': None, 'details': None}
+2026-06-03T20:47:01.9926498Z ##[error]Process completed with exit code 1.
+2026-06-03T20:47:01.9959279Z ##[group]Run python scrape_british_youth.py
+2026-06-03T20:47:01.9959678Z [36;1mpython scrape_british_youth.py[0m
+2026-06-03T20:47:01.9986323Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:01.9986604Z env:
+2026-06-03T20:47:01.9986844Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:01.9987228Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:01.9987694Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:01.9988168Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:01.9988589Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:01.9989000Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:01.9989416Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:01.9989970Z   SUPABASE_URL: ***
+2026-06-03T20:47:01.9991400Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:01.9991667Z ##[endgroup]
+2026-06-03T20:48:36.2802125Z   Skipping https://www.fencingtimelive.com/tournaments/eventSchedule/8EE15CF32DD94520BA98F08DAC10DDC7: login_required
+2026-06-03T20:48:36.2803485Z Done - written=0, failed=0, skipped=74
+2026-06-03T20:48:36.6839911Z ##[group]Run python scrape_bucs.py
+2026-06-03T20:48:36.6840270Z [36;1mpython scrape_bucs.py[0m
+2026-06-03T20:48:36.6866849Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:48:36.6867110Z env:
+2026-06-03T20:48:36.6867336Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:48:36.6867704Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:36.6868150Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:48:36.6868607Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:36.6869007Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:36.6869603Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:36.6870000Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:48:36.6870512Z   SUPABASE_URL: ***
+2026-06-03T20:48:36.6872078Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:48:36.6872340Z ##[endgroup]
+2026-06-03T20:48:41.9720374Z BUCS scraper starting - 2026-06-03T20:48:37.576607+00:00
+2026-06-03T20:48:41.9723446Z   Skipping login-only BUCS Play results: https://www.bucs.org.uk/sports-page/fencing.html
+2026-06-03T20:48:41.9724268Z   4 public events found; 1 blocked sources
+2026-06-03T20:48:41.9724633Z Done - written=1, skipped=5, failed=1
+2026-06-03T20:48:42.1482358Z ##[group]Run python scrape_efc_youth.py
+2026-06-03T20:48:42.1482791Z [36;1mpython scrape_efc_youth.py[0m
+2026-06-03T20:48:42.1509359Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:48:42.1509621Z env:
+2026-06-03T20:48:42.1509849Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:48:42.1510228Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:42.1510700Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:48:42.1511152Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:42.1511555Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:42.1512229Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:42.1512636Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:48:42.1513133Z   SUPABASE_URL: ***
+2026-06-03T20:48:42.1514460Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:48:42.1514727Z ##[endgroup]
+2026-06-03T20:48:48.4214715Z EFC youth scraper starting - 2026-06-03T20:48:42.950726+00:00
+2026-06-03T20:48:48.4215384Z Done - written=0, failed=0, skipped=1
+2026-06-03T20:48:48.5936692Z ##[group]Run python scrape_japanese_univ.py
+2026-06-03T20:48:48.5937262Z [36;1mpython scrape_japanese_univ.py[0m
+2026-06-03T20:48:48.5963738Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:48:48.5964033Z env:
+2026-06-03T20:48:48.5964285Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:48:48.5964695Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:48.5965189Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:48:48.5965676Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:48.5966118Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:48.5966561Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:48.5967004Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:48:48.5967557Z   SUPABASE_URL: ***
+2026-06-03T20:48:48.5969056Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:48:48.5969330Z ##[endgroup]
+2026-06-03T20:48:54.8699187Z Japanese university scraper complete - sources=3, tournaments=0, results=0, skipped=3, failed=0, unmatched=0
+2026-06-03T20:48:55.0364947Z ##[group]Run python scrape_usa_youth.py
+2026-06-03T20:48:55.0365578Z [36;1mpython scrape_usa_youth.py[0m
+2026-06-03T20:48:55.0405043Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:48:55.0405499Z env:
+2026-06-03T20:48:55.0405880Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:48:55.0406515Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:55.0407323Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:48:55.0408216Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:55.0408928Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:55.0409635Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:55.0410365Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:48:55.0411231Z   SUPABASE_URL: ***
+2026-06-03T20:48:55.0414256Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:48:55.0414784Z ##[endgroup]
+2026-06-03T20:50:34.3813640Z USA youth FRED scraper starting - 2026-06-03T20:48:55.840405+00:00
+2026-06-03T20:50:34.3815232Z Settings: base_url=https://www.askfred.net, start_page=1, max_pages=5, max_tournaments=none, delay=0.5-1.5s, incremental=True
+2026-06-03T20:50:34.3817498Z Discovering public FRED result pages from page 1 for up to 5 page(s)
+2026-06-03T20:50:34.3818161Z   Page 1 of 1392: 25 result links
+2026-06-03T20:50:34.3818590Z   Page 2 of 1392: 25 result links
+2026-06-03T20:50:34.3819008Z   Page 3 of 1392: 25 result links
+2026-06-03T20:50:34.3819418Z   Page 4 of 1392: 25 result links
+2026-06-03T20:50:34.3819826Z   Page 5 of 1392: 25 result links
+2026-06-03T20:50:34.3820351Z Discovered 125 unique public FRED tournaments with results
+2026-06-03T20:50:34.3820766Z 
+2026-06-03T20:50:34.3820914Z Tournament 1/125
+2026-06-03T20:50:34.3821125Z 
+2026-06-03T20:50:34.3821403Z   Scraping Titanium Foil (9965eaaa-ca99-41fe-8401-bcdfd3ce4bd8)
+2026-06-03T20:50:34.3822334Z     CSV rows: 20
+2026-06-03T20:50:34.3822741Z     Event cards: 1
+2026-06-03T20:50:34.3823157Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3823522Z 
+2026-06-03T20:50:34.3823682Z Tournament 2/125
+2026-06-03T20:50:34.3823874Z 
+2026-06-03T20:50:34.3824086Z   Scraping The May Melee (5b5906f7-4752-4add-a389-20d1652d82bf)
+2026-06-03T20:50:34.3824531Z     CSV rows: 47
+2026-06-03T20:50:34.3824795Z     Event cards: 3
+2026-06-03T20:50:34.3825114Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3825397Z 
+2026-06-03T20:50:34.3825509Z Tournament 3/125
+2026-06-03T20:50:34.3825673Z 
+2026-06-03T20:50:34.3826115Z   Scraping 17th Annual Hespenheide Memorial Tournament - Div 2 Mixed Foil (9b0f8c15-c7c2-4156-817a-6ae6a4fa87d3)
+2026-06-03T20:50:34.3826799Z     CSV rows: 25
+2026-06-03T20:50:34.3827064Z     Event cards: 1
+2026-06-03T20:50:34.3827377Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3827661Z 
+2026-06-03T20:50:34.3827772Z Tournament 4/125
+2026-06-03T20:50:34.3827933Z 
+2026-06-03T20:50:34.3828333Z   Scraping Forge Fencing - Priority on Youth #5 of 5 & Pizza Party! (eb784f1d-4742-4ae0-a5b2-65957234af6d)
+2026-06-03T20:50:34.3828961Z     CSV rows: 56
+2026-06-03T20:50:34.3829231Z     Event cards: 5
+2026-06-03T20:50:34.3829546Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3829830Z 
+2026-06-03T20:50:34.3829946Z Tournament 5/125
+2026-06-03T20:50:34.3830102Z 
+2026-06-03T20:50:34.3830397Z   Scraping Amazon Women's Bay Cup at HALB #2 (df8bd0ea-8a46-4f9d-bc42-3a718b0f748e)
+2026-06-03T20:50:34.3830932Z     CSV rows: 9
+2026-06-03T20:50:34.3831192Z     Event cards: 1
+2026-06-03T20:50:34.3831504Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3831950Z 
+2026-06-03T20:50:34.3832067Z Tournament 6/125
+2026-06-03T20:50:34.3832227Z 
+2026-06-03T20:50:34.3832507Z   Scraping WFA Veteran Saber Tournament (b937f285-9ea1-443b-a4fc-53306905ddc4)
+2026-06-03T20:50:34.3833023Z     CSV rows: 5
+2026-06-03T20:50:34.3833282Z     Event cards: 1
+2026-06-03T20:50:34.3833857Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3834143Z 
+2026-06-03T20:50:34.3834260Z Tournament 7/125
+2026-06-03T20:50:34.3834424Z 
+2026-06-03T20:50:34.3834661Z   Scraping Rising Blades Series (WFA In House) (7c860af5-5a73-4857-8999-fa6d1592ccfb)
+2026-06-03T20:50:34.3835090Z     CSV rows: 9
+2026-06-03T20:50:34.3835304Z     Event cards: 2
+2026-06-03T20:50:34.3835576Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3835808Z 
+2026-06-03T20:50:34.3835907Z Tournament 8/125
+2026-06-03T20:50:34.3836042Z 
+2026-06-03T20:50:34.3836226Z   Scraping Napa Valley Crush (661f29e6-b496-4262-91a4-26d8b0833ef8)
+2026-06-03T20:50:34.3836595Z     CSV rows: 14
+2026-06-03T20:50:34.3836813Z     Event cards: 1
+2026-06-03T20:50:34.3837072Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3837300Z 
+2026-06-03T20:50:34.3837397Z Tournament 9/125
+2026-06-03T20:50:34.3837530Z 
+2026-06-03T20:50:34.3837771Z   Scraping Y8/Y10/Y12/Y14 Epee Challenge at Arena (d482fe9d-4420-4122-83c8-27305c3376fa)
+2026-06-03T20:50:34.3838216Z     CSV rows: 50
+2026-06-03T20:50:34.3838423Z     Event cards: 7
+2026-06-03T20:50:34.3838669Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3839020Z 
+2026-06-03T20:50:34.3839110Z Tournament 10/125
+2026-06-03T20:50:34.3839239Z 
+2026-06-03T20:50:34.3839441Z   Scraping Nationals Warm-Up Open (7f9bb3f0-bfb8-4faa-bc86-c900f5459694)
+2026-06-03T20:50:34.3839831Z     CSV rows: 37
+2026-06-03T20:50:34.3840035Z     Event cards: 4
+2026-06-03T20:50:34.3840284Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3840501Z 
+2026-06-03T20:50:34.3840588Z Tournament 11/125
+2026-06-03T20:50:34.3840719Z 
+2026-06-03T20:50:34.3840917Z   Scraping IFC 2026 Summer Classic (5a4f4131-b1fa-4e80-8a1c-3f4973fd3460)
+2026-06-03T20:50:34.3841293Z     CSV rows: 54
+2026-06-03T20:50:34.3841498Z     Event cards: 3
+2026-06-03T20:50:34.3841882Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3842106Z 
+2026-06-03T20:50:34.3842193Z Tournament 12/125
+2026-06-03T20:50:34.3842386Z 
+2026-06-03T20:50:34.3842583Z   Scraping MEDEO Epee Division II (986c732c-9341-41a0-95a5-1eff35948ae3)
+2026-06-03T20:50:34.3842996Z     CSV rows: 15
+2026-06-03T20:50:34.3843203Z     Event cards: 1
+2026-06-03T20:50:34.3843455Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3843675Z 
+2026-06-03T20:50:34.3843765Z Tournament 13/125
+2026-06-03T20:50:34.3843892Z 
+2026-06-03T20:50:34.3844248Z   Scraping Coach Miller Memorial Open - Mixed Foil & Mixed Epee, Div3 Mixed Foil (7742200d-0f53-48a9-b9b7-78d22a1326cf)
+2026-06-03T20:50:34.3844777Z     CSV rows: 86
+2026-06-03T20:50:34.3844987Z     Event cards: 3
+2026-06-03T20:50:34.3845229Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3845439Z 
+2026-06-03T20:50:34.3845532Z Tournament 14/125
+2026-06-03T20:50:34.3845662Z 
+2026-06-03T20:50:34.3845884Z   Scraping Start of the Summer Foil Scrimmage (1328aed6-8436-429e-8939-fff52ca6766d)
+2026-06-03T20:50:34.3846296Z     CSV rows: 21
+2026-06-03T20:50:34.3846506Z     Event cards: 3
+2026-06-03T20:50:34.3846751Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3846967Z 
+2026-06-03T20:50:34.3847053Z Tournament 15/125
+2026-06-03T20:50:34.3847262Z 
+2026-06-03T20:50:34.3847534Z   Scraping Utah/Southern Idaho and Friends Epee League May (97704287-9cff-474a-b589-cbba3890e0da)
+2026-06-03T20:50:34.3847994Z     CSV rows: 35
+2026-06-03T20:50:34.3848194Z     Event cards: 2
+2026-06-03T20:50:34.3848441Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3848656Z 
+2026-06-03T20:50:34.3848741Z Tournament 16/125
+2026-06-03T20:50:34.3848870Z 
+2026-06-03T20:50:34.3849128Z   Scraping MI Division Foil & Saber 2026 Championships (be333151-116d-42b9-966f-4edc7e1c46c8)
+2026-06-03T20:50:34.3849852Z     CSV rows: 102
+2026-06-03T20:50:34.3850067Z     Event cards: 15
+2026-06-03T20:50:34.3850317Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3850532Z 
+2026-06-03T20:50:34.3850619Z Tournament 17/125
+2026-06-03T20:50:34.3850750Z 
+2026-06-03T20:50:34.3851158Z   Scraping NWFC Unrated #4 (Senior Foil, Epee & Saber) (8c410b16-4c66-4570-976f-0188c3aef306)
+2026-06-03T20:50:34.3851590Z     CSV rows: 19
+2026-06-03T20:50:34.3852028Z     Event cards: 2
+2026-06-03T20:50:34.3852280Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3852500Z 
+2026-06-03T20:50:34.3852593Z Tournament 18/125
+2026-06-03T20:50:34.3852720Z 
+2026-06-03T20:50:34.3852958Z   Scraping MI Division Epee 2026 Championships (42b5bcab-b754-4473-affc-96170cb97bd4)
+2026-06-03T20:50:34.3853378Z     CSV rows: 14
+2026-06-03T20:50:34.3853585Z     Event cards: 2
+2026-06-03T20:50:34.3853832Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3854048Z 
+2026-06-03T20:50:34.3854140Z Tournament 19/125
+2026-06-03T20:50:34.3854264Z 
+2026-06-03T20:50:34.3854514Z   Scraping Badger Fencing Club 24 Hour Walk-n-Roll (6e93a7d2-0252-4870-b422-a73b05dbc447)
+2026-06-03T20:50:34.3854942Z     CSV rows: 45
+2026-06-03T20:50:34.3855148Z     Event cards: 7
+2026-06-03T20:50:34.3855410Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3855632Z 
+2026-06-03T20:50:34.3855858Z Tournament 20/125
+2026-06-03T20:50:34.3855992Z 
+2026-06-03T20:50:34.3856163Z   Scraping PFC IN HOUSE (bf135803-e9d6-4d07-81b1-15c7da717a8e)
+2026-06-03T20:50:34.3856505Z     CSV rows: 23
+2026-06-03T20:50:34.3856717Z     Event cards: 3
+2026-06-03T20:50:34.3856962Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3857173Z 
+2026-06-03T20:50:34.3857265Z Tournament 21/125
+2026-06-03T20:50:34.3857395Z 
+2026-06-03T20:50:34.3857667Z   Scraping NSFC Vladimir Gofman Memorial Senior M/W Epee (3c1a768d-4382-4c0a-9f2d-288bc4afbeb8)
+2026-06-03T20:50:34.3858127Z     CSV rows: 88
+2026-06-03T20:50:34.3858331Z     Event cards: 2
+2026-06-03T20:50:34.3858575Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3858832Z 
+2026-06-03T20:50:34.3858919Z Tournament 22/125
+2026-06-03T20:50:34.3859046Z 
+2026-06-03T20:50:34.3859227Z   Scraping FENCE LIKE A GIRL (59d1c193-be8a-430f-941e-59e1ba5217b9)
+2026-06-03T20:50:34.3859586Z     CSV rows: 41
+2026-06-03T20:50:34.3859791Z     Event cards: 7
+2026-06-03T20:50:34.3860041Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3860258Z 
+2026-06-03T20:50:34.3860343Z Tournament 23/125
+2026-06-03T20:50:34.3860473Z 
+2026-06-03T20:50:34.3860754Z   Scraping Unity Fencing Academy Opening Bash (Unsanctioned) (80822dba-f209-486f-9a52-aebff24cfd1e)
+2026-06-03T20:50:34.3861225Z     CSV rows: 37
+2026-06-03T20:50:34.3861428Z     Event cards: 4
+2026-06-03T20:50:34.3861797Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3862016Z 
+2026-06-03T20:50:34.3862127Z Tournament 24/125
+2026-06-03T20:50:34.3862256Z 
+2026-06-03T20:50:34.3862450Z   Scraping RCFC Youth Team Tourney (fa5e1185-aa2c-43bc-b3e8-b8c302662ec3)
+2026-06-03T20:50:34.3862824Z     CSV rows: 21
+2026-06-03T20:50:34.3863033Z     Event cards: 5
+2026-06-03T20:50:34.3863273Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3863485Z 
+2026-06-03T20:50:34.3863576Z Tournament 25/125
+2026-06-03T20:50:34.3863704Z 
+2026-06-03T20:50:34.3863944Z   Scraping SAS Saber Adult Combined and D & Under (36e0ceba-336d-40a6-8469-23074f85e178)
+2026-06-03T20:50:34.3864376Z     CSV rows: 51
+2026-06-03T20:50:34.3864575Z     Event cards: 2
+2026-06-03T20:50:34.3864817Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3865034Z 
+2026-06-03T20:50:34.3865119Z Tournament 26/125
+2026-06-03T20:50:34.3865246Z 
+2026-06-03T20:50:34.3865500Z   Scraping 30th Annual Jeux De Pomme Epee Tournamrnt (ec713a5c-0b1d-47d3-b30d-04f798e616bd)
+2026-06-03T20:50:34.3865935Z     CSV rows: 91
+2026-06-03T20:50:34.3866139Z     Event cards: 10
+2026-06-03T20:50:34.3866386Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3866600Z 
+2026-06-03T20:50:34.3866687Z Tournament 27/125
+2026-06-03T20:50:34.3866815Z 
+2026-06-03T20:50:34.3867020Z   Scraping RDF May Youth Epee (HYC #4) (521e20d6-bae6-4444-806e-097cd122137b)
+2026-06-03T20:50:34.3867403Z     CSV rows: 40
+2026-06-03T20:50:34.3867725Z     Event cards: 6
+2026-06-03T20:50:34.3867977Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3868195Z 
+2026-06-03T20:50:34.3868285Z Tournament 28/125
+2026-06-03T20:50:34.3868408Z 
+2026-06-03T20:50:34.3868668Z   Scraping The Line Fencing Academy Sabre Y12, Y14, Div3 (9939d084-a086-42ee-8cb7-f8e4155989d0)
+2026-06-03T20:50:34.3869105Z     CSV rows: 24
+2026-06-03T20:50:34.3869308Z     Event cards: 2
+2026-06-03T20:50:34.3869548Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3869763Z 
+2026-06-03T20:50:34.3869855Z Tournament 29/125
+2026-06-03T20:50:34.3869975Z 
+2026-06-03T20:50:34.3870207Z   Scraping Manchen Friday Night "E & Under" Foil (a827664e-ab36-443b-b6bf-398c7e48b160)
+2026-06-03T20:50:34.3870623Z     CSV rows: 28
+2026-06-03T20:50:34.3870827Z     Event cards: 2
+2026-06-03T20:50:34.3871077Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3871290Z 
+2026-06-03T20:50:34.3871380Z Tournament 30/125
+2026-06-03T20:50:34.3871509Z 
+2026-06-03T20:50:34.3871936Z   Scraping Sebastiani 2026 in-house Annual Spring Championship (007fe1e6-4b68-4fe7-bb1d-7f217d775654)
+2026-06-03T20:50:34.3872550Z     CSV rows: 62
+2026-06-03T20:50:34.3872761Z     Event cards: 10
+2026-06-03T20:50:34.3873015Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3873229Z 
+2026-06-03T20:50:34.3873318Z Tournament 31/125
+2026-06-03T20:50:34.3873450Z 
+2026-06-03T20:50:34.3873703Z   Scraping Freehold Fencing - May Division 2 Epee (baaefe8c-ab70-41bc-8eec-b32e7576ae5c)
+2026-06-03T20:50:34.3874154Z     CSV rows: 15
+2026-06-03T20:50:34.3874370Z     Event cards: 1
+2026-06-03T20:50:34.3874618Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3874839Z 
+2026-06-03T20:50:34.3874927Z Tournament 32/125
+2026-06-03T20:50:34.3875057Z 
+2026-06-03T20:50:34.3875295Z   Scraping Renaissance Fencing Foil House Cup (23fdd168-cd5e-49cf-8c32-7bedf9297ca1)
+2026-06-03T20:50:34.3875721Z     CSV rows: 49
+2026-06-03T20:50:34.3875931Z     Event cards: 7
+2026-06-03T20:50:34.3876179Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3876400Z 
+2026-06-03T20:50:34.3876486Z Tournament 33/125
+2026-06-03T20:50:34.3876614Z 
+2026-06-03T20:50:34.3877071Z   Scraping MFA Y8, Y10, Y12, Div2 - All foil mixed events (clinic with Maestra Vaccaroni is the following weekend) (ddc23eae-af8b-45f7-bfe6-86e893cb532c)
+2026-06-03T20:50:34.3877698Z     CSV rows: 64
+2026-06-03T20:50:34.3877903Z     Event cards: 4
+2026-06-03T20:50:34.3878148Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3878365Z 
+2026-06-03T20:50:34.3878450Z Tournament 34/125
+2026-06-03T20:50:34.3878579Z 
+2026-06-03T20:50:34.3878782Z   Scraping Nationals Warm Up - Epee (498ed357-cb21-4002-ae06-04526bb93c67)
+2026-06-03T20:50:34.3879160Z     CSV rows: 23
+2026-06-03T20:50:34.3879363Z     Event cards: 2
+2026-06-03T20:50:34.3879603Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3879818Z 
+2026-06-03T20:50:34.3879908Z Tournament 35/125
+2026-06-03T20:50:34.3880033Z 
+2026-06-03T20:50:34.3880357Z   Scraping Savage Fencing Club Choco Therapy Mixed Foil (Rescheduled) (0272ff88-307e-49f9-b791-4f83cf015138)
+2026-06-03T20:50:34.3880859Z     CSV rows: 42
+2026-06-03T20:50:34.3881062Z     Event cards: 1
+2026-06-03T20:50:34.3881316Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3881528Z 
+2026-06-03T20:50:34.3881622Z Tournament 36/125
+2026-06-03T20:50:34.3881860Z 
+2026-06-03T20:50:34.3882106Z   Scraping AFM Open Senior Mixed Epee Tournament (198ab572-f8db-4675-9688-344f8f3bc664)
+2026-06-03T20:50:34.3882525Z     CSV rows: 35
+2026-06-03T20:50:34.3882732Z     Event cards: 1
+2026-06-03T20:50:34.3882984Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3883193Z 
+2026-06-03T20:50:34.3883285Z Tournament 37/125
+2026-06-03T20:50:34.3883412Z 
+2026-06-03T20:50:34.3883628Z   Scraping Sunday Sword Circuit - Session 6 (7873b5e4-d826-4683-8e7c-00fb44b16ee1)
+2026-06-03T20:50:34.3884033Z     CSV rows: 11
+2026-06-03T20:50:34.3884360Z     Event cards: 1
+2026-06-03T20:50:34.3884623Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3884844Z 
+2026-06-03T20:50:34.3884942Z Tournament 38/125
+2026-06-03T20:50:34.3885065Z 
+2026-06-03T20:50:34.3885249Z   Scraping Titanium Saber (d6ff779b-7c81-4a8a-bcfb-aaa842f16fe5)
+2026-06-03T20:50:34.3885600Z     CSV rows: 9
+2026-06-03T20:50:34.3885805Z     Event cards: 1
+2026-06-03T20:50:34.3886049Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3886265Z 
+2026-06-03T20:50:34.3886356Z Tournament 39/125
+2026-06-03T20:50:34.3886479Z 
+2026-06-03T20:50:34.3886733Z   Scraping San Diego Cup - Youth Foil Championships (87907287-ab6e-4b04-abc5-4084bff63184)
+2026-06-03T20:50:34.3887165Z     CSV rows: 77
+2026-06-03T20:50:34.3887372Z     Event cards: 7
+2026-06-03T20:50:34.3887625Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:50:34.3887835Z 
+2026-06-03T20:50:34.3887926Z Tournament 40/125
+2026-06-03T20:50:34.3888049Z 
+2026-06-03T20:50:34.3888254Z   Scraping San Diego Senior Cup #6 (ffb9f690-c236-4e42-a995-2a3732f3b741)
+2026-06-03T20:50:34.3888629Z     CSV rows: 79
+2026-06-03T20:52:11.3748479Z     Event cards: 4
+2026-06-03T20:52:11.3749196Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3749721Z 
+2026-06-03T20:52:11.3749921Z Tournament 41/125
+2026-06-03T20:52:11.3750181Z 
+2026-06-03T20:52:11.3750745Z   Scraping BIDA FENCING ACADEMY GRAND PRIX - STAGE 6 (09043bf5-87d8-4905-8582-a1b2c5573ad5)
+2026-06-03T20:52:11.3751981Z     CSV rows: 39
+2026-06-03T20:52:11.3752634Z     Event cards: 4
+2026-06-03T20:52:11.3753198Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3753682Z 
+2026-06-03T20:52:11.3753852Z Tournament 42/125
+2026-06-03T20:52:11.3754093Z 
+2026-06-03T20:52:11.3754497Z   Scraping Swords Grand Opening Tournament (91c3e7d7-8ba5-468e-8968-f5de3cd2bbba)
+2026-06-03T20:52:11.3755236Z     CSV rows: 8
+2026-06-03T20:52:11.3755597Z     Event cards: 0
+2026-06-03T20:52:11.3756026Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3756443Z 
+2026-06-03T20:52:11.3756600Z Tournament 43/125
+2026-06-03T20:52:11.3756823Z 
+2026-06-03T20:52:11.3757323Z   Scraping Atlantic Fencing Academy Epee/Sabre E and Under (17297e7a-2ee3-4948-ac8b-098afd9729a4)
+2026-06-03T20:52:11.3758133Z     CSV rows: 36
+2026-06-03T20:52:11.3758494Z     Event cards: 3
+2026-06-03T20:52:11.3758769Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3759008Z 
+2026-06-03T20:52:11.3759099Z Tournament 44/125
+2026-06-03T20:52:11.3759237Z 
+2026-06-03T20:52:11.3759548Z   Scraping 27th Ticonderoga Challenge Outdoor Epee Tournament (4191b0ca-23a5-47f8-a090-3539878a10de)
+2026-06-03T20:52:11.3760040Z     CSV rows: 42
+2026-06-03T20:52:11.3760253Z     Event cards: 2
+2026-06-03T20:52:11.3760505Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3760732Z 
+2026-06-03T20:52:11.3760818Z Tournament 45/125
+2026-06-03T20:52:11.3760955Z 
+2026-06-03T20:52:11.3761148Z   Scraping WWD Championships (f752077c-d1d0-4b2f-96ac-a34c4fea4e2f)
+2026-06-03T20:52:11.3761517Z     CSV rows: 98
+2026-06-03T20:52:11.3761974Z     Event cards: 6
+2026-06-03T20:52:11.3762245Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3762468Z 
+2026-06-03T20:52:11.3762562Z Tournament 46/125
+2026-06-03T20:52:11.3762687Z 
+2026-06-03T20:52:11.3762879Z   Scraping Santa Fe May Marathon (54c96d82-4285-4286-8ca1-51702a831b74)
+2026-06-03T20:52:11.3763243Z     CSV rows: 18
+2026-06-03T20:52:11.3763451Z     Event cards: 2
+2026-06-03T20:52:11.3763705Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3763930Z 
+2026-06-03T20:52:11.3764025Z Tournament 47/125
+2026-06-03T20:52:11.3764155Z 
+2026-06-03T20:52:11.3764344Z   Scraping Escrime Sundae 2026 (2628923a-b191-4854-b879-e2fee13d8e6e)
+2026-06-03T20:52:11.3764711Z     CSV rows: 62
+2026-06-03T20:52:11.3764921Z     Event cards: 4
+2026-06-03T20:52:11.3765172Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3765385Z 
+2026-06-03T20:52:11.3765477Z Tournament 48/125
+2026-06-03T20:52:11.3765961Z 
+2026-06-03T20:52:11.3766284Z   Scraping ATLANTA FENCERS CLUB FOUNDATION (AFCF) MEMORIAL DAY CUP (4611ba2b-8b36-4713-895e-f4d0de34ab11)
+2026-06-03T20:52:11.3766774Z     CSV rows: 54
+2026-06-03T20:52:11.3766986Z     Event cards: 6
+2026-06-03T20:52:11.3767240Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3767454Z 
+2026-06-03T20:52:11.3767566Z Tournament 49/125
+2026-06-03T20:52:11.3767691Z 
+2026-06-03T20:52:11.3768033Z   Scraping May The Fleche Be With You (Queens Fencing Club Open foil/epee/saber) (22ff5542-39f2-4f1e-8e11-792c050b2fad)
+2026-06-03T20:52:11.3768550Z     CSV rows: 48
+2026-06-03T20:52:11.3768754Z     Event cards: 0
+2026-06-03T20:52:11.3769007Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3769220Z 
+2026-06-03T20:52:11.3769315Z Tournament 50/125
+2026-06-03T20:52:11.3769446Z 
+2026-06-03T20:52:11.3769693Z   Scraping California Parafencing Championships (025d2f96-3c03-4d44-90a7-84658c32aa9a)
+2026-06-03T20:52:11.3770123Z     CSV rows: 28
+2026-06-03T20:52:11.3770341Z     Event cards: 4
+2026-06-03T20:52:11.3770583Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3770964Z 
+2026-06-03T20:52:11.3771055Z Tournament 51/125
+2026-06-03T20:52:11.3771187Z 
+2026-06-03T20:52:11.3771409Z   Scraping University New Hanster Open 4.0 (82fd379e-33ec-4450-ba50-61eac9970f38)
+2026-06-03T20:52:11.3772103Z     CSV rows: 65
+2026-06-03T20:52:11.3772312Z     Event cards: 5
+2026-06-03T20:52:11.3772558Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3772778Z 
+2026-06-03T20:52:11.3772864Z Tournament 52/125
+2026-06-03T20:52:11.3772996Z 
+2026-06-03T20:52:11.3773208Z   Scraping HDFA Youth and Open Tournament (9d9dcaf8-55d6-4042-8d28-805668590096)
+2026-06-03T20:52:11.3773603Z     CSV rows: 32
+2026-06-03T20:52:11.3773804Z     Event cards: 0
+2026-06-03T20:52:11.3774047Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3774263Z 
+2026-06-03T20:52:11.3774350Z Tournament 53/125
+2026-06-03T20:52:11.3774479Z 
+2026-06-03T20:52:11.3774727Z   Scraping ANNUAL MEMORIAL DAY CHAMPIONSHIP 2026 (a93a371b-0338-4066-8821-c5bc340caf52)
+2026-06-03T20:52:11.3775152Z     CSV rows: 75
+2026-06-03T20:52:11.3775356Z     Event cards: 9
+2026-06-03T20:52:11.3775599Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3775819Z 
+2026-06-03T20:52:11.3775914Z Tournament 54/125
+2026-06-03T20:52:11.3776037Z 
+2026-06-03T20:52:11.3776191Z   Scraping CFC Epee (002746bf-d5a6-4c62-8997-37b48f1963b9)
+2026-06-03T20:52:11.3776510Z     CSV rows: 33
+2026-06-03T20:52:11.3776716Z     Event cards: 1
+2026-06-03T20:52:11.3776959Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3777175Z 
+2026-06-03T20:52:11.3777267Z Tournament 55/125
+2026-06-03T20:52:11.3777390Z 
+2026-06-03T20:52:11.3777610Z   Scraping Avant-Garde Foil & Saber Cup (f5fd195a-4850-4afe-a50f-d30b68cd34b5)
+2026-06-03T20:52:11.3778006Z     CSV rows: 129
+2026-06-03T20:52:11.3778217Z     Event cards: 12
+2026-06-03T20:52:11.3778476Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3778690Z 
+2026-06-03T20:52:11.3778782Z Tournament 56/125
+2026-06-03T20:52:11.3778912Z 
+2026-06-03T20:52:11.3779110Z   Scraping SFC's Summer Showdown (553ad7a5-c80f-40ca-b7ec-71b09ca38a2c)
+2026-06-03T20:52:11.3779480Z     CSV rows: 20
+2026-06-03T20:52:11.3779687Z     Event cards: 0
+2026-06-03T20:52:11.3779941Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3780153Z 
+2026-06-03T20:52:11.3780246Z Tournament 57/125
+2026-06-03T20:52:11.3780378Z 
+2026-06-03T20:52:11.3780563Z   Scraping Friday Night Fight (2d67f245-420e-4d3a-8c19-22c08adcb5af)
+2026-06-03T20:52:11.3780925Z     CSV rows: 17
+2026-06-03T20:52:11.3781139Z     Event cards: 1
+2026-06-03T20:52:11.3781387Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3781603Z 
+2026-06-03T20:52:11.3781875Z Tournament 58/125
+2026-06-03T20:52:11.3782028Z 
+2026-06-03T20:52:11.3782252Z   Scraping RCFC Friday Night D & Under Foil #3 (183bd129-00f0-4b07-b1a2-19b9c87e8e45)
+2026-06-03T20:52:11.3782795Z     CSV rows: 28
+2026-06-03T20:52:11.3783005Z     Event cards: 1
+2026-06-03T20:52:11.3783248Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3783470Z 
+2026-06-03T20:52:11.3783558Z Tournament 59/125
+2026-06-03T20:52:11.3783688Z 
+2026-06-03T20:52:11.3783881Z   Scraping May Banana Tournament (100b35d0-f768-4ced-8246-990b5fc57c57)
+2026-06-03T20:52:11.3784253Z     CSV rows: 26
+2026-06-03T20:52:11.3784456Z     Event cards: 3
+2026-06-03T20:52:11.3784702Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3784966Z 
+2026-06-03T20:52:11.3785104Z Tournament 60/125
+2026-06-03T20:52:11.3785310Z 
+2026-06-03T20:52:11.3785530Z   Scraping May Friday Night Fencing (e8e53a15-8b3a-4966-a954-7d47d7b111b4)
+2026-06-03T20:52:11.3785908Z     CSV rows: 12
+2026-06-03T20:52:11.3786108Z     Event cards: 2
+2026-06-03T20:52:11.3786355Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3786572Z 
+2026-06-03T20:52:11.3786658Z Tournament 61/125
+2026-06-03T20:52:11.3786798Z 
+2026-06-03T20:52:11.3787028Z   Scraping Moe Found Foil Tournament #165 (491bbca7-addc-4087-bcc1-edf9925c8758)
+2026-06-03T20:52:11.3787562Z     CSV rows: 15
+2026-06-03T20:52:11.3787771Z     Event cards: 1
+2026-06-03T20:52:11.3788019Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3788242Z 
+2026-06-03T20:52:11.3788333Z Tournament 62/125
+2026-06-03T20:52:11.3788458Z 
+2026-06-03T20:52:11.3788715Z   Scraping Manchen Friday Night Foil Open (be148938-1e6c-49a6-8dea-af917698b194)
+2026-06-03T20:52:11.3789119Z     CSV rows: 34
+2026-06-03T20:52:11.3789324Z     Event cards: 1
+2026-06-03T20:52:11.3789566Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3789786Z 
+2026-06-03T20:52:11.3789871Z Tournament 63/125
+2026-06-03T20:52:11.3790005Z 
+2026-06-03T20:52:11.3790208Z   Scraping NJFA - Div. 3 Mixed Foil (ad2d029b-6123-43fe-aa67-fdebe028b5ad)
+2026-06-03T20:52:11.3790577Z     CSV rows: 6
+2026-06-03T20:52:11.3790782Z     Event cards: 1
+2026-06-03T20:52:11.3791027Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3791245Z 
+2026-06-03T20:52:11.3791331Z Tournament 64/125
+2026-06-03T20:52:11.3791465Z 
+2026-06-03T20:52:11.3791900Z   Scraping Battle of Wits and Steel (c8055e93-92ac-4634-8fa0-d1dda93a7057)
+2026-06-03T20:52:11.3792296Z     CSV rows: 59
+2026-06-03T20:52:11.3792501Z     Event cards: 3
+2026-06-03T20:52:11.3792741Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3792960Z 
+2026-06-03T20:52:11.3793051Z Tournament 65/125
+2026-06-03T20:52:11.3793176Z 
+2026-06-03T20:52:11.3793383Z   Scraping DCFC Youth Epee Challenge (dc47819b-de85-440e-b792-1b1e09d3c209)
+2026-06-03T20:52:11.3793767Z     CSV rows: 90
+2026-06-03T20:52:11.3793969Z     Event cards: 3
+2026-06-03T20:52:11.3794211Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3794426Z 
+2026-06-03T20:52:11.3794515Z Tournament 66/125
+2026-06-03T20:52:11.3794641Z 
+2026-06-03T20:52:11.3794823Z   Scraping AIC Spring Open (fea689f9-79be-4c3e-9e69-6e146bbcf01b)
+2026-06-03T20:52:11.3795180Z     CSV rows: 18
+2026-06-03T20:52:11.3795387Z     Event cards: 0
+2026-06-03T20:52:11.3795640Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3795848Z 
+2026-06-03T20:52:11.3795940Z Tournament 67/125
+2026-06-03T20:52:11.3796064Z 
+2026-06-03T20:52:11.3796270Z   Scraping MoDuel Mixed E & Under (dda687bb-ba45-4474-890b-a50e46f1d7ec)
+2026-06-03T20:52:11.3796641Z     CSV rows: 15
+2026-06-03T20:52:11.3796846Z     Event cards: 0
+2026-06-03T20:52:11.3797095Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3797304Z 
+2026-06-03T20:52:11.3797397Z Tournament 68/125
+2026-06-03T20:52:11.3797526Z 
+2026-06-03T20:52:11.3797706Z   Scraping Foil and Epee D Meet (1a676b61-7f86-4279-8a1e-bfdddd95dc44)
+2026-06-03T20:52:11.3798061Z     CSV rows: 23
+2026-06-03T20:52:11.3798270Z     Event cards: 2
+2026-06-03T20:52:11.3798511Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3798723Z 
+2026-06-03T20:52:11.3798815Z Tournament 69/125
+2026-06-03T20:52:11.3799066Z 
+2026-06-03T20:52:11.3799265Z   Scraping GOLDEN STATE CHALLENGE (07ddec53-ce82-4244-a970-c96cfe21330c)
+2026-06-03T20:52:11.3799650Z     CSV rows: 48
+2026-06-03T20:52:11.3799856Z     Event cards: 3
+2026-06-03T20:52:11.3800094Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3800311Z 
+2026-06-03T20:52:11.3800396Z Tournament 70/125
+2026-06-03T20:52:11.3800527Z 
+2026-06-03T20:52:11.3800703Z   Scraping Durkan Youth Cup #3 (a3c220c5-370a-4237-b147-d33be386aa92)
+2026-06-03T20:52:11.3801062Z     CSV rows: 10
+2026-06-03T20:52:11.3801266Z     Event cards: 3
+2026-06-03T20:52:11.3801506Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3801936Z 
+2026-06-03T20:52:11.3802028Z Tournament 71/125
+2026-06-03T20:52:11.3802159Z 
+2026-06-03T20:52:11.3802363Z   Scraping F.A.O.P. North Open Foil (9235cf5d-7f5a-4cb3-8c6f-d3a10bc5172d)
+2026-06-03T20:52:11.3802738Z     CSV rows: 15
+2026-06-03T20:52:11.3802941Z     Event cards: 1
+2026-06-03T20:52:11.3803194Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3803408Z 
+2026-06-03T20:52:11.3803495Z Tournament 72/125
+2026-06-03T20:52:11.3803750Z 
+2026-06-03T20:52:11.3804031Z   Scraping Olympia D'Artagnan's Challenge 5B (Y10/Y14 Epee) (455f715f-c2f9-4f1b-9398-4bc96f607b52)
+2026-06-03T20:52:11.3804484Z     CSV rows: 51
+2026-06-03T20:52:11.3804687Z     Event cards: 4
+2026-06-03T20:52:11.3804927Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3805144Z 
+2026-06-03T20:52:11.3805234Z Tournament 73/125
+2026-06-03T20:52:11.3805360Z 
+2026-06-03T20:52:11.3805693Z   Scraping Duel D'Abdul Open Senior Mixed Epee, Y14 Mixed Epee, Y10 Mixed Foil (01b547a4-6b3e-4c50-a31c-80d64bc9a65e)
+2026-06-03T20:52:11.3806197Z     CSV rows: 69
+2026-06-03T20:52:11.3806404Z     Event cards: 3
+2026-06-03T20:52:11.3806646Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3806862Z 
+2026-06-03T20:52:11.3806953Z Tournament 74/125
+2026-06-03T20:52:11.3807076Z 
+2026-06-03T20:52:11.3807266Z   Scraping Nationals Warm Up (1c0cb642-1f34-4415-83f2-d3135c17666b)
+2026-06-03T20:52:11.3807621Z     CSV rows: 12
+2026-06-03T20:52:11.3807829Z     Event cards: 2
+2026-06-03T20:52:11.3808077Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3808285Z 
+2026-06-03T20:52:11.3808375Z Tournament 75/125
+2026-06-03T20:52:11.3808497Z 
+2026-06-03T20:52:11.3808684Z   Scraping The Pixy Cup #5 (9d2bc467-9cbb-46d2-a9cd-5cc1ae559761)
+2026-06-03T20:52:11.3809039Z     CSV rows: 54
+2026-06-03T20:52:11.3809250Z     Event cards: 5
+2026-06-03T20:52:11.3809501Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3809712Z 
+2026-06-03T20:52:11.3809804Z Tournament 76/125
+2026-06-03T20:52:11.3809932Z 
+2026-06-03T20:52:11.3810129Z   Scraping 2026 TCFC May Challenges (63605aba-08ec-459a-a96a-d0334df638a0)
+2026-06-03T20:52:11.3810662Z     CSV rows: 86
+2026-06-03T20:52:11.3810881Z     Event cards: 6
+2026-06-03T20:52:11.3811124Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3811340Z 
+2026-06-03T20:52:11.3811430Z Tournament 77/125
+2026-06-03T20:52:11.3811561Z 
+2026-06-03T20:52:11.3812002Z   Scraping Shoreline Open Championships (2b068479-a2ef-4c77-829e-f9773f57a97a)
+2026-06-03T20:52:11.3812420Z     CSV rows: 48
+2026-06-03T20:52:11.3812627Z     Event cards: 3
+2026-06-03T20:52:11.3812871Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3813086Z 
+2026-06-03T20:52:11.3813171Z Tournament 78/125
+2026-06-03T20:52:11.3813298Z 
+2026-06-03T20:52:11.3813522Z   Scraping NEUSFA D and Under Sabre - Zeta (6d9f7cc8-9288-4a63-ad34-40ef52111b25)
+2026-06-03T20:52:11.3813919Z     CSV rows: 23
+2026-06-03T20:52:11.3814127Z     Event cards: 2
+2026-06-03T20:52:11.3814370Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3814587Z 
+2026-06-03T20:52:11.3814672Z Tournament 79/125
+2026-06-03T20:52:11.3814804Z 
+2026-06-03T20:52:11.3814986Z   Scraping NYFA Youth Cup #6 (151a1ca4-3e2b-4747-a2ba-be18fb69a644)
+2026-06-03T20:52:11.3815336Z     CSV rows: 103
+2026-06-03T20:52:11.3815683Z     Event cards: 4
+2026-06-03T20:52:11.3815933Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3816153Z 
+2026-06-03T20:52:11.3816244Z Tournament 80/125
+2026-06-03T20:52:11.3816369Z 
+2026-06-03T20:52:11.3816551Z   Scraping UFA Foil Cup May (a962f990-52fe-47b9-bbbf-ff89c0dc2522)
+2026-06-03T20:52:11.3816894Z     CSV rows: 39
+2026-06-03T20:52:11.3829087Z     Event cards: 4
+2026-06-03T20:52:11.3829401Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3829652Z 
+2026-06-03T20:52:11.3829755Z Tournament 81/125
+2026-06-03T20:52:11.3829892Z 
+2026-06-03T20:52:11.3830128Z   Scraping San Diego Cup - Youth Saber #6 (6fb33a1c-333a-4f74-bb8e-f079e934ad7e)
+2026-06-03T20:52:11.3830539Z     CSV rows: 74
+2026-06-03T20:52:11.3830752Z     Event cards: 6
+2026-06-03T20:52:11.3831009Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3831237Z 
+2026-06-03T20:52:11.3831333Z Tournament 82/125
+2026-06-03T20:52:11.3831457Z 
+2026-06-03T20:52:11.3832064Z   Scraping May 17th - ZFA Open Foil, E & Under foil, Unrated Foil, Moorestown NJ (becce587-8c43-4c57-a096-d5aced7041dc)
+2026-06-03T20:52:11.3832779Z     CSV rows: 55
+2026-06-03T20:52:11.3832988Z     Event cards: 3
+2026-06-03T20:52:11.3833245Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3833461Z 
+2026-06-03T20:52:11.3833553Z Tournament 83/125
+2026-06-03T20:52:11.3833678Z 
+2026-06-03T20:52:11.3833935Z   Scraping The Knights of Summer-(Foil & Epee Youth) (98697752-4e2d-4b36-93da-36d8c447ea98)
+2026-06-03T20:52:11.3834368Z     CSV rows: 52
+2026-06-03T20:52:11.3834583Z     Event cards: 6
+2026-06-03T20:52:11.3834829Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:52:11.3835043Z 
+2026-06-03T20:52:11.3835135Z Tournament 84/125
+2026-06-03T20:52:11.3835264Z 
+2026-06-03T20:53:41.9851557Z   Scraping Ultimate Youth Epee Cup (053730a9-76ff-4dd7-b7f9-10e8798aa66c)
+2026-06-03T20:53:41.9852696Z     CSV rows: 51
+2026-06-03T20:53:41.9853048Z     Event cards: 4
+2026-06-03T20:53:41.9853536Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9853904Z 
+2026-06-03T20:53:41.9854052Z Tournament 85/125
+2026-06-03T20:53:41.9854292Z 
+2026-06-03T20:53:41.9854735Z   Scraping PFA May Sanctioned Senior Mixed Foil (ecfb6eb9-9f91-4cf1-bfde-2f0ba202969b)
+2026-06-03T20:53:41.9855512Z     CSV rows: 35
+2026-06-03T20:53:41.9855872Z     Event cards: 1
+2026-06-03T20:53:41.9856342Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9856754Z 
+2026-06-03T20:53:41.9856923Z Tournament 86/125
+2026-06-03T20:53:41.9857151Z 
+2026-06-03T20:53:41.9857516Z   Scraping AFFA - Youth Tournament (8e5b64b8-120d-47bb-86de-34cc98a6a307)
+2026-06-03T20:53:41.9858223Z     CSV rows: 49
+2026-06-03T20:53:41.9858608Z     Event cards: 5
+2026-06-03T20:53:41.9859087Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9859495Z 
+2026-06-03T20:53:41.9859665Z Tournament 87/125
+2026-06-03T20:53:41.9859919Z 
+2026-06-03T20:53:41.9860307Z   Scraping BCAF-W - Y14 Mixed Foil (d1a97934-c663-49f1-b155-0f404a82a31d)
+2026-06-03T20:53:41.9861041Z     CSV rows: 13
+2026-06-03T20:53:41.9861455Z     Event cards: 1
+2026-06-03T20:53:41.9862190Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9862643Z 
+2026-06-03T20:53:41.9862829Z Tournament 88/125
+2026-06-03T20:53:41.9863091Z 
+2026-06-03T20:53:41.9863506Z   Scraping The Foil Master @ Bay Area Fencing Club (dc77d27d-1801-44a6-9f90-4d3d8441bcda)
+2026-06-03T20:53:41.9864226Z     CSV rows: 43
+2026-06-03T20:53:41.9864594Z     Event cards: 3
+2026-06-03T20:53:41.9865017Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9865405Z 
+2026-06-03T20:53:41.9865551Z Tournament 89/125
+2026-06-03T20:53:41.9865766Z 
+2026-06-03T20:53:41.9866117Z   Scraping AFM Youth and Cadet Cup - Event #5 (47a75d83-79e8-4220-a8bd-3f7eea8169a9)
+2026-06-03T20:53:41.9866766Z     CSV rows: 119
+2026-06-03T20:53:41.9867085Z     Event cards: 8
+2026-06-03T20:53:41.9867471Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9867816Z 
+2026-06-03T20:53:41.9868394Z Tournament 90/125
+2026-06-03T20:53:41.9868606Z 
+2026-06-03T20:53:41.9869061Z   Scraping Escrimeur Senior and Veteran Sabre Cup 2025-2026 (10) (97757328-7890-41fc-bd2b-7a6d9922fc2d)
+2026-06-03T20:53:41.9869820Z     CSV rows: 61
+2026-06-03T20:53:41.9870145Z     Event cards: 3
+2026-06-03T20:53:41.9870528Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9870881Z 
+2026-06-03T20:53:41.9871016Z Tournament 91/125
+2026-06-03T20:53:41.9871218Z 
+2026-06-03T20:53:41.9871905Z   Scraping May 16th - ZFA Open Epee, E & Under epee, Y12, Y10 Epee, Moorestown NJ (6b6fcc69-6e25-4bcd-9baa-9f68976152ab)
+2026-06-03T20:53:41.9872701Z     CSV rows: 34
+2026-06-03T20:53:41.9873011Z     Event cards: 3
+2026-06-03T20:53:41.9873384Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9873733Z 
+2026-06-03T20:53:41.9873876Z Tournament 92/125
+2026-06-03T20:53:41.9874073Z 
+2026-06-03T20:53:41.9874517Z   Scraping SAS Seattle Saber Day (Y14, Unrated, Senior Open) (64d7fcc0-fab7-4dab-b6d8-043c000bfb3b)
+2026-06-03T20:53:41.9875256Z     CSV rows: 66
+2026-06-03T20:53:41.9875563Z     Event cards: 3
+2026-06-03T20:53:41.9876168Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9876500Z 
+2026-06-03T20:53:41.9876637Z Tournament 93/125
+2026-06-03T20:53:41.9876828Z 
+2026-06-03T20:53:41.9877119Z   Scraping The Widowmaker at NKFA (c30f7fb8-8030-464e-8d02-75fa3f7d5791)
+2026-06-03T20:53:41.9877706Z     CSV rows: 67
+2026-06-03T20:53:41.9878019Z     Event cards: 3
+2026-06-03T20:53:41.9878420Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9878764Z 
+2026-06-03T20:53:41.9878906Z Tournament 94/125
+2026-06-03T20:53:41.9879104Z 
+2026-06-03T20:53:41.9879340Z   Scraping Happy Cow (7cb57380-45c9-480d-8f84-c00e6cc44cd0)
+2026-06-03T20:53:41.9879829Z     CSV rows: 95
+2026-06-03T20:53:41.9880151Z     Event cards: 5
+2026-06-03T20:53:41.9880523Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9880854Z 
+2026-06-03T20:53:41.9880991Z Tournament 95/125
+2026-06-03T20:53:41.9881187Z 
+2026-06-03T20:53:41.9881468Z   Scraping Bozeman 2025-26 #8 (cae54aa3-fd3a-4c6a-bdcd-519d6eea87d9)
+2026-06-03T20:53:41.9882209Z     CSV rows: 32
+2026-06-03T20:53:41.9882514Z     Event cards: 4
+2026-06-03T20:53:41.9882888Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9883223Z 
+2026-06-03T20:53:41.9883354Z Tournament 96/125
+2026-06-03T20:53:41.9883551Z 
+2026-06-03T20:53:41.9883931Z   Scraping The Colin "Bad Ass" Miner Epic Epee Melee (e56fe0d5-1ccb-4c16-b13f-ac1d2ad158d9)
+2026-06-03T20:53:41.9884616Z     CSV rows: 14
+2026-06-03T20:53:41.9884939Z     Event cards: 1
+2026-06-03T20:53:41.9885310Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9885644Z 
+2026-06-03T20:53:41.9885774Z Tournament 97/125
+2026-06-03T20:53:41.9885968Z 
+2026-06-03T20:53:41.9886256Z   Scraping OFA May 16th Progressive (62335346-1014-49a6-b507-e611f24559d3)
+2026-06-03T20:53:41.9886819Z     CSV rows: 29
+2026-06-03T20:53:41.9887130Z     Event cards: 3
+2026-06-03T20:53:41.9887504Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9887831Z 
+2026-06-03T20:53:41.9887966Z Tournament 98/125
+2026-06-03T20:53:41.9888162Z 
+2026-06-03T20:53:41.9888471Z   Scraping Capital Czajkowski Cup #4 (232de570-2244-44b8-8019-c1fe86974e63)
+2026-06-03T20:53:41.9889046Z     CSV rows: 30
+2026-06-03T20:53:41.9889348Z     Event cards: 1
+2026-06-03T20:53:41.9889719Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9890053Z 
+2026-06-03T20:53:41.9890187Z Tournament 99/125
+2026-06-03T20:53:41.9890376Z 
+2026-06-03T20:53:41.9890770Z   Scraping Unrated Mixed & Women's Foil, Open Mixed Foil (42117fc0-7fe0-499a-9ea5-6e2ac7cd4f70)
+2026-06-03T20:53:41.9891443Z     CSV rows: 12
+2026-06-03T20:53:41.9891934Z     Event cards: 2
+2026-06-03T20:53:41.9892316Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9892636Z 
+2026-06-03T20:53:41.9892775Z Tournament 100/125
+2026-06-03T20:53:41.9892960Z 
+2026-06-03T20:53:41.9893469Z   Scraping CFC Youth In-house Tournament (998c79c8-54aa-49cb-93f2-245855d1a5ea)
+2026-06-03T20:53:41.9894090Z     CSV rows: 14
+2026-06-03T20:53:41.9894400Z     Event cards: 2
+2026-06-03T20:53:41.9894773Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9895097Z 
+2026-06-03T20:53:41.9895231Z Tournament 101/125
+2026-06-03T20:53:41.9895417Z 
+2026-06-03T20:53:41.9895784Z   Scraping Houston Sword Sports Spring Friendlies (b8639111-8ac0-4f80-82d9-1eb2446b95b4)
+2026-06-03T20:53:41.9896430Z     CSV rows: 73
+2026-06-03T20:53:41.9896749Z     Event cards: 10
+2026-06-03T20:53:41.9897126Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9897445Z 
+2026-06-03T20:53:41.9897583Z Tournament 102/125
+2026-06-03T20:53:41.9897781Z 
+2026-06-03T20:53:41.9898081Z   Scraping DCFC Youth Saber Challenge (b91d84b1-ec75-4284-b966-05135a72eb65)
+2026-06-03T20:53:41.9898664Z     CSV rows: 25
+2026-06-03T20:53:41.9898974Z     Event cards: 3
+2026-06-03T20:53:41.9899331Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9899656Z 
+2026-06-03T20:53:41.9899808Z Tournament 103/125
+2026-06-03T20:53:41.9899997Z 
+2026-06-03T20:53:41.9900274Z   Scraping H3 Cheez-It Cup 2026 II (bb865c87-2b55-43b0-81d1-f4acc9970177)
+2026-06-03T20:53:41.9901003Z     CSV rows: 51
+2026-06-03T20:53:41.9901315Z     Event cards: 5
+2026-06-03T20:53:41.9901678Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9902178Z 
+2026-06-03T20:53:41.9902311Z Tournament 104/125
+2026-06-03T20:53:41.9902515Z 
+2026-06-03T20:53:41.9902898Z   Scraping NEUSFA D and Under Foil/Epee - Worcester (3bcfe9cc-9479-4a2d-a0b1-97163c5b6fe5)
+2026-06-03T20:53:41.9903592Z     CSV rows: 113
+2026-06-03T20:53:41.9903935Z     Event cards: 4
+2026-06-03T20:53:41.9904306Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9904642Z 
+2026-06-03T20:53:41.9904775Z Tournament 105/125
+2026-06-03T20:53:41.9904968Z 
+2026-06-03T20:53:41.9905285Z   Scraping Forge Spring Saber Slam! (d5f69699-a1ee-43b5-b1d4-dbfdc3b30d4a)
+2026-06-03T20:53:41.9905880Z     CSV rows: 88
+2026-06-03T20:53:41.9906214Z     Event cards: 6
+2026-06-03T20:53:41.9906610Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9906939Z 
+2026-06-03T20:53:41.9907071Z Tournament 106/125
+2026-06-03T20:53:41.9907258Z 
+2026-06-03T20:53:41.9907578Z   Scraping Fence St. Louis May Day Saber (5e939176-3ce6-403f-aae8-ca6b56668be9)
+2026-06-03T20:53:41.9908192Z     CSV rows: 60
+2026-06-03T20:53:41.9908510Z     Event cards: 6
+2026-06-03T20:53:41.9908879Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9909197Z 
+2026-06-03T20:53:41.9909336Z Tournament 107/125
+2026-06-03T20:53:41.9909532Z 
+2026-06-03T20:53:41.9909854Z   Scraping AFM Veteran Epee Cup - Event #5 (ead547c4-eec3-4fc3-8de6-1b1b49230453)
+2026-06-03T20:53:41.9910456Z     CSV rows: 17
+2026-06-03T20:53:41.9910767Z     Event cards: 1
+2026-06-03T20:53:41.9911127Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9911447Z 
+2026-06-03T20:53:41.9911570Z Tournament 108/125
+2026-06-03T20:53:41.9911926Z 
+2026-06-03T20:53:41.9912219Z   Scraping Apex Novice Cup - May (5ce32cba-bee7-4dcb-8076-488651de3012)
+2026-06-03T20:53:41.9912783Z     CSV rows: 65
+2026-06-03T20:53:41.9913079Z     Event cards: 6
+2026-06-03T20:53:41.9913435Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9913766Z 
+2026-06-03T20:53:41.9913893Z Tournament 109/125
+2026-06-03T20:53:41.9914089Z 
+2026-06-03T20:53:41.9914371Z   Scraping Colorado Youth Cup #7 (8832a04b-b2b1-437d-bbb6-cce356dcba53)
+2026-06-03T20:53:41.9914923Z     CSV rows: 68
+2026-06-03T20:53:41.9915222Z     Event cards: 9
+2026-06-03T20:53:41.9915572Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9915898Z 
+2026-06-03T20:53:41.9916024Z Tournament 110/125
+2026-06-03T20:53:41.9916207Z 
+2026-06-03T20:53:41.9916728Z   Scraping May16th 2026 Vivo/Portland Fencing Youth Foil Developmental @Vivo (554e3830-c046-43b0-8c42-785b37925600)
+2026-06-03T20:53:41.9917527Z     CSV rows: 28
+2026-06-03T20:53:41.9917821Z     Event cards: 2
+2026-06-03T20:53:41.9918340Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9918675Z 
+2026-06-03T20:53:41.9918807Z Tournament 111/125
+2026-06-03T20:53:41.9919049Z 
+2026-06-03T20:53:41.9919316Z   Scraping GFA Tucson in May (0ecb46b2-90d2-4cfb-b217-5669be180620)
+2026-06-03T20:53:41.9919855Z     CSV rows: 66
+2026-06-03T20:53:41.9920155Z     Event cards: 10
+2026-06-03T20:53:41.9920523Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9920861Z 
+2026-06-03T20:53:41.9921010Z Tournament 112/125
+2026-06-03T20:53:41.9921221Z 
+2026-06-03T20:53:41.9921528Z   Scraping Supreme Spring Cup (2e54aec2-a06e-410e-85f0-e3f330161e5b)
+2026-06-03T20:53:41.9922249Z     CSV rows: 48
+2026-06-03T20:53:41.9922555Z     Event cards: 3
+2026-06-03T20:53:41.9922921Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9923237Z 
+2026-06-03T20:53:41.9923377Z Tournament 113/125
+2026-06-03T20:53:41.9923568Z 
+2026-06-03T20:53:41.9923849Z   Scraping 2026 Rain City Open (e580cba6-8eca-49db-93c1-0ba5b5e5eef8)
+2026-06-03T20:53:41.9924398Z     CSV rows: 141
+2026-06-03T20:53:41.9924706Z     Event cards: 6
+2026-06-03T20:53:41.9925242Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9925560Z 
+2026-06-03T20:53:41.9925692Z Tournament 114/125
+2026-06-03T20:53:41.9925888Z 
+2026-06-03T20:53:41.9926165Z   Scraping May Cookie Challenge (3cdb6f47-addb-4a2b-9f0e-7d689d48b310)
+2026-06-03T20:53:41.9926724Z     CSV rows: 42
+2026-06-03T20:53:41.9927044Z     Event cards: 5
+2026-06-03T20:53:41.9927414Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9927743Z 
+2026-06-03T20:53:41.9927880Z Tournament 115/125
+2026-06-03T20:53:41.9928076Z 
+2026-06-03T20:53:41.9928427Z   Scraping Manchen Friday Night "E & Under" Foil (cbd21a74-efba-4817-90d4-eb65f353ecde)
+2026-06-03T20:53:41.9929053Z     CSV rows: 21
+2026-06-03T20:53:41.9929349Z     Event cards: 1
+2026-06-03T20:53:41.9929710Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9930037Z 
+2026-06-03T20:53:41.9930164Z Tournament 116/125
+2026-06-03T20:53:41.9930360Z 
+2026-06-03T20:53:41.9930642Z   Scraping NJFA - Div. 3 Mixed Epee (9283024d-48b1-4b72-bcb6-fd3f22beaaf3)
+2026-06-03T20:53:41.9931226Z     CSV rows: 10
+2026-06-03T20:53:41.9931525Z     Event cards: 1
+2026-06-03T20:53:41.9932099Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9932436Z 
+2026-06-03T20:53:41.9932566Z Tournament 117/125
+2026-06-03T20:53:41.9932757Z 
+2026-06-03T20:53:41.9935841Z   Scraping Luby’s Ludus Sparrows (Y14 foil and sabre) (adf9b32d-df3b-4fbd-87ce-b1834b97f06a)
+2026-06-03T20:53:41.9936556Z     CSV rows: 14
+2026-06-03T20:53:41.9936865Z     Event cards: 2
+2026-06-03T20:53:41.9937232Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9937577Z 
+2026-06-03T20:53:41.9937703Z Tournament 118/125
+2026-06-03T20:53:41.9937889Z 
+2026-06-03T20:53:41.9938140Z   Scraping FCMC Div3 Foil (5ed05634-0c03-4b1d-9680-75cf9b487b5f)
+2026-06-03T20:53:41.9938652Z     CSV rows: 6
+2026-06-03T20:53:41.9938944Z     Event cards: 1
+2026-06-03T20:53:41.9939314Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9939639Z 
+2026-06-03T20:53:41.9939777Z Tournament 119/125
+2026-06-03T20:53:41.9939957Z 
+2026-06-03T20:53:41.9940390Z   Scraping The Line Fencing Academy Y12, Div 3, and Women's Foil (42aecce3-c24c-4a8d-bcfd-fdefffd63d2d)
+2026-06-03T20:53:41.9941094Z     CSV rows: 20
+2026-06-03T20:53:41.9941395Z     Event cards: 3
+2026-06-03T20:53:41.9941988Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9942318Z 
+2026-06-03T20:53:41.9942452Z Tournament 120/125
+2026-06-03T20:53:41.9942630Z 
+2026-06-03T20:53:41.9942929Z   Scraping RMSA/RYF All You Can Fence (f3298d81-3fa1-4644-a5b2-d4ceb3c4e40d)
+2026-06-03T20:53:41.9943503Z     CSV rows: 41
+2026-06-03T20:53:41.9943805Z     Event cards: 5
+2026-06-03T20:53:41.9944157Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9944475Z 
+2026-06-03T20:53:41.9944606Z Tournament 121/125
+2026-06-03T20:53:41.9944795Z 
+2026-06-03T20:53:41.9945312Z   Scraping OFC Youth Sabre Cup - May 2026 (6f8067ad-ef6f-4742-aef1-fb16c3024563)
+2026-06-03T20:53:41.9945927Z     CSV rows: 17
+2026-06-03T20:53:41.9946239Z     Event cards: 0
+2026-06-03T20:53:41.9946586Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9946895Z 
+2026-06-03T20:53:41.9947026Z Tournament 122/125
+2026-06-03T20:53:41.9947212Z 
+2026-06-03T20:53:41.9947615Z   Scraping Pacific Northwest Cup #5 (Y10F, Y12F, Y14F & Y14E) (5913c1f1-bac3-4939-b2b8-20a5fbeedef9)
+2026-06-03T20:53:41.9948311Z     CSV rows: 35
+2026-06-03T20:53:41.9948670Z     Event cards: 3
+2026-06-03T20:53:41.9949040Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9949356Z 
+2026-06-03T20:53:41.9949516Z Tournament 123/125
+2026-06-03T20:53:41.9949724Z 
+2026-06-03T20:53:41.9950097Z   Scraping Skyward Fencing May Competition (b6b143b6-4143-4dab-93cb-14260877373a)
+2026-06-03T20:53:41.9950729Z     CSV rows: 95
+2026-06-03T20:53:41.9951034Z     Event cards: 8
+2026-06-03T20:53:41.9951434Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9951938Z 
+2026-06-03T20:53:41.9952074Z Tournament 124/125
+2026-06-03T20:53:41.9952439Z 
+2026-06-03T20:53:41.9952725Z   Scraping Spring Fling 2026 (b9032903-3e67-49af-ade7-a6ef22e5e1d2)
+2026-06-03T20:53:41.9953267Z     CSV rows: 85
+2026-06-03T20:53:41.9953584Z     Event cards: 6
+2026-06-03T20:53:41.9953931Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9954271Z 
+2026-06-03T20:53:41.9954400Z Tournament 125/125
+2026-06-03T20:53:41.9954593Z 
+2026-06-03T20:53:41.9954887Z   Scraping RCFC In-House Festival (dd0caf4d-c128-49d6-90bc-716757507f88)
+2026-06-03T20:53:41.9955434Z     CSV rows: 19
+2026-06-03T20:53:41.9955736Z     Event cards: 2
+2026-06-03T20:53:41.9956093Z     No Y12/Y14 national-circuit event groups found
+2026-06-03T20:53:41.9956443Z 
+2026-06-03T20:53:41.9956910Z USA youth FRED scraper complete - results=0, unmatched_youth_rows=0, skipped=125, failed_tournaments=0
+2026-06-03T20:53:42.1475083Z ##[group]Run python scrape_iwas_games.py
+2026-06-03T20:53:42.1475485Z [36;1mpython scrape_iwas_games.py[0m
+2026-06-03T20:53:42.1504838Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:53:42.1505278Z env:
+2026-06-03T20:53:42.1505531Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:53:42.1505938Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.1506590Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:53:42.1507091Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.1507677Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.1508126Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.1508637Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:53:42.1509262Z   SUPABASE_URL: ***
+2026-06-03T20:53:42.1511171Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:53:42.1511491Z ##[endgroup]
+2026-06-03T20:53:45.9798828Z Traceback (most recent call last):
+2026-06-03T20:53:45.9799540Z IWAS games scraper starting - 2026-06-03T20:53:43.098824+00:00
+2026-06-03T20:53:45.9800891Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_iwas_games.py", line 865, in <module>
+2026-06-03T20:53:45.9802345Z     main()
+2026-06-03T20:53:45.9803044Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_iwas_games.py", line 786, in main
+2026-06-03T20:53:45.9804051Z     sources = discover_result_sources(session=session, rate_limiter=limiter)
+2026-06-03T20:53:45.9832696Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:53:45.9843681Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_iwas_games.py", line 754, in discover_result_sources
+2026-06-03T20:53:45.9844976Z     content, content_type = fetch_url(WPF_HISTORIC_RESULTS_URL, session=session, rate_limiter=rate_limiter)
+2026-06-03T20:53:45.9845881Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T20:53:45.9846844Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_iwas_games.py", line 749, in fetch_url
+2026-06-03T20:53:45.9847679Z     response.raise_for_status()
+2026-06-03T20:53:45.9848586Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/requests/models.py", line 1167, in raise_for_status
+2026-06-03T20:53:45.9849572Z     raise HTTPError(http_error_msg, response=self)
+2026-06-03T20:53:45.9850549Z requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://parafencing.org/results-and-rankings/historic-results/
+2026-06-03T20:53:46.1810346Z ##[error]Process completed with exit code 1.
+2026-06-03T20:53:46.1841061Z ##[group]Run python scrape_afc.py
+2026-06-03T20:53:46.1841414Z [36;1mpython scrape_afc.py[0m
+2026-06-03T20:53:46.1868037Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:53:46.1868327Z env:
+2026-06-03T20:53:46.1868578Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:53:46.1868989Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:46.1869484Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:53:46.1870176Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:46.1870619Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:46.1871061Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:46.1871506Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:53:46.1872316Z   SUPABASE_URL: ***
+2026-06-03T20:53:46.1873939Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:53:46.1874237Z ##[endgroup]
+2026-06-03T20:53:47.3391139Z Traceback (most recent call last):
+2026-06-03T20:53:47.3393643Z Skipping blocked AFC source afc-2022-cadet-result-page: Sandbox DNS probe failed for all AFC/host URLs; escalated network probe was rejected by the platform usage gate.
+2026-06-03T20:53:47.3395903Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_afc.py", line 1037, in <module>
+2026-06-03T20:53:47.3397011Z     main()
+2026-06-03T20:53:47.3397855Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_afc.py", line 1030, in main
+2026-06-03T20:53:47.3399567Z Skipping blocked AFC source afc-2025-cadet-circuit-ranking-pdf: Sandbox DNS probe failed for all AFC/host URLs; escalated network probe was rejected by the platform usage gate.
+2026-06-03T20:53:47.3401500Z Skipping blocked AFC source afc-2025-u23-malaysia-pdf: Sandbox DNS probe failed for all AFC/host URLs; escalated network probe was rejected by the platform usage gate.
+2026-06-03T20:53:47.3403496Z Skipping blocked AFC source kuwait-2024-host: Sandbox DNS probe failed for all AFC/host URLs; escalated network probe was rejected by the platform usage gate.
+2026-06-03T20:53:47.3405184Z Skipping blocked AFC source bali-2025-host: Sandbox DNS probe failed for all AFC/host URLs; escalated network probe was rejected by the platform usage gate.
+2026-06-03T20:53:47.3406278Z     run_log.complete(written, failed, skipped)
+2026-06-03T20:53:47.3406969Z TypeError: ScraperRunLogger.complete() takes 1 positional argument but 4 were given
+2026-06-03T20:53:47.4796876Z ##[error]Process completed with exit code 1.
+2026-06-03T20:53:47.4839411Z ##[group]Run python scrape_african_conf.py
+2026-06-03T20:53:47.4840053Z [36;1mpython scrape_african_conf.py[0m
+2026-06-03T20:53:47.4878516Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:53:47.4878952Z env:
+2026-06-03T20:53:47.4879317Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:53:47.4879930Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:47.4880709Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:53:47.4881487Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:47.4882448Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:47.4883147Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:47.4883886Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:53:47.4884752Z   SUPABASE_URL: ***
+2026-06-03T20:53:47.4887144Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:53:47.4887609Z ##[endgroup]
+2026-06-03T20:55:43.9869762Z Could not get FontBBox from font descriptor because None cannot be parsed as 4 floats
+2026-06-03T20:56:24.9533930Z no durable public African championship result rows found
+2026-06-03T20:56:25.1340092Z ##[group]Run python scrape_panam_conf.py
+2026-06-03T20:56:25.1340729Z [36;1mpython scrape_panam_conf.py[0m
+2026-06-03T20:56:25.1367522Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:56:25.1367797Z env:
+2026-06-03T20:56:25.1368032Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:56:25.1368413Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:56:25.1368872Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:56:25.1369326Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:56:25.1369734Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:56:25.1370139Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:56:25.1370539Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:56:25.1371353Z   SUPABASE_URL: ***
+2026-06-03T20:56:25.1373046Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:56:25.1373311Z ##[endgroup]
+2026-06-03T20:57:27.6082833Z PAFC scraper starting - 2026-06-03T20:56:26.058778+00:00
+2026-06-03T20:57:27.6083836Z   HTTP 404 for https://fedesgrimapuertorico.org/campeonato-panamericano-adulto-2025/
+2026-06-03T20:57:27.6085141Z   Skipped source missing: https://www.panam-fencing.org (prior project probe recorded DNS/offline PAFC domain)
+2026-06-03T20:57:27.6086526Z   Skipped source missing: https://panam-fencing.org (prior project probe recorded DNS/offline PAFC domain)
+2026-06-03T20:57:27.6087825Z   Skipped source missing: https://panam-fencing.com (prior project probe recorded DNS/offline PAFC domain)
+2026-06-03T20:57:27.6089193Z   Skipped source missing: https://panamericanfencing.org (prior project probe recorded DNS/offline PAFC domain)
+2026-06-03T20:57:27.6090846Z   Skipped source blocked: https://fie.org/competitions (local probe script hit sandbox DNS failure on 2026-06-02; escalated retry blocked by usage-limit gate)
+2026-06-03T20:57:27.6092770Z   Skipped source missing: https://fie.org/competitions/2024/805?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6094132Z   Skipped source missing: https://fie.org/competitions/2024/808?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6095519Z   Skipped source missing: https://fie.org/competitions/2024/807?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6096866Z   Skipped source missing: https://fie.org/competitions/2024/804?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6098254Z   Skipped source missing: https://fie.org/competitions/2024/806?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6099701Z   Skipped source missing: https://fie.org/competitions/2024/803?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6101193Z   Skipped source missing: https://fie.org/competitions/2024/802?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6102470Z   Skipped source missing: https://fie.org/competitions/2024/800?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6103276Z   Skipped source missing: https://fie.org/competitions/2024/801?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6104054Z   Skipped source missing: https://fie.org/competitions/2024/799?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6104849Z   Skipped source missing: https://fie.org/competitions/2024/798?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6105653Z   Skipped source missing: https://fie.org/competitions/2024/797?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6106451Z   Skipped source missing: https://fie.org/competitions/2024/1071?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6107784Z   Skipped source missing: https://fie.org/competitions/2024/1074?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6109032Z   Skipped source missing: https://fie.org/competitions/2024/1075?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6109855Z   Skipped source missing: https://fie.org/competitions/2024/1076?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6110654Z   Skipped source missing: https://fie.org/competitions/2024/1073?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6111445Z   Skipped source missing: https://fie.org/competitions/2024/1072?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6112498Z   Skipped source missing: https://fie.org/competitions/2024/1287?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6113292Z   Skipped source missing: https://fie.org/competitions/2024/1282?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6114259Z   Skipped source missing: https://fie.org/competitions/2024/1290?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6115056Z   Skipped source missing: https://fie.org/competitions/2024/1286?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6115837Z   Skipped source missing: https://fie.org/competitions/2024/1288?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6116621Z   Skipped source missing: https://fie.org/competitions/2024/1289?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6117422Z   Skipped source missing: https://fie.org/competitions/2024/814?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6118221Z   Skipped source missing: https://fie.org/competitions/2024/813?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6118999Z   Skipped source missing: https://fie.org/competitions/2024/810?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6119781Z   Skipped source missing: https://fie.org/competitions/2024/815?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6120570Z   Skipped source missing: https://fie.org/competitions/2024/812?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6121345Z   Skipped source missing: https://fie.org/competitions/2024/811?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6122382Z   Skipped source missing: https://fie.org/competitions/2025/805?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6123179Z   Skipped source missing: https://fie.org/competitions/2025/808?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6123973Z   Skipped source missing: https://fie.org/competitions/2025/804?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6124746Z   Skipped source missing: https://fie.org/competitions/2025/807?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6125526Z   Skipped source missing: https://fie.org/competitions/2025/803?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6126304Z   Skipped source missing: https://fie.org/competitions/2025/806?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6127084Z   Skipped source missing: https://fie.org/competitions/2025/800?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6127862Z   Skipped source missing: https://fie.org/competitions/2025/802?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6128641Z   Skipped source missing: https://fie.org/competitions/2025/799?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6129428Z   Skipped source missing: https://fie.org/competitions/2025/801?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6130243Z   Skipped source missing: https://fie.org/competitions/2025/797?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6131267Z   Skipped source missing: https://fie.org/competitions/2025/798?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6132269Z   Skipped source missing: https://fie.org/competitions/2025/1289?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6133071Z   Skipped source missing: https://fie.org/competitions/2025/1287?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6133859Z   Skipped source missing: https://fie.org/competitions/2025/1286?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6134688Z   Skipped source missing: https://fie.org/competitions/2025/1290?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6135477Z   Skipped source missing: https://fie.org/competitions/2025/1288?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6136266Z   Skipped source missing: https://fie.org/competitions/2025/1282?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6137206Z   Skipped source missing: https://fie.org/competitions/2025/812?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6138001Z   Skipped source missing: https://fie.org/competitions/2025/814?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6138803Z   Skipped source missing: https://fie.org/competitions/2025/811?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6139610Z   Skipped source missing: https://fie.org/competitions/2025/813?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6140389Z   Skipped source missing: https://fie.org/competitions/2025/810?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6141170Z   Skipped source missing: https://fie.org/competitions/2025/815?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6142201Z   Skipped source missing: https://fie.org/competitions/2025/1111?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6143010Z   Skipped source missing: https://fie.org/competitions/2025/1113?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6143800Z   Skipped source missing: https://fie.org/competitions/2025/1114?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6144585Z   Skipped source missing: https://fie.org/competitions/2025/1109?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6145372Z   Skipped source missing: https://fie.org/competitions/2025/1110?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6146157Z   Skipped source missing: https://fie.org/competitions/2025/1112?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6146942Z   Skipped source missing: https://fie.org/competitions/2026/803?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6918275Z   Skipped source missing: https://fie.org/competitions/2026/806?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6920002Z   Skipped source missing: https://fie.org/competitions/2026/804?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6921379Z   Skipped source missing: https://fie.org/competitions/2026/807?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6923082Z   Skipped source missing: https://fie.org/competitions/2026/805?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6924429Z   Skipped source missing: https://fie.org/competitions/2026/808?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6925743Z   Skipped source missing: https://fie.org/competitions/2026/797?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6927053Z   Skipped source missing: https://fie.org/competitions/2026/798?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6928367Z   Skipped source missing: https://fie.org/competitions/2026/799?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6929987Z   Skipped source missing: https://fie.org/competitions/2026/801?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6931043Z   Skipped source missing: https://fie.org/competitions/2026/800?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6932217Z   Skipped source missing: https://fie.org/competitions/2026/802?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6933307Z   Skipped source missing: https://fie.org/competitions/2026/1289?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6934400Z   Skipped source missing: https://fie.org/competitions/2026/1287?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6935475Z   Skipped source missing: https://fie.org/competitions/2026/1286?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6936730Z   Skipped source missing: https://fie.org/competitions/2026/1290?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6937844Z   Skipped source missing: https://fie.org/competitions/2026/1288?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6938912Z   Skipped source missing: https://fie.org/competitions/2026/1282?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6939989Z   Skipped source missing: https://fie.org/competitions/2026/811?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6940912Z   Skipped source missing: https://fie.org/competitions/2026/814?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6941892Z   Skipped source missing: https://fie.org/competitions/2026/812?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6942733Z   Skipped source missing: https://fie.org/competitions/2026/815?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6943575Z   Skipped source missing: https://fie.org/competitions/2026/813?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6944413Z   Skipped source missing: https://fie.org/competitions/2026/810?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6945261Z   Skipped source missing: https://fie.org/competitions/2026/1114?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6946108Z   Skipped source missing: https://fie.org/competitions/2026/1113?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6946953Z   Skipped source missing: https://fie.org/competitions/2026/1112?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6947803Z   Skipped source missing: https://fie.org/competitions/2026/1110?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6948644Z   Skipped source missing: https://fie.org/competitions/2026/1109?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6949493Z   Skipped source missing: https://fie.org/competitions/2026/1111?tab=results (no parseable result rows in public source)
+2026-06-03T20:57:27.6950648Z   Skipped source missing: https://fedesgrimapuertorico.org/wp-content/uploads/2025/03/Convocatoria-Campeonato-Panamericano-adulto-2025_esp.pdf (no parseable result rows in public source)
+2026-06-03T20:57:27.9080298Z ##[group]Run python scrape_fencers.py
+2026-06-03T20:57:27.9080665Z [36;1mpython scrape_fencers.py[0m
+2026-06-03T20:57:27.9107427Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:57:27.9107696Z env:
+2026-06-03T20:57:27.9107928Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:57:27.9108307Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:27.9108775Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:57:27.9109235Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:27.9109676Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:27.9110085Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:27.9110524Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:57:27.9111034Z   SUPABASE_URL: ***
+2026-06-03T20:57:27.9112738Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:57:27.9113012Z ##[endgroup]
+2026-06-03T20:57:30.0410316Z Athlete profile scraper starting - 2026-06-03T20:57:28.611414+00:00
+2026-06-03T20:57:30.0411464Z Limit: 1000; delay: 1.5s; force rescrape: False; rescrape_after_days: disabled
+2026-06-03T20:57:30.0412563Z Using DOB column: date_of_birth
+2026-06-03T20:57:30.0413047Z Using hand column: hand
+2026-06-03T20:57:30.0413512Z Found 0 fencers with missing club data
+2026-06-03T20:57:30.0414725Z Athlete profile scraper complete - processed=0, skipped_attempted=0, flushed=0, field_counts={'club': 0, 'image_url': 0, 'date_of_birth': 0, 'hand': 0}
+2026-06-03T20:57:30.1777400Z Post job cleanup.
+2026-06-03T20:57:30.3016768Z (node:2457) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T20:57:30.3018081Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T20:57:30.3179601Z Post job cleanup.
+2026-06-03T20:57:30.4033927Z [command]/usr/bin/git version
+2026-06-03T20:57:30.4104161Z git version 2.54.0
+2026-06-03T20:57:30.4141510Z Temporarily overriding HOME='/home/runner/work/_temp/44321105-a7a3-4a41-bbea-86f01edee49d' before making global git config changes
+2026-06-03T20:57:30.4143823Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T20:57:30.4147772Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:57:30.4185216Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T20:57:30.4221425Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T20:57:30.4453118Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T20:57:30.4482112Z http.https://github.com/.extraheader
+2026-06-03T20:57:30.4493020Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-06-03T20:57:30.4524573Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T20:57:30.4749557Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T20:57:30.4780561Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T20:57:30.5137698Z Cleaning up orphan processes
+2026-06-03T20:57:30.5431294Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

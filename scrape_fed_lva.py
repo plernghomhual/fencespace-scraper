@@ -438,6 +438,8 @@ def main():
             f"written={total_written}, failed={total_failed}, skipped={total_skipped}, "
             f"combos_working={len(working_combos)}/{len(RANKING_COMBOS)}"
         )
+        if total_written == 0 and (total_skipped + total_failed) > 0:
+            print(f"[WARNING] {SOURCE}: zero rows written after processing all targets — check URL config or source availability")
         if skipped_combos:
             print(f"Skipped combos: {', '.join(skipped_combos)}")
         if failed_combos:

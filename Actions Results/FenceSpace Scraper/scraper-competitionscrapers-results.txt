@@ -1,0 +1,948 @@
+﻿2026-06-03T20:46:09.4936010Z Current runner version: '2.334.0'
+2026-06-03T20:46:09.4974893Z ##[group]Runner Image Provisioner
+2026-06-03T20:46:09.4976358Z Hosted Compute Agent
+2026-06-03T20:46:09.4977362Z Version: 20260520.533
+2026-06-03T20:46:09.4978496Z Commit: 189110e25284a9812c124fd27b339e2fb4f2f9db
+2026-06-03T20:46:09.4979662Z Build Date: 2026-05-20T17:44:04Z
+2026-06-03T20:46:09.4980981Z Worker ID: {ffc0936f-0e31-4402-b188-4d1f889011e0}
+2026-06-03T20:46:09.4982284Z Azure Region: eastus2
+2026-06-03T20:46:09.4983200Z ##[endgroup]
+2026-06-03T20:46:09.4985565Z ##[group]Operating System
+2026-06-03T20:46:09.4986563Z Ubuntu
+2026-06-03T20:46:09.4987351Z 24.04.4
+2026-06-03T20:46:09.4988338Z LTS
+2026-06-03T20:46:09.4989160Z ##[endgroup]
+2026-06-03T20:46:09.4990203Z ##[group]Runner Image
+2026-06-03T20:46:09.4991357Z Image: ubuntu-24.04
+2026-06-03T20:46:09.4992452Z Version: 20260525.161.1
+2026-06-03T20:46:09.4994558Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260525.161/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-03T20:46:09.4997223Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260525.161
+2026-06-03T20:46:09.4998852Z ##[endgroup]
+2026-06-03T20:46:09.5001334Z ##[group]GITHUB_TOKEN Permissions
+2026-06-03T20:46:09.5004515Z Contents: read
+2026-06-03T20:46:09.5005449Z Metadata: read
+2026-06-03T20:46:09.5006413Z Packages: read
+2026-06-03T20:46:09.5007351Z ##[endgroup]
+2026-06-03T20:46:09.5011116Z Secret source: Actions
+2026-06-03T20:46:09.5012401Z Prepare workflow directory
+2026-06-03T20:46:09.5589880Z Prepare all required actions
+2026-06-03T20:46:09.5646183Z Getting action download info
+2026-06-03T20:46:09.9078565Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-06-03T20:46:10.0046904Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-06-03T20:46:10.1910225Z Complete job name: competition-scrapers
+2026-06-03T20:46:10.2748646Z ##[group]Run actions/checkout@v4
+2026-06-03T20:46:10.2749639Z with:
+2026-06-03T20:46:10.2750207Z   repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.2755373Z   token: ***
+2026-06-03T20:46:10.2755870Z   ssh-strict: true
+2026-06-03T20:46:10.2756376Z   ssh-user: git
+2026-06-03T20:46:10.2756879Z   persist-credentials: true
+2026-06-03T20:46:10.2757433Z   clean: true
+2026-06-03T20:46:10.2757938Z   sparse-checkout-cone-mode: true
+2026-06-03T20:46:10.2758515Z   fetch-depth: 1
+2026-06-03T20:46:10.2759015Z   fetch-tags: false
+2026-06-03T20:46:10.2759509Z   show-progress: true
+2026-06-03T20:46:10.2760023Z   lfs: false
+2026-06-03T20:46:10.2760479Z   submodules: false
+2026-06-03T20:46:10.2761351Z   set-safe-directory: true
+2026-06-03T20:46:10.2762208Z env:
+2026-06-03T20:46:10.2762709Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:10.2763330Z ##[endgroup]
+2026-06-03T20:46:10.3789871Z Syncing repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.3792640Z ##[group]Getting Git version info
+2026-06-03T20:46:10.3793650Z Working directory is '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3795153Z [command]/usr/bin/git version
+2026-06-03T20:46:10.3823495Z git version 2.54.0
+2026-06-03T20:46:10.3877082Z ##[endgroup]
+2026-06-03T20:46:10.3893441Z Temporarily overriding HOME='/home/runner/work/_temp/7fd05680-7778-4724-8dcb-55d1498471de' before making global git config changes
+2026-06-03T20:46:10.3896007Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T20:46:10.3900496Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.3950027Z Deleting the contents of '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3954925Z ##[group]Initializing the repository
+2026-06-03T20:46:10.3960376Z [command]/usr/bin/git init /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.4037750Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-03T20:46:10.4039548Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-03T20:46:10.4040846Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-03T20:46:10.4042042Z hint: call:
+2026-06-03T20:46:10.4042531Z hint:
+2026-06-03T20:46:10.4043148Z hint: 	git config --global init.defaultBranch <name>
+2026-06-03T20:46:10.4043854Z hint:
+2026-06-03T20:46:10.4044513Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-03T20:46:10.4045538Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-03T20:46:10.4046349Z hint:
+2026-06-03T20:46:10.4046822Z hint: 	git branch -m <name>
+2026-06-03T20:46:10.4047394Z hint:
+2026-06-03T20:46:10.4048108Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-03T20:46:10.4054604Z Initialized empty Git repository in /home/runner/work/fencespace-scraper/fencespace-scraper/.git/
+2026-06-03T20:46:10.4064494Z [command]/usr/bin/git remote add origin https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.4110197Z ##[endgroup]
+2026-06-03T20:46:10.4111473Z ##[group]Disabling automatic garbage collection
+2026-06-03T20:46:10.4113881Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-03T20:46:10.4146575Z ##[endgroup]
+2026-06-03T20:46:10.4147412Z ##[group]Setting up auth
+2026-06-03T20:46:10.4153549Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T20:46:10.4190014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T20:46:10.4507995Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T20:46:10.4548680Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T20:46:10.4811435Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T20:46:10.4852319Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T20:46:10.5120407Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-03T20:46:10.5165103Z ##[endgroup]
+2026-06-03T20:46:10.5166451Z ##[group]Fetching the repository
+2026-06-03T20:46:10.5178800Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +584d2ceca644571bf8fee6973576d9000d6784ee:refs/remotes/origin/main
+2026-06-03T20:46:11.2685081Z From https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:11.2687675Z  * [new ref]         584d2ceca644571bf8fee6973576d9000d6784ee -> origin/main
+2026-06-03T20:46:11.2719583Z ##[endgroup]
+2026-06-03T20:46:11.2721536Z ##[group]Determining the checkout info
+2026-06-03T20:46:11.2723302Z ##[endgroup]
+2026-06-03T20:46:11.2725531Z [command]/usr/bin/git sparse-checkout disable
+2026-06-03T20:46:11.2773457Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-03T20:46:11.2804307Z ##[group]Checking out the ref
+2026-06-03T20:46:11.2807805Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-06-03T20:46:11.3401757Z Switched to a new branch 'main'
+2026-06-03T20:46:11.3403472Z branch 'main' set up to track 'origin/main'.
+2026-06-03T20:46:11.3411852Z ##[endgroup]
+2026-06-03T20:46:11.3457357Z [command]/usr/bin/git log -1 --format=%H
+2026-06-03T20:46:11.3483413Z 584d2ceca644571bf8fee6973576d9000d6784ee
+2026-06-03T20:46:11.3933337Z ##[group]Run actions/setup-python@v5
+2026-06-03T20:46:11.3934625Z with:
+2026-06-03T20:46:11.3935550Z   python-version: 3.11
+2026-06-03T20:46:11.3936610Z   check-latest: false
+2026-06-03T20:46:11.3948000Z   token: ***
+2026-06-03T20:46:11.3949011Z   update-environment: true
+2026-06-03T20:46:11.3950502Z   allow-prereleases: false
+2026-06-03T20:46:11.3951766Z   freethreaded: false
+2026-06-03T20:46:11.3952775Z env:
+2026-06-03T20:46:11.3953729Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.3955002Z ##[endgroup]
+2026-06-03T20:46:11.5383687Z ##[group]Installed versions
+2026-06-03T20:46:11.5471146Z (node:2270) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T20:46:11.5475375Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T20:46:11.5478079Z Successfully set up CPython (3.11.15)
+2026-06-03T20:46:11.5481024Z ##[endgroup]
+2026-06-03T20:46:11.5667007Z ##[group]Run pip install -r requirements.txt
+2026-06-03T20:46:11.5668475Z [36;1mpip install -r requirements.txt[0m
+2026-06-03T20:46:11.5713047Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:11.5714338Z env:
+2026-06-03T20:46:11.5715337Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.5716893Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5718750Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:11.5720835Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5722556Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5724261Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5725974Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:11.5727440Z ##[endgroup]
+2026-06-03T20:46:12.3657963Z Collecting requests (from -r requirements.txt (line 1))
+2026-06-03T20:46:12.4368607Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-06-03T20:46:12.4667127Z Collecting supabase (from -r requirements.txt (line 2))
+2026-06-03T20:46:12.4745400Z   Downloading supabase-2.30.1-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:12.4941539Z Collecting beautifulsoup4 (from -r requirements.txt (line 3))
+2026-06-03T20:46:12.5018910Z   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+2026-06-03T20:46:12.5341176Z Collecting pdfplumber (from -r requirements.txt (line 4))
+2026-06-03T20:46:12.5417812Z   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+2026-06-03T20:46:12.5731263Z Collecting openpyxl (from -r requirements.txt (line 5))
+2026-06-03T20:46:12.5810459Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:12.5959067Z Collecting xlrd (from -r requirements.txt (line 6))
+2026-06-03T20:46:12.6039187Z   Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.6187257Z Collecting xlwt (from -r requirements.txt (line 7))
+2026-06-03T20:46:12.6261098Z   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.6719550Z Collecting fastapi (from -r requirements.txt (line 8))
+2026-06-03T20:46:12.6802457Z   Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+2026-06-03T20:46:12.7112090Z Collecting uvicorn (from -r requirements.txt (line 9))
+2026-06-03T20:46:12.7190951Z   Downloading uvicorn-0.48.0-py3-none-any.whl.metadata (6.7 kB)
+2026-06-03T20:46:12.8045251Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:12.8134839Z   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:12.9752832Z Collecting Pillow (from -r requirements.txt (line 11))
+2026-06-03T20:46:12.9832850Z   Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-06-03T20:46:13.0199372Z Collecting streamlit (from -r requirements.txt (line 12))
+2026-06-03T20:46:13.0276585Z   Downloading streamlit-1.58.0-py3-none-any.whl.metadata (9.6 kB)
+2026-06-03T20:46:13.0611294Z Collecting plotly (from -r requirements.txt (line 13))
+2026-06-03T20:46:13.0686442Z   Downloading plotly-6.8.0-py3-none-any.whl.metadata (9.0 kB)
+2026-06-03T20:46:13.1801313Z Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.1879002Z   Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-06-03T20:46:13.2085283Z Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.2161671Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-06-03T20:46:13.2469537Z Collecting urllib3<3,>=1.26 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.2546434Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-06-03T20:46:13.2760232Z Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.2833776Z   Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:13.3037684Z Collecting realtime==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3112661Z   Downloading realtime-2.30.1-py3-none-any.whl.metadata (7.0 kB)
+2026-06-03T20:46:13.3281911Z Collecting supabase-functions==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3353104Z   Downloading supabase_functions-2.30.1-py3-none-any.whl.metadata (2.4 kB)
+2026-06-03T20:46:13.3545577Z Collecting storage3==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3619770Z   Downloading storage3-2.30.1-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:13.3785815Z Collecting supabase-auth==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3863812Z   Downloading supabase_auth-2.30.1-py3-none-any.whl.metadata (6.4 kB)
+2026-06-03T20:46:13.4048625Z Collecting postgrest==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4128228Z   Downloading postgrest-2.30.1-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.4325945Z Collecting httpx<0.29,>=0.26 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4401998Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:13.6615393Z Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6696847Z   Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (94 kB)
+2026-06-03T20:46:13.6959442Z Collecting deprecation>=2.1.0 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7050549Z   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.7984485Z Collecting pydantic<3.0,>=1.9 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.8067409Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-06-03T20:46:13.8683513Z Collecting typing-extensions>=4.14.0 (from realtime==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.8763385Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-06-03T20:46:13.8813645Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:13.8892987Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:13.9632454Z Collecting pyiceberg>=0.10.0 (from storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.9709131Z   Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+2026-06-03T20:46:13.9959357Z Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0032424Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:14.0191255Z Collecting strenum>=0.4.15 (from supabase-functions==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0273463Z   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-06-03T20:46:14.0483067Z Collecting anyio (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0557327Z   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+2026-06-03T20:46:14.0741389Z Collecting httpcore==1.* (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0821697Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-06-03T20:46:14.0988553Z Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.1065707Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-06-03T20:46:14.1262453Z Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.1337607Z   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+2026-06-03T20:46:14.1495264Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.1568846Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.1711399Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.1794708Z   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:14.1955882Z Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.2036271Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:14.7999405Z Collecting pydantic-core==2.46.4 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.8081094Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.8242241Z Collecting typing-inspection>=0.4.2 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.8319083Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.8515117Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r requirements.txt (line 3))
+2026-06-03T20:46:14.8592522Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:14.8764565Z Collecting pdfminer.six==20251230 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.8838810Z   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:15.0024735Z Collecting pypdfium2>=4.18.0 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.0106369Z   Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (68 kB)
+2026-06-03T20:46:15.1682334Z Collecting cryptography>=36.0.0 (from pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.1777080Z   Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-06-03T20:46:15.1921848Z Collecting et-xmlfile (from openpyxl->-r requirements.txt (line 5))
+2026-06-03T20:46:15.1998630Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-06-03T20:46:15.2249287Z Collecting starlette>=0.46.0 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:15.2331077Z   Downloading starlette-1.2.1-py3-none-any.whl.metadata (6.3 kB)
+2026-06-03T20:46:15.2510912Z Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:15.2588738Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-06-03T20:46:15.2790078Z Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 9))
+2026-06-03T20:46:15.2885320Z   Downloading click-8.4.1-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:15.3091998Z Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3174214Z   Downloading altair-6.1.0-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:15.3362770Z Collecting blinker<2,>=1.5.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3441878Z   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:15.3629672Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3706171Z   Downloading cachetools-7.1.4-py3-none-any.whl.metadata (5.5 kB)
+2026-06-03T20:46:15.3943371Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4045463Z   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+2026-06-03T20:46:15.6351660Z Collecting numpy<3,>=1.23 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6433906Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:15.6621381Z Collecting packaging>=20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6699577Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.7683042Z Collecting pandas<4,>=1.4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.7761087Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-06-03T20:46:15.8209220Z Collecting pydeck<1,>=0.8.0b4 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8290505Z   Downloading pydeck-0.9.2-py2.py3-none-any.whl.metadata (4.2 kB)
+2026-06-03T20:46:15.9578489Z Collecting protobuf<8,>=3.20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9669885Z   Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-06-03T20:46:16.0403334Z Collecting pyarrow>=7.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.0480311Z   Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+2026-06-03T20:46:16.0676308Z Collecting tenacity<10,>=8.1.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.0777426Z   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:16.0923675Z Collecting toml<2,>=0.10.1 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.0998940Z   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:16.1347940Z Collecting httptools>=0.6.3 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1425824Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-06-03T20:46:16.1595954Z Collecting python-multipart>=0.0.10 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1672835Z   Downloading python_multipart-0.0.30-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:16.1820313Z Collecting itsdangerous>=2.1.2 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1909493Z   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-06-03T20:46:16.2316938Z Collecting watchdog<7,>=2.1.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.2402263Z   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+2026-06-03T20:46:16.2618194Z Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.2692050Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:16.3492536Z Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.3571914Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-06-03T20:46:16.3897260Z Collecting narwhals>=2.4.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.3983221Z   Downloading narwhals-2.22.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:16.4203033Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.4279142Z   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:16.4435542Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.4511629Z   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:16.4710386Z Collecting python-dateutil>=2.8.2 (from pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.4794186Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-06-03T20:46:16.5863709Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:16.5942870Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-06-03T20:46:16.6097785Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:16.6176618Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-06-03T20:46:16.6686942Z Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.6766139Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-06-03T20:46:16.6936465Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.7009506Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-06-03T20:46:16.7171757Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.7257287Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:16.7471111Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.7549187Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-06-03T20:46:17.0461719Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:17.0541134Z   Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-06-03T20:46:17.1031985Z Collecting mmh3<6.0.0,>=4.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.1110097Z   Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+2026-06-03T20:46:17.1457397Z Collecting rich<15.0.0,>=10.11.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.1537740Z   Downloading rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+2026-06-03T20:46:17.1709852Z Collecting strictyaml<2.0.0,>=1.7.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.1789034Z   Downloading strictyaml-1.7.3-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:17.2023649Z Collecting fsspec>=2023.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.2100933Z   Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+2026-06-03T20:46:17.2464986Z Collecting pyparsing<4.0.0,>=3.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.2549568Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-06-03T20:46:17.3067280Z Collecting pyroaring<2.0.0,>=1.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.3144262Z   Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-06-03T20:46:17.3193341Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:17.3268444Z   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+2026-06-03T20:46:17.3875494Z Collecting zstandard<1.0.0,>=0.13.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.3954241Z   Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB)
+2026-06-03T20:46:17.4183297Z Collecting markdown-it-py>=2.2.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.4260513Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-06-03T20:46:17.4495386Z Collecting pygments<3.0.0,>=2.13.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.4594943Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:17.4777645Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.4856272Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:17.5119929Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:17.5201115Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-06-03T20:46:17.7169979Z Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.7262329Z   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-06-03T20:46:17.8488878Z Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:17.8568139Z   Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-06-03T20:46:17.8732745Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-06-03T20:46:17.8870151Z Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (214 kB)
+2026-06-03T20:46:17.9077587Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-06-03T20:46:17.9218328Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-06-03T20:46:17.9368260Z Downloading supabase-2.30.1-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.9473036Z Downloading postgrest-2.30.1-py3-none-any.whl (23 kB)
+2026-06-03T20:46:17.9573900Z Downloading realtime-2.30.1-py3-none-any.whl (22 kB)
+2026-06-03T20:46:17.9672631Z Downloading storage3-2.30.1-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.9778084Z Downloading supabase_auth-2.30.1-py3-none-any.whl (48 kB)
+2026-06-03T20:46:17.9897909Z Downloading supabase_functions-2.30.1-py3-none-any.whl (8.8 kB)
+2026-06-03T20:46:17.9998395Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-06-03T20:46:18.0182847Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:18.0310441Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-06-03T20:46:18.0447508Z Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+2026-06-03T20:46:18.0555306Z Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+2026-06-03T20:46:18.0736237Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:18.0837935Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-06-03T20:46:18.1138365Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-06-03T20:46:18.1865522Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 30.7 MB/s  0:00:00
+2026-06-03T20:46:18.1943233Z Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+2026-06-03T20:46:18.2064907Z Downloading pdfplumber-0.11.9-py3-none-any.whl (60 kB)
+2026-06-03T20:46:18.2160111Z Downloading pdfminer_six-20251230-py3-none-any.whl (6.6 MB)
+2026-06-03T20:46:18.3256236Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 62.0 MB/s  0:00:00
+2026-06-03T20:46:18.3341232Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-06-03T20:46:18.3468958Z Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+2026-06-03T20:46:18.3569089Z Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+2026-06-03T20:46:18.3677691Z Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+2026-06-03T20:46:18.3775640Z Downloading uvicorn-0.48.0-py3-none-any.whl (71 kB)
+2026-06-03T20:46:18.3876818Z Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-06-03T20:46:18.4521248Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 111.0 MB/s  0:00:00
+2026-06-03T20:46:18.4600384Z Downloading streamlit-1.58.0-py3-none-any.whl (9.2 MB)
+2026-06-03T20:46:18.5194688Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 159.6 MB/s  0:00:00
+2026-06-03T20:46:18.5286531Z Downloading altair-6.1.0-py3-none-any.whl (796 kB)
+2026-06-03T20:46:18.5343066Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.0/797.0 kB 154.8 MB/s  0:00:00
+2026-06-03T20:46:18.5421372Z Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-06-03T20:46:18.5519650Z Downloading click-8.4.1-py3-none-any.whl (116 kB)
+2026-06-03T20:46:18.5622146Z Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+2026-06-03T20:46:18.5720052Z Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+2026-06-03T20:46:18.5811915Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-06-03T20:46:18.6625040Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 211.2 MB/s  0:00:00
+2026-06-03T20:46:18.6703017Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-06-03T20:46:18.7122868Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 279.0 MB/s  0:00:00
+2026-06-03T20:46:18.7247050Z Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-06-03T20:46:18.7364520Z Downloading pydeck-0.9.2-py2.py3-none-any.whl (11.3 MB)
+2026-06-03T20:46:18.7800935Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 273.8 MB/s  0:00:00
+2026-06-03T20:46:18.7878885Z Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+2026-06-03T20:46:18.7984557Z Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+2026-06-03T20:46:18.8083083Z Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+2026-06-03T20:46:18.8192288Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-06-03T20:46:18.8301025Z Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+2026-06-03T20:46:18.8397782Z Downloading plotly-6.8.0-py3-none-any.whl (9.9 MB)
+2026-06-03T20:46:18.8713976Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 331.8 MB/s  0:00:00
+2026-06-03T20:46:18.8799044Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-06-03T20:46:18.8900420Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:18.8993101Z Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+2026-06-03T20:46:18.9087436Z Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+2026-06-03T20:46:18.9251143Z Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-06-03T20:46:18.9405939Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 333.9 MB/s  0:00:00
+2026-06-03T20:46:18.9482906Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2026-06-03T20:46:18.9605314Z Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:18.9704574Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-06-03T20:46:18.9796856Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-06-03T20:46:18.9926676Z Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-06-03T20:46:19.0025698Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-06-03T20:46:19.0125502Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-06-03T20:46:19.0221857Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-06-03T20:46:19.0320490Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-06-03T20:46:19.0420280Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-06-03T20:46:19.0518880Z Downloading narwhals-2.22.0-py3-none-any.whl (453 kB)
+2026-06-03T20:46:19.0626757Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-06-03T20:46:19.0764065Z Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (48.8 MB)
+2026-06-03T20:46:19.2657387Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.8/48.8 MB 260.2 MB/s  0:00:00
+2026-06-03T20:46:19.2785783Z Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (721 kB)
+2026-06-03T20:46:19.2859339Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 721.2/721.2 kB 104.2 MB/s  0:00:00
+2026-06-03T20:46:19.2958019Z Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+2026-06-03T20:46:19.3050561Z Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (103 kB)
+2026-06-03T20:46:19.3158786Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-06-03T20:46:19.3255592Z Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.2 MB)
+2026-06-03T20:46:19.3357310Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 245.6 MB/s  0:00:00
+2026-06-03T20:46:19.3455872Z Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+2026-06-03T20:46:19.3573540Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-06-03T20:46:19.3687092Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 104.1 MB/s  0:00:00
+2026-06-03T20:46:19.3781499Z Downloading strictyaml-1.7.3-py3-none-any.whl (123 kB)
+2026-06-03T20:46:19.3883357Z Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+2026-06-03T20:46:19.4120031Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 246.4 MB/s  0:00:00
+2026-06-03T20:46:19.4196025Z Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+2026-06-03T20:46:19.4293701Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-06-03T20:46:19.4387005Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-06-03T20:46:19.4479814Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-06-03T20:46:19.4572613Z Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-06-03T20:46:19.4700436Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 327.8 MB/s  0:00:00
+2026-06-03T20:46:19.4777457Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-06-03T20:46:19.4877153Z Downloading python_multipart-0.0.30-py3-none-any.whl (29 kB)
+2026-06-03T20:46:19.4966174Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-06-03T20:46:19.5058901Z Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (378 kB)
+2026-06-03T20:46:19.5180471Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:19.5273912Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-06-03T20:46:19.5367914Z Downloading starlette-1.2.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:19.5459463Z Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-06-03T20:46:19.5549309Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-06-03T20:46:19.5645160Z Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (106 kB)
+2026-06-03T20:46:19.5738735Z Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2026-06-03T20:46:19.5836116Z Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (58 kB)
+2026-06-03T20:46:19.5946764Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-06-03T20:46:19.6036951Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-06-03T20:46:19.9536750Z Installing collected packages: xlwt, strenum, pyroaring, zstandard, xlrd, websockets, watchdog, urllib3, typing-extensions, toml, tenacity, soupsieve, smmap, six, rpds-py, python-multipart, pypdfium2, pyparsing, pyjwt, pygments, pycparser, pyarrow, protobuf, propcache, Pillow, packaging, numpy, narwhals, multidict, mmh3, mdurl, MarkupSafe, itsdangerous, idna, hyperframe, httptools, hpack, h11, fsspec, et-xmlfile, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, yarl, uvicorn, typing-inspection, requests, referencing, python-dateutil, pydantic-core, plotly, openpyxl, markdown-it-py, jinja2, httpcore, h2, gitdb, deprecation, cffi, beautifulsoup4, anyio, strictyaml, starlette, rich, pydeck, pydantic, pandas, jsonschema-specifications, httpx, gitpython, cryptography, realtime, pyiceberg, pdfminer.six, jsonschema, fastapi, supabase-functions, supabase-auth, storage3, postgrest, pdfplumber, altair, supabase, streamlit
+2026-06-03T20:46:37.1157524Z 
+2026-06-03T20:46:37.1198414Z Successfully installed MarkupSafe-3.0.3 Pillow-12.2.0 altair-6.1.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 beautifulsoup4-4.14.3 blinker-1.9.0 cachetools-6.2.6 certifi-2026.5.20 cffi-2.0.0 charset_normalizer-3.4.7 click-8.4.1 cryptography-48.0.0 deprecation-2.1.0 et-xmlfile-2.0.0 fastapi-0.136.3 fsspec-2026.4.0 gitdb-4.0.12 gitpython-3.1.50 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 narwhals-2.22.0 numpy-2.4.6 openpyxl-3.1.5 packaging-26.2 pandas-3.0.3 pdfminer.six-20251230 pdfplumber-0.11.9 plotly-6.8.0 postgrest-2.30.1 propcache-0.5.2 protobuf-7.35.0 pyarrow-24.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydeck-0.9.2 pygments-2.20.0 pyiceberg-0.11.1 pyjwt-2.13.0 pyparsing-3.3.2 pypdfium2-5.9.0 pyroaring-1.1.0 python-dateutil-2.9.0.post0 python-multipart-0.0.30 realtime-2.30.1 referencing-0.37.0 requests-2.34.2 rich-14.3.4 rpds-py-2026.5.1 six-1.17.0 smmap-5.0.3 soupsieve-2.8.4 starlette-1.2.1 storage3-2.30.1 streamlit-1.58.0 strenum-0.4.15 strictyaml-1.7.3 supabase-2.30.1 supabase-auth-2.30.1 supabase-functions-2.30.1 tenacity-9.1.4 toml-0.10.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.48.0 watchdog-6.0.0 websockets-15.0.1 xlrd-2.0.2 xlwt-1.3.0 yarl-1.24.2 zstandard-0.25.0
+2026-06-03T20:46:37.1207434Z 
+2026-06-03T20:46:37.1207752Z [notice] A new release of pip is available: 26.1.1 -> 26.1.2
+2026-06-03T20:46:37.1208497Z [notice] To update, run: pip install --upgrade pip
+2026-06-03T20:46:37.5195376Z ##[group]Run python scrape_youth_olympics.py
+2026-06-03T20:46:37.5195783Z [36;1mpython scrape_youth_olympics.py[0m
+2026-06-03T20:46:37.5224481Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:37.5224772Z env:
+2026-06-03T20:46:37.5225017Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:37.5225409Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:37.5225875Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:37.5226314Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:37.5226714Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:37.5227096Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:37.5227493Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:37.5228431Z   SUPABASE_URL: ***
+2026-06-03T20:46:37.5229756Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:37.5230035Z ##[endgroup]
+2026-06-03T20:46:53.0547638Z Youth Olympics/WFG scraper starting — 2026-06-03T20:46:38.827542+00:00
+2026-06-03T20:46:53.0569554Z   YOG events found: 18
+2026-06-03T20:46:53.0569834Z   WFG/WCG 2023 events found: 12
+2026-06-03T20:46:53.0570321Z Done — written=0, failed=0, skipped=30
+2026-06-03T20:46:53.5573149Z ##[group]Run python scrape_universiade.py
+2026-06-03T20:46:53.5573784Z [36;1mpython scrape_universiade.py[0m
+2026-06-03T20:46:53.5602231Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:53.5602517Z env:
+2026-06-03T20:46:53.5602776Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:53.5603162Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:53.5603623Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:53.5604071Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:53.5604515Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:53.5604910Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:53.5605300Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:53.5606113Z   SUPABASE_URL: ***
+2026-06-03T20:46:53.5607462Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:53.5607744Z ##[endgroup]
+2026-06-03T20:47:52.2411249Z Universiade scraper starting — 2026-06-03T20:46:54.398463+00:00
+2026-06-03T20:47:52.2411831Z   304 events already done
+2026-06-03T20:47:52.2412199Z   304 events found across 31 editions
+2026-06-03T20:47:52.2412750Z Done — written=0, skipped=304, failed=0
+2026-06-03T20:47:55.3843360Z ##[group]Run python scrape_continental_games.py
+2026-06-03T20:47:55.3843804Z [36;1mpython scrape_continental_games.py[0m
+2026-06-03T20:47:55.3871973Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:55.3872254Z env:
+2026-06-03T20:47:55.3872500Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:55.3872908Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:55.3873362Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:55.3873815Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:55.3874220Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:55.3874615Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:55.3875017Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:55.3875614Z   SUPABASE_URL: ***
+2026-06-03T20:47:55.3876956Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:55.3877229Z ##[endgroup]
+2026-06-03T21:40:17.5531501Z Continental Games scraper starting — 2026-06-03T20:47:56.318042+00:00
+2026-06-03T21:40:17.5532189Z   295 event result sets discovered
+2026-06-03T21:40:17.5532584Z Done — written=0, skipped=295, failed=0
+2026-06-03T21:40:17.8699951Z ##[group]Run python scrape_ncaa_regular.py
+2026-06-03T21:40:17.8700343Z [36;1mpython scrape_ncaa_regular.py[0m
+2026-06-03T21:40:17.8728312Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:40:17.8728574Z env:
+2026-06-03T21:40:17.8728810Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:40:17.8729169Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:17.8729617Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:40:17.8730054Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:17.8730496Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:17.8731034Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:17.8731449Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:40:17.8732023Z   SUPABASE_URL: ***
+2026-06-03T21:40:17.8733335Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:40:17.8733605Z ##[endgroup]
+2026-06-03T21:40:57.2176722Z 
+2026-06-03T21:40:57.2177942Z Source: ACC 2025 Men score sheets — https://acc.escrimeresults.com/2025/ACC2025Mscoresheets.pdf
+2026-06-03T21:40:57.2182027Z   Failed https://acc.escrimeresults.com/2025/ACC2025Mscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (9cbfeeda-d683-44a2-ab1a-7e87cc0171d5, null, a412d63a-e825-41e1-991c-f8d59dae7b7c, null, 0, 2026-06-03 21:40:28.104801, null, Adam Yang, United States, null, 2, 3, 13, 9, 4, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:28.104801+00, null, {}).'}
+2026-06-03T21:40:57.2184112Z 
+2026-06-03T21:40:57.2184773Z Source: ACC 2025 Women score sheets — https://acc.escrimeresults.com/2025/ACC2025Wscoresheets.pdf
+2026-06-03T21:40:57.2186936Z   Failed https://acc.escrimeresults.com/2025/ACC2025Wscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (c11f108e-92b8-436b-a2cd-9eff1418d65a, null, 0e00d99e-69ba-42bd-b3b5-29bae00c909d, null, 0, 2026-06-03 21:40:33.099132, null, Anisha Kundu, United States, null, 2, 3, 10, 12, -2, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:33.099132+00, null, {}).'}
+2026-06-03T21:40:57.2188680Z 
+2026-06-03T21:40:57.2189149Z Source: ACC 2024 Men score sheets — https://acc.escrimeresults.com/2024/ACC2024Mscoresheets.pdf
+2026-06-03T21:40:57.2191698Z   Failed https://acc.escrimeresults.com/2024/ACC2024Mscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (8836840f-5252-4476-af89-ada70c0c74a6, null, b1fe9384-846f-4d2e-904a-dfc50ae77e20, null, 0, 2026-06-03 21:40:37.172653, null, Adam Yang, United States, null, 0, 2, 3, 10, -7, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:37.172653+00, null, {}).'}
+2026-06-03T21:40:57.2193562Z 
+2026-06-03T21:40:57.2194482Z Source: ACC 2024 Women score sheets — https://acc.escrimeresults.com/2024/ACC2024Wscoresheets.pdf
+2026-06-03T21:40:57.2196524Z   Failed https://acc.escrimeresults.com/2024/ACC2024Wscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (a88978fd-7d43-4357-8da5-5281b9c85f3a, null, 9567af25-0499-4d88-9066-9cccc81273cb, null, 0, 2026-06-03 21:40:41.048568, null, Anisha Kundu, United States, null, 2, 3, 6, 4, 2, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:41.048568+00, null, {}).'}
+2026-06-03T21:40:57.2198191Z 
+2026-06-03T21:40:57.2198565Z Source: ACC 2023 Men score sheets — https://acc.escrimeresults.com/2023/ACC2023Mscoresheets.pdf
+2026-06-03T21:40:57.2201056Z   Failed https://acc.escrimeresults.com/2023/ACC2023Mscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (594a26b3-2500-47ce-99d1-16699d606a61, null, f0b21f44-044b-4bf5-8a98-c01a76fc4a10, null, 0, 2026-06-03 21:40:44.81536, null, Adam Yang, United States, null, 0, 2, 3, 10, -7, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:44.81536+00, null, {}).'}
+2026-06-03T21:40:57.2202723Z 
+2026-06-03T21:40:57.2203092Z Source: ACC 2023 Women score sheets — https://acc.escrimeresults.com/2023/ACC2023Wscoresheets.pdf
+2026-06-03T21:40:57.2205003Z   Failed https://acc.escrimeresults.com/2023/ACC2023Wscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (b800be2e-a4d6-4675-ba38-666bc6b3c255, null, 7a9e56ff-6141-40a5-bae4-82fc228ac5f1, null, 0, 2026-06-03 21:40:48.650393, null, Anisha Kundu, United States, null, 1, 3, 4, 7, -3, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:48.650393+00, null, {}).'}
+2026-06-03T21:40:57.2206731Z 
+2026-06-03T21:40:57.2207069Z Source: ACC 2022 Men score sheets — https://acc.escrimeresults.com/2022/ACC2022Mscoresheets.pdf
+2026-06-03T21:40:57.2208942Z   Failed https://acc.escrimeresults.com/2022/ACC2022Mscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (0793adec-8584-4cec-9f7c-a9a2c43d9a5c, null, 3a5549e7-66e9-4062-9753-cc247c2ad907, null, 0, 2026-06-03 21:40:52.309754, null, Adam Yang, United States, null, 3, 3, 15, 7, 8, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:52.309754+00, null, {}).'}
+2026-06-03T21:40:57.2210502Z 
+2026-06-03T21:40:57.2210945Z Source: ACC 2022 Women score sheets — https://acc.escrimeresults.com/2022/ACC2022Wscoresheets.pdf
+2026-06-03T21:40:57.2212860Z   Failed https://acc.escrimeresults.com/2022/ACC2022Wscoresheets.pdf: {'message': 'null value in column "rank" of relation "fs_results" violates not-null constraint', 'code': '23502', 'hint': None, 'details': 'Failing row contains (2de3ff63-f8e3-4b2e-b16e-cfc9e36a8ce3, null, 5a34f3f6-f61a-4471-982a-11dfc01b3878, null, 0, 2026-06-03 21:40:56.030707, null, Andrea Shang, United States, null, 0, 2, 5, 10, -5, United States, null, null, {"school": "Boston College", "source": "ncaa_regular", "weapon":..., 2026-06-03 21:40:56.030707+00, null, {}).'}
+2026-06-03T21:40:57.2214445Z 
+2026-06-03T21:40:57.2214679Z Done — tournaments=0, results=0, bouts=0, failed=8, skipped=9
+2026-06-03T21:40:57.4708545Z ##[group]Run python scrape_ncaa.py
+2026-06-03T21:40:57.4708916Z [36;1mpython scrape_ncaa.py[0m
+2026-06-03T21:40:57.4737437Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:40:57.4737718Z env:
+2026-06-03T21:40:57.4737957Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:40:57.4738357Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:57.4738799Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:40:57.4739231Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:57.4739624Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:57.4740004Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:57.4740386Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:40:57.4741088Z   SUPABASE_URL: ***
+2026-06-03T21:40:57.4742422Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:40:57.4742689Z ##[endgroup]
+2026-06-03T21:40:58.4620966Z NCAA scraper starting — 2026-06-03T21:40:58.324134+00:00
+2026-06-03T21:40:58.4621266Z 
+2026-06-03T21:40:58.4621468Z Done — written=0, failed=0, skipped=26
+2026-06-03T21:40:58.5937481Z ##[group]Run python scrape_youth_majors.py
+2026-06-03T21:40:58.5938059Z [36;1mpython scrape_youth_majors.py[0m
+2026-06-03T21:40:58.5977960Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:40:58.5978383Z env:
+2026-06-03T21:40:58.5978733Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:40:58.5979331Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:58.5980061Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:40:58.5981058Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:58.5981689Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:58.5982291Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:40:58.5982917Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:40:58.5983706Z   SUPABASE_URL: ***
+2026-06-03T21:40:58.5985946Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:40:58.5986354Z ##[endgroup]
+2026-06-03T21:45:26.5847026Z Youth majors scraper starting - 2026-06-03T21:40:59.435054+00:00
+2026-06-03T21:45:26.5847684Z   FIE youth worlds season 2003
+2026-06-03T21:45:26.5849404Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5851164Z     FIE result page HTTP 500: https://fie.org/competitions/2003/223
+2026-06-03T21:45:26.5851682Z   FIE youth worlds season 2004
+2026-06-03T21:45:26.5852285Z   FIE season search failed for 2004: FIE search HTTP 500 season=2004 page=1; trying monthly fallback
+2026-06-03T21:45:26.5853107Z     FIE month fallback failed season=2004 month=1: FIE search HTTP 500 season=2004 page=1
+2026-06-03T21:45:26.5853802Z     FIE month fallback failed season=2004 month=2: FIE search HTTP 500 season=2004 page=1
+2026-06-03T21:45:26.5854352Z     FIE month fallback failed season=2004 month=3: FIE search HTTP 500 season=2004 page=1
+2026-06-03T21:45:26.5855421Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(234, sabre, men) already exists.'}
+2026-06-03T21:45:26.5856350Z   FIE youth worlds season 2005
+2026-06-03T21:45:26.5857241Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5858136Z   FIE youth worlds season 2006
+2026-06-03T21:45:26.5858998Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5859885Z   FIE youth worlds season 2007
+2026-06-03T21:45:26.5861003Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5861931Z   FIE youth worlds season 2008
+2026-06-03T21:45:26.5862354Z   FIE season search failed for 2008: FIE search HTTP 500 season=2008 page=1; trying monthly fallback
+2026-06-03T21:45:26.5862958Z     FIE month fallback failed season=2008 month=1: FIE search HTTP 500 season=2008 page=1
+2026-06-03T21:45:26.5863500Z     FIE month fallback failed season=2008 month=5: FIE search HTTP 500 season=2008 page=1
+2026-06-03T21:45:26.5864850Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5865842Z     FIE result page HTTP 500: https://fie.org/competitions/2008/231
+2026-06-03T21:45:26.5866276Z     FIE result page HTTP 500: https://fie.org/competitions/2008/230
+2026-06-03T21:45:26.5866678Z     FIE result page HTTP 500: https://fie.org/competitions/2008/234
+2026-06-03T21:45:26.5867106Z     FIE result page HTTP 500: https://fie.org/competitions/2008/229
+2026-06-03T21:45:26.5867519Z     FIE result page HTTP 500: https://fie.org/competitions/2008/233
+2026-06-03T21:45:26.5867919Z     FIE result page HTTP 500: https://fie.org/competitions/2008/232
+2026-06-03T21:45:26.5868265Z   FIE youth worlds season 2009
+2026-06-03T21:45:26.5868688Z   FIE season search failed for 2009: FIE search HTTP 500 season=2009 page=1; trying monthly fallback
+2026-06-03T21:45:26.5869268Z     FIE month fallback failed season=2009 month=1: FIE search HTTP 500 season=2009 page=1
+2026-06-03T21:45:26.5870346Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5871590Z   FIE youth worlds season 2010
+2026-06-03T21:45:26.5872481Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(233, sabre, women) already exists.'}
+2026-06-03T21:45:26.5873474Z     FIE result page HTTP 500: https://fie.org/competitions/2010/233
+2026-06-03T21:45:26.5873899Z     FIE result page HTTP 500: https://fie.org/competitions/2010/232
+2026-06-03T21:45:26.5874299Z     FIE result page HTTP 500: https://fie.org/competitions/2010/231
+2026-06-03T21:45:26.5874692Z     FIE result page HTTP 500: https://fie.org/competitions/2010/230
+2026-06-03T21:45:26.5875113Z     FIE result page HTTP 500: https://fie.org/competitions/2010/229
+2026-06-03T21:45:26.5875511Z     FIE result page HTTP 500: https://fie.org/competitions/2010/234
+2026-06-03T21:45:26.5875857Z   FIE youth worlds season 2011
+2026-06-03T21:45:26.5876725Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5877693Z     FIE result page HTTP 500: https://fie.org/competitions/2011/229
+2026-06-03T21:45:26.5878103Z     FIE result page HTTP 500: https://fie.org/competitions/2011/232
+2026-06-03T21:45:26.5878505Z     FIE result page HTTP 500: https://fie.org/competitions/2011/233
+2026-06-03T21:45:26.5878903Z     FIE result page HTTP 500: https://fie.org/competitions/2011/230
+2026-06-03T21:45:26.5879303Z     FIE result page HTTP 500: https://fie.org/competitions/2011/231
+2026-06-03T21:45:26.5879704Z     FIE result page HTTP 500: https://fie.org/competitions/2011/234
+2026-06-03T21:45:26.5880054Z   FIE youth worlds season 2012
+2026-06-03T21:45:26.5881147Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5882072Z   FIE youth worlds season 2013
+2026-06-03T21:45:26.5882947Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(233, sabre, women) already exists.'}
+2026-06-03T21:45:26.5883841Z   FIE youth worlds season 2014
+2026-06-03T21:45:26.5884865Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(233, sabre, women) already exists.'}
+2026-06-03T21:45:26.5885857Z     FIE result page HTTP 500: https://fie.org/competitions/2014/232
+2026-06-03T21:45:26.5886285Z     FIE result page HTTP 500: https://fie.org/competitions/2014/229
+2026-06-03T21:45:26.5886691Z     FIE result page HTTP 500: https://fie.org/competitions/2014/230
+2026-06-03T21:45:26.5887096Z     FIE result page HTTP 500: https://fie.org/competitions/2014/231
+2026-06-03T21:45:26.5887497Z     FIE result page HTTP 500: https://fie.org/competitions/2014/234
+2026-06-03T21:45:26.5887842Z   FIE youth worlds season 2015
+2026-06-03T21:45:26.5888728Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5889631Z   FIE youth worlds season 2016
+2026-06-03T21:45:26.5890495Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5891713Z   FIE youth worlds season 2017
+2026-06-03T21:45:26.5892572Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5893465Z   FIE youth worlds season 2018
+2026-06-03T21:45:26.5894416Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(231, foil, women) already exists.'}
+2026-06-03T21:45:26.5895401Z   FIE youth worlds season 2019
+2026-06-03T21:45:26.5896295Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5897194Z   FIE youth worlds season 2020
+2026-06-03T21:45:26.5897442Z   FIE youth worlds season 2021
+2026-06-03T21:45:26.5898291Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:26.5899174Z   FIE youth worlds season 2022
+2026-06-03T21:45:37.1753607Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:37.1754657Z   FIE youth worlds season 2023
+2026-06-03T21:45:37.1755627Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:37.1756559Z   FIE youth worlds season 2024
+2026-06-03T21:45:37.1757446Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(233, sabre, women) already exists.'}
+2026-06-03T21:45:37.1758345Z   FIE youth worlds season 2025
+2026-06-03T21:45:37.1759739Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:37.1760886Z   FIE youth worlds season 2026
+2026-06-03T21:45:37.1761792Z   Tournament upsert failed; retrying without fie_id: {'message': 'duplicate key value violates unique constraint "fs_tournaments_fie_id_weapon_gender_key"', 'code': '23505', 'hint': None, 'details': 'Key (fie_id, weapon, gender)=(229, epee, women) already exists.'}
+2026-06-03T21:45:37.1762732Z   No Olympedia EYOF fencing editions discovered.
+2026-06-03T21:45:37.1763082Z Done - written=0, failed=144, skipped=295
+2026-06-03T21:45:37.3409961Z ##[group]Run python scrape_paralympics.py
+2026-06-03T21:45:37.3410346Z [36;1mpython scrape_paralympics.py[0m
+2026-06-03T21:45:37.3437964Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:45:37.3438228Z env:
+2026-06-03T21:45:37.3438470Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:45:37.3438844Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:45:37.3439286Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:45:37.3439718Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:45:37.3440300Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:45:37.3440903Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:45:37.3441291Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:45:37.3441802Z   SUPABASE_URL: ***
+2026-06-03T21:45:37.3443128Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:45:37.3443394Z ##[endgroup]
+2026-06-03T21:46:19.2265781Z Paralympics scraper starting — 2026-06-03T21:45:38.240501+00:00
+2026-06-03T21:46:19.2266650Z   170 events already done
+2026-06-03T21:46:19.2266979Z 
+2026-06-03T21:46:19.2267319Z   Edition: Arnhem 1980 (arnhem-1980)
+2026-06-03T21:46:19.2267784Z     17 events found
+2026-06-03T21:46:19.2268185Z     Skipping unclassifiable: Mixed Foil Individual 1A
+2026-06-03T21:46:19.2268746Z     Skipping unclassifiable: Mixed Foil Individual 1B
+2026-06-03T21:46:19.2269275Z     Skipping unclassifiable: Mixed Foil Individual 1C
+2026-06-03T21:46:19.2269600Z 
+2026-06-03T21:46:19.2269947Z   Edition: Stoke Mandeville New York 1984 (stoke-mandeville-new-york-1984)
+2026-06-03T21:46:19.2270520Z     15 events found
+2026-06-03T21:46:19.2270991Z 
+2026-06-03T21:46:19.2271140Z   Edition: Seoul 1988 (seoul-1988)
+2026-06-03T21:46:19.2271498Z     14 events found
+2026-06-03T21:46:19.2271676Z 
+2026-06-03T21:46:19.2271829Z   Edition: Barcelona 1992 (barcelona-1992)
+2026-06-03T21:46:19.2272221Z     14 events found
+2026-06-03T21:46:19.2272392Z 
+2026-06-03T21:46:19.2272553Z   Edition: Atlanta 1996 (atlanta-1996)
+2026-06-03T21:46:19.2272917Z     15 events found
+2026-06-03T21:46:19.2273075Z 
+2026-06-03T21:46:19.2273218Z   Edition: Sydney 2000 (sydney-2000)
+2026-06-03T21:46:19.2273575Z     15 events found
+2026-06-03T21:46:19.2273750Z 
+2026-06-03T21:46:19.2273881Z   Edition: Athens 2004 (athens-2004)
+2026-06-03T21:46:19.2274256Z     15 events found
+2026-06-03T21:46:19.2274434Z 
+2026-06-03T21:46:19.2274590Z   Edition: Beijing 2008 (beijing-2008)
+2026-06-03T21:46:19.2274989Z     10 events found
+2026-06-03T21:46:19.2275178Z 
+2026-06-03T21:46:19.2275316Z   Edition: London 2012 (london-2012)
+2026-06-03T21:46:19.2275700Z     12 events found
+2026-06-03T21:46:19.2275877Z 
+2026-06-03T21:46:19.2276019Z   Edition: Rio 2016 (rio-2016)
+2026-06-03T21:46:19.2276371Z     14 events found
+2026-06-03T21:46:19.2276548Z 
+2026-06-03T21:46:19.2276686Z   Edition: Tokyo 2020 (tokyo-2020)
+2026-06-03T21:46:19.2277040Z     16 events found
+2026-06-03T21:46:19.2277213Z 
+2026-06-03T21:46:19.2277498Z   Edition: Paris 2024 Paralympic Games (paris-2024-paralympic-games)
+2026-06-03T21:46:19.2278027Z     16 events found
+2026-06-03T21:46:19.2278207Z 
+2026-06-03T21:46:19.2278502Z Done — written=0, skipped=173, failed=0
+2026-06-03T21:46:19.4121597Z ##[group]Run python scrape_news.py
+2026-06-03T21:46:19.4121950Z [36;1mpython scrape_news.py[0m
+2026-06-03T21:46:19.4149785Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:46:19.4150064Z env:
+2026-06-03T21:46:19.4150304Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:46:19.4150870Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:19.4151321Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:46:19.4151762Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:19.4152157Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:19.4152545Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:19.4152932Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:46:19.4153464Z   SUPABASE_URL: ***
+2026-06-03T21:46:19.4154777Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:46:19.4155045Z ##[endgroup]
+2026-06-03T21:46:24.0526405Z   Listing fetch/parse failed for british_fencing_news: 403 Client Error: Forbidden for url: https://www.britishfencing.com/news/
+2026-06-03T21:46:24.0527097Z Done - fetched=0, written=0, failed=1, skipped=18
+2026-06-03T21:46:24.2121554Z ##[group]Run python scrape_commonwealth.py
+2026-06-03T21:46:24.2121964Z [36;1mpython scrape_commonwealth.py[0m
+2026-06-03T21:46:24.2150994Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:46:24.2151267Z env:
+2026-06-03T21:46:24.2151504Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:46:24.2151881Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:24.2152330Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:46:24.2152771Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:24.2153162Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:24.2153551Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:46:24.2153933Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:46:24.2154445Z   SUPABASE_URL: ***
+2026-06-03T21:46:24.2155762Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:46:24.2156030Z ##[endgroup]
+2026-06-03T21:47:31.6425135Z Commonwealth scraper starting - 2026-06-03T21:46:25.075728+00:00
+2026-06-03T21:47:31.6427390Z   30 event IDs already done
+2026-06-03T21:47:31.6427894Z   Editions discovered: 18 (12 standalone, 6 Games)
+2026-06-03T21:47:31.6428463Z   Probe https://www.olympedia.org/sports/FEN -> 200
+2026-06-03T21:47:31.6429127Z   Probe https://www.commonwealthfencing.org/events/cfc10/results.html -> 200
+2026-06-03T21:47:31.6429860Z   Probe https://www.cffc2022.com/final-results -> 200
+2026-06-03T21:47:31.6430406Z   Probe https://www.cffc2022.com/live-results -> 200
+2026-06-03T21:47:31.6431385Z   Fetching CFF PDF https://www.commonwealthfencing.org/images/results/1998_open_results.pdf
+2026-06-03T21:47:31.6432062Z     6 events parsed
+2026-06-03T21:47:31.6432675Z   Fetching CFF PDF https://www.commonwealthfencing.org/images/results/2006_open_results.pdf
+2026-06-03T21:47:31.6433331Z     12 events parsed
+2026-06-03T21:47:31.6433952Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-epee-teams-canberra-4/
+2026-06-03T21:47:31.6434655Z     men-epee-team: 9 rows
+2026-06-03T21:47:31.6435347Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-epee-individual-canberra-10/
+2026-06-03T21:47:31.6436099Z     men-epee-individual: 41 rows
+2026-06-03T21:47:31.6436747Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-foil-teams-canberra-4/
+2026-06-03T21:47:31.6437402Z     men-foil-team: 7 rows
+2026-06-03T21:47:31.6438036Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-foil-individual-canberra-10/
+2026-06-03T21:47:31.6438741Z     men-foil-individual: 34 rows
+2026-06-03T21:47:31.6439378Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-epee-teams-canberra-3/
+2026-06-03T21:47:31.6440075Z     women-epee-team: 8 rows
+2026-06-03T21:47:31.6440862Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-sabre-teams-canberra-2/
+2026-06-03T21:47:31.6441557Z     women-sabre-team: 6 rows
+2026-06-03T21:47:31.6442254Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-epee-individual-canberra-9/
+2026-06-03T21:47:31.6442980Z     women-epee-individual: 39 rows
+2026-06-03T21:47:31.6443648Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-foil-teams-canberra-2/
+2026-06-03T21:47:31.6444338Z     women-foil-team: 5 rows
+2026-06-03T21:47:31.6444963Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-sabre-teams-canberra-2/
+2026-06-03T21:47:31.6445656Z     men-sabre-team: 8 rows
+2026-06-03T21:47:31.6446333Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-sabre-individual-canberra-6/
+2026-06-03T21:47:31.6447081Z     women-sabre-individual: 30 rows
+2026-06-03T21:47:31.6447782Z   Fetching 2018 result page https://www.ausfencing.org/competitions/womens-foil-individual-canberra-9/
+2026-06-03T21:47:31.6448509Z     women-foil-individual: 27 rows
+2026-06-03T21:47:31.6449779Z   Fetching 2018 result page https://www.ausfencing.org/competitions/mens-sabre-individual-canberra-6/
+2026-06-03T21:47:31.6450509Z     men-sabre-individual: 38 rows
+2026-06-03T21:47:31.6452928Z Done - written=0, failed=0, skipped=30
+2026-06-03T21:47:31.8204705Z ##[group]Run python scrape_cism.py
+2026-06-03T21:47:31.8205235Z [36;1mpython scrape_cism.py[0m
+2026-06-03T21:47:31.8250308Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:47:31.8251010Z env:
+2026-06-03T21:47:31.8251374Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:47:31.8251981Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:31.8252705Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:47:31.8253409Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:31.8254056Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:31.8254702Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:31.8255352Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:47:31.8256158Z   SUPABASE_URL: ***
+2026-06-03T21:47:31.8258513Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:47:31.8258915Z ##[endgroup]
+2026-06-03T21:47:43.0871464Z CISM scraper starting — 2026-06-03T21:47:32.731055+00:00
+2026-06-03T21:47:43.0872071Z   1 CISM World Games fencing editions found
+2026-06-03T21:47:43.0872384Z 
+2026-06-03T21:47:43.0872630Z   Edition: CISM WSG Wuhan 2019 - 47th WMC Fencing (wuhan-2019)
+2026-06-03T21:47:43.0873173Z     No extractable fencing events found
+2026-06-03T21:47:43.0873444Z 
+2026-06-03T21:47:43.0873666Z Done — written=0, skipped=1, failed=0
+2026-06-03T21:47:43.5538493Z ##[group]Run python scrape_mediterranean_games.py
+2026-06-03T21:47:43.5538907Z [36;1mpython scrape_mediterranean_games.py[0m
+2026-06-03T21:47:43.5567222Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:47:43.5567491Z env:
+2026-06-03T21:47:43.5567725Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:47:43.5568099Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:43.5568537Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:47:43.5568970Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:43.5569389Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:43.5569776Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:43.5570157Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:47:43.5570840Z   SUPABASE_URL: ***
+2026-06-03T21:47:43.5572163Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:47:43.5572426Z ##[endgroup]
+2026-06-03T21:47:52.9541714Z Mediterranean Games scraper starting — 2026-06-03T21:47:44.440532+00:00
+2026-06-03T21:47:52.9543023Z   Skipping edition Alexandria 1951: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9544804Z   Skipping edition Barcelona 1955: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9546552Z   Skipping edition Beirut 1959: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9548283Z   Skipping edition Naples 1963: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9549453Z   Skipping edition Tunis 1967: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9550438Z   Skipping edition Izmir 1971: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9551715Z   Skipping edition Algiers 1975: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9552732Z   Skipping edition Split 1979: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9554208Z   Skipping edition Casablanca 1983: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9555226Z   Skipping edition Latakia 1987: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9556217Z   Skipping edition Athens 1991: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9557271Z   Skipping edition Languedoc-Roussillon 1993: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9558321Z   Skipping edition Bari 1997: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9559324Z   Skipping edition Tunis 2001: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9560316Z   Skipping edition Almeria 2005: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9561746Z   Skipping edition Pescara 2009: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9562737Z   Skipping edition Mersin 2013: unstructured public coverage; Olympedia manual coverage is incomplete and no static structured fencing result table was confirmed
+2026-06-03T21:47:52.9563277Z 
+2026-06-03T21:47:52.9563405Z   Edition: Tarragona 2018 (tarragona_html)
+2026-06-03T21:47:52.9563694Z     4 events found
+2026-06-03T21:47:52.9563831Z 
+2026-06-03T21:47:52.9563939Z   Edition: Oran 2022 (oran_pdf)
+2026-06-03T21:47:52.9564189Z     6 events found
+2026-06-03T21:47:52.9564327Z 
+2026-06-03T21:47:52.9564634Z Done — events_written=0, skipped=10, failed=0; editions_imported=0/2
+2026-06-03T21:47:53.3070496Z ##[group]Run python scrape_maccabiah.py
+2026-06-03T21:47:53.3071075Z [36;1mpython scrape_maccabiah.py[0m
+2026-06-03T21:47:53.3098956Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:47:53.3099241Z env:
+2026-06-03T21:47:53.3099479Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:47:53.3099854Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:53.3100305Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:47:53.3100882Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:53.3101277Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:53.3101662Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:53.3102050Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:47:53.3102575Z   SUPABASE_URL: ***
+2026-06-03T21:47:53.3103922Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:47:53.3104189Z ##[endgroup]
+2026-06-03T21:47:59.3962421Z Maccabiah scraper starting - 2026-06-03T21:47:54.148774+00:00
+2026-06-03T21:47:59.3962902Z   30 Maccabiah fencing event/stub rows discovered
+2026-06-03T21:47:59.3963542Z   Skipping stub maccabiah:m20:no-structured-results: official page contains fencing regulations but no structured result link
+2026-06-03T21:47:59.3964127Z Done - written=0, failed=0, skipped=30
+2026-06-03T21:47:59.5294328Z ##[group]Run python scrape_masters_games.py
+2026-06-03T21:47:59.5294909Z [36;1mpython scrape_masters_games.py[0m
+2026-06-03T21:47:59.5323326Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:47:59.5323595Z env:
+2026-06-03T21:47:59.5323835Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:47:59.5324211Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:59.5324663Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:47:59.5325107Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:59.5325706Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:59.5326087Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:47:59.5326466Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:47:59.5327031Z   SUPABASE_URL: ***
+2026-06-03T21:47:59.5328396Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:47:59.5328663Z ##[endgroup]
+2026-06-03T21:48:05.5744897Z Masters Games scraper starting - 2026-06-03T21:48:00.402540+00:00
+2026-06-03T21:48:05.5745523Z   2 IMGA fencing sources found
+2026-06-03T21:48:05.5746279Z   Warning: no extractable text in PDF https://www.worldmasterssport.com/wp-content/uploads/2025/07/Fencing-Results-WMG-1998.pdf; skipping image-only source
+2026-06-03T21:48:05.5746990Z Done - written=0, skipped=30, failed=0
+2026-06-03T21:48:05.7469444Z ##[group]Run python scrape_south_american_games.py
+2026-06-03T21:48:05.7469849Z [36;1mpython scrape_south_american_games.py[0m
+2026-06-03T21:48:05.7498359Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:48:05.7498640Z env:
+2026-06-03T21:48:05.7498884Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:48:05.7499260Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:05.7499706Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:48:05.7500146Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:05.7500547Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:05.7501157Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:05.7501567Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:48:05.7502095Z   SUPABASE_URL: ***
+2026-06-03T21:48:05.7503410Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:48:05.7503681Z ##[endgroup]
+2026-06-03T21:48:11.8428123Z South American Games scraper starting - 2026-06-03T21:48:06.609523+00:00
+2026-06-03T21:48:11.8428812Z   Probing Medellin 2010: https://en.wikipedia.org/wiki/Fencing_at_the_2010_South_American_Games
+2026-06-03T21:48:11.8429294Z     12 events found
+2026-06-03T21:48:11.8429711Z   Probing Asuncion 2022: https://en.wikipedia.org/wiki/Fencing_at_the_2022_South_American_Games
+2026-06-03T21:48:11.8430159Z     12 events found
+2026-06-03T21:48:11.8430405Z Done - written=0, skipped=24, failed=0
+2026-06-03T21:48:11.9966610Z ##[group]Run python scrape_cac_games.py
+2026-06-03T21:48:11.9966972Z [36;1mpython scrape_cac_games.py[0m
+2026-06-03T21:48:11.9995239Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:48:11.9995510Z env:
+2026-06-03T21:48:11.9995747Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:48:11.9996127Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:11.9996570Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:48:11.9997002Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:11.9997389Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:11.9997805Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:11.9998207Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:48:11.9998716Z   SUPABASE_URL: ***
+2026-06-03T21:48:12.0000047Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:48:12.0000309Z ##[endgroup]
+2026-06-03T21:48:12.9937975Z CAC Games scraper starting — 2026-06-03T21:48:12.778674+00:00
+2026-06-03T21:48:12.9938568Z   Skipping edition 1938: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9939143Z   Skipping edition 1946: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9939669Z   Skipping edition 1950: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9940213Z   Skipping edition 1954: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9940921Z   Skipping edition 1959: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9941821Z   Skipping edition 1962: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9942333Z   Skipping edition 1966: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9942843Z   Skipping edition 1970: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9943360Z   Skipping edition 1974: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9943874Z   Skipping edition 1978: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9944383Z   Skipping edition 1982: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9944908Z   Skipping edition 1986: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9945420Z   Skipping edition 1990: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9945931Z   Skipping edition 1993: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9946455Z   Skipping edition 1998: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9946977Z   Skipping edition 2002: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9947488Z   Skipping edition 2006: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9947999Z   Skipping edition 2010: No structured public per-event fencing result archive found.
+2026-06-03T21:48:12.9948578Z   Skipping edition 2014: Official PDFs are bracket-style and lack reliable final standings tables.
+2026-06-03T21:48:12.9949177Z   Skipping edition 2023: Official S3 result PDFs returned AccessDenied during probe.
+2026-06-03T21:48:12.9949506Z 
+2026-06-03T21:48:12.9949696Z Done — written=0, skipped=32, failed=0
+2026-06-03T21:48:13.1175817Z ##[group]Run python scrape_island_games.py
+2026-06-03T21:48:13.1176180Z [36;1mpython scrape_island_games.py[0m
+2026-06-03T21:48:13.1203657Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:48:13.1203919Z env:
+2026-06-03T21:48:13.1204166Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:48:13.1204526Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:13.1204956Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:48:13.1205398Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:13.1205793Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:13.1206177Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:48:13.1206557Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:48:13.1207050Z   SUPABASE_URL: ***
+2026-06-03T21:48:13.1208383Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:48:13.1208652Z ##[endgroup]
+2026-06-03T21:52:12.5343991Z Island Games/Oceania scraper starting - 2026-06-03T21:48:13.957552+00:00
+2026-06-03T21:52:12.5344677Z   Island Games events: 0
+2026-06-03T21:52:12.5344945Z   Oceania events: 38
+2026-06-03T21:52:12.5345211Z Done - written=0, skipped=38, failed=0
+2026-06-03T21:52:12.7149846Z Post job cleanup.
+2026-06-03T21:52:12.8456086Z (node:2994) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T21:52:12.8456826Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T21:52:12.8642141Z Post job cleanup.
+2026-06-03T21:52:12.9490086Z [command]/usr/bin/git version
+2026-06-03T21:52:12.9560028Z git version 2.54.0
+2026-06-03T21:52:12.9597669Z Temporarily overriding HOME='/home/runner/work/_temp/c8458215-c5ad-4657-ad17-f1af53cb546b' before making global git config changes
+2026-06-03T21:52:12.9598965Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T21:52:12.9603850Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T21:52:12.9643308Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T21:52:12.9678065Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T21:52:12.9919318Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T21:52:12.9945597Z http.https://github.com/.extraheader
+2026-06-03T21:52:12.9955914Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-06-03T21:52:12.9988117Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T21:52:13.0225599Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T21:52:13.0259821Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T21:52:13.0644965Z Cleaning up orphan processes
+2026-06-03T21:52:13.0972647Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -19,9 +19,9 @@ DEFAULT_MAX_OPPONENTS = 50
 SOURCE = "compute_h2h_graph"
 
 BOUT_SELECTS = (
-    "id,source_key,tournament_id,weapon,fencer_a,fencer_b,winner_id,score_a,score_b,bout_date,meeting_date,date,played_at",
-    "id,tournament_id,weapon,fencer_a,fencer_b,winner_id,score_a,score_b,bout_date,meeting_date,date,played_at",
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round,created_at",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b",
 )
 TOURNAMENT_SELECTS = (
     "id,weapon,end_date,date,start_date",
@@ -280,10 +280,10 @@ def build_h2h_graph_rows(
             continue
 
         fencer_a = ensure_node_info(
-            bout.get("fencer_a"), row_to_key, node_info, fencer_lookup
+            bout.get("fencer_a_id"), row_to_key, node_info, fencer_lookup
         )
         fencer_b = ensure_node_info(
-            bout.get("fencer_b"), row_to_key, node_info, fencer_lookup
+            bout.get("fencer_b_id"), row_to_key, node_info, fencer_lookup
         )
         if not fencer_a or not fencer_b:
             skipped["missing_fencers"] += 1

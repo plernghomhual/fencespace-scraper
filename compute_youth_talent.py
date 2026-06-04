@@ -480,7 +480,7 @@ def compute_youth_talent(
         if update_state:
             set_state(SOURCE, "last_summary", summary)
         if run_log:
-            run_log.complete(written, failed, skipped)
+            run_log.complete(written=written, failed=failed, skipped=skipped)
         return summary
     except Exception as exc:
         if run_log:

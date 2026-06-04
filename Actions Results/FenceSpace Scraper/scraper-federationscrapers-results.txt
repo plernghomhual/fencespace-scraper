@@ -1,0 +1,2687 @@
+﻿2026-06-03T20:46:09.5306242Z Current runner version: '2.334.0'
+2026-06-03T20:46:09.5331958Z ##[group]Runner Image Provisioner
+2026-06-03T20:46:09.5332849Z Hosted Compute Agent
+2026-06-03T20:46:09.5334085Z Version: 20260520.533
+2026-06-03T20:46:09.5334793Z Commit: 189110e25284a9812c124fd27b339e2fb4f2f9db
+2026-06-03T20:46:09.5335631Z Build Date: 2026-05-20T17:44:04Z
+2026-06-03T20:46:09.5336435Z Worker ID: {40dc3082-8fb2-43c5-a425-332053698980}
+2026-06-03T20:46:09.5337217Z Azure Region: eastus
+2026-06-03T20:46:09.5337943Z ##[endgroup]
+2026-06-03T20:46:09.5339409Z ##[group]Operating System
+2026-06-03T20:46:09.5340138Z Ubuntu
+2026-06-03T20:46:09.5340772Z 24.04.4
+2026-06-03T20:46:09.5341347Z LTS
+2026-06-03T20:46:09.5342052Z ##[endgroup]
+2026-06-03T20:46:09.5342666Z ##[group]Runner Image
+2026-06-03T20:46:09.5343493Z Image: ubuntu-24.04
+2026-06-03T20:46:09.5344172Z Version: 20260525.161.1
+2026-06-03T20:46:09.5345560Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260525.161/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-03T20:46:09.5347173Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260525.161
+2026-06-03T20:46:09.5348338Z ##[endgroup]
+2026-06-03T20:46:09.5349594Z ##[group]GITHUB_TOKEN Permissions
+2026-06-03T20:46:09.5352190Z Contents: read
+2026-06-03T20:46:09.5353236Z Metadata: read
+2026-06-03T20:46:09.5354068Z Packages: read
+2026-06-03T20:46:09.5355123Z ##[endgroup]
+2026-06-03T20:46:09.5357739Z Secret source: Actions
+2026-06-03T20:46:09.5358642Z Prepare workflow directory
+2026-06-03T20:46:09.5761376Z Prepare all required actions
+2026-06-03T20:46:09.5798510Z Getting action download info
+2026-06-03T20:46:10.0422870Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-06-03T20:46:10.1582331Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-06-03T20:46:10.3444805Z Complete job name: federation-scrapers
+2026-06-03T20:46:10.4344304Z ##[group]Run actions/checkout@v4
+2026-06-03T20:46:10.4345315Z with:
+2026-06-03T20:46:10.4345861Z   repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.4351375Z   token: ***
+2026-06-03T20:46:10.4351859Z   ssh-strict: true
+2026-06-03T20:46:10.4352350Z   ssh-user: git
+2026-06-03T20:46:10.4352853Z   persist-credentials: true
+2026-06-03T20:46:10.4353557Z   clean: true
+2026-06-03T20:46:10.4354062Z   sparse-checkout-cone-mode: true
+2026-06-03T20:46:10.4354638Z   fetch-depth: 1
+2026-06-03T20:46:10.4355127Z   fetch-tags: false
+2026-06-03T20:46:10.4355635Z   show-progress: true
+2026-06-03T20:46:10.4356139Z   lfs: false
+2026-06-03T20:46:10.4356594Z   submodules: false
+2026-06-03T20:46:10.4357085Z   set-safe-directory: true
+2026-06-03T20:46:10.4357830Z env:
+2026-06-03T20:46:10.4358323Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:10.4358937Z ##[endgroup]
+2026-06-03T20:46:10.5517723Z Syncing repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.5520122Z ##[group]Getting Git version info
+2026-06-03T20:46:10.5521059Z Working directory is '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.5522491Z [command]/usr/bin/git version
+2026-06-03T20:46:10.5570151Z git version 2.54.0
+2026-06-03T20:46:10.5624486Z ##[endgroup]
+2026-06-03T20:46:10.5641537Z Temporarily overriding HOME='/home/runner/work/_temp/6a29ac2f-2ce1-432d-8c65-de19e92e9b99' before making global git config changes
+2026-06-03T20:46:10.5647289Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T20:46:10.5649955Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.5707361Z Deleting the contents of '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.5714171Z ##[group]Initializing the repository
+2026-06-03T20:46:10.5719583Z [command]/usr/bin/git init /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.5798852Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-03T20:46:10.5800586Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-03T20:46:10.5801962Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-03T20:46:10.5803416Z hint: call:
+2026-06-03T20:46:10.5804163Z hint:
+2026-06-03T20:46:10.5805089Z hint: 	git config --global init.defaultBranch <name>
+2026-06-03T20:46:10.5806190Z hint:
+2026-06-03T20:46:10.5807264Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-03T20:46:10.5809016Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-03T20:46:10.5810442Z hint:
+2026-06-03T20:46:10.5811237Z hint: 	git branch -m <name>
+2026-06-03T20:46:10.5812148Z hint:
+2026-06-03T20:46:10.5813572Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-03T20:46:10.5816145Z Initialized empty Git repository in /home/runner/work/fencespace-scraper/fencespace-scraper/.git/
+2026-06-03T20:46:10.5824093Z [command]/usr/bin/git remote add origin https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.5870426Z ##[endgroup]
+2026-06-03T20:46:10.5871898Z ##[group]Disabling automatic garbage collection
+2026-06-03T20:46:10.5875473Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-03T20:46:10.5924942Z ##[endgroup]
+2026-06-03T20:46:10.5926597Z ##[group]Setting up auth
+2026-06-03T20:46:10.5928470Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T20:46:10.5963805Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T20:46:10.6295824Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T20:46:10.6332483Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T20:46:10.6574449Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T20:46:10.6608964Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T20:46:10.6845802Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-03T20:46:10.6882551Z ##[endgroup]
+2026-06-03T20:46:10.6884954Z ##[group]Fetching the repository
+2026-06-03T20:46:10.6892101Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +584d2ceca644571bf8fee6973576d9000d6784ee:refs/remotes/origin/main
+2026-06-03T20:46:11.2160863Z From https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:11.2163725Z  * [new ref]         584d2ceca644571bf8fee6973576d9000d6784ee -> origin/main
+2026-06-03T20:46:11.2194917Z ##[endgroup]
+2026-06-03T20:46:11.2197273Z ##[group]Determining the checkout info
+2026-06-03T20:46:11.2199882Z ##[endgroup]
+2026-06-03T20:46:11.2203762Z [command]/usr/bin/git sparse-checkout disable
+2026-06-03T20:46:11.2249743Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-03T20:46:11.2281804Z ##[group]Checking out the ref
+2026-06-03T20:46:11.2283910Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-06-03T20:46:11.2863603Z Switched to a new branch 'main'
+2026-06-03T20:46:11.2866054Z branch 'main' set up to track 'origin/main'.
+2026-06-03T20:46:11.2874083Z ##[endgroup]
+2026-06-03T20:46:11.2918048Z [command]/usr/bin/git log -1 --format=%H
+2026-06-03T20:46:11.2943580Z 584d2ceca644571bf8fee6973576d9000d6784ee
+2026-06-03T20:46:11.3307308Z ##[group]Run actions/setup-python@v5
+2026-06-03T20:46:11.3308602Z with:
+2026-06-03T20:46:11.3309527Z   python-version: 3.11
+2026-06-03T20:46:11.3310602Z   check-latest: false
+2026-06-03T20:46:11.3322978Z   token: ***
+2026-06-03T20:46:11.3324305Z   update-environment: true
+2026-06-03T20:46:11.3325725Z   allow-prereleases: false
+2026-06-03T20:46:11.3326857Z   freethreaded: false
+2026-06-03T20:46:11.3327873Z env:
+2026-06-03T20:46:11.3328858Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.3330155Z ##[endgroup]
+2026-06-03T20:46:11.4675461Z ##[group]Installed versions
+2026-06-03T20:46:11.4759374Z (node:2272) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T20:46:11.4763559Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T20:46:11.4765343Z Successfully set up CPython (3.11.15)
+2026-06-03T20:46:11.4767217Z ##[endgroup]
+2026-06-03T20:46:11.4948608Z ##[group]Run pip install -r requirements.txt
+2026-06-03T20:46:11.4950152Z [36;1mpip install -r requirements.txt[0m
+2026-06-03T20:46:11.4991773Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:11.4992899Z env:
+2026-06-03T20:46:11.4994095Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.4995671Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.4997552Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:11.4999427Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5001129Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5002891Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.5004894Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:11.5006372Z ##[endgroup]
+2026-06-03T20:46:12.2750813Z Collecting requests (from -r requirements.txt (line 1))
+2026-06-03T20:46:12.3474010Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-06-03T20:46:12.3787593Z Collecting supabase (from -r requirements.txt (line 2))
+2026-06-03T20:46:12.3830068Z   Downloading supabase-2.30.1-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:12.4039309Z Collecting beautifulsoup4 (from -r requirements.txt (line 3))
+2026-06-03T20:46:12.4091016Z   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+2026-06-03T20:46:12.4448160Z Collecting pdfplumber (from -r requirements.txt (line 4))
+2026-06-03T20:46:12.4490174Z   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+2026-06-03T20:46:12.4731676Z Collecting openpyxl (from -r requirements.txt (line 5))
+2026-06-03T20:46:12.4770570Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:12.4877351Z Collecting xlrd (from -r requirements.txt (line 6))
+2026-06-03T20:46:12.4915881Z   Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.5019843Z Collecting xlwt (from -r requirements.txt (line 7))
+2026-06-03T20:46:12.5059282Z   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.5441737Z Collecting fastapi (from -r requirements.txt (line 8))
+2026-06-03T20:46:12.5490763Z   Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+2026-06-03T20:46:12.5776272Z Collecting uvicorn (from -r requirements.txt (line 9))
+2026-06-03T20:46:12.5819016Z   Downloading uvicorn-0.48.0-py3-none-any.whl.metadata (6.7 kB)
+2026-06-03T20:46:12.6508736Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:12.6557691Z   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:12.7913969Z Collecting Pillow (from -r requirements.txt (line 11))
+2026-06-03T20:46:12.7962048Z   Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-06-03T20:46:12.8304778Z Collecting streamlit (from -r requirements.txt (line 12))
+2026-06-03T20:46:12.8347731Z   Downloading streamlit-1.58.0-py3-none-any.whl.metadata (9.6 kB)
+2026-06-03T20:46:12.8649302Z Collecting plotly (from -r requirements.txt (line 13))
+2026-06-03T20:46:12.8691942Z   Downloading plotly-6.8.0-py3-none-any.whl.metadata (9.0 kB)
+2026-06-03T20:46:12.9685863Z Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.9734129Z   Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-06-03T20:46:12.9902002Z Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.9943262Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-06-03T20:46:13.0122523Z Collecting urllib3<3,>=1.26 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.0164144Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-06-03T20:46:13.0320630Z Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:13.0361491Z   Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:13.0505310Z Collecting realtime==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0546379Z   Downloading realtime-2.30.1-py3-none-any.whl.metadata (7.0 kB)
+2026-06-03T20:46:13.0675819Z Collecting supabase-functions==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0714538Z   Downloading supabase_functions-2.30.1-py3-none-any.whl.metadata (2.4 kB)
+2026-06-03T20:46:13.0848160Z Collecting storage3==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.0886998Z   Downloading storage3-2.30.1-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:13.1040974Z Collecting supabase-auth==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1082087Z   Downloading supabase_auth-2.30.1-py3-none-any.whl.metadata (6.4 kB)
+2026-06-03T20:46:13.1229587Z Collecting postgrest==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1268180Z   Downloading postgrest-2.30.1-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.1436054Z Collecting httpx<0.29,>=0.26 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1474572Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:13.3452432Z Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3496312Z   Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (94 kB)
+2026-06-03T20:46:13.3686194Z Collecting deprecation>=2.1.0 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3728540Z   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.4618845Z Collecting pydantic<3.0,>=1.9 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4661452Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-06-03T20:46:13.5142786Z Collecting typing-extensions>=4.14.0 (from realtime==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.5197952Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-06-03T20:46:13.5247737Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:13.5292639Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:13.5944060Z Collecting pyiceberg>=0.10.0 (from storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.5987799Z   Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+2026-06-03T20:46:13.6192589Z Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6232552Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.6347486Z Collecting strenum>=0.4.15 (from supabase-functions==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6385883Z   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-06-03T20:46:13.6567313Z Collecting anyio (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6606273Z   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+2026-06-03T20:46:13.6755054Z Collecting httpcore==1.* (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6797589Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-06-03T20:46:13.6925971Z Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.6966125Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-06-03T20:46:13.7117417Z Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7158109Z   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+2026-06-03T20:46:13.7269124Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7309107Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:13.7409386Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7448315Z   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.7557493Z Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.7600429Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:14.3232148Z Collecting pydantic-core==2.46.4 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.3279430Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.3390865Z Collecting typing-inspection>=0.4.2 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.3434205Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.3589783Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r requirements.txt (line 3))
+2026-06-03T20:46:14.3639216Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:14.3766416Z Collecting pdfminer.six==20251230 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.3807582Z   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.4842394Z Collecting pypdfium2>=4.18.0 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.4888919Z   Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (68 kB)
+2026-06-03T20:46:14.6344990Z Collecting cryptography>=36.0.0 (from pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.6388178Z   Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.6504330Z Collecting et-xmlfile (from openpyxl->-r requirements.txt (line 5))
+2026-06-03T20:46:14.6544766Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-06-03T20:46:14.6746971Z Collecting starlette>=0.46.0 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.6791972Z   Downloading starlette-1.2.1-py3-none-any.whl.metadata (6.3 kB)
+2026-06-03T20:46:14.6927112Z Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.6966082Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.7125614Z Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 9))
+2026-06-03T20:46:14.7167513Z   Downloading click-8.4.1-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.7332498Z Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7377011Z   Downloading altair-6.1.0-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:14.7511186Z Collecting blinker<2,>=1.5.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7550434Z   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:14.7692605Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7733505Z   Downloading cachetools-7.1.4-py3-none-any.whl.metadata (5.5 kB)
+2026-06-03T20:46:14.7922925Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7983563Z   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+2026-06-03T20:46:15.0099924Z Collecting numpy<3,>=1.23 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.0150857Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:15.0302804Z Collecting packaging>=20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.0344733Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.1277753Z Collecting pandas<4,>=1.4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1324236Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-06-03T20:46:15.1697653Z Collecting pydeck<1,>=0.8.0b4 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1740214Z   Downloading pydeck-0.9.2-py2.py3-none-any.whl.metadata (4.2 kB)
+2026-06-03T20:46:15.3011603Z Collecting protobuf<8,>=3.20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3054181Z   Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-06-03T20:46:15.3742149Z Collecting pyarrow>=7.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3786980Z   Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+2026-06-03T20:46:15.3939067Z Collecting tenacity<10,>=8.1.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3977728Z   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.4074069Z Collecting toml<2,>=0.10.1 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4111921Z   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:15.4409433Z Collecting httptools>=0.6.3 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4452944Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.4588942Z Collecting python-multipart>=0.0.10 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4629755Z   Downloading python_multipart-0.0.30-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:15.4748818Z Collecting itsdangerous>=2.1.2 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4791160Z   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-06-03T20:46:15.5174402Z Collecting watchdog<7,>=2.1.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5220184Z   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+2026-06-03T20:46:15.5386720Z Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5442805Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:15.6225069Z Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6272328Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-06-03T20:46:15.6563386Z Collecting narwhals>=2.4.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6608652Z   Downloading narwhals-2.22.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:15.6782936Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6821674Z   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.6934154Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6974450Z   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:15.7127337Z Collecting python-dateutil>=2.8.2 (from pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.7168487Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-06-03T20:46:15.8196417Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.8239412Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-06-03T20:46:15.8349731Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.8387864Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-06-03T20:46:15.8832126Z Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.8875500Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-06-03T20:46:15.9008007Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9048539Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-06-03T20:46:15.9226589Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9266990Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:15.9436519Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9480072Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-06-03T20:46:16.2354713Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.2398623Z   Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-06-03T20:46:16.2863036Z Collecting mmh3<6.0.0,>=4.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.2928815Z   Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+2026-06-03T20:46:16.3244877Z Collecting rich<15.0.0,>=10.11.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.3289215Z   Downloading rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+2026-06-03T20:46:16.3420248Z Collecting strictyaml<2.0.0,>=1.7.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.3466601Z   Downloading strictyaml-1.7.3-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:16.3661435Z Collecting fsspec>=2023.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.3711019Z   Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+2026-06-03T20:46:16.4041011Z Collecting pyparsing<4.0.0,>=3.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.4084360Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-06-03T20:46:16.4585284Z Collecting pyroaring<2.0.0,>=1.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.4630216Z   Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-06-03T20:46:16.4680901Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.4720967Z   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+2026-06-03T20:46:16.5286372Z Collecting zstandard<1.0.0,>=0.13.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5330639Z   Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB)
+2026-06-03T20:46:16.5504436Z Collecting markdown-it-py>=2.2.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5548361Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-06-03T20:46:16.5729147Z Collecting pygments<3.0.0,>=2.13.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5771191Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:16.5927942Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5970786Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:16.6207084Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.6250059Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-06-03T20:46:16.8197195Z Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.8253718Z   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-06-03T20:46:16.9597568Z Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.9642703Z   Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-06-03T20:46:16.9773313Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-06-03T20:46:16.9855122Z Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (214 kB)
+2026-06-03T20:46:16.9965077Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-06-03T20:46:17.0026792Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-06-03T20:46:17.0111798Z Downloading supabase-2.30.1-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.0169950Z Downloading postgrest-2.30.1-py3-none-any.whl (23 kB)
+2026-06-03T20:46:17.0227668Z Downloading realtime-2.30.1-py3-none-any.whl (22 kB)
+2026-06-03T20:46:17.0287705Z Downloading storage3-2.30.1-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.0348899Z Downloading supabase_auth-2.30.1-py3-none-any.whl (48 kB)
+2026-06-03T20:46:17.0410102Z Downloading supabase_functions-2.30.1-py3-none-any.whl (8.8 kB)
+2026-06-03T20:46:17.0466310Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-06-03T20:46:17.0554032Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:17.0613517Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-06-03T20:46:17.0676677Z Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+2026-06-03T20:46:17.0738320Z Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+2026-06-03T20:46:17.0799130Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:17.0865008Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-06-03T20:46:17.1006815Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-06-03T20:46:17.1337189Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 68.8 MB/s  0:00:00
+2026-06-03T20:46:17.1382058Z Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+2026-06-03T20:46:17.1445634Z Downloading pdfplumber-0.11.9-py3-none-any.whl (60 kB)
+2026-06-03T20:46:17.1505629Z Downloading pdfminer_six-20251230-py3-none-any.whl (6.6 MB)
+2026-06-03T20:46:17.1989806Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 143.0 MB/s  0:00:00
+2026-06-03T20:46:17.2032567Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-06-03T20:46:17.2098471Z Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+2026-06-03T20:46:17.2162525Z Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+2026-06-03T20:46:17.2228639Z Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+2026-06-03T20:46:17.2334730Z Downloading uvicorn-0.48.0-py3-none-any.whl (71 kB)
+2026-06-03T20:46:17.2383736Z Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-06-03T20:46:17.2696970Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 237.1 MB/s  0:00:00
+2026-06-03T20:46:17.2744991Z Downloading streamlit-1.58.0-py3-none-any.whl (9.2 MB)
+2026-06-03T20:46:17.3100874Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 277.4 MB/s  0:00:00
+2026-06-03T20:46:17.3144535Z Downloading altair-6.1.0-py3-none-any.whl (796 kB)
+2026-06-03T20:46:17.3199389Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.0/797.0 kB 167.5 MB/s  0:00:00
+2026-06-03T20:46:17.3239126Z Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-06-03T20:46:17.3299811Z Downloading click-8.4.1-py3-none-any.whl (116 kB)
+2026-06-03T20:46:17.3409074Z Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+2026-06-03T20:46:17.3540479Z Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+2026-06-03T20:46:17.3602714Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-06-03T20:46:17.4123483Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 336.7 MB/s  0:00:00
+2026-06-03T20:46:17.4168037Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-06-03T20:46:17.4546783Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 311.2 MB/s  0:00:00
+2026-06-03T20:46:17.4591383Z Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-06-03T20:46:17.4666009Z Downloading pydeck-0.9.2-py2.py3-none-any.whl (11.3 MB)
+2026-06-03T20:46:17.5008648Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 349.6 MB/s  0:00:00
+2026-06-03T20:46:17.5054653Z Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+2026-06-03T20:46:17.5115233Z Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.5176069Z Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.5232515Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-06-03T20:46:17.5292865Z Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+2026-06-03T20:46:17.5353300Z Downloading plotly-6.8.0-py3-none-any.whl (9.9 MB)
+2026-06-03T20:46:17.5660190Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 340.9 MB/s  0:00:00
+2026-06-03T20:46:17.5701720Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-06-03T20:46:17.5760548Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:17.5829722Z Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+2026-06-03T20:46:17.5900779Z Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.5971283Z Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-06-03T20:46:17.6128409Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 351.3 MB/s  0:00:00
+2026-06-03T20:46:17.6185680Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2026-06-03T20:46:17.6258899Z Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.6471645Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-06-03T20:46:17.6537525Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-06-03T20:46:17.6606543Z Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.6664695Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.6727820Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-06-03T20:46:17.6790191Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-06-03T20:46:17.6851649Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-06-03T20:46:17.6912731Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-06-03T20:46:17.6979162Z Downloading narwhals-2.22.0-py3-none-any.whl (453 kB)
+2026-06-03T20:46:17.7051465Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-06-03T20:46:17.7115497Z Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (48.8 MB)
+2026-06-03T20:46:17.8679437Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.8/48.8 MB 317.0 MB/s  0:00:00
+2026-06-03T20:46:17.8727688Z Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (721 kB)
+2026-06-03T20:46:17.8780147Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 721.2/721.2 kB 151.5 MB/s  0:00:00
+2026-06-03T20:46:17.8821830Z Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.8882155Z Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (103 kB)
+2026-06-03T20:46:17.8942619Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-06-03T20:46:17.9006788Z Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.2 MB)
+2026-06-03T20:46:17.9103050Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 279.3 MB/s  0:00:00
+2026-06-03T20:46:17.9146307Z Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+2026-06-03T20:46:17.9216033Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-06-03T20:46:17.9282653Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 238.2 MB/s  0:00:00
+2026-06-03T20:46:17.9323464Z Downloading strictyaml-1.7.3-py3-none-any.whl (123 kB)
+2026-06-03T20:46:17.9387108Z Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+2026-06-03T20:46:17.9584361Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 305.2 MB/s  0:00:00
+2026-06-03T20:46:17.9627883Z Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+2026-06-03T20:46:17.9691921Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-06-03T20:46:17.9754054Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-06-03T20:46:17.9811256Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-06-03T20:46:17.9870057Z Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-06-03T20:46:18.0008607Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 312.0 MB/s  0:00:00
+2026-06-03T20:46:18.0052632Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-06-03T20:46:18.0115892Z Downloading python_multipart-0.0.30-py3-none-any.whl (29 kB)
+2026-06-03T20:46:18.0171984Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-06-03T20:46:18.0231900Z Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (378 kB)
+2026-06-03T20:46:18.0297443Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:18.0356436Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-06-03T20:46:18.0418590Z Downloading starlette-1.2.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:18.0475924Z Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-06-03T20:46:18.0531367Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-06-03T20:46:18.0589455Z Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (106 kB)
+2026-06-03T20:46:18.0655379Z Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2026-06-03T20:46:18.0724845Z Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (58 kB)
+2026-06-03T20:46:18.0788948Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-06-03T20:46:18.0846284Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-06-03T20:46:18.4385980Z Installing collected packages: xlwt, strenum, pyroaring, zstandard, xlrd, websockets, watchdog, urllib3, typing-extensions, toml, tenacity, soupsieve, smmap, six, rpds-py, python-multipart, pypdfium2, pyparsing, pyjwt, pygments, pycparser, pyarrow, protobuf, propcache, Pillow, packaging, numpy, narwhals, multidict, mmh3, mdurl, MarkupSafe, itsdangerous, idna, hyperframe, httptools, hpack, h11, fsspec, et-xmlfile, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, yarl, uvicorn, typing-inspection, requests, referencing, python-dateutil, pydantic-core, plotly, openpyxl, markdown-it-py, jinja2, httpcore, h2, gitdb, deprecation, cffi, beautifulsoup4, anyio, strictyaml, starlette, rich, pydeck, pydantic, pandas, jsonschema-specifications, httpx, gitpython, cryptography, realtime, pyiceberg, pdfminer.six, jsonschema, fastapi, supabase-functions, supabase-auth, storage3, postgrest, pdfplumber, altair, supabase, streamlit
+2026-06-03T20:46:35.2334579Z 
+2026-06-03T20:46:35.2374945Z Successfully installed MarkupSafe-3.0.3 Pillow-12.2.0 altair-6.1.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 beautifulsoup4-4.14.3 blinker-1.9.0 cachetools-6.2.6 certifi-2026.5.20 cffi-2.0.0 charset_normalizer-3.4.7 click-8.4.1 cryptography-48.0.0 deprecation-2.1.0 et-xmlfile-2.0.0 fastapi-0.136.3 fsspec-2026.4.0 gitdb-4.0.12 gitpython-3.1.50 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 narwhals-2.22.0 numpy-2.4.6 openpyxl-3.1.5 packaging-26.2 pandas-3.0.3 pdfminer.six-20251230 pdfplumber-0.11.9 plotly-6.8.0 postgrest-2.30.1 propcache-0.5.2 protobuf-7.35.0 pyarrow-24.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydeck-0.9.2 pygments-2.20.0 pyiceberg-0.11.1 pyjwt-2.13.0 pyparsing-3.3.2 pypdfium2-5.9.0 pyroaring-1.1.0 python-dateutil-2.9.0.post0 python-multipart-0.0.30 realtime-2.30.1 referencing-0.37.0 requests-2.34.2 rich-14.3.4 rpds-py-2026.5.1 six-1.17.0 smmap-5.0.3 soupsieve-2.8.4 starlette-1.2.1 storage3-2.30.1 streamlit-1.58.0 strenum-0.4.15 strictyaml-1.7.3 supabase-2.30.1 supabase-auth-2.30.1 supabase-functions-2.30.1 tenacity-9.1.4 toml-0.10.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.48.0 watchdog-6.0.0 websockets-15.0.1 xlrd-2.0.2 xlwt-1.3.0 yarl-1.24.2 zstandard-0.25.0
+2026-06-03T20:46:35.2384219Z 
+2026-06-03T20:46:35.2384671Z [notice] A new release of pip is available: 26.1.1 -> 26.1.2
+2026-06-03T20:46:35.2385123Z [notice] To update, run: pip install --upgrade pip
+2026-06-03T20:46:35.7117245Z ##[group]Run python scrape_clubs.py
+2026-06-03T20:46:35.7117602Z [36;1mpython scrape_clubs.py[0m
+2026-06-03T20:46:35.7147373Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:35.7147650Z env:
+2026-06-03T20:46:35.7147893Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:35.7148269Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.7148712Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:35.7149177Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.7149577Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.7149973Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.7150359Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:35.7151347Z   SUPABASE_URL: ***
+2026-06-03T20:46:35.7152679Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:35.7152941Z ##[endgroup]
+2026-06-03T20:47:05.4542780Z USA Fencing club scraper starting — 2026-06-03T20:46:36.553141+00:00
+2026-06-03T20:47:05.4547481Z   Total clubs reported by API: 20
+2026-06-03T20:47:05.4548155Z   Page 1 — 20 clubs (total so far: 20) hasMore: True
+2026-06-03T20:47:05.4548732Z   Page 2 — 20 clubs (total so far: 40) hasMore: True
+2026-06-03T20:47:05.4549284Z   Page 3 — 20 clubs (total so far: 60) hasMore: True
+2026-06-03T20:47:05.4549825Z   Page 4 — 20 clubs (total so far: 80) hasMore: True
+2026-06-03T20:47:05.4550369Z   Page 5 — 20 clubs (total so far: 100) hasMore: True
+2026-06-03T20:47:05.4550948Z   Page 6 — 20 clubs (total so far: 120) hasMore: True
+2026-06-03T20:47:05.4551493Z   Page 7 — 20 clubs (total so far: 140) hasMore: True
+2026-06-03T20:47:05.4552028Z   Page 8 — 20 clubs (total so far: 160) hasMore: True
+2026-06-03T20:47:05.4552559Z   Page 9 — 20 clubs (total so far: 180) hasMore: True
+2026-06-03T20:47:05.4553371Z   Page 10 — 20 clubs (total so far: 200) hasMore: True
+2026-06-03T20:47:05.4553940Z   Page 11 — 20 clubs (total so far: 220) hasMore: True
+2026-06-03T20:47:05.4554485Z   Page 12 — 20 clubs (total so far: 240) hasMore: True
+2026-06-03T20:47:05.4555038Z   Page 13 — 20 clubs (total so far: 260) hasMore: True
+2026-06-03T20:47:05.4555583Z   Page 14 — 20 clubs (total so far: 280) hasMore: True
+2026-06-03T20:47:05.4556133Z   Page 15 — 20 clubs (total so far: 300) hasMore: True
+2026-06-03T20:47:05.4556682Z   Page 16 — 20 clubs (total so far: 320) hasMore: True
+2026-06-03T20:47:05.4557234Z   Page 17 — 20 clubs (total so far: 340) hasMore: True
+2026-06-03T20:47:05.4557799Z   Page 18 — 20 clubs (total so far: 360) hasMore: True
+2026-06-03T20:47:05.4558350Z   Page 19 — 20 clubs (total so far: 380) hasMore: True
+2026-06-03T20:47:05.4558898Z   Page 20 — 20 clubs (total so far: 400) hasMore: True
+2026-06-03T20:47:05.4559453Z   Page 21 — 20 clubs (total so far: 420) hasMore: True
+2026-06-03T20:47:05.4560020Z   Page 22 — 20 clubs (total so far: 440) hasMore: True
+2026-06-03T20:47:05.4560555Z   Page 23 — 20 clubs (total so far: 460) hasMore: True
+2026-06-03T20:47:05.4561102Z   Page 24 — 20 clubs (total so far: 480) hasMore: True
+2026-06-03T20:47:05.4561644Z   Page 25 — 20 clubs (total so far: 500) hasMore: True
+2026-06-03T20:47:05.4562188Z   Page 26 — 20 clubs (total so far: 520) hasMore: True
+2026-06-03T20:47:05.4562757Z   Page 27 — 20 clubs (total so far: 540) hasMore: True
+2026-06-03T20:47:05.4563538Z   Page 28 — 20 clubs (total so far: 560) hasMore: True
+2026-06-03T20:47:05.4564080Z   Page 29 — 20 clubs (total so far: 580) hasMore: True
+2026-06-03T20:47:05.4564609Z   Page 30 — 20 clubs (total so far: 600) hasMore: True
+2026-06-03T20:47:05.4565174Z   Page 31 — 12 clubs (total so far: 612) hasMore: False
+2026-06-03T20:47:05.4565512Z 
+2026-06-03T20:47:05.4565770Z Done — 612 clubs scraped across 31 pages, 0 failed
+2026-06-03T20:47:05.4566321Z DB verification — 638 US clubs in fs_clubs
+2026-06-03T20:47:05.6342585Z ##[group]Run python scrape_referees.py
+2026-06-03T20:47:05.6342952Z [36;1mpython scrape_referees.py[0m
+2026-06-03T20:47:05.6371863Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:05.6372150Z env:
+2026-06-03T20:47:05.6372387Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:05.6372763Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:05.6373375Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:05.6373823Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:05.6374221Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:05.6374624Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:05.6375027Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:05.6375759Z   SUPABASE_URL: ***
+2026-06-03T20:47:05.6377092Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:05.6377360Z ##[endgroup]
+2026-06-03T20:47:30.8358361Z FIE referee scraper starting — 2026-06-03T20:47:06.554827+00:00
+2026-06-03T20:47:30.8359109Z Done — fetched=1722, written=1722, skipped=0
+2026-06-03T20:47:30.9981525Z ##[group]Run python scrape_coaches.py
+2026-06-03T20:47:30.9981888Z [36;1mpython scrape_coaches.py[0m
+2026-06-03T20:47:31.0010518Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:31.0010810Z env:
+2026-06-03T20:47:31.0011045Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:31.0011425Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:31.0011882Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:31.0012326Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:31.0012729Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:31.0013334Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:31.0013753Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:31.0014365Z   SUPABASE_URL: ***
+2026-06-03T20:47:31.0015735Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:31.0016013Z ##[endgroup]
+2026-06-03T20:49:01.0541123Z National team coach scraper starting — 2026-06-03T20:47:31.916328+00:00
+2026-06-03T20:49:01.0541677Z   https://federscherma.it/alto-livello/ returned HTTP 404
+2026-06-03T20:49:01.0542878Z   Failed to fetch https://koreafencing.org/: HTTPSConnectionPool(host='koreafencing.org', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='koreafencing.org', port=443): Failed to resolve 'koreafencing.org' ([Errno -2] Name or service not known)"))
+2026-06-03T20:49:01.0544379Z   https://fencing-jpn.jp/national/ returned HTTP 404
+2026-06-03T20:49:01.0545500Z   Failed to fetch https://www.fencing.org.cn/: HTTPSConnectionPool(host='www.fencing.org.cn', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='www.fencing.org.cn', port=443): Failed to resolve 'www.fencing.org.cn' ([Errno -2] Name or service not known)"))
+2026-06-03T20:49:01.0546680Z   https://www.fechten.org/nationalmannschaft returned HTTP 404
+2026-06-03T20:49:01.0547094Z   https://fencing.org.ua/ returned HTTP 403
+2026-06-03T20:49:01.0548053Z   Failed to fetch https://rfee.es/: HTTPSConnectionPool(host='rfee.es', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='rfee.es', port=443): Failed to resolve 'rfee.es' ([Errno -2] Name or service not known)"))
+2026-06-03T20:49:01.0549731Z   Failed to fetch https://www.hkfa.org.hk/: HTTPSConnectionPool(host='www.hkfa.org.hk', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1016)')))
+2026-06-03T20:49:01.0551592Z   Failed to fetch https://vehklemisliit.ee/: HTTPSConnectionPool(host='vehklemisliit.ee', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='vehklemisliit.ee', port=443) at 0x7f496a342a50>, 'Connection to vehklemisliit.ee timed out. (connect timeout=20)'))
+2026-06-03T20:49:01.0552785Z   https://www.britishfencing.com/25-26-gbr-coaches/ returned HTTP 403
+2026-06-03T20:49:01.0553458Z   https://www.britishfencing.com/gbr-fencing/gbr-senior/gbr-coaching-panel/ returned HTTP 403
+2026-06-03T20:49:01.0554437Z Done — {'coaches_written': 58, 'relationships_written': 0, 'relationships_skipped': 46, 'sources_failed': 13, 'coaches_parsed': 28, 'relationships_parsed': 46}
+2026-06-03T20:49:01.2586472Z ##[group]Run python scrape_fred.py
+2026-06-03T20:49:01.2587020Z [36;1mpython scrape_fred.py[0m
+2026-06-03T20:49:01.2627849Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:49:01.2628273Z env:
+2026-06-03T20:49:01.2628633Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:49:01.2629249Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:49:01.2629958Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:49:01.2630697Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:49:01.2631686Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:49:01.2632340Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:49:01.2632957Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:49:01.2634118Z   SUPABASE_URL: ***
+2026-06-03T20:49:01.2636507Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:49:01.2636959Z ##[endgroup]
+2026-06-03T20:50:30.0702195Z FRED scraper starting - 2026-06-03T20:49:02.061446+00:00
+2026-06-03T20:50:30.0703575Z Settings: base_url=https://www.askfred.net, start_page=1, max_pages=5, max_tournaments=none, delay=0.5-1.5s, incremental=True
+2026-06-03T20:50:30.0704541Z Loading fs_fencers for USA Fencing ID and name/country matching...
+2026-06-03T20:50:30.0705067Z Loaded 15734 fencer rows
+2026-06-03T20:50:30.0705491Z Incremental mode: 492 existing FRED event source IDs loaded
+2026-06-03T20:50:30.0706135Z Discovering public FRED result pages from page 1 for up to 5 page(s)
+2026-06-03T20:50:30.0706706Z   Page 1 of 1392: 25 tournament result links
+2026-06-03T20:50:30.0707126Z   Page 2 of 1392: 25 tournament result links
+2026-06-03T20:50:30.0707535Z   Page 3 of 1392: 25 tournament result links
+2026-06-03T20:50:30.0707950Z   Page 4 of 1392: 25 tournament result links
+2026-06-03T20:50:30.0708344Z   Page 5 of 1392: 25 tournament result links
+2026-06-03T20:50:30.0708881Z Discovered 125 unique public FRED tournaments with results
+2026-06-03T20:50:30.0709293Z 
+2026-06-03T20:50:30.0709440Z Tournament 1/125
+2026-06-03T20:50:30.0709584Z 
+2026-06-03T20:50:30.0709772Z   Scraping Titanium Foil (9965eaaa-ca99-41fe-8401-bcdfd3ce4bd8)
+2026-06-03T20:50:30.0710122Z     CSV rows: 20
+2026-06-03T20:50:30.0710343Z     Event cards: 1
+2026-06-03T20:50:30.0710637Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0710888Z 
+2026-06-03T20:50:30.0710982Z Tournament 2/125
+2026-06-03T20:50:30.0711118Z 
+2026-06-03T20:50:30.0711287Z   Scraping The May Melee (5b5906f7-4752-4add-a389-20d1652d82bf)
+2026-06-03T20:50:30.0711630Z     CSV rows: 47
+2026-06-03T20:50:30.0711847Z     Event cards: 3
+2026-06-03T20:50:30.0712122Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0712357Z 
+2026-06-03T20:50:30.0712452Z Tournament 3/125
+2026-06-03T20:50:30.0712575Z 
+2026-06-03T20:50:30.0712924Z   Scraping 17th Annual Hespenheide Memorial Tournament - Div 2 Mixed Foil (9b0f8c15-c7c2-4156-817a-6ae6a4fa87d3)
+2026-06-03T20:50:30.0713703Z     CSV rows: 25
+2026-06-03T20:50:30.0713926Z     Event cards: 1
+2026-06-03T20:50:30.0714224Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0714476Z 
+2026-06-03T20:50:30.0714580Z Tournament 4/125
+2026-06-03T20:50:30.0714712Z 
+2026-06-03T20:50:30.0715037Z   Scraping Forge Fencing - Priority on Youth #5 of 5 & Pizza Party! (eb784f1d-4742-4ae0-a5b2-65957234af6d)
+2026-06-03T20:50:30.0715515Z     CSV rows: 56
+2026-06-03T20:50:30.0715769Z     Event cards: 5
+2026-06-03T20:50:30.0716074Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0716322Z 
+2026-06-03T20:50:30.0716424Z Tournament 5/125
+2026-06-03T20:50:30.0716559Z 
+2026-06-03T20:50:30.0716791Z   Scraping Amazon Women's Bay Cup at HALB #2 (df8bd0ea-8a46-4f9d-bc42-3a718b0f748e)
+2026-06-03T20:50:30.0717187Z     CSV rows: 9
+2026-06-03T20:50:30.0717409Z     Event cards: 1
+2026-06-03T20:50:30.0717686Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0717915Z 
+2026-06-03T20:50:30.0718507Z Tournament 6/125
+2026-06-03T20:50:30.0718642Z 
+2026-06-03T20:50:30.0718860Z   Scraping WFA Veteran Saber Tournament (b937f285-9ea1-443b-a4fc-53306905ddc4)
+2026-06-03T20:50:30.0719257Z     CSV rows: 5
+2026-06-03T20:50:30.0719470Z     Event cards: 1
+2026-06-03T20:50:30.0719745Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0719973Z 
+2026-06-03T20:50:30.0720063Z Tournament 7/125
+2026-06-03T20:50:30.0720196Z 
+2026-06-03T20:50:30.0720422Z   Scraping Rising Blades Series (WFA In House) (7c860af5-5a73-4857-8999-fa6d1592ccfb)
+2026-06-03T20:50:30.0721027Z     CSV rows: 9
+2026-06-03T20:50:30.0721598Z     Event cards: 2
+2026-06-03T20:50:30.0722012Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0722321Z 
+2026-06-03T20:50:30.0722575Z Tournament 8/125
+2026-06-03T20:50:30.0722754Z 
+2026-06-03T20:50:30.0723342Z   Scraping Napa Valley Crush (661f29e6-b496-4262-91a4-26d8b0833ef8)
+2026-06-03T20:50:30.0723825Z     CSV rows: 14
+2026-06-03T20:50:30.0724250Z     Event cards: 1
+2026-06-03T20:50:30.0724686Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0725012Z 
+2026-06-03T20:50:30.0725279Z Tournament 9/125
+2026-06-03T20:50:30.0725446Z 
+2026-06-03T20:50:30.0725812Z   Scraping Y8/Y10/Y12/Y14 Epee Challenge at Arena (d482fe9d-4420-4122-83c8-27305c3376fa)
+2026-06-03T20:50:30.0726337Z     CSV rows: 50
+2026-06-03T20:50:30.0726738Z     Event cards: 7
+2026-06-03T20:50:30.0727196Z     Incremental: skipping 7 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0727453Z 
+2026-06-03T20:50:30.0727696Z Tournament 10/125
+2026-06-03T20:50:30.0727952Z 
+2026-06-03T20:50:30.0728196Z   Scraping Nationals Warm-Up Open (7f9bb3f0-bfb8-4faa-bc86-c900f5459694)
+2026-06-03T20:50:30.0728678Z     CSV rows: 37
+2026-06-03T20:50:30.0729135Z     Event cards: 4
+2026-06-03T20:50:30.0729543Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0729897Z 
+2026-06-03T20:50:30.0730056Z Tournament 11/125
+2026-06-03T20:50:30.0730234Z 
+2026-06-03T20:50:30.0745923Z   Scraping IFC 2026 Summer Classic (5a4f4131-b1fa-4e80-8a1c-3f4973fd3460)
+2026-06-03T20:50:30.0746519Z     CSV rows: 54
+2026-06-03T20:50:30.0746922Z     Event cards: 3
+2026-06-03T20:50:30.0747300Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0747567Z 
+2026-06-03T20:50:30.0747671Z Tournament 12/125
+2026-06-03T20:50:30.0747818Z 
+2026-06-03T20:50:30.0748022Z   Scraping MEDEO Epee Division II (986c732c-9341-41a0-95a5-1eff35948ae3)
+2026-06-03T20:50:30.0748418Z     CSV rows: 15
+2026-06-03T20:50:30.0748646Z     Event cards: 1
+2026-06-03T20:50:30.0748936Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0749179Z 
+2026-06-03T20:50:30.0749273Z Tournament 13/125
+2026-06-03T20:50:30.0749409Z 
+2026-06-03T20:50:30.0749753Z   Scraping Coach Miller Memorial Open - Mixed Foil & Mixed Epee, Div3 Mixed Foil (7742200d-0f53-48a9-b9b7-78d22a1326cf)
+2026-06-03T20:50:30.0750271Z     CSV rows: 86
+2026-06-03T20:50:30.0750511Z     Event cards: 3
+2026-06-03T20:50:30.0750801Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0751050Z 
+2026-06-03T20:50:30.0751143Z Tournament 14/125
+2026-06-03T20:50:30.0751278Z 
+2026-06-03T20:50:30.0751513Z   Scraping Start of the Summer Foil Scrimmage (1328aed6-8436-429e-8939-fff52ca6766d)
+2026-06-03T20:50:30.0751919Z     CSV rows: 21
+2026-06-03T20:50:30.0752143Z     Event cards: 3
+2026-06-03T20:50:30.0752415Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0752656Z 
+2026-06-03T20:50:30.0752752Z Tournament 15/125
+2026-06-03T20:50:30.0752877Z 
+2026-06-03T20:50:30.0753361Z   Scraping Utah/Southern Idaho and Friends Epee League May (97704287-9cff-474a-b589-cbba3890e0da)
+2026-06-03T20:50:30.0753824Z     CSV rows: 35
+2026-06-03T20:50:30.0754038Z     Event cards: 2
+2026-06-03T20:50:30.0754313Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0754550Z 
+2026-06-03T20:50:30.0754643Z Tournament 16/125
+2026-06-03T20:50:30.0754767Z 
+2026-06-03T20:50:30.0755280Z   Scraping MI Division Foil & Saber 2026 Championships (be333151-116d-42b9-966f-4edc7e1c46c8)
+2026-06-03T20:50:30.0755716Z     CSV rows: 102
+2026-06-03T20:50:30.0755932Z     Event cards: 15
+2026-06-03T20:50:30.0756229Z     Incremental: skipping 15 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0756468Z 
+2026-06-03T20:50:30.0756568Z Tournament 17/125
+2026-06-03T20:50:30.0756691Z 
+2026-06-03T20:50:30.0756933Z   Scraping NWFC Unrated #4 (Senior Foil, Epee & Saber) (8c410b16-4c66-4570-976f-0188c3aef306)
+2026-06-03T20:50:30.0757507Z     CSV rows: 19
+2026-06-03T20:50:30.0757718Z     Event cards: 2
+2026-06-03T20:50:30.0758001Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0758231Z 
+2026-06-03T20:50:30.0758328Z Tournament 18/125
+2026-06-03T20:50:30.0758458Z 
+2026-06-03T20:50:30.0758693Z   Scraping MI Division Epee 2026 Championships (42b5bcab-b754-4473-affc-96170cb97bd4)
+2026-06-03T20:50:30.0759099Z     CSV rows: 14
+2026-06-03T20:50:30.0759314Z     Event cards: 2
+2026-06-03T20:50:30.0759588Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0759824Z 
+2026-06-03T20:50:30.0759919Z Tournament 19/125
+2026-06-03T20:50:30.0760052Z 
+2026-06-03T20:50:30.0760295Z   Scraping Badger Fencing Club 24 Hour Walk-n-Roll (6e93a7d2-0252-4870-b422-a73b05dbc447)
+2026-06-03T20:50:30.0760722Z     CSV rows: 45
+2026-06-03T20:50:30.0760938Z     Event cards: 7
+2026-06-03T20:50:30.0761223Z     Incremental: skipping 7 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0761469Z 
+2026-06-03T20:50:30.0761560Z Tournament 20/125
+2026-06-03T20:50:30.0761694Z 
+2026-06-03T20:50:30.0761873Z   Scraping PFC IN HOUSE (bf135803-e9d6-4d07-81b1-15c7da717a8e)
+2026-06-03T20:50:30.0762212Z     CSV rows: 23
+2026-06-03T20:50:30.0762424Z     Event cards: 3
+2026-06-03T20:50:30.0762702Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0762940Z 
+2026-06-03T20:50:30.0763030Z Tournament 21/125
+2026-06-03T20:50:30.0763347Z 
+2026-06-03T20:50:30.0763627Z   Scraping NSFC Vladimir Gofman Memorial Senior M/W Epee (3c1a768d-4382-4c0a-9f2d-288bc4afbeb8)
+2026-06-03T20:50:30.0764088Z     CSV rows: 88
+2026-06-03T20:50:30.0764307Z     Event cards: 2
+2026-06-03T20:50:30.0764595Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0764848Z 
+2026-06-03T20:50:30.0764944Z Tournament 22/125
+2026-06-03T20:50:30.0765075Z 
+2026-06-03T20:50:30.0765263Z   Scraping FENCE LIKE A GIRL (59d1c193-be8a-430f-941e-59e1ba5217b9)
+2026-06-03T20:50:30.0765617Z     CSV rows: 41
+2026-06-03T20:50:30.0765831Z     Event cards: 7
+2026-06-03T20:50:30.0766102Z     Incremental: skipping 7 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0766340Z 
+2026-06-03T20:50:30.0766433Z Tournament 23/125
+2026-06-03T20:50:30.0766555Z 
+2026-06-03T20:50:30.0766835Z   Scraping Unity Fencing Academy Opening Bash (Unsanctioned) (80822dba-f209-486f-9a52-aebff24cfd1e)
+2026-06-03T20:50:30.0767298Z     CSV rows: 37
+2026-06-03T20:50:30.0767511Z     Event cards: 4
+2026-06-03T20:50:30.0767790Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0768019Z 
+2026-06-03T20:50:30.0768114Z Tournament 24/125
+2026-06-03T20:50:30.0768238Z 
+2026-06-03T20:50:30.0768441Z   Scraping RCFC Youth Team Tourney (fa5e1185-aa2c-43bc-b3e8-b8c302662ec3)
+2026-06-03T20:50:30.0768809Z     CSV rows: 21
+2026-06-03T20:50:30.0769017Z     Event cards: 5
+2026-06-03T20:50:30.0769291Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0769520Z 
+2026-06-03T20:50:30.0769610Z Tournament 25/125
+2026-06-03T20:50:30.0769738Z 
+2026-06-03T20:50:30.0769980Z   Scraping SAS Saber Adult Combined and D & Under (36e0ceba-336d-40a6-8469-23074f85e178)
+2026-06-03T20:50:30.0770391Z     CSV rows: 51
+2026-06-03T20:50:30.0770596Z     Event cards: 2
+2026-06-03T20:50:30.0770860Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0771088Z 
+2026-06-03T20:50:30.0771175Z Tournament 26/125
+2026-06-03T20:50:30.0771303Z 
+2026-06-03T20:50:30.0771693Z   Scraping 30th Annual Jeux De Pomme Epee Tournamrnt (ec713a5c-0b1d-47d3-b30d-04f798e616bd)
+2026-06-03T20:50:30.0772122Z     CSV rows: 91
+2026-06-03T20:50:30.0772330Z     Event cards: 10
+2026-06-03T20:50:30.0772621Z     Incremental: skipping 10 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0772865Z 
+2026-06-03T20:50:30.0772959Z Tournament 27/125
+2026-06-03T20:50:30.0773302Z 
+2026-06-03T20:50:30.0773510Z   Scraping RDF May Youth Epee (HYC #4) (521e20d6-bae6-4444-806e-097cd122137b)
+2026-06-03T20:50:30.0773886Z     CSV rows: 40
+2026-06-03T20:50:30.0774244Z     Event cards: 6
+2026-06-03T20:50:30.0774520Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0774757Z 
+2026-06-03T20:50:30.0774853Z Tournament 28/125
+2026-06-03T20:50:30.0774976Z 
+2026-06-03T20:50:30.0775231Z   Scraping The Line Fencing Academy Sabre Y12, Y14, Div3 (9939d084-a086-42ee-8cb7-f8e4155989d0)
+2026-06-03T20:50:30.0775658Z     CSV rows: 24
+2026-06-03T20:50:30.0775868Z     Event cards: 2
+2026-06-03T20:50:30.0776148Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0776372Z 
+2026-06-03T20:50:30.0776469Z Tournament 29/125
+2026-06-03T20:50:30.0776596Z 
+2026-06-03T20:50:30.0776827Z   Scraping Manchen Friday Night "E & Under" Foil (a827664e-ab36-443b-b6bf-398c7e48b160)
+2026-06-03T20:50:30.0777231Z     CSV rows: 28
+2026-06-03T20:50:30.0777442Z     Event cards: 2
+2026-06-03T20:50:30.0777703Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0777927Z 
+2026-06-03T20:50:30.0778021Z Tournament 30/125
+2026-06-03T20:50:30.0778153Z 
+2026-06-03T20:50:30.0778441Z   Scraping Sebastiani 2026 in-house Annual Spring Championship (007fe1e6-4b68-4fe7-bb1d-7f217d775654)
+2026-06-03T20:50:30.0778903Z     CSV rows: 62
+2026-06-03T20:50:30.0779116Z     Event cards: 10
+2026-06-03T20:50:30.0779399Z     Incremental: skipping 10 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0779642Z 
+2026-06-03T20:50:30.0779733Z Tournament 31/125
+2026-06-03T20:50:30.0779858Z 
+2026-06-03T20:50:30.0780109Z   Scraping Freehold Fencing - May Division 2 Epee (baaefe8c-ab70-41bc-8eec-b32e7576ae5c)
+2026-06-03T20:50:30.0780535Z     CSV rows: 15
+2026-06-03T20:50:30.0780740Z     Event cards: 1
+2026-06-03T20:50:30.0781005Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0781238Z 
+2026-06-03T20:50:30.0781327Z Tournament 32/125
+2026-06-03T20:50:30.0781452Z 
+2026-06-03T20:50:30.0781689Z   Scraping Renaissance Fencing Foil House Cup (23fdd168-cd5e-49cf-8c32-7bedf9297ca1)
+2026-06-03T20:50:30.0782093Z     CSV rows: 49
+2026-06-03T20:50:30.0782304Z     Event cards: 7
+2026-06-03T20:50:30.0782567Z     Incremental: skipping 7 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0782793Z 
+2026-06-03T20:50:30.0782885Z Tournament 33/125
+2026-06-03T20:50:30.0783010Z 
+2026-06-03T20:50:30.0783668Z   Scraping MFA Y8, Y10, Y12, Div2 - All foil mixed events (clinic with Maestra Vaccaroni is the following weekend) (ddc23eae-af8b-45f7-bfe6-86e893cb532c)
+2026-06-03T20:50:30.0784268Z     CSV rows: 64
+2026-06-03T20:50:30.0784486Z     Event cards: 4
+2026-06-03T20:50:30.0784762Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0785006Z 
+2026-06-03T20:50:30.0785098Z Tournament 34/125
+2026-06-03T20:50:30.0785226Z 
+2026-06-03T20:50:30.0785431Z   Scraping Nationals Warm Up - Epee (498ed357-cb21-4002-ae06-04526bb93c67)
+2026-06-03T20:50:30.0785826Z     CSV rows: 23
+2026-06-03T20:50:30.0786043Z     Event cards: 2
+2026-06-03T20:50:30.0786315Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0786550Z 
+2026-06-03T20:50:30.0786643Z Tournament 35/125
+2026-06-03T20:50:30.0786764Z 
+2026-06-03T20:50:30.0787074Z   Scraping Savage Fencing Club Choco Therapy Mixed Foil (Rescheduled) (0272ff88-307e-49f9-b791-4f83cf015138)
+2026-06-03T20:50:30.0787558Z     CSV rows: 42
+2026-06-03T20:50:30.0787772Z     Event cards: 1
+2026-06-03T20:50:30.0788053Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0788285Z 
+2026-06-03T20:50:30.0788379Z Tournament 36/125
+2026-06-03T20:50:30.0788658Z 
+2026-06-03T20:50:30.0788904Z   Scraping AFM Open Senior Mixed Epee Tournament (198ab572-f8db-4675-9688-344f8f3bc664)
+2026-06-03T20:50:30.0789319Z     CSV rows: 35
+2026-06-03T20:50:30.0789539Z     Event cards: 1
+2026-06-03T20:50:30.0789816Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:50:30.0790055Z 
+2026-06-03T20:50:30.0790144Z Tournament 37/125
+2026-06-03T20:50:30.0790294Z 
+2026-06-03T20:50:30.0790523Z   Scraping Sunday Sword Circuit - Session 6 (7873b5e4-d826-4683-8e7c-00fb44b16ee1)
+2026-06-03T20:50:30.0791069Z     CSV rows: 11
+2026-06-03T20:50:30.0791275Z     Event cards: 1
+2026-06-03T20:51:59.9849297Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9849771Z 
+2026-06-03T20:51:59.9850007Z Tournament 38/125
+2026-06-03T20:51:59.9850228Z 
+2026-06-03T20:51:59.9850434Z   Scraping Titanium Saber (d6ff779b-7c81-4a8a-bcfb-aaa842f16fe5)
+2026-06-03T20:51:59.9850812Z     CSV rows: 9
+2026-06-03T20:51:59.9851034Z     Event cards: 1
+2026-06-03T20:51:59.9851364Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9851619Z 
+2026-06-03T20:51:59.9851713Z Tournament 39/125
+2026-06-03T20:51:59.9851849Z 
+2026-06-03T20:51:59.9852113Z   Scraping San Diego Cup - Youth Foil Championships (87907287-ab6e-4b04-abc5-4084bff63184)
+2026-06-03T20:51:59.9852542Z     CSV rows: 77
+2026-06-03T20:51:59.9852915Z     Event cards: 7
+2026-06-03T20:51:59.9853600Z     Incremental: skipping 7 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9854030Z 
+2026-06-03T20:51:59.9854183Z Tournament 40/125
+2026-06-03T20:51:59.9854363Z 
+2026-06-03T20:51:59.9854640Z   Scraping San Diego Senior Cup #6 (ffb9f690-c236-4e42-a995-2a3732f3b741)
+2026-06-03T20:51:59.9855165Z     CSV rows: 79
+2026-06-03T20:51:59.9855465Z     Event cards: 4
+2026-06-03T20:51:59.9855883Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9856239Z 
+2026-06-03T20:51:59.9856383Z Tournament 41/125
+2026-06-03T20:51:59.9856580Z 
+2026-06-03T20:51:59.9857003Z   Scraping BIDA FENCING ACADEMY GRAND PRIX - STAGE 6 (09043bf5-87d8-4905-8582-a1b2c5573ad5)
+2026-06-03T20:51:59.9857688Z     CSV rows: 39
+2026-06-03T20:51:59.9858012Z     Event cards: 4
+2026-06-03T20:51:59.9858454Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9858857Z 
+2026-06-03T20:51:59.9858994Z Tournament 42/125
+2026-06-03T20:51:59.9859208Z 
+2026-06-03T20:51:59.9859568Z   Scraping Swords Grand Opening Tournament (91c3e7d7-8ba5-468e-8968-f5de3cd2bbba)
+2026-06-03T20:51:59.9860220Z     CSV rows: 8
+2026-06-03T20:51:59.9860550Z     Event cards: 0
+2026-06-03T20:51:59.9860990Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9861388Z 
+2026-06-03T20:51:59.9861521Z Tournament 43/125
+2026-06-03T20:51:59.9861722Z 
+2026-06-03T20:51:59.9862161Z   Scraping Atlantic Fencing Academy Epee/Sabre E and Under (17297e7a-2ee3-4948-ac8b-098afd9729a4)
+2026-06-03T20:51:59.9862747Z     CSV rows: 36
+2026-06-03T20:51:59.9862962Z     Event cards: 3
+2026-06-03T20:51:59.9863541Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9863797Z 
+2026-06-03T20:51:59.9863891Z Tournament 44/125
+2026-06-03T20:51:59.9864025Z 
+2026-06-03T20:51:59.9864321Z   Scraping 27th Ticonderoga Challenge Outdoor Epee Tournament (4191b0ca-23a5-47f8-a090-3539878a10de)
+2026-06-03T20:51:59.9864798Z     CSV rows: 42
+2026-06-03T20:51:59.9865017Z     Event cards: 2
+2026-06-03T20:51:59.9865300Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9865542Z 
+2026-06-03T20:51:59.9865641Z Tournament 45/125
+2026-06-03T20:51:59.9865767Z 
+2026-06-03T20:51:59.9865962Z   Scraping WWD Championships (f752077c-d1d0-4b2f-96ac-a34c4fea4e2f)
+2026-06-03T20:51:59.9866314Z     CSV rows: 98
+2026-06-03T20:51:59.9866524Z     Event cards: 6
+2026-06-03T20:51:59.9866801Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9867031Z 
+2026-06-03T20:51:59.9867124Z Tournament 46/125
+2026-06-03T20:51:59.9867245Z 
+2026-06-03T20:51:59.9867826Z   Scraping Santa Fe May Marathon (54c96d82-4285-4286-8ca1-51702a831b74)
+2026-06-03T20:51:59.9868204Z     CSV rows: 18
+2026-06-03T20:51:59.9868418Z     Event cards: 2
+2026-06-03T20:51:59.9868704Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9868947Z 
+2026-06-03T20:51:59.9869042Z Tournament 47/125
+2026-06-03T20:51:59.9869169Z 
+2026-06-03T20:51:59.9869356Z   Scraping Escrime Sundae 2026 (2628923a-b191-4854-b879-e2fee13d8e6e)
+2026-06-03T20:51:59.9869706Z     CSV rows: 62
+2026-06-03T20:51:59.9869913Z     Event cards: 4
+2026-06-03T20:51:59.9870369Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9870598Z 
+2026-06-03T20:51:59.9870694Z Tournament 48/125
+2026-06-03T20:51:59.9870817Z 
+2026-06-03T20:51:59.9871120Z   Scraping ATLANTA FENCERS CLUB FOUNDATION (AFCF) MEMORIAL DAY CUP (4611ba2b-8b36-4713-895e-f4d0de34ab11)
+2026-06-03T20:51:59.9871630Z     CSV rows: 54
+2026-06-03T20:51:59.9871842Z     Event cards: 6
+2026-06-03T20:51:59.9872122Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9872355Z 
+2026-06-03T20:51:59.9872450Z Tournament 49/125
+2026-06-03T20:51:59.9872577Z 
+2026-06-03T20:51:59.9872913Z   Scraping May The Fleche Be With You (Queens Fencing Club Open foil/epee/saber) (22ff5542-39f2-4f1e-8e11-792c050b2fad)
+2026-06-03T20:51:59.9873648Z     CSV rows: 48
+2026-06-03T20:51:59.9873863Z     Event cards: 0
+2026-06-03T20:51:59.9874144Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9874385Z 
+2026-06-03T20:51:59.9874478Z Tournament 50/125
+2026-06-03T20:51:59.9874613Z 
+2026-06-03T20:51:59.9874868Z   Scraping California Parafencing Championships (025d2f96-3c03-4d44-90a7-84658c32aa9a)
+2026-06-03T20:51:59.9875287Z     CSV rows: 28
+2026-06-03T20:51:59.9875496Z     Event cards: 4
+2026-06-03T20:51:59.9875774Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9876001Z 
+2026-06-03T20:51:59.9876095Z Tournament 51/125
+2026-06-03T20:51:59.9876224Z 
+2026-06-03T20:51:59.9876451Z   Scraping University New Hanster Open 4.0 (82fd379e-33ec-4450-ba50-61eac9970f38)
+2026-06-03T20:51:59.9876844Z     CSV rows: 65
+2026-06-03T20:51:59.9877056Z     Event cards: 5
+2026-06-03T20:51:59.9877322Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9877545Z 
+2026-06-03T20:51:59.9877638Z Tournament 52/125
+2026-06-03T20:51:59.9877762Z 
+2026-06-03T20:51:59.9877972Z   Scraping HDFA Youth and Open Tournament (9d9dcaf8-55d6-4042-8d28-805668590096)
+2026-06-03T20:51:59.9878355Z     CSV rows: 32
+2026-06-03T20:51:59.9878564Z     Event cards: 0
+2026-06-03T20:51:59.9878829Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9879056Z 
+2026-06-03T20:51:59.9879144Z Tournament 53/125
+2026-06-03T20:51:59.9879269Z 
+2026-06-03T20:51:59.9879501Z   Scraping ANNUAL MEMORIAL DAY CHAMPIONSHIP 2026 (a93a371b-0338-4066-8821-c5bc340caf52)
+2026-06-03T20:51:59.9879910Z     CSV rows: 75
+2026-06-03T20:51:59.9880113Z     Event cards: 9
+2026-06-03T20:51:59.9880381Z     Incremental: skipping 9 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9880608Z 
+2026-06-03T20:51:59.9880696Z Tournament 54/125
+2026-06-03T20:51:59.9880822Z 
+2026-06-03T20:51:59.9880974Z   Scraping CFC Epee (002746bf-d5a6-4c62-8997-37b48f1963b9)
+2026-06-03T20:51:59.9881283Z     CSV rows: 33
+2026-06-03T20:51:59.9881486Z     Event cards: 1
+2026-06-03T20:51:59.9881744Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9881971Z 
+2026-06-03T20:51:59.9882064Z Tournament 55/125
+2026-06-03T20:51:59.9882194Z 
+2026-06-03T20:51:59.9882424Z   Scraping Avant-Garde Foil & Saber Cup (f5fd195a-4850-4afe-a50f-d30b68cd34b5)
+2026-06-03T20:51:59.9882813Z     CSV rows: 129
+2026-06-03T20:51:59.9883027Z     Event cards: 12
+2026-06-03T20:51:59.9883497Z     Incremental: skipping 12 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9883750Z 
+2026-06-03T20:51:59.9883846Z Tournament 56/125
+2026-06-03T20:51:59.9883973Z 
+2026-06-03T20:51:59.9884173Z   Scraping SFC's Summer Showdown (553ad7a5-c80f-40ca-b7ec-71b09ca38a2c)
+2026-06-03T20:51:59.9884682Z     CSV rows: 20
+2026-06-03T20:51:59.9884900Z     Event cards: 0
+2026-06-03T20:51:59.9885185Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9885430Z 
+2026-06-03T20:51:59.9885524Z Tournament 57/125
+2026-06-03T20:51:59.9885651Z 
+2026-06-03T20:51:59.9885840Z   Scraping Friday Night Fight (2d67f245-420e-4d3a-8c19-22c08adcb5af)
+2026-06-03T20:51:59.9886196Z     CSV rows: 17
+2026-06-03T20:51:59.9886410Z     Event cards: 1
+2026-06-03T20:51:59.9886696Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9887083Z 
+2026-06-03T20:51:59.9887181Z Tournament 58/125
+2026-06-03T20:51:59.9887307Z 
+2026-06-03T20:51:59.9887534Z   Scraping RCFC Friday Night D & Under Foil #3 (183bd129-00f0-4b07-b1a2-19b9c87e8e45)
+2026-06-03T20:51:59.9887928Z     CSV rows: 28
+2026-06-03T20:51:59.9888141Z     Event cards: 1
+2026-06-03T20:51:59.9888421Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9888651Z 
+2026-06-03T20:51:59.9888755Z Tournament 59/125
+2026-06-03T20:51:59.9888883Z 
+2026-06-03T20:51:59.9889072Z   Scraping May Banana Tournament (100b35d0-f768-4ced-8246-990b5fc57c57)
+2026-06-03T20:51:59.9889473Z     CSV rows: 26
+2026-06-03T20:51:59.9889688Z     Event cards: 3
+2026-06-03T20:51:59.9889955Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9890185Z 
+2026-06-03T20:51:59.9890272Z Tournament 60/125
+2026-06-03T20:51:59.9890398Z 
+2026-06-03T20:51:59.9890594Z   Scraping May Friday Night Fencing (e8e53a15-8b3a-4966-a954-7d47d7b111b4)
+2026-06-03T20:51:59.9890973Z     CSV rows: 12
+2026-06-03T20:51:59.9891179Z     Event cards: 2
+2026-06-03T20:51:59.9891444Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9891672Z 
+2026-06-03T20:51:59.9891760Z Tournament 61/125
+2026-06-03T20:51:59.9891940Z 
+2026-06-03T20:51:59.9892249Z   Scraping Moe Found Foil Tournament #165 (491bbca7-addc-4087-bcc1-edf9925c8758)
+2026-06-03T20:51:59.9892685Z     CSV rows: 15
+2026-06-03T20:51:59.9892905Z     Event cards: 1
+2026-06-03T20:51:59.9893372Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9893623Z 
+2026-06-03T20:51:59.9893716Z Tournament 62/125
+2026-06-03T20:51:59.9893851Z 
+2026-06-03T20:51:59.9894076Z   Scraping Manchen Friday Night Foil Open (be148938-1e6c-49a6-8dea-af917698b194)
+2026-06-03T20:51:59.9894462Z     CSV rows: 34
+2026-06-03T20:51:59.9894673Z     Event cards: 1
+2026-06-03T20:51:59.9894940Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9895179Z 
+2026-06-03T20:51:59.9895273Z Tournament 63/125
+2026-06-03T20:51:59.9895396Z 
+2026-06-03T20:51:59.9895601Z   Scraping NJFA - Div. 3 Mixed Foil (ad2d029b-6123-43fe-aa67-fdebe028b5ad)
+2026-06-03T20:51:59.9895972Z     CSV rows: 6
+2026-06-03T20:51:59.9896204Z     Event cards: 1
+2026-06-03T20:51:59.9896467Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9896696Z 
+2026-06-03T20:51:59.9896785Z Tournament 64/125
+2026-06-03T20:51:59.9896912Z 
+2026-06-03T20:51:59.9897110Z   Scraping Battle of Wits and Steel (c8055e93-92ac-4634-8fa0-d1dda93a7057)
+2026-06-03T20:51:59.9897465Z     CSV rows: 59
+2026-06-03T20:51:59.9897673Z     Event cards: 3
+2026-06-03T20:51:59.9897933Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9898162Z 
+2026-06-03T20:51:59.9898258Z Tournament 65/125
+2026-06-03T20:51:59.9898378Z 
+2026-06-03T20:51:59.9898584Z   Scraping DCFC Youth Epee Challenge (dc47819b-de85-440e-b792-1b1e09d3c209)
+2026-06-03T20:51:59.9898959Z     CSV rows: 90
+2026-06-03T20:51:59.9899168Z     Event cards: 3
+2026-06-03T20:51:59.9899429Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9899661Z 
+2026-06-03T20:51:59.9899755Z Tournament 66/125
+2026-06-03T20:51:59.9899874Z 
+2026-06-03T20:51:59.9900052Z   Scraping AIC Spring Open (fea689f9-79be-4c3e-9e69-6e146bbcf01b)
+2026-06-03T20:51:59.9900391Z     CSV rows: 18
+2026-06-03T20:51:59.9900600Z     Event cards: 0
+2026-06-03T20:51:59.9901021Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9901246Z 
+2026-06-03T20:51:59.9901341Z Tournament 67/125
+2026-06-03T20:51:59.9901464Z 
+2026-06-03T20:51:59.9901659Z   Scraping MoDuel Mixed E & Under (dda687bb-ba45-4474-890b-a50e46f1d7ec)
+2026-06-03T20:51:59.9902027Z     CSV rows: 15
+2026-06-03T20:51:59.9902233Z     Event cards: 0
+2026-06-03T20:51:59.9902504Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9902729Z 
+2026-06-03T20:51:59.9902827Z Tournament 68/125
+2026-06-03T20:51:59.9902955Z 
+2026-06-03T20:51:59.9903488Z   Scraping Foil and Epee D Meet (1a676b61-7f86-4279-8a1e-bfdddd95dc44)
+2026-06-03T20:51:59.9903847Z     CSV rows: 23
+2026-06-03T20:51:59.9904061Z     Event cards: 2
+2026-06-03T20:51:59.9904330Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9904554Z 
+2026-06-03T20:51:59.9904650Z Tournament 69/125
+2026-06-03T20:51:59.9904778Z 
+2026-06-03T20:51:59.9904968Z   Scraping GOLDEN STATE CHALLENGE (07ddec53-ce82-4244-a970-c96cfe21330c)
+2026-06-03T20:51:59.9905336Z     CSV rows: 48
+2026-06-03T20:51:59.9905546Z     Event cards: 3
+2026-06-03T20:51:59.9905815Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9906048Z 
+2026-06-03T20:51:59.9906137Z Tournament 70/125
+2026-06-03T20:51:59.9906267Z 
+2026-06-03T20:51:59.9906445Z   Scraping Durkan Youth Cup #3 (a3c220c5-370a-4237-b147-d33be386aa92)
+2026-06-03T20:51:59.9906794Z     CSV rows: 10
+2026-06-03T20:51:59.9907001Z     Event cards: 3
+2026-06-03T20:51:59.9907273Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9907505Z 
+2026-06-03T20:51:59.9907594Z Tournament 71/125
+2026-06-03T20:51:59.9907722Z 
+2026-06-03T20:51:59.9907920Z   Scraping F.A.O.P. North Open Foil (9235cf5d-7f5a-4cb3-8c6f-d3a10bc5172d)
+2026-06-03T20:51:59.9908280Z     CSV rows: 15
+2026-06-03T20:51:59.9908484Z     Event cards: 1
+2026-06-03T20:51:59.9908745Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9908975Z 
+2026-06-03T20:51:59.9909066Z Tournament 72/125
+2026-06-03T20:51:59.9909203Z 
+2026-06-03T20:51:59.9909480Z   Scraping Olympia D'Artagnan's Challenge 5B (Y10/Y14 Epee) (455f715f-c2f9-4f1b-9398-4bc96f607b52)
+2026-06-03T20:51:59.9909928Z     CSV rows: 51
+2026-06-03T20:51:59.9910142Z     Event cards: 4
+2026-06-03T20:51:59.9910419Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9910653Z 
+2026-06-03T20:51:59.9910748Z Tournament 73/125
+2026-06-03T20:51:59.9910869Z 
+2026-06-03T20:51:59.9911193Z   Scraping Duel D'Abdul Open Senior Mixed Epee, Y14 Mixed Epee, Y10 Mixed Foil (01b547a4-6b3e-4c50-a31c-80d64bc9a65e)
+2026-06-03T20:51:59.9911684Z     CSV rows: 69
+2026-06-03T20:51:59.9911895Z     Event cards: 3
+2026-06-03T20:51:59.9912183Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9912421Z 
+2026-06-03T20:51:59.9912516Z Tournament 74/125
+2026-06-03T20:51:59.9912640Z 
+2026-06-03T20:51:59.9912828Z   Scraping Nationals Warm Up (1c0cb642-1f34-4415-83f2-d3135c17666b)
+2026-06-03T20:51:59.9913377Z     CSV rows: 12
+2026-06-03T20:51:59.9913591Z     Event cards: 2
+2026-06-03T20:51:59.9913866Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9914095Z 
+2026-06-03T20:51:59.9914190Z Tournament 75/125
+2026-06-03T20:51:59.9914315Z 
+2026-06-03T20:51:59.9914490Z   Scraping The Pixy Cup #5 (9d2bc467-9cbb-46d2-a9cd-5cc1ae559761)
+2026-06-03T20:51:59.9914833Z     CSV rows: 54
+2026-06-03T20:51:59.9915048Z     Event cards: 5
+2026-06-03T20:51:59.9915317Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9915548Z 
+2026-06-03T20:51:59.9915643Z Tournament 76/125
+2026-06-03T20:51:59.9915772Z 
+2026-06-03T20:51:59.9915966Z   Scraping 2026 TCFC May Challenges (63605aba-08ec-459a-a96a-d0334df638a0)
+2026-06-03T20:51:59.9916339Z     CSV rows: 86
+2026-06-03T20:51:59.9916543Z     Event cards: 6
+2026-06-03T20:51:59.9916811Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9917040Z 
+2026-06-03T20:51:59.9917130Z Tournament 77/125
+2026-06-03T20:51:59.9917256Z 
+2026-06-03T20:51:59.9917613Z   Scraping Shoreline Open Championships (2b068479-a2ef-4c77-829e-f9773f57a97a)
+2026-06-03T20:51:59.9918018Z     CSV rows: 48
+2026-06-03T20:51:59.9918226Z     Event cards: 3
+2026-06-03T20:51:59.9918497Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9918729Z 
+2026-06-03T20:51:59.9918820Z Tournament 78/125
+2026-06-03T20:51:59.9918947Z 
+2026-06-03T20:51:59.9919169Z   Scraping NEUSFA D and Under Sabre - Zeta (6d9f7cc8-9288-4a63-ad34-40ef52111b25)
+2026-06-03T20:51:59.9919691Z     CSV rows: 23
+2026-06-03T20:51:59.9919899Z     Event cards: 2
+2026-06-03T20:51:59.9920166Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:51:59.9920397Z 
+2026-06-03T20:51:59.9920487Z Tournament 79/125
+2026-06-03T20:51:59.9920614Z 
+2026-06-03T20:51:59.9920792Z   Scraping NYFA Youth Cup #6 (151a1ca4-3e2b-4747-a2ba-be18fb69a644)
+2026-06-03T20:51:59.9921137Z     CSV rows: 103
+2026-06-03T20:51:59.9921344Z     Event cards: 4
+2026-06-03T20:53:30.9383002Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9383664Z 
+2026-06-03T20:53:30.9383809Z Tournament 80/125
+2026-06-03T20:53:30.9383992Z 
+2026-06-03T20:53:30.9384258Z   Scraping UFA Foil Cup May (a962f990-52fe-47b9-bbbf-ff89c0dc2522)
+2026-06-03T20:53:30.9384795Z     CSV rows: 39
+2026-06-03T20:53:30.9385064Z     Event cards: 4
+2026-06-03T20:53:30.9385526Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9385874Z 
+2026-06-03T20:53:30.9386022Z Tournament 81/125
+2026-06-03T20:53:30.9386241Z 
+2026-06-03T20:53:30.9386604Z   Scraping San Diego Cup - Youth Saber #6 (6fb33a1c-333a-4f74-bb8e-f079e934ad7e)
+2026-06-03T20:53:30.9387218Z     CSV rows: 74
+2026-06-03T20:53:30.9387505Z     Event cards: 6
+2026-06-03T20:53:30.9387800Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9388209Z 
+2026-06-03T20:53:30.9388357Z Tournament 82/125
+2026-06-03T20:53:30.9388562Z 
+2026-06-03T20:53:30.9389073Z   Scraping May 17th - ZFA Open Foil, E & Under foil, Unrated Foil, Moorestown NJ (becce587-8c43-4c57-a096-d5aced7041dc)
+2026-06-03T20:53:30.9389760Z     CSV rows: 55
+2026-06-03T20:53:30.9390095Z     Event cards: 3
+2026-06-03T20:53:30.9390519Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9390906Z 
+2026-06-03T20:53:30.9391014Z Tournament 83/125
+2026-06-03T20:53:30.9391144Z 
+2026-06-03T20:53:30.9391396Z   Scraping The Knights of Summer-(Foil & Epee Youth) (98697752-4e2d-4b36-93da-36d8c447ea98)
+2026-06-03T20:53:30.9391830Z     CSV rows: 52
+2026-06-03T20:53:30.9392044Z     Event cards: 6
+2026-06-03T20:53:30.9392338Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9392587Z 
+2026-06-03T20:53:30.9392678Z Tournament 84/125
+2026-06-03T20:53:30.9392814Z 
+2026-06-03T20:53:30.9393020Z   Scraping Ultimate Youth Epee Cup (053730a9-76ff-4dd7-b7f9-10e8798aa66c)
+2026-06-03T20:53:30.9393647Z     CSV rows: 51
+2026-06-03T20:53:30.9393864Z     Event cards: 4
+2026-06-03T20:53:30.9394154Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9394400Z 
+2026-06-03T20:53:30.9394494Z Tournament 85/125
+2026-06-03T20:53:30.9394627Z 
+2026-06-03T20:53:30.9394887Z   Scraping PFA May Sanctioned Senior Mixed Foil (ecfb6eb9-9f91-4cf1-bfde-2f0ba202969b)
+2026-06-03T20:53:30.9395313Z     CSV rows: 35
+2026-06-03T20:53:30.9395528Z     Event cards: 1
+2026-06-03T20:53:30.9395805Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9396043Z 
+2026-06-03T20:53:30.9396139Z Tournament 86/125
+2026-06-03T20:53:30.9396267Z 
+2026-06-03T20:53:30.9396468Z   Scraping AFFA - Youth Tournament (8e5b64b8-120d-47bb-86de-34cc98a6a307)
+2026-06-03T20:53:30.9396831Z     CSV rows: 49
+2026-06-03T20:53:30.9397038Z     Event cards: 5
+2026-06-03T20:53:30.9397325Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9397576Z 
+2026-06-03T20:53:30.9397674Z Tournament 87/125
+2026-06-03T20:53:30.9397805Z 
+2026-06-03T20:53:30.9398450Z   Scraping BCAF-W - Y14 Mixed Foil (d1a97934-c663-49f1-b155-0f404a82a31d)
+2026-06-03T20:53:30.9398820Z     CSV rows: 13
+2026-06-03T20:53:30.9399034Z     Event cards: 1
+2026-06-03T20:53:30.9399324Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9399557Z 
+2026-06-03T20:53:30.9399651Z Tournament 88/125
+2026-06-03T20:53:30.9399776Z 
+2026-06-03T20:53:30.9400016Z   Scraping The Foil Master @ Bay Area Fencing Club (dc77d27d-1801-44a6-9f90-4d3d8441bcda)
+2026-06-03T20:53:30.9400432Z     CSV rows: 43
+2026-06-03T20:53:30.9400647Z     Event cards: 3
+2026-06-03T20:53:30.9401106Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9401342Z 
+2026-06-03T20:53:30.9401436Z Tournament 89/125
+2026-06-03T20:53:30.9401562Z 
+2026-06-03T20:53:30.9401788Z   Scraping AFM Youth and Cadet Cup - Event #5 (47a75d83-79e8-4220-a8bd-3f7eea8169a9)
+2026-06-03T20:53:30.9402181Z     CSV rows: 119
+2026-06-03T20:53:30.9402397Z     Event cards: 8
+2026-06-03T20:53:30.9402672Z     Incremental: skipping 8 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9402903Z 
+2026-06-03T20:53:30.9402998Z Tournament 90/125
+2026-06-03T20:53:30.9403503Z 
+2026-06-03T20:53:30.9403804Z   Scraping Escrimeur Senior and Veteran Sabre Cup 2025-2026 (10) (97757328-7890-41fc-bd2b-7a6d9922fc2d)
+2026-06-03T20:53:30.9404278Z     CSV rows: 61
+2026-06-03T20:53:30.9404498Z     Event cards: 3
+2026-06-03T20:53:30.9404779Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9405013Z 
+2026-06-03T20:53:30.9405107Z Tournament 91/125
+2026-06-03T20:53:30.9405242Z 
+2026-06-03T20:53:30.9405567Z   Scraping May 16th - ZFA Open Epee, E & Under epee, Y12, Y10 Epee, Moorestown NJ (6b6fcc69-6e25-4bcd-9baa-9f68976152ab)
+2026-06-03T20:53:30.9406060Z     CSV rows: 34
+2026-06-03T20:53:30.9406267Z     Event cards: 3
+2026-06-03T20:53:30.9406536Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9406765Z 
+2026-06-03T20:53:30.9406853Z Tournament 92/125
+2026-06-03T20:53:30.9406981Z 
+2026-06-03T20:53:30.9407256Z   Scraping SAS Seattle Saber Day (Y14, Unrated, Senior Open) (64d7fcc0-fab7-4dab-b6d8-043c000bfb3b)
+2026-06-03T20:53:30.9407718Z     CSV rows: 66
+2026-06-03T20:53:30.9407930Z     Event cards: 3
+2026-06-03T20:53:30.9408210Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9408449Z 
+2026-06-03T20:53:30.9408538Z Tournament 93/125
+2026-06-03T20:53:30.9408666Z 
+2026-06-03T20:53:30.9408882Z   Scraping The Widowmaker at NKFA (c30f7fb8-8030-464e-8d02-75fa3f7d5791)
+2026-06-03T20:53:30.9409257Z     CSV rows: 67
+2026-06-03T20:53:30.9409473Z     Event cards: 3
+2026-06-03T20:53:30.9409741Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9409973Z 
+2026-06-03T20:53:30.9410061Z Tournament 94/125
+2026-06-03T20:53:30.9410189Z 
+2026-06-03T20:53:30.9410340Z   Scraping Happy Cow (7cb57380-45c9-480d-8f84-c00e6cc44cd0)
+2026-06-03T20:53:30.9410643Z     CSV rows: 95
+2026-06-03T20:53:30.9410893Z     Event cards: 5
+2026-06-03T20:53:30.9411159Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9411387Z 
+2026-06-03T20:53:30.9411478Z Tournament 95/125
+2026-06-03T20:53:30.9411603Z 
+2026-06-03T20:53:30.9411790Z   Scraping Bozeman 2025-26 #8 (cae54aa3-fd3a-4c6a-bdcd-519d6eea87d9)
+2026-06-03T20:53:30.9412147Z     CSV rows: 32
+2026-06-03T20:53:30.9412349Z     Event cards: 4
+2026-06-03T20:53:30.9412610Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9412839Z 
+2026-06-03T20:53:30.9412928Z Tournament 96/125
+2026-06-03T20:53:30.9413053Z 
+2026-06-03T20:53:30.9413475Z   Scraping The Colin "Bad Ass" Miner Epic Epee Melee (e56fe0d5-1ccb-4c16-b13f-ac1d2ad158d9)
+2026-06-03T20:53:30.9413896Z     CSV rows: 14
+2026-06-03T20:53:30.9414101Z     Event cards: 1
+2026-06-03T20:53:30.9414371Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9414604Z 
+2026-06-03T20:53:30.9414693Z Tournament 97/125
+2026-06-03T20:53:30.9414821Z 
+2026-06-03T20:53:30.9415014Z   Scraping OFA May 16th Progressive (62335346-1014-49a6-b507-e611f24559d3)
+2026-06-03T20:53:30.9415575Z     CSV rows: 29
+2026-06-03T20:53:30.9415784Z     Event cards: 3
+2026-06-03T20:53:30.9416053Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9416291Z 
+2026-06-03T20:53:30.9416388Z Tournament 98/125
+2026-06-03T20:53:30.9416508Z 
+2026-06-03T20:53:30.9416716Z   Scraping Capital Czajkowski Cup #4 (232de570-2244-44b8-8019-c1fe86974e63)
+2026-06-03T20:53:30.9417085Z     CSV rows: 30
+2026-06-03T20:53:30.9417290Z     Event cards: 1
+2026-06-03T20:53:30.9417551Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9417919Z 
+2026-06-03T20:53:30.9418013Z Tournament 99/125
+2026-06-03T20:53:30.9418131Z 
+2026-06-03T20:53:30.9418390Z   Scraping Unrated Mixed & Women's Foil, Open Mixed Foil (42117fc0-7fe0-499a-9ea5-6e2ac7cd4f70)
+2026-06-03T20:53:30.9418814Z     CSV rows: 12
+2026-06-03T20:53:30.9419020Z     Event cards: 2
+2026-06-03T20:53:30.9419288Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9419509Z 
+2026-06-03T20:53:30.9419612Z Tournament 100/125
+2026-06-03T20:53:30.9419733Z 
+2026-06-03T20:53:30.9419955Z   Scraping CFC Youth In-house Tournament (998c79c8-54aa-49cb-93f2-245855d1a5ea)
+2026-06-03T20:53:30.9420337Z     CSV rows: 14
+2026-06-03T20:53:30.9420545Z     Event cards: 2
+2026-06-03T20:53:30.9420818Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9421044Z 
+2026-06-03T20:53:30.9421142Z Tournament 101/125
+2026-06-03T20:53:30.9421271Z 
+2026-06-03T20:53:30.9421512Z   Scraping Houston Sword Sports Spring Friendlies (b8639111-8ac0-4f80-82d9-1eb2446b95b4)
+2026-06-03T20:53:30.9421929Z     CSV rows: 73
+2026-06-03T20:53:30.9422143Z     Event cards: 10
+2026-06-03T20:53:30.9422439Z     Incremental: skipping 10 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9422683Z 
+2026-06-03T20:53:30.9422773Z Tournament 102/125
+2026-06-03T20:53:30.9422900Z 
+2026-06-03T20:53:30.9423270Z   Scraping DCFC Youth Saber Challenge (b91d84b1-ec75-4284-b966-05135a72eb65)
+2026-06-03T20:53:30.9423682Z     CSV rows: 25
+2026-06-03T20:53:30.9423893Z     Event cards: 3
+2026-06-03T20:53:30.9424163Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9424391Z 
+2026-06-03T20:53:30.9424480Z Tournament 103/125
+2026-06-03T20:53:30.9424608Z 
+2026-06-03T20:53:30.9424800Z   Scraping H3 Cheez-It Cup 2026 II (bb865c87-2b55-43b0-81d1-f4acc9970177)
+2026-06-03T20:53:30.9425157Z     CSV rows: 51
+2026-06-03T20:53:30.9425362Z     Event cards: 5
+2026-06-03T20:53:30.9425625Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9425856Z 
+2026-06-03T20:53:30.9425945Z Tournament 104/125
+2026-06-03T20:53:30.9426073Z 
+2026-06-03T20:53:30.9426327Z   Scraping NEUSFA D and Under Foil/Epee - Worcester (3bcfe9cc-9479-4a2d-a0b1-97163c5b6fe5)
+2026-06-03T20:53:30.9426745Z     CSV rows: 113
+2026-06-03T20:53:30.9426956Z     Event cards: 4
+2026-06-03T20:53:30.9427216Z     Incremental: skipping 4 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9427444Z 
+2026-06-03T20:53:30.9427537Z Tournament 105/125
+2026-06-03T20:53:30.9427661Z 
+2026-06-03T20:53:30.9427864Z   Scraping Forge Spring Saber Slam! (d5f69699-a1ee-43b5-b1d4-dbfdc3b30d4a)
+2026-06-03T20:53:30.9428230Z     CSV rows: 88
+2026-06-03T20:53:30.9428433Z     Event cards: 6
+2026-06-03T20:53:30.9428693Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9428921Z 
+2026-06-03T20:53:30.9429014Z Tournament 106/125
+2026-06-03T20:53:30.9429137Z 
+2026-06-03T20:53:30.9429354Z   Scraping Fence St. Louis May Day Saber (5e939176-3ce6-403f-aae8-ca6b56668be9)
+2026-06-03T20:53:30.9429739Z     CSV rows: 60
+2026-06-03T20:53:30.9429956Z     Event cards: 6
+2026-06-03T20:53:30.9430235Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9430470Z 
+2026-06-03T20:53:30.9430566Z Tournament 107/125
+2026-06-03T20:53:30.9430689Z 
+2026-06-03T20:53:30.9430910Z   Scraping AFM Veteran Epee Cup - Event #5 (ead547c4-eec3-4fc3-8de6-1b1b49230453)
+2026-06-03T20:53:30.9431298Z     CSV rows: 17
+2026-06-03T20:53:30.9431687Z     Event cards: 1
+2026-06-03T20:53:30.9431957Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9432183Z 
+2026-06-03T20:53:30.9432279Z Tournament 108/125
+2026-06-03T20:53:30.9432404Z 
+2026-06-03T20:53:30.9432598Z   Scraping Apex Novice Cup - May (5ce32cba-bee7-4dcb-8076-488651de3012)
+2026-06-03T20:53:30.9432962Z     CSV rows: 65
+2026-06-03T20:53:30.9433360Z     Event cards: 6
+2026-06-03T20:53:30.9433662Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9434036Z 
+2026-06-03T20:53:30.9434126Z Tournament 109/125
+2026-06-03T20:53:30.9434256Z 
+2026-06-03T20:53:30.9434439Z   Scraping Colorado Youth Cup #7 (8832a04b-b2b1-437d-bbb6-cce356dcba53)
+2026-06-03T20:53:30.9434794Z     CSV rows: 68
+2026-06-03T20:53:30.9435001Z     Event cards: 9
+2026-06-03T20:53:30.9435267Z     Incremental: skipping 9 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9435495Z 
+2026-06-03T20:53:30.9435585Z Tournament 110/125
+2026-06-03T20:53:30.9435712Z 
+2026-06-03T20:53:30.9436057Z   Scraping May16th 2026 Vivo/Portland Fencing Youth Foil Developmental @Vivo (554e3830-c046-43b0-8c42-785b37925600)
+2026-06-03T20:53:30.9436558Z     CSV rows: 28
+2026-06-03T20:53:30.9436767Z     Event cards: 2
+2026-06-03T20:53:30.9437034Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9437264Z 
+2026-06-03T20:53:30.9437353Z Tournament 111/125
+2026-06-03T20:53:30.9437483Z 
+2026-06-03T20:53:30.9437663Z   Scraping GFA Tucson in May (0ecb46b2-90d2-4cfb-b217-5669be180620)
+2026-06-03T20:53:30.9438015Z     CSV rows: 66
+2026-06-03T20:53:30.9438221Z     Event cards: 10
+2026-06-03T20:53:30.9438510Z     Incremental: skipping 10 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9438754Z 
+2026-06-03T20:53:30.9438851Z Tournament 112/125
+2026-06-03T20:53:30.9438974Z 
+2026-06-03T20:53:30.9439163Z   Scraping Supreme Spring Cup (2e54aec2-a06e-410e-85f0-e3f330161e5b)
+2026-06-03T20:53:30.9439514Z     CSV rows: 48
+2026-06-03T20:53:30.9439716Z     Event cards: 3
+2026-06-03T20:53:30.9439983Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9440214Z 
+2026-06-03T20:53:30.9440309Z Tournament 113/125
+2026-06-03T20:53:30.9440429Z 
+2026-06-03T20:53:30.9440618Z   Scraping 2026 Rain City Open (e580cba6-8eca-49db-93c1-0ba5b5e5eef8)
+2026-06-03T20:53:30.9440969Z     CSV rows: 141
+2026-06-03T20:53:30.9441182Z     Event cards: 6
+2026-06-03T20:53:30.9441452Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9441674Z 
+2026-06-03T20:53:30.9441769Z Tournament 114/125
+2026-06-03T20:53:30.9441898Z 
+2026-06-03T20:53:30.9442091Z   Scraping May Cookie Challenge (3cdb6f47-addb-4a2b-9f0e-7d689d48b310)
+2026-06-03T20:53:30.9442445Z     CSV rows: 42
+2026-06-03T20:53:30.9442655Z     Event cards: 5
+2026-06-03T20:53:30.9442915Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9443366Z 
+2026-06-03T20:53:30.9443477Z Tournament 115/125
+2026-06-03T20:53:30.9443603Z 
+2026-06-03T20:53:30.9443841Z   Scraping Manchen Friday Night "E & Under" Foil (cbd21a74-efba-4817-90d4-eb65f353ecde)
+2026-06-03T20:53:30.9444249Z     CSV rows: 21
+2026-06-03T20:53:30.9444458Z     Event cards: 1
+2026-06-03T20:53:30.9444719Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9444947Z 
+2026-06-03T20:53:30.9445036Z Tournament 116/125
+2026-06-03T20:53:30.9445160Z 
+2026-06-03T20:53:30.9445346Z   Scraping NJFA - Div. 3 Mixed Epee (9283024d-48b1-4b72-bcb6-fd3f22beaaf3)
+2026-06-03T20:53:30.9445711Z     CSV rows: 10
+2026-06-03T20:53:30.9445917Z     Event cards: 1
+2026-06-03T20:53:30.9446185Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9446414Z 
+2026-06-03T20:53:30.9446504Z Tournament 117/125
+2026-06-03T20:53:30.9446630Z 
+2026-06-03T20:53:30.9447647Z   Scraping Luby’s Ludus Sparrows (Y14 foil and sabre) (adf9b32d-df3b-4fbd-87ce-b1834b97f06a)
+2026-06-03T20:53:30.9448152Z     CSV rows: 14
+2026-06-03T20:53:30.9448370Z     Event cards: 2
+2026-06-03T20:53:30.9448668Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9449083Z 
+2026-06-03T20:53:30.9449177Z Tournament 118/125
+2026-06-03T20:53:30.9449311Z 
+2026-06-03T20:53:30.9449492Z   Scraping FCMC Div3 Foil (5ed05634-0c03-4b1d-9680-75cf9b487b5f)
+2026-06-03T20:53:30.9449842Z     CSV rows: 6
+2026-06-03T20:53:30.9450061Z     Event cards: 1
+2026-06-03T20:53:30.9450346Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9450593Z 
+2026-06-03T20:53:30.9450689Z Tournament 119/125
+2026-06-03T20:53:30.9450813Z 
+2026-06-03T20:53:30.9451263Z   Scraping The Line Fencing Academy Y12, Div 3, and Women's Foil (42aecce3-c24c-4a8d-bcfd-fdefffd63d2d)
+2026-06-03T20:53:30.9451730Z     CSV rows: 20
+2026-06-03T20:53:30.9451943Z     Event cards: 3
+2026-06-03T20:53:30.9452222Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9452461Z 
+2026-06-03T20:53:30.9452555Z Tournament 120/125
+2026-06-03T20:53:30.9452676Z 
+2026-06-03T20:53:30.9452887Z   Scraping RMSA/RYF All You Can Fence (f3298d81-3fa1-4644-a5b2-d4ceb3c4e40d)
+2026-06-03T20:53:30.9453522Z     CSV rows: 41
+2026-06-03T20:53:30.9453737Z     Event cards: 5
+2026-06-03T20:53:30.9454017Z     Incremental: skipping 5 already-scraped event(s), 0 new
+2026-06-03T20:53:30.9454247Z 
+2026-06-03T20:53:42.2890979Z Tournament 121/125
+2026-06-03T20:53:42.2891305Z 
+2026-06-03T20:53:42.2891704Z   Scraping OFC Youth Sabre Cup - May 2026 (6f8067ad-ef6f-4742-aef1-fb16c3024563)
+2026-06-03T20:53:42.2892353Z     CSV rows: 17
+2026-06-03T20:53:42.2892690Z     Event cards: 0
+2026-06-03T20:53:42.2893384Z     Incremental: skipping 3 already-scraped event(s), 0 new
+2026-06-03T20:53:42.2893798Z 
+2026-06-03T20:53:42.2893933Z Tournament 122/125
+2026-06-03T20:53:42.2894145Z 
+2026-06-03T20:53:42.2894586Z   Scraping Pacific Northwest Cup #5 (Y10F, Y12F, Y14F & Y14E) (5913c1f1-bac3-4939-b2b8-20a5fbeedef9)
+2026-06-03T20:53:42.2895196Z     CSV rows: 35
+2026-06-03T20:53:42.2895597Z     Event cards: 3
+2026-06-03T20:53:42.2896036Z     Incremental: skipping 1 already-scraped event(s), 0 new
+2026-06-03T20:53:42.2896591Z 
+2026-06-03T20:53:42.2896801Z Tournament 123/125
+2026-06-03T20:53:42.2896987Z 
+2026-06-03T20:53:42.2897311Z   Scraping Skyward Fencing May Competition (b6b143b6-4143-4dab-93cb-14260877373a)
+2026-06-03T20:53:42.2911511Z     CSV rows: 95
+2026-06-03T20:53:42.2911776Z     Event cards: 8
+2026-06-03T20:53:42.2912092Z     Incremental: skipping 8 already-scraped event(s), 0 new
+2026-06-03T20:53:42.2912367Z 
+2026-06-03T20:53:42.2912461Z Tournament 124/125
+2026-06-03T20:53:42.2912597Z 
+2026-06-03T20:53:42.2912796Z   Scraping Spring Fling 2026 (b9032903-3e67-49af-ade7-a6ef22e5e1d2)
+2026-06-03T20:53:42.2913303Z     CSV rows: 85
+2026-06-03T20:53:42.2913518Z     Event cards: 6
+2026-06-03T20:53:42.2913808Z     Incremental: skipping 6 already-scraped event(s), 0 new
+2026-06-03T20:53:42.2914060Z 
+2026-06-03T20:53:42.2914153Z Tournament 125/125
+2026-06-03T20:53:42.2914295Z 
+2026-06-03T20:53:42.2914502Z   Scraping RCFC In-House Festival (dd0caf4d-c128-49d6-90bc-716757507f88)
+2026-06-03T20:53:42.2914884Z     CSV rows: 19
+2026-06-03T20:53:42.2915112Z     Event cards: 2
+2026-06-03T20:53:42.2915406Z     Incremental: skipping 2 already-scraped event(s), 0 new
+2026-06-03T20:53:42.2915648Z 
+2026-06-03T20:53:42.2915914Z FRED scraper complete - results=0, unmatched_fencers=0, skipped=433, failed_tournaments=0
+2026-06-03T20:53:42.4915790Z ##[group]Run python scrape_fed_british.py
+2026-06-03T20:53:42.4916386Z [36;1mpython scrape_fed_british.py[0m
+2026-06-03T20:53:42.4957075Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:53:42.4957482Z env:
+2026-06-03T20:53:42.4957866Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:53:42.4958444Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.4959175Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:53:42.4959915Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.4960600Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.4961270Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:42.4961889Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:53:42.4962712Z   SUPABASE_URL: ***
+2026-06-03T20:53:42.4965262Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:53:42.4965692Z ##[endgroup]
+2026-06-03T20:53:43.9291204Z British Fencing rankings — season 2025-2026
+2026-06-03T20:53:43.9291737Z   Foil Men Senior...
+2026-06-03T20:53:43.9292303Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-mixed-mens-foil/
+2026-06-03T20:53:43.9293790Z   Foil Women Senior...
+2026-06-03T20:53:43.9294278Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-womens-foil/
+2026-06-03T20:53:43.9294843Z   Epee Men Senior...
+2026-06-03T20:53:43.9295200Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-mixed-mens-epee/
+2026-06-03T20:53:43.9295602Z   Epee Women Senior...
+2026-06-03T20:53:43.9295940Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-womens-epee/
+2026-06-03T20:53:43.9296318Z   Sabre Men Senior...
+2026-06-03T20:53:43.9296683Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-mixed-mens-sabre/
+2026-06-03T20:53:43.9297089Z   Sabre Women Senior...
+2026-06-03T20:53:43.9297444Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/senior-womens-sabre/
+2026-06-03T20:53:43.9297853Z   Foil Men Junior...
+2026-06-03T20:53:43.9298208Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-mens-foil/
+2026-06-03T20:53:43.9298605Z   Foil Women Junior...
+2026-06-03T20:53:43.9298988Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-womens-foil/
+2026-06-03T20:53:43.9299406Z   Epee Men Junior...
+2026-06-03T20:53:43.9299755Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-mens-epee/
+2026-06-03T20:53:43.9300147Z   Epee Women Junior...
+2026-06-03T20:53:43.9300497Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-womens-epee/
+2026-06-03T20:53:43.9300891Z   Sabre Men Junior...
+2026-06-03T20:53:43.9301241Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-mens-sabre/
+2026-06-03T20:53:43.9301628Z   Sabre Women Junior...
+2026-06-03T20:53:43.9301984Z     HTTP 403 for https://www.britishfencing.com/rankings-v2/junior-womens-sabre/
+2026-06-03T20:53:43.9302511Z Done — written=0, failed=12
+2026-06-03T20:53:44.0957857Z ##[group]Run python scrape_fed_france.py
+2026-06-03T20:53:44.0958453Z [36;1mpython scrape_fed_france.py[0m
+2026-06-03T20:53:44.0998139Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:53:44.0998554Z env:
+2026-06-03T20:53:44.0998948Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:53:44.0999552Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:44.1000295Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:53:44.1001022Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:44.1001694Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:44.1002359Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:53:44.1003002Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:53:44.1004116Z   SUPABASE_URL: ***
+2026-06-03T20:53:44.1006521Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:53:44.1006960Z ##[endgroup]
+2026-06-03T20:57:12.8784296Z FFE France rankings — season 2025-2026 (year param: 2026)
+2026-06-03T20:57:12.8784922Z   Foil Men Senior...
+2026-06-03T20:57:12.8785306Z     Written 541 rows (652 parsed)
+2026-06-03T20:57:12.8785721Z   Foil Women Senior...
+2026-06-03T20:57:12.8786107Z     Written 262 rows (288 parsed)
+2026-06-03T20:57:12.8786511Z   Epee Men Senior...
+2026-06-03T20:57:12.8786870Z     Written 860 rows (1000 parsed)
+2026-06-03T20:57:12.8787188Z   Epee Women Senior...
+2026-06-03T20:57:12.8787441Z     Written 493 rows (605 parsed)
+2026-06-03T20:57:12.8787721Z   Sabre Men Senior...
+2026-06-03T20:57:12.8787962Z     Written 419 rows (520 parsed)
+2026-06-03T20:57:12.8788215Z   Sabre Women Senior...
+2026-06-03T20:57:12.8788453Z     Written 206 rows (241 parsed)
+2026-06-03T20:57:12.8788700Z   Foil Men Junior...
+2026-06-03T20:57:12.8788933Z     Written 308 rows (327 parsed)
+2026-06-03T20:57:12.8789184Z   Foil Women Junior...
+2026-06-03T20:57:12.8789411Z     Written 188 rows (202 parsed)
+2026-06-03T20:57:12.8789656Z   Epee Men Junior...
+2026-06-03T20:57:12.8789882Z     Written 426 rows (476 parsed)
+2026-06-03T20:57:12.8790141Z   Epee Women Junior...
+2026-06-03T20:57:12.8790368Z     Written 246 rows (263 parsed)
+2026-06-03T20:57:12.8790612Z   Sabre Men Junior...
+2026-06-03T20:57:12.8791298Z     Written 198 rows (213 parsed)
+2026-06-03T20:57:12.8791543Z   Sabre Women Junior...
+2026-06-03T20:57:12.8791794Z     Written 103 rows (110 parsed)
+2026-06-03T20:57:12.8792128Z Done — written=4250, failed=0
+2026-06-03T20:57:13.0652097Z ##[group]Run python scrape_fed_germany.py
+2026-06-03T20:57:13.0652466Z [36;1mpython scrape_fed_germany.py[0m
+2026-06-03T20:57:13.0680612Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:57:13.0680897Z env:
+2026-06-03T20:57:13.0681145Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:57:13.0681529Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:13.0681981Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:57:13.0682432Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:13.0682831Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:13.0683399Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:57:13.0683794Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:57:13.0684333Z   SUPABASE_URL: ***
+2026-06-03T20:57:13.0685668Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:57:13.0685943Z ##[endgroup]
+2026-06-03T20:58:00.9393619Z DFB Germany rankings — season 2025-2026
+2026-06-03T20:58:00.9394152Z   Foil Men Senior (ID 21206)...
+2026-06-03T20:58:00.9394552Z     Written 64 rows
+2026-06-03T20:58:00.9394886Z   Foil Women Senior (ID 21205)...
+2026-06-03T20:58:00.9395276Z     Written 51 rows
+2026-06-03T20:58:00.9395610Z   Epee Men Senior (ID 21204)...
+2026-06-03T20:58:00.9395998Z     Written 76 rows
+2026-06-03T20:58:00.9396337Z   Epee Women Senior (ID 21203)...
+2026-06-03T20:58:00.9396651Z     Written 54 rows
+2026-06-03T20:58:00.9396891Z   Sabre Men Senior (ID 21208)...
+2026-06-03T20:58:00.9397146Z     Written 39 rows
+2026-06-03T20:58:00.9397373Z   Sabre Women Senior (ID 21207)...
+2026-06-03T20:58:00.9397641Z     Written 34 rows
+2026-06-03T20:58:00.9397877Z   Foil Men Junior (ID 21026)...
+2026-06-03T20:58:00.9398159Z     Written 71 rows
+2026-06-03T20:58:00.9398387Z   Foil Women Junior (ID 21023)...
+2026-06-03T20:58:00.9398644Z     Written 70 rows
+2026-06-03T20:58:00.9398867Z   Epee Men Junior (ID 21020)...
+2026-06-03T20:58:00.9399128Z     Written 71 rows
+2026-06-03T20:58:00.9399367Z   Epee Women Junior (ID 21017)...
+2026-06-03T20:58:00.9399623Z     Written 67 rows
+2026-06-03T20:58:00.9399848Z   Sabre Men Junior (ID 20979)...
+2026-06-03T20:58:00.9400100Z     Written 44 rows
+2026-06-03T20:58:00.9400324Z   Sabre Women Junior (ID 20977)...
+2026-06-03T20:58:00.9400589Z     Written 36 rows
+2026-06-03T20:58:00.9400885Z Done — written=677, failed=0
+2026-06-03T20:58:01.0997106Z ##[group]Run python scrape_fed_italy.py
+2026-06-03T20:58:01.0997483Z [36;1mpython scrape_fed_italy.py[0m
+2026-06-03T20:58:01.1025588Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:58:01.1025862Z env:
+2026-06-03T20:58:01.1026103Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:58:01.1026489Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:58:01.1026966Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:58:01.1027407Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:58:01.1027799Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:58:01.1028181Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:58:01.1028563Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:58:01.1029090Z   SUPABASE_URL: ***
+2026-06-03T20:58:01.1030443Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:58:01.1030712Z ##[endgroup]
+2026-06-03T21:02:27.0890666Z FIS Italy rankings — season 2025-2026
+2026-06-03T21:02:27.0891882Z   Senior document: RANKING ASSOLUTI 2025-26 N.20/26 -> https://federscherma.it/wp-content/plugins/if_document_manager/forceDownload.php?ID_file=202391
+2026-06-03T21:02:27.0893550Z   Junior document: RANKING GIOVANI 2025-2026 N.14/26 -> https://federscherma.it/wp-content/plugins/if_document_manager/forceDownload.php?ID_file=200196
+2026-06-03T21:02:27.0896262Z   Senior Men Foil...
+2026-06-03T21:02:27.0896950Z     Parsed 597 rows; written 587 rows
+2026-06-03T21:02:27.0897395Z   Senior Women Foil...
+2026-06-03T21:02:27.0897772Z     Parsed 370 rows; written 359 rows
+2026-06-03T21:02:27.0898187Z   Senior Men Epee...
+2026-06-03T21:02:27.0898548Z     Parsed 1998 rows; written 1953 rows
+2026-06-03T21:02:27.0898982Z   Senior Women Epee...
+2026-06-03T21:02:27.0899376Z     Parsed 1129 rows; written 1115 rows
+2026-06-03T21:02:27.0899821Z   Senior Men Sabre...
+2026-06-03T21:02:27.0900202Z     Parsed 451 rows; written 444 rows
+2026-06-03T21:02:27.0900685Z   Senior Women Sabre...
+2026-06-03T21:02:27.0901081Z     Parsed 274 rows; written 272 rows
+2026-06-03T21:02:27.0901514Z   Junior Men Foil...
+2026-06-03T21:02:27.0901880Z     Parsed 360 rows; written 342 rows
+2026-06-03T21:02:27.0902287Z   Junior Women Foil...
+2026-06-03T21:02:27.0902656Z     Parsed 236 rows; written 219 rows
+2026-06-03T21:02:27.0903061Z   Junior Men Epee...
+2026-06-03T21:02:27.0903686Z     Parsed 1155 rows; written 1136 rows
+2026-06-03T21:02:27.0904106Z   Junior Women Epee...
+2026-06-03T21:02:27.0904480Z     Parsed 745 rows; written 738 rows
+2026-06-03T21:02:27.0904909Z   Junior Men Sabre...
+2026-06-03T21:02:27.0905273Z     Parsed 228 rows; written 218 rows
+2026-06-03T21:02:27.0905703Z   Junior Women Sabre...
+2026-06-03T21:02:27.0906083Z     Parsed 156 rows; written 151 rows
+2026-06-03T21:02:27.0906829Z Done — written=7534, failed=0, skipped=0, combos_with_rows=12/12
+2026-06-03T21:02:27.3022727Z ##[group]Run python scrape_fed_canada.py
+2026-06-03T21:02:27.3023325Z [36;1mpython scrape_fed_canada.py[0m
+2026-06-03T21:02:27.3051512Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:02:27.3051820Z env:
+2026-06-03T21:02:27.3052070Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:02:27.3052463Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:02:27.3052922Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:02:27.3053636Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:02:27.3054038Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:02:27.3054426Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:02:27.3054813Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:02:27.3055351Z   SUPABASE_URL: ***
+2026-06-03T21:02:27.3056676Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:02:27.3056952Z ##[endgroup]
+2026-06-03T21:03:25.9562199Z CFF Canada rankings — season 2025-2026
+2026-06-03T21:03:25.9564131Z   Epee Men Junior...
+2026-06-03T21:03:25.9564526Z     Written 160 rows
+2026-06-03T21:03:25.9564851Z   Epee Men Senior...
+2026-06-03T21:03:25.9565169Z     Written 310 rows
+2026-06-03T21:03:25.9565497Z   Epee Women Junior...
+2026-06-03T21:03:25.9565842Z     Written 99 rows
+2026-06-03T21:03:25.9566165Z   Epee Women Senior...
+2026-06-03T21:03:25.9566480Z     Written 171 rows
+2026-06-03T21:03:25.9566804Z   Foil Men Junior...
+2026-06-03T21:03:25.9567144Z     Written 99 rows
+2026-06-03T21:03:25.9567447Z   Foil Men Senior...
+2026-06-03T21:03:25.9567752Z     Written 221 rows
+2026-06-03T21:03:25.9568074Z   Foil Women Junior...
+2026-06-03T21:03:25.9568392Z     Written 72 rows
+2026-06-03T21:03:25.9568681Z   Foil Women Senior...
+2026-06-03T21:03:25.9568984Z     Written 145 rows
+2026-06-03T21:03:25.9569292Z   Sabre Men Junior...
+2026-06-03T21:03:25.9569614Z     Written 97 rows
+2026-06-03T21:03:25.9569923Z   Sabre Men Senior...
+2026-06-03T21:03:25.9570240Z     Written 174 rows
+2026-06-03T21:03:25.9570558Z   Sabre Women Junior...
+2026-06-03T21:03:25.9570884Z     Written 81 rows
+2026-06-03T21:03:25.9571191Z   Sabre Women Senior...
+2026-06-03T21:03:25.9571523Z     Written 135 rows
+2026-06-03T21:03:25.9571975Z Done — written=1764, failed=0
+2026-06-03T21:03:26.1297602Z ##[group]Run python scrape_fed_hun.py
+2026-06-03T21:03:26.1297955Z [36;1mpython scrape_fed_hun.py[0m
+2026-06-03T21:03:26.1326874Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:26.1327158Z env:
+2026-06-03T21:03:26.1327617Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:26.1327994Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:26.1328449Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:26.1328909Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:26.1329301Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:26.1329690Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:26.1330073Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:26.1330606Z   SUPABASE_URL: ***
+2026-06-03T21:03:26.1331935Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:26.1332207Z ##[endgroup]
+2026-06-03T21:03:51.7482477Z Hungary MVSZ rankings — season 2024-2025
+2026-06-03T21:03:51.7483047Z   Foil Men Senior...
+2026-06-03T21:03:51.7483559Z     No rows parsed
+2026-06-03T21:03:51.7483862Z   Foil Women Senior...
+2026-06-03T21:03:51.7484186Z     No rows parsed
+2026-06-03T21:03:51.7484506Z   Epee Men Senior...
+2026-06-03T21:03:51.7484812Z     No rows parsed
+2026-06-03T21:03:51.7485124Z   Epee Women Senior...
+2026-06-03T21:03:51.7485438Z     No rows parsed
+2026-06-03T21:03:51.7485736Z   Sabre Men Senior...
+2026-06-03T21:03:51.7486039Z     No rows parsed
+2026-06-03T21:03:51.7486331Z   Sabre Women Senior...
+2026-06-03T21:03:51.7486647Z     No rows parsed
+2026-06-03T21:03:51.7486934Z   Foil Men Junior...
+2026-06-03T21:03:51.7487232Z     No rows parsed
+2026-06-03T21:03:51.7487527Z   Foil Women Junior...
+2026-06-03T21:03:51.7487837Z     No rows parsed
+2026-06-03T21:03:51.7488070Z   Epee Men Junior...
+2026-06-03T21:03:51.7488308Z     No rows parsed
+2026-06-03T21:03:51.7488542Z   Epee Women Junior...
+2026-06-03T21:03:51.7488797Z     No rows parsed
+2026-06-03T21:03:51.7489026Z   Sabre Men Junior...
+2026-06-03T21:03:51.7489261Z     No rows parsed
+2026-06-03T21:03:51.7489484Z   Sabre Women Junior...
+2026-06-03T21:03:51.7489727Z     No rows parsed
+2026-06-03T21:03:51.7490112Z Done — written=0, parsed=0, failed=0, skipped=12
+2026-06-03T21:03:51.8949852Z ##[group]Run python scrape_fed_kor.py
+2026-06-03T21:03:51.8950206Z [36;1mpython scrape_fed_kor.py[0m
+2026-06-03T21:03:51.8978447Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:51.8978719Z env:
+2026-06-03T21:03:51.8978964Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:51.8979344Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:51.8979808Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:51.8980252Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:51.8980653Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:51.8981040Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:51.8981426Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:51.8981924Z   SUPABASE_URL: ***
+2026-06-03T21:03:51.8983522Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:51.8983814Z ##[endgroup]
+2026-06-03T21:03:52.7665478Z Korean Fencing Federation rankings — season 2024-2025
+2026-06-03T21:03:52.7666020Z No public KFA national ranking endpoint verified; logging combos as skipped.
+2026-06-03T21:03:52.7666446Z   Foil Men Senior...
+2026-06-03T21:03:52.7666733Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7667051Z   Foil Women Senior...
+2026-06-03T21:03:52.7667329Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7667630Z   Epee Men Senior...
+2026-06-03T21:03:52.7667887Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7668185Z   Epee Women Senior...
+2026-06-03T21:03:52.7668438Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7668732Z   Sabre Men Senior...
+2026-06-03T21:03:52.7668985Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7669275Z   Sabre Women Senior...
+2026-06-03T21:03:52.7669546Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7669849Z   Foil Men Junior...
+2026-06-03T21:03:52.7670447Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7670746Z   Foil Women Junior...
+2026-06-03T21:03:52.7671019Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7671331Z   Epee Men Junior...
+2026-06-03T21:03:52.7671600Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7671914Z   Epee Women Junior...
+2026-06-03T21:03:52.7672178Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7672467Z   Sabre Men Junior...
+2026-06-03T21:03:52.7672723Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7673020Z   Sabre Women Junior...
+2026-06-03T21:03:52.7673541Z     Skipped: no public national ranking URL found
+2026-06-03T21:03:52.7674002Z Done — written=0, failed=0, skipped=12, combos_working=0/12
+2026-06-03T21:03:52.9184398Z ##[group]Run python scrape_fed_chn.py
+2026-06-03T21:03:52.9184953Z [36;1mpython scrape_fed_chn.py[0m
+2026-06-03T21:03:52.9224702Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:52.9225138Z env:
+2026-06-03T21:03:52.9225500Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:52.9226103Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:52.9226844Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:52.9227580Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:52.9228234Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:52.9228879Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:52.9229537Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:52.9230332Z   SUPABASE_URL: ***
+2026-06-03T21:03:52.9232738Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:52.9233351Z ##[endgroup]
+2026-06-03T21:11:13.7157904Z China fencing rankings — season 2024-2025; API season 2026; week 第二十一周(05月18日至05月24日)
+2026-06-03T21:11:13.7158664Z   Foil Men Senior...
+2026-06-03T21:11:13.7159035Z     Parsed 207 rows; written 64 rows
+2026-06-03T21:11:13.7159468Z   Foil Women Senior...
+2026-06-03T21:11:13.7159815Z     Parsed 208 rows; written 53 rows
+2026-06-03T21:11:13.7160221Z   Epee Men Senior...
+2026-06-03T21:11:13.7160566Z     Parsed 248 rows; written 64 rows
+2026-06-03T21:11:13.7160948Z   Epee Women Senior...
+2026-06-03T21:11:13.7161292Z     Parsed 214 rows; written 61 rows
+2026-06-03T21:11:13.7161694Z   Sabre Men Senior...
+2026-06-03T21:11:13.7162050Z     Parsed 229 rows; written 61 rows
+2026-06-03T21:11:13.7162453Z   Sabre Women Senior...
+2026-06-03T21:11:13.7162793Z     Parsed 179 rows; written 54 rows
+2026-06-03T21:11:13.7163458Z   Foil Men Junior...
+2026-06-03T21:11:13.7163792Z     Parsed 186 rows; written 57 rows
+2026-06-03T21:11:13.7164169Z   Foil Women Junior...
+2026-06-03T21:11:13.7164494Z     Parsed 167 rows; written 53 rows
+2026-06-03T21:11:13.7164880Z   Epee Men Junior...
+2026-06-03T21:11:13.7165198Z     Parsed 220 rows; written 70 rows
+2026-06-03T21:11:13.7165571Z   Epee Women Junior...
+2026-06-03T21:11:13.7165927Z     Parsed 188 rows; written 63 rows
+2026-06-03T21:11:13.7166310Z   Sabre Men Junior...
+2026-06-03T21:11:13.7166649Z     Parsed 201 rows; written 60 rows
+2026-06-03T21:11:13.7167043Z   Sabre Women Junior...
+2026-06-03T21:11:13.7167396Z     Parsed 125 rows; written 43 rows
+2026-06-03T21:11:13.7167938Z Done — written=703, failed=0, skipped=0
+2026-06-03T21:11:13.8645835Z ##[group]Run python scrape_fed_jpn.py
+2026-06-03T21:11:13.8646198Z [36;1mpython scrape_fed_jpn.py[0m
+2026-06-03T21:11:13.8674158Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:11:13.8674422Z env:
+2026-06-03T21:11:13.8674660Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:11:13.8675042Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:11:13.8675502Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:11:13.8675943Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:11:13.8676334Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:11:13.8676948Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:11:13.8677329Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:11:13.8677896Z   SUPABASE_URL: ***
+2026-06-03T21:11:13.8679260Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:11:13.8679544Z ##[endgroup]
+2026-06-03T21:12:36.9651429Z JFA Japan rankings — season 2024-2025
+2026-06-03T21:12:36.9651969Z   Foil Men Senior...
+2026-06-03T21:12:36.9652334Z     Parsed 197 rows; written 196 rows
+2026-06-03T21:12:36.9652731Z   Foil Women Senior...
+2026-06-03T21:12:36.9653301Z     Parsed 117 rows; written 115 rows
+2026-06-03T21:12:36.9653698Z   Epee Men Senior...
+2026-06-03T21:12:36.9654033Z     Parsed 188 rows; written 183 rows
+2026-06-03T21:12:36.9654435Z   Epee Women Senior...
+2026-06-03T21:12:36.9654767Z     Parsed 121 rows; written 120 rows
+2026-06-03T21:12:36.9655148Z   Sabre Men Senior...
+2026-06-03T21:12:36.9655473Z     Parsed 127 rows; written 127 rows
+2026-06-03T21:12:36.9655857Z   Sabre Women Senior...
+2026-06-03T21:12:36.9656221Z     Parsed 99 rows; written 99 rows
+2026-06-03T21:12:36.9656609Z   Foil Men Junior...
+2026-06-03T21:12:36.9656937Z     Parsed 257 rows; written 243 rows
+2026-06-03T21:12:36.9657304Z   Foil Women Junior...
+2026-06-03T21:12:36.9657632Z     Parsed 192 rows; written 182 rows
+2026-06-03T21:12:36.9658012Z   Epee Men Junior...
+2026-06-03T21:12:36.9658338Z     Parsed 216 rows; written 209 rows
+2026-06-03T21:12:36.9658712Z   Epee Women Junior...
+2026-06-03T21:12:36.9659049Z     Parsed 141 rows; written 141 rows
+2026-06-03T21:12:36.9659441Z   Sabre Men Junior...
+2026-06-03T21:12:36.9659780Z     Parsed 174 rows; written 171 rows
+2026-06-03T21:12:36.9660183Z   Sabre Women Junior...
+2026-06-03T21:12:36.9660537Z     Parsed 129 rows; written 121 rows
+2026-06-03T21:12:36.9661016Z Done — written=1907, failed=0
+2026-06-03T21:12:37.1481670Z ##[group]Run python scrape_fed_rus.py
+2026-06-03T21:12:37.1482054Z [36;1mpython scrape_fed_rus.py[0m
+2026-06-03T21:12:37.1510004Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:12:37.1510290Z env:
+2026-06-03T21:12:37.1510530Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:12:37.1510909Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:12:37.1511353Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:12:37.1511786Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:12:37.1512171Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:12:37.1512558Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:12:37.1512942Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:12:37.1513654Z   SUPABASE_URL: ***
+2026-06-03T21:12:37.1514975Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:12:37.1515244Z ##[endgroup]
+2026-06-03T21:13:26.2718234Z Russian Fencing Federation rankings — season 2025-2026
+2026-06-03T21:13:26.2718976Z Source URL: https://www.rusfencing.ru/rating.php (GET HTML)
+2026-06-03T21:13:26.2719507Z   Foil Men Senior...
+2026-06-03T21:13:26.2719882Z     Parsed 63 rows; written 63
+2026-06-03T21:13:26.2720254Z   Foil Women Senior...
+2026-06-03T21:13:26.2720594Z     Parsed 65 rows; written 65
+2026-06-03T21:13:26.2720950Z   Epee Men Senior...
+2026-06-03T21:13:26.2721273Z     Parsed 77 rows; written 77
+2026-06-03T21:13:26.2721616Z   Epee Women Senior...
+2026-06-03T21:13:26.2721953Z     Parsed 85 rows; written 85
+2026-06-03T21:13:26.2722330Z   Sabre Men Senior...
+2026-06-03T21:13:26.2722652Z     Parsed 57 rows; written 57
+2026-06-03T21:13:26.2723008Z   Sabre Women Senior...
+2026-06-03T21:13:26.2723612Z     Parsed 57 rows; written 57
+2026-06-03T21:13:26.2723951Z   Foil Men Junior...
+2026-06-03T21:13:26.2724255Z     Parsed 55 rows; written 55
+2026-06-03T21:13:26.2724597Z   Foil Women Junior...
+2026-06-03T21:13:26.2724922Z     Parsed 53 rows; written 53
+2026-06-03T21:13:26.2725261Z   Epee Men Junior...
+2026-06-03T21:13:26.2725585Z     Parsed 72 rows; written 72
+2026-06-03T21:13:26.2725923Z   Epee Women Junior...
+2026-06-03T21:13:26.2726788Z     Parsed 76 rows; written 76
+2026-06-03T21:13:26.2727136Z   Sabre Men Junior...
+2026-06-03T21:13:26.2727460Z     Parsed 60 rows; written 60
+2026-06-03T21:13:26.2727817Z   Sabre Women Junior...
+2026-06-03T21:13:26.2728145Z     Parsed 51 rows; written 51
+2026-06-03T21:13:26.2728612Z Done — written=771, failed=0, skipped=0
+2026-06-03T21:13:26.4141082Z ##[group]Run python scrape_fed_pol.py
+2026-06-03T21:13:26.4141439Z [36;1mpython scrape_fed_pol.py[0m
+2026-06-03T21:13:26.4169410Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:13:26.4169680Z env:
+2026-06-03T21:13:26.4169920Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:13:26.4170304Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:13:26.4170764Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:13:26.4171199Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:13:26.4171586Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:13:26.4171972Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:13:26.4172423Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:13:26.4172923Z   SUPABASE_URL: ***
+2026-06-03T21:13:26.4174472Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:13:26.4174746Z ##[endgroup]
+2026-06-03T21:14:56.9140981Z PZS Poland rankings - season 2024-2025
+2026-06-03T21:14:56.9141626Z Ranking index: https://pzszerm.pl/zawody/klasyfikacje/
+2026-06-03T21:14:56.9142160Z Discovered 12/12 public ranking combos
+2026-06-03T21:14:56.9142570Z   Foil Men Senior...
+2026-06-03T21:14:56.9142904Z     Parsed 91 rows; written 88
+2026-06-03T21:14:56.9143525Z   Foil Women Senior...
+2026-06-03T21:14:56.9143859Z     Parsed 57 rows; written 57
+2026-06-03T21:14:56.9144211Z   Epee Men Senior...
+2026-06-03T21:14:56.9144548Z     Parsed 103 rows; written 102
+2026-06-03T21:14:56.9144927Z   Epee Women Senior...
+2026-06-03T21:14:56.9145255Z     Parsed 99 rows; written 98
+2026-06-03T21:14:56.9145609Z   Sabre Men Senior...
+2026-06-03T21:14:56.9145946Z     Parsed 78 rows; written 77
+2026-06-03T21:14:56.9146300Z   Sabre Women Senior...
+2026-06-03T21:14:56.9146640Z     Parsed 66 rows; written 65
+2026-06-03T21:14:56.9147019Z   Foil Men Junior...
+2026-06-03T21:14:56.9147344Z     Parsed 87 rows; written 87
+2026-06-03T21:14:56.9147692Z   Foil Women Junior...
+2026-06-03T21:14:56.9148023Z     Parsed 79 rows; written 79
+2026-06-03T21:14:56.9148374Z   Epee Men Junior...
+2026-06-03T21:14:56.9148686Z     Parsed 90 rows; written 88
+2026-06-03T21:14:56.9149029Z   Epee Women Junior...
+2026-06-03T21:14:56.9149345Z     Parsed 90 rows; written 90
+2026-06-03T21:14:56.9149692Z   Sabre Men Junior...
+2026-06-03T21:14:56.9150030Z     Parsed 82 rows; written 81
+2026-06-03T21:14:56.9150380Z   Sabre Women Junior...
+2026-06-03T21:14:56.9150710Z     Parsed 57 rows; written 56
+2026-06-03T21:14:56.9151136Z Done - written=968, failed=0, skipped=0, combos=12/12
+2026-06-03T21:14:57.0589639Z ##[group]Run python scrape_fed_ukr.py
+2026-06-03T21:14:57.0590127Z [36;1mpython scrape_fed_ukr.py[0m
+2026-06-03T21:14:57.0626937Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:14:57.0627202Z env:
+2026-06-03T21:14:57.0627441Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:14:57.0627815Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:14:57.0628267Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:14:57.0628709Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:14:57.0629095Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:14:57.0629473Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:14:57.0629880Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:14:57.0630388Z   SUPABASE_URL: ***
+2026-06-03T21:14:57.0631716Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:14:57.0631981Z ##[endgroup]
+2026-06-03T21:15:58.3673779Z NFFU Ukraine rankings — season 2024-2025
+2026-06-03T21:15:58.3674163Z   Foil Men Senior...
+2026-06-03T21:15:58.3674914Z     Parsed 79 rows; written 76 rows
+2026-06-03T21:15:58.3675203Z   Foil Women Senior...
+2026-06-03T21:15:58.3675454Z     Parsed 71 rows; written 70 rows
+2026-06-03T21:15:58.3675718Z   Epee Men Senior...
+2026-06-03T21:15:58.3675964Z     Parsed 133 rows; written 123 rows
+2026-06-03T21:15:58.3676236Z   Epee Women Senior...
+2026-06-03T21:15:58.3676468Z     Parsed 104 rows; written 102 rows
+2026-06-03T21:15:58.3676738Z   Sabre Men Senior...
+2026-06-03T21:15:58.3676977Z     Parsed 59 rows; written 57 rows
+2026-06-03T21:15:58.3677241Z   Sabre Women Senior...
+2026-06-03T21:15:58.3677479Z     Parsed 50 rows; written 49 rows
+2026-06-03T21:15:58.3677734Z   Foil Men Junior...
+2026-06-03T21:15:58.3677985Z     Parsed 66 rows; written 64 rows
+2026-06-03T21:15:58.3678256Z   Foil Women Junior...
+2026-06-03T21:15:58.3678496Z     Parsed 74 rows; written 74 rows
+2026-06-03T21:15:58.3678754Z   Epee Men Junior...
+2026-06-03T21:15:58.3678994Z     Parsed 90 rows; written 85 rows
+2026-06-03T21:15:58.3679258Z   Epee Women Junior...
+2026-06-03T21:15:58.3679499Z     Parsed 87 rows; written 83 rows
+2026-06-03T21:15:58.3679752Z   Sabre Men Junior...
+2026-06-03T21:15:58.3679984Z     Parsed 45 rows; written 45 rows
+2026-06-03T21:15:58.3680240Z   Sabre Women Junior...
+2026-06-03T21:15:58.3680489Z     Parsed 46 rows; written 46 rows
+2026-06-03T21:15:58.3680921Z Done — written=874, failed=0, skipped=0, working_combos=12/12
+2026-06-03T21:15:58.5232517Z ##[group]Run python scrape_fed_rou.py
+2026-06-03T21:15:58.5232881Z [36;1mpython scrape_fed_rou.py[0m
+2026-06-03T21:15:58.5260788Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:15:58.5261071Z env:
+2026-06-03T21:15:58.5261318Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:15:58.5261704Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:15:58.5262156Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:15:58.5262598Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:15:58.5262993Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:15:58.5263640Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:15:58.5264066Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:15:58.5264568Z   SUPABASE_URL: ***
+2026-06-03T21:15:58.5265901Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:15:58.5266175Z ##[endgroup]
+2026-06-03T21:16:34.9190238Z Romanian Fencing Federation rankings — season 2024-2025
+2026-06-03T21:16:34.9190838Z   Foil Men Senior...
+2026-06-03T21:16:34.9191208Z     Skipped: no public URL found
+2026-06-03T21:16:34.9191604Z   Foil Women Senior...
+2026-06-03T21:16:34.9191955Z     Skipped: no public URL found
+2026-06-03T21:16:34.9192320Z   Epee Men Senior...
+2026-06-03T21:16:34.9192655Z     Skipped: no public URL found
+2026-06-03T21:16:34.9193016Z   Epee Women Senior...
+2026-06-03T21:16:34.9193589Z     Skipped: no public URL found
+2026-06-03T21:16:34.9193963Z   Sabre Men Senior...
+2026-06-03T21:16:34.9194290Z     Skipped: no public URL found
+2026-06-03T21:16:34.9194693Z   Sabre Women Senior...
+2026-06-03T21:16:34.9195051Z     Skipped: no public URL found
+2026-06-03T21:16:34.9195434Z   Foil Men Junior...
+2026-06-03T21:16:34.9195774Z     No rows parsed
+2026-06-03T21:16:34.9196083Z   Foil Women Junior...
+2026-06-03T21:16:34.9196405Z     No rows parsed
+2026-06-03T21:16:34.9196711Z   Epee Men Junior...
+2026-06-03T21:16:34.9197036Z     No rows parsed
+2026-06-03T21:16:34.9197351Z   Epee Women Junior...
+2026-06-03T21:16:34.9197661Z     No rows parsed
+2026-06-03T21:16:34.9197968Z   Sabre Men Junior...
+2026-06-03T21:16:34.9198282Z     No rows parsed
+2026-06-03T21:16:34.9198583Z   Sabre Women Junior...
+2026-06-03T21:16:34.9198918Z     No rows parsed
+2026-06-03T21:16:34.9199415Z Done — written=0, failed=6, skipped=6, working_combos=0/12
+2026-06-03T21:16:35.0299175Z ##[group]Run python scrape_fed_esp.py
+2026-06-03T21:16:35.0299549Z [36;1mpython scrape_fed_esp.py[0m
+2026-06-03T21:16:35.0327480Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:16:35.0327756Z env:
+2026-06-03T21:16:35.0328197Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:16:35.0328577Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:16:35.0329025Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:16:35.0329457Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:16:35.0329846Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:16:35.0330231Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:16:35.0330617Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:16:35.0331114Z   SUPABASE_URL: ***
+2026-06-03T21:16:35.0332473Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:16:35.0332739Z ##[endgroup]
+2026-06-03T21:17:50.3774928Z RFEE Spain rankings - season 2025-2026
+2026-06-03T21:17:50.3775491Z   Foil Men Senior...
+2026-06-03T21:17:50.3775778Z     Written 83 rows (84 parsed)
+2026-06-03T21:17:50.3776060Z   Foil Women Senior...
+2026-06-03T21:17:50.3776473Z     Written 61 rows (64 parsed)
+2026-06-03T21:17:50.3776846Z   Epee Men Senior...
+2026-06-03T21:17:50.3777192Z     Written 311 rows (313 parsed)
+2026-06-03T21:17:50.3777578Z   Epee Women Senior...
+2026-06-03T21:17:50.3777937Z     Written 169 rows (172 parsed)
+2026-06-03T21:17:50.3778338Z   Sabre Men Senior...
+2026-06-03T21:17:50.3778693Z     Written 129 rows (130 parsed)
+2026-06-03T21:17:50.3779110Z   Sabre Women Senior...
+2026-06-03T21:17:50.3779476Z     Written 80 rows (82 parsed)
+2026-06-03T21:17:50.3779860Z   Foil Men Junior...
+2026-06-03T21:17:50.3780211Z     Written 93 rows (95 parsed)
+2026-06-03T21:17:50.3780590Z   Foil Women Junior...
+2026-06-03T21:17:50.3780945Z     Written 55 rows (55 parsed)
+2026-06-03T21:17:50.3781194Z   Epee Men Junior...
+2026-06-03T21:17:50.3781433Z     Written 200 rows (200 parsed)
+2026-06-03T21:17:50.3781714Z   Epee Women Junior...
+2026-06-03T21:17:50.3781960Z     Written 108 rows (108 parsed)
+2026-06-03T21:17:50.3782212Z   Sabre Men Junior...
+2026-06-03T21:17:50.3782448Z     Written 116 rows (116 parsed)
+2026-06-03T21:17:50.3782722Z   Sabre Women Junior...
+2026-06-03T21:17:50.3782966Z     Written 82 rows (82 parsed)
+2026-06-03T21:17:50.3783518Z Done - written=1487, failed=0, skipped=0
+2026-06-03T21:17:50.5097347Z ##[group]Run python scrape_fed_egy.py
+2026-06-03T21:17:50.5097691Z [36;1mpython scrape_fed_egy.py[0m
+2026-06-03T21:17:50.5125989Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:17:50.5126266Z env:
+2026-06-03T21:17:50.5126505Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:17:50.5126884Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:17:50.5127330Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:17:50.5127773Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:17:50.5128164Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:17:50.5128546Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:17:50.5128929Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:17:50.5129420Z   SUPABASE_URL: ***
+2026-06-03T21:17:50.5130746Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:17:50.5131012Z ##[endgroup]
+2026-06-03T21:21:00.4641278Z Egypt federation rankings - season 2024-2025
+2026-06-03T21:21:00.4641683Z   Foil Men Senior...
+2026-06-03T21:21:00.4641954Z     Parsed 54 rows; written 54 rows
+2026-06-03T21:21:00.4642394Z   Foil Women Senior...
+2026-06-03T21:21:00.4642745Z     Parsed 46 rows; written 46 rows
+2026-06-03T21:21:00.4643351Z   Epee Men Senior...
+2026-06-03T21:21:00.4643718Z     Parsed 169 rows; written 169 rows
+2026-06-03T21:21:00.4644144Z   Epee Women Senior...
+2026-06-03T21:21:00.4644522Z     Parsed 119 rows; written 119 rows
+2026-06-03T21:21:00.4644931Z   Sabre Men Senior...
+2026-06-03T21:21:00.4645299Z     Parsed 51 rows; written 51 rows
+2026-06-03T21:21:00.4645713Z   Sabre Women Senior...
+2026-06-03T21:21:00.4646080Z     Parsed 39 rows; written 39 rows
+2026-06-03T21:21:00.4646484Z   Foil Men Junior...
+2026-06-03T21:21:00.4646828Z     Parsed 42 rows; written 42 rows
+2026-06-03T21:21:00.4647637Z   Foil Women Junior...
+2026-06-03T21:21:00.4647993Z     Parsed 48 rows; written 48 rows
+2026-06-03T21:21:00.4648407Z   Epee Men Junior...
+2026-06-03T21:21:00.4648798Z     Parsed 149 rows; written 149 rows
+2026-06-03T21:21:00.4649089Z   Epee Women Junior...
+2026-06-03T21:21:00.4649343Z     Parsed 112 rows; written 112 rows
+2026-06-03T21:21:00.4649616Z   Sabre Men Junior...
+2026-06-03T21:21:00.4649861Z     Parsed 45 rows; written 45 rows
+2026-06-03T21:21:00.4650153Z   Sabre Women Junior...
+2026-06-03T21:21:00.4650403Z     Parsed 34 rows; written 34 rows
+2026-06-03T21:21:00.4650689Z Done - written=908, failed=0, skipped=0
+2026-06-03T21:21:00.6006939Z ##[group]Run python scrape_fed_ned.py
+2026-06-03T21:21:00.6007298Z [36;1mpython scrape_fed_ned.py[0m
+2026-06-03T21:21:00.6035086Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:21:00.6035358Z env:
+2026-06-03T21:21:00.6035597Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:21:00.6035974Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:00.6036438Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:21:00.6036878Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:00.6037271Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:00.6037652Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:00.6038031Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:21:00.6038505Z   SUPABASE_URL: ***
+2026-06-03T21:21:00.6039838Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:21:00.6040106Z ##[endgroup]
+2026-06-03T21:21:43.2390707Z KNAS Netherlands rankings - season 2025-2026
+2026-06-03T21:21:43.2391261Z   Foil Men Senior...
+2026-06-03T21:21:43.2391622Z     Written 72 rows (125 parsed)
+2026-06-03T21:21:43.2392010Z   Foil Women Senior...
+2026-06-03T21:21:43.2392359Z     Written 25 rows (38 parsed)
+2026-06-03T21:21:43.2392732Z   Epee Men Senior...
+2026-06-03T21:21:43.2393466Z     Written 90 rows (159 parsed)
+2026-06-03T21:21:43.2393850Z   Epee Women Senior...
+2026-06-03T21:21:43.2394202Z     Written 44 rows (64 parsed)
+2026-06-03T21:21:43.2394558Z   Sabre Men Senior...
+2026-06-03T21:21:43.2394886Z     Written 49 rows (76 parsed)
+2026-06-03T21:21:43.2395231Z   Sabre Women Senior...
+2026-06-03T21:21:43.2395557Z     Written 21 rows (24 parsed)
+2026-06-03T21:21:43.2395898Z   Foil Men Junior...
+2026-06-03T21:21:43.2396219Z     Written 37 rows (53 parsed)
+2026-06-03T21:21:43.2396571Z   Foil Women Junior...
+2026-06-03T21:21:43.2396881Z     Written 13 rows (16 parsed)
+2026-06-03T21:21:43.2397217Z   Epee Men Junior...
+2026-06-03T21:21:43.2397532Z     Written 28 rows (29 parsed)
+2026-06-03T21:21:43.2397887Z   Epee Women Junior...
+2026-06-03T21:21:43.2398198Z     Written 15 rows (20 parsed)
+2026-06-03T21:21:43.2398539Z   Sabre Men Junior...
+2026-06-03T21:21:43.2398852Z     Written 13 rows (14 parsed)
+2026-06-03T21:21:43.2399200Z   Sabre Women Junior...
+2026-06-03T21:21:43.2399539Z     Written 8 rows (9 parsed)
+2026-06-03T21:21:43.2399946Z Done - written=415, failed=0, skipped=0
+2026-06-03T21:21:43.3698595Z ##[group]Run python scrape_fed_bel.py
+2026-06-03T21:21:43.3698937Z [36;1mpython scrape_fed_bel.py[0m
+2026-06-03T21:21:43.3726638Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:21:43.3726907Z env:
+2026-06-03T21:21:43.3727146Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:21:43.3727517Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:43.3727961Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:21:43.3728405Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:43.3728799Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:43.3729181Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:21:43.3729569Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:21:43.3730052Z   SUPABASE_URL: ***
+2026-06-03T21:21:43.3731415Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:21:43.3731886Z ##[endgroup]
+2026-06-03T21:22:26.0581976Z Belgium federation rankings — season 2025-2026
+2026-06-03T21:22:26.0582423Z   Foil Men Senior (ID 21464)...
+2026-06-03T21:22:26.0582768Z     Written 50 rows (50 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0583304Z   Foil Women Senior (ID 21463)...
+2026-06-03T21:22:26.0583771Z     Written 26 rows (26 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0584094Z   Epee Men Senior (ID 21418)...
+2026-06-03T21:22:26.0584412Z     Written 139 rows (142 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0584742Z   Epee Women Senior (ID 21349)...
+2026-06-03T21:22:26.0585047Z     Written 56 rows (56 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0585382Z   Sabre Men Senior (ID 21469)...
+2026-06-03T21:22:26.0585691Z     Written 33 rows (33 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0586006Z   Sabre Women Senior (ID 21424)...
+2026-06-03T21:22:26.0586303Z     Written 23 rows (23 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0586640Z   Foil Men Junior (ID 21416)...
+2026-06-03T21:22:26.0586937Z     Written 23 rows (23 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0587238Z   Foil Women Junior (ID 21466)...
+2026-06-03T21:22:26.0587526Z     Written 14 rows (14 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0587823Z   Epee Men Junior (ID 21415)...
+2026-06-03T21:22:26.0588103Z     Written 52 rows (52 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0588403Z   Epee Women Junior (ID 21348)...
+2026-06-03T21:22:26.0588690Z     Written 23 rows (23 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0588989Z   Sabre Men Junior (ID 21468)...
+2026-06-03T21:22:26.0589271Z     Written 14 rows (14 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0589578Z   Sabre Women Junior (ID 21423)...
+2026-06-03T21:22:26.0589873Z     Written 8 rows (8 parsed, 0 duplicates skipped)
+2026-06-03T21:22:26.0590284Z Done — written=461, failed=0, skipped=0
+2026-06-03T21:22:26.2108717Z ##[group]Run python scrape_fed_sui.py
+2026-06-03T21:22:26.2109077Z [36;1mpython scrape_fed_sui.py[0m
+2026-06-03T21:22:26.2137081Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:22:26.2137345Z env:
+2026-06-03T21:22:26.2137581Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:22:26.2137953Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:22:26.2138400Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:22:26.2138831Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:22:26.2139216Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:22:26.2139616Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:22:26.2140000Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:22:26.2140479Z   SUPABASE_URL: ***
+2026-06-03T21:22:26.2141823Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:22:26.2142090Z ##[endgroup]
+2026-06-03T21:23:01.1030478Z Swiss Fencing rankings - season 2024-2025
+2026-06-03T21:23:01.1031032Z   Foil Men Senior...
+2026-06-03T21:23:01.1031418Z     Written 20 rows (20 parsed)
+2026-06-03T21:23:01.1031793Z   Foil Women Senior...
+2026-06-03T21:23:01.1032126Z     Written 7 rows (7 parsed)
+2026-06-03T21:23:01.1032484Z   Epee Men Senior...
+2026-06-03T21:23:01.1032811Z     Written 64 rows (64 parsed)
+2026-06-03T21:23:01.1033388Z   Epee Women Senior...
+2026-06-03T21:23:01.1033722Z     Written 35 rows (35 parsed)
+2026-06-03T21:23:01.1034086Z   Sabre Men Senior...
+2026-06-03T21:23:01.1034423Z     Written 18 rows (18 parsed)
+2026-06-03T21:23:01.1034788Z   Sabre Women Senior...
+2026-06-03T21:23:01.1035124Z     Written 13 rows (13 parsed)
+2026-06-03T21:23:01.1035464Z   Foil Men Junior...
+2026-06-03T21:23:01.1035800Z     Written 5 rows (5 parsed)
+2026-06-03T21:23:01.1036161Z   Foil Women Junior...
+2026-06-03T21:23:01.1036497Z     Written 4 rows (4 parsed)
+2026-06-03T21:23:01.1036837Z   Epee Men Junior...
+2026-06-03T21:23:01.1037155Z     Written 73 rows (74 parsed)
+2026-06-03T21:23:01.1037511Z   Epee Women Junior...
+2026-06-03T21:23:01.1038292Z     Written 52 rows (52 parsed)
+2026-06-03T21:23:01.1038639Z   Sabre Men Junior...
+2026-06-03T21:23:01.1038950Z     Written 8 rows (8 parsed)
+2026-06-03T21:23:01.1039291Z   Sabre Women Junior...
+2026-06-03T21:23:01.1039619Z     Written 11 rows (11 parsed)
+2026-06-03T21:23:01.1040058Z Done - written=310, failed=0, skipped=0, combos=12/12
+2026-06-03T21:23:01.2537045Z ##[group]Run python scrape_fed_aut.py
+2026-06-03T21:23:01.2537384Z [36;1mpython scrape_fed_aut.py[0m
+2026-06-03T21:23:01.2565172Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:23:01.2565454Z env:
+2026-06-03T21:23:01.2565698Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:23:01.2566082Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:01.2566534Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:23:01.2566981Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:01.2567369Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:01.2567757Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:01.2568136Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:23:01.2568617Z   SUPABASE_URL: ***
+2026-06-03T21:23:01.2569940Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:23:01.2570206Z ##[endgroup]
+2026-06-03T21:23:40.7878260Z ÖFV Austria rankings — season 2025-2026
+2026-06-03T21:23:40.7878643Z   Foil Men Senior...
+2026-06-03T21:23:40.7879188Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7879868Z     No public ranking table found for Foil Men Senior
+2026-06-03T21:23:40.7880360Z   Foil Women Senior...
+2026-06-03T21:23:40.7880905Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7881591Z     No public ranking table found for Foil Women Senior
+2026-06-03T21:23:40.7882093Z   Epee Men Senior...
+2026-06-03T21:23:40.7882650Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7883590Z     No public ranking table found for Epee Men Senior
+2026-06-03T21:23:40.7884125Z   Epee Women Senior...
+2026-06-03T21:23:40.7884676Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7885385Z     No public ranking table found for Epee Women Senior
+2026-06-03T21:23:40.7885718Z   Sabre Men Senior...
+2026-06-03T21:23:40.7886066Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7886493Z     No public ranking table found for Sabre Men Senior
+2026-06-03T21:23:40.7886811Z   Sabre Women Senior...
+2026-06-03T21:23:40.7887176Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7887616Z     No public ranking table found for Sabre Women Senior
+2026-06-03T21:23:40.7887932Z   Foil Men Junior...
+2026-06-03T21:23:40.7888264Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7888689Z     No public ranking table found for Foil Men Junior
+2026-06-03T21:23:40.7889002Z   Foil Women Junior...
+2026-06-03T21:23:40.7889342Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7889767Z     No public ranking table found for Foil Women Junior
+2026-06-03T21:23:40.7890077Z   Epee Men Junior...
+2026-06-03T21:23:40.7890413Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7890846Z     No public ranking table found for Epee Men Junior
+2026-06-03T21:23:40.7891147Z   Epee Women Junior...
+2026-06-03T21:23:40.7891468Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7891884Z     No public ranking table found for Epee Women Junior
+2026-06-03T21:23:40.7892194Z   Sabre Men Junior...
+2026-06-03T21:23:40.7892510Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7892916Z     No public ranking table found for Sabre Men Junior
+2026-06-03T21:23:40.7893828Z   Sabre Women Junior...
+2026-06-03T21:23:40.7894187Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7894627Z     No public ranking table found for Sabre Women Junior
+2026-06-03T21:23:40.7894941Z   Foil Men Cadet...
+2026-06-03T21:23:40.7895518Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7895960Z     No public ranking table found for Foil Men Cadet
+2026-06-03T21:23:40.7896279Z   Foil Women Cadet...
+2026-06-03T21:23:40.7896618Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7897075Z     No public ranking table found for Foil Women Cadet
+2026-06-03T21:23:40.7897377Z   Epee Men Cadet...
+2026-06-03T21:23:40.7897702Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7898109Z     No public ranking table found for Epee Men Cadet
+2026-06-03T21:23:40.7898406Z   Epee Women Cadet...
+2026-06-03T21:23:40.7898732Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7899138Z     No public ranking table found for Epee Women Cadet
+2026-06-03T21:23:40.7899471Z   Sabre Men Cadet...
+2026-06-03T21:23:40.7899813Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7900251Z     No public ranking table found for Sabre Men Cadet
+2026-06-03T21:23:40.7900577Z   Sabre Women Cadet...
+2026-06-03T21:23:40.7900909Z     HTTP 406 for https://www.oefv.com/de/intern:13/ranglisten-saison-2025-2026
+2026-06-03T21:23:40.7901329Z     No public ranking table found for Sabre Women Cadet
+2026-06-03T21:23:40.7901751Z Done — written=0, failed=18, skipped=0
+2026-06-03T21:23:40.9138794Z ##[group]Run python scrape_fed_swe.py
+2026-06-03T21:23:40.9139133Z [36;1mpython scrape_fed_swe.py[0m
+2026-06-03T21:23:40.9167032Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:23:40.9167297Z env:
+2026-06-03T21:23:40.9167534Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:23:40.9167939Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:40.9168386Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:23:40.9168817Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:40.9169205Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:40.9169595Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:23:40.9169986Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:23:40.9170459Z   SUPABASE_URL: ***
+2026-06-03T21:23:40.9171800Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:23:40.9172068Z ##[endgroup]
+2026-06-03T21:24:22.9732834Z Swedish Fencing rankings — season 2025-2026
+2026-06-03T21:24:22.9734074Z Federation ranking page: https://svenskfaktning.se/tavling/nationella-och-regionala-tavlingsserier/
+2026-06-03T21:24:22.9735687Z   Foil Men Senior: https://fencing.ophardt.online/sv/search/rankings/show/21578
+2026-06-03T21:24:22.9736415Z     Parsed 27 rows, written 27
+2026-06-03T21:24:22.9737021Z   Foil Women Senior: https://fencing.ophardt.online/sv/search/rankings/show/21576
+2026-06-03T21:24:22.9737647Z     Parsed 10 rows, written 9
+2026-06-03T21:24:22.9738236Z   Epee Men Senior: https://fencing.ophardt.online/sv/search/rankings/show/21574
+2026-06-03T21:24:22.9738863Z     Parsed 150 rows, written 142
+2026-06-03T21:24:22.9739442Z   Epee Women Senior: https://fencing.ophardt.online/sv/search/rankings/show/21566
+2026-06-03T21:24:22.9740064Z     Parsed 63 rows, written 63
+2026-06-03T21:24:22.9740525Z   Sabre Men Senior: skipped, no public national ranking URL
+2026-06-03T21:24:22.9741136Z   Sabre Women Senior: skipped, no public national ranking URL
+2026-06-03T21:24:22.9741833Z   Foil Men Junior: https://fencing.ophardt.online/sv/search/rankings/show/21577
+2026-06-03T21:24:22.9742452Z     Parsed 32 rows, written 32
+2026-06-03T21:24:22.9743015Z   Foil Women Junior: https://fencing.ophardt.online/sv/search/rankings/show/21575
+2026-06-03T21:24:22.9744386Z     Parsed 19 rows, written 18
+2026-06-03T21:24:22.9744945Z   Epee Men Junior: https://fencing.ophardt.online/sv/search/rankings/show/21573
+2026-06-03T21:24:22.9745559Z     Parsed 65 rows, written 62
+2026-06-03T21:24:22.9746117Z   Epee Women Junior: https://fencing.ophardt.online/sv/search/rankings/show/21565
+2026-06-03T21:24:22.9746732Z     Parsed 46 rows, written 46
+2026-06-03T21:24:22.9747199Z   Sabre Men Junior: skipped, no public national ranking URL
+2026-06-03T21:24:22.9747802Z   Sabre Women Junior: skipped, no public national ranking URL
+2026-06-03T21:24:22.9748521Z Done — working=8/12, written=399, failed=0, skipped=4
+2026-06-03T21:24:23.1521403Z ##[group]Run python scrape_fed_den.py
+2026-06-03T21:24:23.1521753Z [36;1mpython scrape_fed_den.py[0m
+2026-06-03T21:24:23.1549601Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:24:23.1549872Z env:
+2026-06-03T21:24:23.1550112Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:24:23.1550486Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:23.1550958Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:24:23.1551407Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:23.1551804Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:23.1552193Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:23.1552586Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:24:23.1553190Z   SUPABASE_URL: ***
+2026-06-03T21:24:23.1554530Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:24:23.1554799Z ##[endgroup]
+2026-06-03T21:24:56.1387319Z DFF Denmark rankings — season 2025-2026
+2026-06-03T21:24:56.1387832Z   Federation page: https://www.faegtning.dk/staevner/ranglister/
+2026-06-03T21:24:56.1388340Z   Ophardt index: https://fencing.ophardt.online/en/search/rankings/10
+2026-06-03T21:24:56.1388737Z   Discovered 12/12 ranking URLs
+2026-06-03T21:24:56.1388999Z   Foil Men Senior...
+2026-06-03T21:24:56.1389253Z     Written 9 rows (13 parsed)
+2026-06-03T21:24:56.1389542Z   Foil Women Senior...
+2026-06-03T21:24:56.1389785Z     Written 9 rows (12 parsed)
+2026-06-03T21:24:56.1390028Z   Epee Men Senior...
+2026-06-03T21:24:56.1390257Z     Written 21 rows (40 parsed)
+2026-06-03T21:24:56.1390508Z   Epee Women Senior...
+2026-06-03T21:24:56.1390733Z     Written 13 rows (24 parsed)
+2026-06-03T21:24:56.1390978Z   Sabre Men Senior...
+2026-06-03T21:24:56.1391224Z     Written 9 rows (14 parsed)
+2026-06-03T21:24:56.1391484Z   Sabre Women Senior...
+2026-06-03T21:24:56.1391737Z     Written 6 rows (8 parsed)
+2026-06-03T21:24:56.1391994Z   Foil Men Junior...
+2026-06-03T21:24:56.1392238Z     Written 6 rows (6 parsed)
+2026-06-03T21:24:56.1392487Z   Foil Women Junior...
+2026-06-03T21:24:56.1392722Z     Written 6 rows (6 parsed)
+2026-06-03T21:24:56.1392973Z   Epee Men Junior...
+2026-06-03T21:24:56.1393422Z     Written 13 rows (14 parsed)
+2026-06-03T21:24:56.1393677Z   Epee Women Junior...
+2026-06-03T21:24:56.1393906Z     Written 7 rows (8 parsed)
+2026-06-03T21:24:56.1394157Z   Sabre Men Junior...
+2026-06-03T21:24:56.1394392Z     Written 2 rows (3 parsed)
+2026-06-03T21:24:56.1394633Z   Sabre Women Junior...
+2026-06-03T21:24:56.1394898Z     Skipped: public page has no ranking rows
+2026-06-03T21:24:56.1395271Z Done — written=101, failed=0, skipped=1
+2026-06-03T21:24:56.2940254Z ##[group]Run python scrape_fed_nor.py
+2026-06-03T21:24:56.2940599Z [36;1mpython scrape_fed_nor.py[0m
+2026-06-03T21:24:56.2968314Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:24:56.2968579Z env:
+2026-06-03T21:24:56.2968813Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:24:56.2969189Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:56.2969627Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:24:56.2970060Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:56.2970449Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:56.2970830Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:24:56.2971567Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:24:56.2972236Z   SUPABASE_URL: ***
+2026-06-03T21:24:56.2973750Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:24:56.2974014Z ##[endgroup]
+2026-06-03T21:25:12.2359245Z Norges Fekteforbund rankings — season 2024-2025
+2026-06-03T21:25:12.2359778Z Ranking index: https://fencing.ophardt.online/en/search/rankings/7
+2026-06-03T21:25:12.2360181Z   Foil Men Senior...
+2026-06-03T21:25:12.2360476Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2360817Z   Foil Women Senior...
+2026-06-03T21:25:12.2361104Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2361413Z   Epee Men Senior...
+2026-06-03T21:25:12.2361658Z     Parsed 108 rows; written 108
+2026-06-03T21:25:12.2361921Z   Epee Women Senior...
+2026-06-03T21:25:12.2362166Z     Parsed 37 rows; written 37
+2026-06-03T21:25:12.2362420Z   Sabre Men Senior...
+2026-06-03T21:25:12.2362685Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2363009Z   Sabre Women Senior...
+2026-06-03T21:25:12.2363480Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2363785Z   Foil Men Junior...
+2026-06-03T21:25:12.2364038Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2364337Z   Foil Women Junior...
+2026-06-03T21:25:12.2364596Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2364900Z   Epee Men Junior...
+2026-06-03T21:25:12.2365133Z     Parsed 43 rows; written 41
+2026-06-03T21:25:12.2365384Z   Epee Women Junior...
+2026-06-03T21:25:12.2365611Z     Parsed 26 rows; written 26
+2026-06-03T21:25:12.2365853Z   Sabre Men Junior...
+2026-06-03T21:25:12.2366119Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2366431Z   Sabre Women Junior...
+2026-06-03T21:25:12.2366699Z     No public Norway ranking URL found during probe
+2026-06-03T21:25:12.2367079Z Done — written=212, failed=0, skipped=8
+2026-06-03T21:25:12.3885901Z ##[group]Run python scrape_fed_fin.py
+2026-06-03T21:25:12.3886268Z [36;1mpython scrape_fed_fin.py[0m
+2026-06-03T21:25:12.3914515Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:25:12.3914929Z env:
+2026-06-03T21:25:12.3915171Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:25:12.3915567Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:12.3916015Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:25:12.3916454Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:12.3916983Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:12.3917375Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:12.3917881Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:25:12.3918393Z   SUPABASE_URL: ***
+2026-06-03T21:25:12.3919999Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:25:12.3920272Z ##[endgroup]
+2026-06-03T21:25:47.6159488Z Finland federation rankings — season 2024-2025
+2026-06-03T21:25:47.6159916Z   Foil Men Senior...
+2026-06-03T21:25:47.6160185Z     Parsed 38 rows; written 37
+2026-06-03T21:25:47.6160456Z   Foil Women Senior...
+2026-06-03T21:25:47.6160715Z     Parsed 26 rows; written 26
+2026-06-03T21:25:47.6160982Z   Epee Men Senior...
+2026-06-03T21:25:47.6161233Z     Parsed 131 rows; written 130
+2026-06-03T21:25:47.6161507Z   Epee Women Senior...
+2026-06-03T21:25:47.6161754Z     Parsed 89 rows; written 89
+2026-06-03T21:25:47.6162018Z   Sabre Men Senior...
+2026-06-03T21:25:47.6162256Z     Parsed 35 rows; written 35
+2026-06-03T21:25:47.6162505Z   Sabre Women Senior...
+2026-06-03T21:25:47.6162755Z     Parsed 18 rows; written 18
+2026-06-03T21:25:47.6163012Z   Foil Men Junior...
+2026-06-03T21:25:47.6163530Z     Missing public listing
+2026-06-03T21:25:47.6163776Z   Foil Women Junior...
+2026-06-03T21:25:47.6164017Z     Missing public listing
+2026-06-03T21:25:47.6164261Z   Epee Men Junior...
+2026-06-03T21:25:47.6164506Z     Parsed 33 rows; written 33
+2026-06-03T21:25:47.6165183Z   Epee Women Junior...
+2026-06-03T21:25:47.6165416Z     Parsed 31 rows; written 31
+2026-06-03T21:25:47.6165660Z   Sabre Men Junior...
+2026-06-03T21:25:47.6165898Z     Parsed 8 rows; written 8
+2026-06-03T21:25:47.6166147Z   Sabre Women Junior...
+2026-06-03T21:25:47.6166391Z     Parsed 8 rows; written 8
+2026-06-03T21:25:47.6166874Z Done — written=415, failed=0, skipped=2, combos_working=10/12, inferred_combos=[]
+2026-06-03T21:25:47.6167357Z Missing public combos: Foil Men Junior, Foil Women Junior
+2026-06-03T21:25:47.7913407Z ##[group]Run python scrape_fed_aus.py
+2026-06-03T21:25:47.7913762Z [36;1mpython scrape_fed_aus.py[0m
+2026-06-03T21:25:47.7941274Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:25:47.7941539Z env:
+2026-06-03T21:25:47.7941782Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:25:47.7942151Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:47.7942598Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:25:47.7943054Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:47.7943672Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:47.7944062Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:25:47.7944454Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:25:47.7944926Z   SUPABASE_URL: ***
+2026-06-03T21:25:47.7946260Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:25:47.7946526Z ##[endgroup]
+2026-06-03T21:26:37.3050469Z Australian Fencing rankings — season 2025-2026
+2026-06-03T21:26:37.3052265Z   Senior Men Foil...
+2026-06-03T21:26:37.3052672Z     Parsed 106 rows; written 51
+2026-06-03T21:26:37.3053269Z   Senior Women Foil...
+2026-06-03T21:26:37.3053621Z     Parsed 64 rows; written 30
+2026-06-03T21:26:37.3053985Z   Senior Men Epee...
+2026-06-03T21:26:37.3054310Z     Parsed 139 rows; written 51
+2026-06-03T21:26:37.3054685Z   Senior Women Epee...
+2026-06-03T21:26:37.3055031Z     Parsed 94 rows; written 49
+2026-06-03T21:26:37.3055426Z   Senior Men Sabre...
+2026-06-03T21:26:37.3055767Z     Parsed 64 rows; written 36
+2026-06-03T21:26:37.3056143Z   Senior Women Sabre...
+2026-06-03T21:26:37.3056477Z     Parsed 28 rows; written 17
+2026-06-03T21:26:37.3056826Z   Junior Men Foil...
+2026-06-03T21:26:37.3057153Z     Parsed 56 rows; written 36
+2026-06-03T21:26:37.3057503Z   Junior Women Foil...
+2026-06-03T21:26:37.3057832Z     Parsed 41 rows; written 32
+2026-06-03T21:26:37.3058186Z   Junior Men Epee...
+2026-06-03T21:26:37.3058516Z     Parsed 65 rows; written 42
+2026-06-03T21:26:37.3058870Z   Junior Women Epee...
+2026-06-03T21:26:37.3059200Z     Parsed 42 rows; written 35
+2026-06-03T21:26:37.3059557Z   Junior Men Sabre...
+2026-06-03T21:26:37.3059880Z     Parsed 32 rows; written 26
+2026-06-03T21:26:37.3060242Z   Junior Women Sabre...
+2026-06-03T21:26:37.3060577Z     Parsed 15 rows; written 13
+2026-06-03T21:26:37.3061193Z Done — written=418, failed=0, skipped=0, failed_combos=[]
+2026-06-03T21:26:37.4794338Z ##[group]Run python scrape_fed_nzl.py
+2026-06-03T21:26:37.4794714Z [36;1mpython scrape_fed_nzl.py[0m
+2026-06-03T21:26:37.4822414Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:26:37.4822703Z env:
+2026-06-03T21:26:37.4822945Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:26:37.4823456Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:26:37.4823911Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:26:37.4824354Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:26:37.4824743Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:26:37.4825120Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:26:37.4825501Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:26:37.4825959Z   SUPABASE_URL: ***
+2026-06-03T21:26:37.4827292Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:26:37.4827553Z ##[endgroup]
+2026-06-03T21:27:12.2130680Z FeNZ New Zealand rankings - season 2025-2026
+2026-06-03T21:27:12.2131095Z   Foil Men Senior...
+2026-06-03T21:27:12.2131837Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=foil&cat=open
+2026-06-03T21:27:12.2132285Z   Foil Women Senior...
+2026-06-03T21:27:12.2132655Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=foil&cat=open
+2026-06-03T21:27:12.2133373Z   Epee Men Senior...
+2026-06-03T21:27:12.2133727Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=epee&cat=open
+2026-06-03T21:27:12.2134113Z   Epee Women Senior...
+2026-06-03T21:27:12.2134453Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=epee&cat=open
+2026-06-03T21:27:12.2134828Z   Sabre Men Senior...
+2026-06-03T21:27:12.2135177Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=sabre&cat=open
+2026-06-03T21:27:12.2135572Z   Sabre Women Senior...
+2026-06-03T21:27:12.2135928Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=sabre&cat=open
+2026-06-03T21:27:12.2136319Z   Foil Men Junior...
+2026-06-03T21:27:12.2136664Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=foil&cat=u20
+2026-06-03T21:27:12.2137057Z   Foil Women Junior...
+2026-06-03T21:27:12.2137409Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=foil&cat=u20
+2026-06-03T21:27:12.2137805Z   Epee Men Junior...
+2026-06-03T21:27:12.2138139Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=epee&cat=u20
+2026-06-03T21:27:12.2138518Z   Epee Women Junior...
+2026-06-03T21:27:12.2138842Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=epee&cat=u20
+2026-06-03T21:27:12.2139212Z   Sabre Men Junior...
+2026-06-03T21:27:12.2139550Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=sabre&cat=u20
+2026-06-03T21:27:12.2139937Z   Sabre Women Junior...
+2026-06-03T21:27:12.2140270Z     HTTP 403 for https://api.fencing.org.nz/public/ranking?weapon=sabre&cat=u20
+2026-06-03T21:27:12.2140663Z Done - written=0, failed=12, skipped=0
+2026-06-03T21:27:12.2141515Z Failed combos: Foil Men Senior, Foil Women Senior, Epee Men Senior, Epee Women Senior, Sabre Men Senior, Sabre Women Senior, Foil Men Junior, Foil Women Junior, Epee Men Junior, Epee Women Junior, Sabre Men Junior, Sabre Women Junior
+2026-06-03T21:27:12.3557526Z ##[group]Run python scrape_fed_bra.py
+2026-06-03T21:27:12.3557859Z [36;1mpython scrape_fed_bra.py[0m
+2026-06-03T21:27:12.3585794Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:27:12.3586068Z env:
+2026-06-03T21:27:12.3586306Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:27:12.3586687Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:12.3587125Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:27:12.3587556Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:12.3587944Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:12.3588340Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:12.3588733Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:27:12.3589221Z   SUPABASE_URL: ***
+2026-06-03T21:27:12.3590593Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:27:12.3590883Z ##[endgroup]
+2026-06-03T21:27:58.2560493Z Brazil CBE rankings - season 2025-2026
+2026-06-03T21:27:58.2561023Z   Foil Men Senior...
+2026-06-03T21:27:58.2561386Z     Written 45 rows (47 parsed)
+2026-06-03T21:27:58.2561756Z   Foil Women Senior...
+2026-06-03T21:27:58.2562108Z     Written 28 rows (28 parsed)
+2026-06-03T21:27:58.2562455Z   Epee Men Senior...
+2026-06-03T21:27:58.2562779Z     Written 108 rows (112 parsed)
+2026-06-03T21:27:58.2563612Z   Epee Women Senior...
+2026-06-03T21:27:58.2564102Z     Written 94 rows (100 parsed)
+2026-06-03T21:27:58.2564888Z   Sabre Men Senior...
+2026-06-03T21:27:58.2565424Z     Written 46 rows (49 parsed)
+2026-06-03T21:27:58.2565987Z   Sabre Women Senior...
+2026-06-03T21:27:58.2566542Z     Written 39 rows (40 parsed)
+2026-06-03T21:27:58.2567032Z   Foil Men Junior...
+2026-06-03T21:27:58.2567576Z     Written 27 rows (27 parsed)
+2026-06-03T21:27:58.2568588Z   Foil Women Junior...
+2026-06-03T21:27:58.2569099Z     Written 20 rows (20 parsed)
+2026-06-03T21:27:58.2569670Z   Epee Men Junior...
+2026-06-03T21:27:58.2570153Z     Written 58 rows (58 parsed)
+2026-06-03T21:27:58.2570729Z   Epee Women Junior...
+2026-06-03T21:27:58.2571261Z     Written 52 rows (52 parsed)
+2026-06-03T21:27:58.2571856Z   Sabre Men Junior...
+2026-06-03T21:27:58.2572347Z     Written 22 rows (23 parsed)
+2026-06-03T21:27:58.2572840Z   Sabre Women Junior...
+2026-06-03T21:27:58.2573697Z     Written 19 rows (20 parsed)
+2026-06-03T21:27:58.2574223Z Done - written=558, failed=0, skipped=0
+2026-06-03T21:27:58.3909665Z ##[group]Run python scrape_fed_arg.py
+2026-06-03T21:27:58.3910129Z [36;1mpython scrape_fed_arg.py[0m
+2026-06-03T21:27:58.3938433Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:27:58.3938960Z env:
+2026-06-03T21:27:58.3939348Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:27:58.3939857Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:58.3940556Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:27:58.3941144Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:58.3941726Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:58.3942313Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:27:58.3942802Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:27:58.3943724Z   SUPABASE_URL: ***
+2026-06-03T21:27:58.3945251Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:27:58.3945693Z ##[endgroup]
+2026-06-03T21:28:42.2764310Z Argentina FAE rankings - season 2025-2026
+2026-06-03T21:28:42.2766141Z URL pattern: https://www.esgrima-fae.com.ar/assets/pdf/ranking/{category}/{category}-{weapon}{gender}.pdf
+2026-06-03T21:28:42.2767424Z   Foil Men Senior...
+2026-06-03T21:28:42.2768001Z     Written 33 rows (34 parsed)
+2026-06-03T21:28:42.2768694Z   Foil Women Senior...
+2026-06-03T21:28:42.2769195Z     Written 25 rows (25 parsed)
+2026-06-03T21:28:42.2769808Z   Epee Men Senior...
+2026-06-03T21:28:42.2770301Z     Written 50 rows (50 parsed)
+2026-06-03T21:28:42.2770799Z   Epee Women Senior...
+2026-06-03T21:28:42.2771370Z     Written 26 rows (26 parsed)
+2026-06-03T21:28:42.2771847Z   Sabre Men Senior...
+2026-06-03T21:28:42.2772380Z     Written 29 rows (29 parsed)
+2026-06-03T21:28:42.2772891Z   Sabre Women Senior...
+2026-06-03T21:28:42.2773643Z     Written 21 rows (21 parsed)
+2026-06-03T21:28:42.2774253Z   Foil Men Junior...
+2026-06-03T21:28:42.2774712Z     Written 33 rows (33 parsed)
+2026-06-03T21:28:42.2775270Z   Foil Women Junior...
+2026-06-03T21:28:42.2775750Z     Written 35 rows (35 parsed)
+2026-06-03T21:28:42.2776270Z   Epee Men Junior...
+2026-06-03T21:28:42.2776810Z     Written 23 rows (23 parsed)
+2026-06-03T21:28:42.2777306Z   Epee Women Junior...
+2026-06-03T21:28:42.2777833Z     Written 10 rows (10 parsed)
+2026-06-03T21:28:42.2778336Z   Sabre Men Junior...
+2026-06-03T21:28:42.2778792Z     Written 20 rows (20 parsed)
+2026-06-03T21:28:42.2779170Z   Sabre Women Junior...
+2026-06-03T21:28:42.2779509Z     Written 17 rows (17 parsed)
+2026-06-03T21:28:42.2779867Z Done - written=322, failed=0
+2026-06-03T21:28:42.4671244Z ##[group]Run python scrape_fed_hkg.py
+2026-06-03T21:28:42.4671576Z [36;1mpython scrape_fed_hkg.py[0m
+2026-06-03T21:28:42.4699300Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:28:42.4699564Z env:
+2026-06-03T21:28:42.4699803Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:28:42.4700179Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:28:42.4700628Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:28:42.4701100Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:28:42.4701508Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:28:42.4701903Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:28:42.4702295Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:28:42.4702779Z   SUPABASE_URL: ***
+2026-06-03T21:28:42.4704457Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:28:42.4704727Z ##[endgroup]
+2026-06-03T21:29:41.5158190Z HKFA Hong Kong rankings — season 2024-2025
+2026-06-03T21:29:41.5158580Z   Foil Men Senior...
+2026-06-03T21:29:41.5158851Z     Parsed 68 rows; written 68 rows
+2026-06-03T21:29:41.5159137Z   Foil Women Senior...
+2026-06-03T21:29:41.5159388Z     Parsed 49 rows; written 49 rows
+2026-06-03T21:29:41.5159651Z   Epee Men Senior...
+2026-06-03T21:29:41.5159886Z     Parsed 64 rows; written 64 rows
+2026-06-03T21:29:41.5160151Z   Epee Women Senior...
+2026-06-03T21:29:41.5160381Z     Parsed 55 rows; written 55 rows
+2026-06-03T21:29:41.5160638Z   Sabre Men Senior...
+2026-06-03T21:29:41.5160870Z     Parsed 57 rows; written 57 rows
+2026-06-03T21:29:41.5161121Z   Sabre Women Senior...
+2026-06-03T21:29:41.5161355Z     Parsed 52 rows; written 52 rows
+2026-06-03T21:29:41.5161605Z   Foil Men Junior...
+2026-06-03T21:29:41.5161838Z     Parsed 51 rows; written 51 rows
+2026-06-03T21:29:41.5162109Z   Foil Women Junior...
+2026-06-03T21:29:41.5162366Z     Parsed 48 rows; written 48 rows
+2026-06-03T21:29:41.5162623Z   Epee Men Junior...
+2026-06-03T21:29:41.5162866Z     Parsed 48 rows; written 48 rows
+2026-06-03T21:29:41.5163332Z   Epee Women Junior...
+2026-06-03T21:29:41.5163569Z     Parsed 51 rows; written 51 rows
+2026-06-03T21:29:41.5163824Z   Sabre Men Junior...
+2026-06-03T21:29:41.5164056Z     Parsed 47 rows; written 47 rows
+2026-06-03T21:29:41.5164314Z   Sabre Women Junior...
+2026-06-03T21:29:41.5164567Z     Parsed 45 rows; written 45 rows
+2026-06-03T21:29:41.5164917Z Done — written=635, failed=0, skipped=0
+2026-06-03T21:29:41.6408951Z ##[group]Run python scrape_fed_sgp.py
+2026-06-03T21:29:41.6409281Z [36;1mpython scrape_fed_sgp.py[0m
+2026-06-03T21:29:41.6437221Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:41.6437489Z env:
+2026-06-03T21:29:41.6437723Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:41.6438108Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:41.6438575Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:41.6439012Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:41.6439402Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:41.6439790Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:41.6440174Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:41.6440646Z   SUPABASE_URL: ***
+2026-06-03T21:29:41.6441984Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:41.6442254Z ##[endgroup]
+2026-06-03T21:30:38.3364882Z Previous Singapore federation run state found: {'failed': 0, 'season': '2025-2026', 'skipped': 0, 'written': 1200, 'updated_at': '2026-06-03T17:40:48.144379+00:00', 'total_combos': 12, 'failed_combos': [], 'download_pages': {'Epee': 'https://www.fencingsingapore.org.sg/download/25-26-season-ranking-file-epee-updated-9-nov-2025/', 'Foil': 'https://www.fencingsingapore.org.sg/download/25-26-season-ranking-file-foil-updated-9-nov-2025/', 'Sabre': 'https://www.fencingsingapore.org.sg/download/25-26-season-ranking-file-sabre-updated-2-nov-2025/'}, 'working_combos': 12, 'source_files_page': 'https://www.fencingsingapore.org.sg/ranking-files/'}
+2026-06-03T21:30:38.3369020Z Fencing Singapore rankings — season 2025-2026
+2026-06-03T21:30:38.3369466Z Ranking files page: https://www.fencingsingapore.org.sg/ranking-files/
+2026-06-03T21:30:38.3369868Z   Foil Men Senior...
+2026-06-03T21:30:38.3370125Z     Parsed 101 rows; written 101 rows
+2026-06-03T21:30:38.3370403Z   Foil Women Senior...
+2026-06-03T21:30:38.3370669Z     Parsed 63 rows; written 63 rows
+2026-06-03T21:30:38.3370972Z   Epee Men Senior...
+2026-06-03T21:30:38.3371212Z     Parsed 193 rows; written 193 rows
+2026-06-03T21:30:38.3371480Z   Epee Women Senior...
+2026-06-03T21:30:38.3371714Z     Parsed 132 rows; written 132 rows
+2026-06-03T21:30:38.3371979Z   Sabre Men Senior...
+2026-06-03T21:30:38.3372217Z     Parsed 113 rows; written 113 rows
+2026-06-03T21:30:38.3372487Z   Sabre Women Senior...
+2026-06-03T21:30:38.3373385Z     Parsed 67 rows; written 67 rows
+2026-06-03T21:30:38.3373675Z   Foil Men Junior...
+2026-06-03T21:30:38.3373936Z     Parsed 80 rows; written 80 rows
+2026-06-03T21:30:38.3374215Z   Foil Women Junior...
+2026-06-03T21:30:38.3374455Z     Parsed 51 rows; written 51 rows
+2026-06-03T21:30:38.3374711Z   Epee Men Junior...
+2026-06-03T21:30:38.3374954Z     Parsed 140 rows; written 140 rows
+2026-06-03T21:30:38.3375232Z   Epee Women Junior...
+2026-06-03T21:30:38.3375476Z     Parsed 106 rows; written 106 rows
+2026-06-03T21:30:38.3375754Z   Sabre Men Junior...
+2026-06-03T21:30:38.3376009Z     Parsed 96 rows; written 96 rows
+2026-06-03T21:30:38.3376286Z   Sabre Women Junior...
+2026-06-03T21:30:38.3376532Z     Parsed 58 rows; written 58 rows
+2026-06-03T21:30:38.3376954Z Done — written=1200, failed=0, skipped=0, working_combos=12/12
+2026-06-03T21:30:38.4940179Z ##[group]Run python scrape_fed_isr.py
+2026-06-03T21:30:38.4940513Z [36;1mpython scrape_fed_isr.py[0m
+2026-06-03T21:30:38.4968176Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:30:38.4968449Z env:
+2026-06-03T21:30:38.4968685Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:30:38.4969063Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:38.4969503Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:30:38.4970143Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:38.4970539Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:38.4970924Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:38.4971310Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:30:38.4971798Z   SUPABASE_URL: ***
+2026-06-03T21:30:38.4973321Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:30:38.4973589Z ##[endgroup]
+2026-06-03T21:31:05.5022480Z Previous Israel federation run state found: {'failed': 0, 'skipped': 0, 'written': 762, 'updated_at': '2026-06-03T17:42:31.753224+00:00', 'source_page': 'https://www.fencing.org.il/%d7%93%d7%99%d7%a8%d7%95%d7%92%d7%99%d7%9d-%d7%a2%d7%95%d7%a0%d7%94-2023-2024/', 'failed_combos': [], 'source_season': '2023-2024', 'current_public_url': 'https://podiumcomp.com/site/isrisf', 'runtime_current_season': '2024-2025'}
+2026-06-03T21:31:05.5025371Z Israel Fencing Association rankings — source season 2023-2024
+2026-06-03T21:31:05.5026197Z Current PodiumComp rankings are Cloudflare-challenged: https://podiumcomp.com/site/isrisf
+2026-06-03T21:31:05.5026910Z   Foil Men Senior...
+2026-06-03T21:31:05.5030117Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/רומח-בנים-בוגרים.xlsx
+2026-06-03T21:31:05.5030832Z   Foil Women Senior...
+2026-06-03T21:31:05.5031553Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/רומח-בנות-בוגרים.xlsx
+2026-06-03T21:31:05.5032213Z   Epee Men Senior...
+2026-06-03T21:31:05.5032871Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/דקר-בנים-בוגרים.xlsx
+2026-06-03T21:31:05.5033705Z   Epee Women Senior...
+2026-06-03T21:31:05.5034386Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/דקר-בנות-בוגרים.xlsx
+2026-06-03T21:31:05.5034995Z   Sabre Men Senior...
+2026-06-03T21:31:05.5035612Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/חרב-בנים-בוגרים.xlsx
+2026-06-03T21:31:05.5036360Z   Sabre Women Senior...
+2026-06-03T21:31:05.5036995Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/חרב-בנות-בוגרים.xlsx
+2026-06-03T21:31:05.5037607Z   Foil Men Junior...
+2026-06-03T21:31:05.5038249Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/רומח-בנים-נוער.xlsx
+2026-06-03T21:31:05.5038871Z   Foil Women Junior...
+2026-06-03T21:31:05.5039499Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/רומח-בנות-נוער.xlsx
+2026-06-03T21:31:05.5040113Z   Epee Men Junior...
+2026-06-03T21:31:05.5040734Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/10/דקר-בנים-נוער.xlsx
+2026-06-03T21:31:05.5041787Z   Epee Women Junior...
+2026-06-03T21:31:05.5042411Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/דקר-בנות-נוער.xlsx
+2026-06-03T21:31:05.5043021Z   Sabre Men Junior...
+2026-06-03T21:31:05.5043791Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/חרב-בנים-נוער.xlsx
+2026-06-03T21:31:05.5044403Z   Sabre Women Junior...
+2026-06-03T21:31:05.5045035Z     HTTP 415 for https://www.fencing.org.il/wp-content/uploads/2024/08/חרב-בנות-נוער.xlsx
+2026-06-03T21:31:05.5045719Z Done — written=0, failed=12, skipped=0
+2026-06-03T21:31:05.5047040Z Failed combos: Foil Men Senior, Foil Women Senior, Epee Men Senior, Epee Women Senior, Sabre Men Senior, Sabre Women Senior, Foil Men Junior, Foil Women Junior, Epee Men Junior, Epee Women Junior, Sabre Men Junior, Sabre Women Junior
+2026-06-03T21:31:05.6271025Z Post job cleanup.
+2026-06-03T21:31:05.7481888Z (node:2877) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T21:31:05.7483461Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T21:31:05.7648518Z Post job cleanup.
+2026-06-03T21:31:05.8491773Z [command]/usr/bin/git version
+2026-06-03T21:31:05.8528814Z git version 2.54.0
+2026-06-03T21:31:05.8563841Z Temporarily overriding HOME='/home/runner/work/_temp/03c48e3d-da7a-4c4f-89e4-806a8eda2797' before making global git config changes
+2026-06-03T21:31:05.8565124Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T21:31:05.8568938Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T21:31:05.8606150Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T21:31:05.8641297Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T21:31:05.8882677Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T21:31:05.8909528Z http.https://github.com/.extraheader
+2026-06-03T21:31:05.8919900Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-06-03T21:31:05.8956366Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T21:31:05.9193525Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T21:31:05.9224924Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T21:31:05.9593800Z Cleaning up orphan processes
+2026-06-03T21:31:05.9905966Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

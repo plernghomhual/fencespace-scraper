@@ -222,18 +222,16 @@ def parse_date_range(value: Any) -> tuple[str | None, str | None]:
 
 
 def history_id_for(row: dict[str, Any]) -> str:
+    # Hash only the fields covered by fs_coach_history_source_unique_idx so that the
+    # upsert key always matches the unique constraint and avoids duplicate-key errors.
     key = "|".join(
         clean_text(row.get(part)) or ""
         for part in [
-            "coach_id",
             "coach_name",
-            "country",
-            "team",
-            "club",
             "role",
+            "source_url",
             "start_date",
             "end_date",
-            "source_url",
         ]
     ).casefold()
     return str(uuid.uuid5(uuid.NAMESPACE_URL, f"fencespace.coach-history:{key}"))

@@ -1,0 +1,805 @@
+﻿2026-06-03T20:46:09.4513845Z Current runner version: '2.334.0'
+2026-06-03T20:46:09.4540289Z ##[group]Runner Image Provisioner
+2026-06-03T20:46:09.4541389Z Hosted Compute Agent
+2026-06-03T20:46:09.4542090Z Version: 20260520.533
+2026-06-03T20:46:09.4542881Z Commit: 189110e25284a9812c124fd27b339e2fb4f2f9db
+2026-06-03T20:46:09.4543702Z Build Date: 2026-05-20T17:44:04Z
+2026-06-03T20:46:09.4544504Z Worker ID: {d5e4a955-dcac-42bc-9b0a-d5ab47441bcf}
+2026-06-03T20:46:09.4545319Z Azure Region: eastus
+2026-06-03T20:46:09.4546401Z ##[endgroup]
+2026-06-03T20:46:09.4548521Z ##[group]Operating System
+2026-06-03T20:46:09.4549548Z Ubuntu
+2026-06-03T20:46:09.4550453Z 24.04.4
+2026-06-03T20:46:09.4551479Z LTS
+2026-06-03T20:46:09.4552111Z ##[endgroup]
+2026-06-03T20:46:09.4552758Z ##[group]Runner Image
+2026-06-03T20:46:09.4553470Z Image: ubuntu-24.04
+2026-06-03T20:46:09.4554190Z Version: 20260525.161.1
+2026-06-03T20:46:09.4555605Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260525.161/images/ubuntu/Ubuntu2404-Readme.md
+2026-06-03T20:46:09.4557284Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260525.161
+2026-06-03T20:46:09.4558302Z ##[endgroup]
+2026-06-03T20:46:09.4559702Z ##[group]GITHUB_TOKEN Permissions
+2026-06-03T20:46:09.4562297Z Contents: read
+2026-06-03T20:46:09.4562993Z Metadata: read
+2026-06-03T20:46:09.4563632Z Packages: read
+2026-06-03T20:46:09.4564298Z ##[endgroup]
+2026-06-03T20:46:09.4567450Z Secret source: Actions
+2026-06-03T20:46:09.4568641Z Prepare workflow directory
+2026-06-03T20:46:09.4955769Z Prepare all required actions
+2026-06-03T20:46:09.4992602Z Getting action download info
+2026-06-03T20:46:09.8895505Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-06-03T20:46:09.9974950Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-06-03T20:46:10.1818434Z Complete job name: marketplace-social
+2026-06-03T20:46:10.2651522Z ##[group]Run actions/checkout@v4
+2026-06-03T20:46:10.2652555Z with:
+2026-06-03T20:46:10.2653107Z   repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.2658089Z   token: ***
+2026-06-03T20:46:10.2658570Z   ssh-strict: true
+2026-06-03T20:46:10.2659055Z   ssh-user: git
+2026-06-03T20:46:10.2659548Z   persist-credentials: true
+2026-06-03T20:46:10.2660085Z   clean: true
+2026-06-03T20:46:10.2660581Z   sparse-checkout-cone-mode: true
+2026-06-03T20:46:10.2661309Z   fetch-depth: 1
+2026-06-03T20:46:10.2661794Z   fetch-tags: false
+2026-06-03T20:46:10.2662308Z   show-progress: true
+2026-06-03T20:46:10.2662824Z   lfs: false
+2026-06-03T20:46:10.2663280Z   submodules: false
+2026-06-03T20:46:10.2663765Z   set-safe-directory: true
+2026-06-03T20:46:10.2664491Z env:
+2026-06-03T20:46:10.2664982Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:10.2665604Z ##[endgroup]
+2026-06-03T20:46:10.3696852Z Syncing repository: plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.3699262Z ##[group]Getting Git version info
+2026-06-03T20:46:10.3700204Z Working directory is '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3701809Z [command]/usr/bin/git version
+2026-06-03T20:46:10.3721825Z git version 2.54.0
+2026-06-03T20:46:10.3740821Z ##[endgroup]
+2026-06-03T20:46:10.3756485Z Temporarily overriding HOME='/home/runner/work/_temp/51bc27f7-1466-43c8-8bbb-d8d16c0f3d93' before making global git config changes
+2026-06-03T20:46:10.3759136Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T20:46:10.3762372Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.3807357Z Deleting the contents of '/home/runner/work/fencespace-scraper/fencespace-scraper'
+2026-06-03T20:46:10.3811882Z ##[group]Initializing the repository
+2026-06-03T20:46:10.3817093Z [command]/usr/bin/git init /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T20:46:10.3888607Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-06-03T20:46:10.3890304Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-06-03T20:46:10.3892407Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-06-03T20:46:10.3893766Z hint: call:
+2026-06-03T20:46:10.3894497Z hint:
+2026-06-03T20:46:10.3895169Z hint: 	git config --global init.defaultBranch <name>
+2026-06-03T20:46:10.3895870Z hint:
+2026-06-03T20:46:10.3896519Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-06-03T20:46:10.3897547Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-06-03T20:46:10.3898380Z hint:
+2026-06-03T20:46:10.3899047Z hint: 	git branch -m <name>
+2026-06-03T20:46:10.3899906Z hint:
+2026-06-03T20:46:10.3900633Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-06-03T20:46:10.3902128Z Initialized empty Git repository in /home/runner/work/fencespace-scraper/fencespace-scraper/.git/
+2026-06-03T20:46:10.3904891Z [command]/usr/bin/git remote add origin https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:10.3948139Z ##[endgroup]
+2026-06-03T20:46:10.3949022Z ##[group]Disabling automatic garbage collection
+2026-06-03T20:46:10.3949797Z [command]/usr/bin/git config --local gc.auto 0
+2026-06-03T20:46:10.3978546Z ##[endgroup]
+2026-06-03T20:46:10.3979451Z ##[group]Setting up auth
+2026-06-03T20:46:10.3984810Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T20:46:10.4017781Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T20:46:10.4336872Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T20:46:10.4369483Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T20:46:10.4623395Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T20:46:10.4662516Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T20:46:10.4917283Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-06-03T20:46:10.4957841Z ##[endgroup]
+2026-06-03T20:46:10.4959006Z ##[group]Fetching the repository
+2026-06-03T20:46:10.4970332Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +584d2ceca644571bf8fee6973576d9000d6784ee:refs/remotes/origin/main
+2026-06-03T20:46:11.0510712Z From https://github.com/plernghomhual/fencespace-scraper
+2026-06-03T20:46:11.0600890Z  * [new ref]         584d2ceca644571bf8fee6973576d9000d6784ee -> origin/main
+2026-06-03T20:46:11.0605870Z ##[endgroup]
+2026-06-03T20:46:11.0607715Z ##[group]Determining the checkout info
+2026-06-03T20:46:11.0610090Z ##[endgroup]
+2026-06-03T20:46:11.0611365Z [command]/usr/bin/git sparse-checkout disable
+2026-06-03T20:46:11.0613608Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-06-03T20:46:11.0636640Z ##[group]Checking out the ref
+2026-06-03T20:46:11.0640833Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-06-03T20:46:11.1226427Z Switched to a new branch 'main'
+2026-06-03T20:46:11.1228196Z branch 'main' set up to track 'origin/main'.
+2026-06-03T20:46:11.1236165Z ##[endgroup]
+2026-06-03T20:46:11.1278488Z [command]/usr/bin/git log -1 --format=%H
+2026-06-03T20:46:11.1303825Z 584d2ceca644571bf8fee6973576d9000d6784ee
+2026-06-03T20:46:11.1669781Z ##[group]Run actions/setup-python@v5
+2026-06-03T20:46:11.1671187Z with:
+2026-06-03T20:46:11.1672105Z   python-version: 3.11
+2026-06-03T20:46:11.1673140Z   check-latest: false
+2026-06-03T20:46:11.1684161Z   token: ***
+2026-06-03T20:46:11.1685144Z   update-environment: true
+2026-06-03T20:46:11.1686582Z   allow-prereleases: false
+2026-06-03T20:46:11.1687695Z   freethreaded: false
+2026-06-03T20:46:11.1688687Z env:
+2026-06-03T20:46:11.1689627Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.1690894Z ##[endgroup]
+2026-06-03T20:46:11.3035194Z ##[group]Installed versions
+2026-06-03T20:46:11.3118689Z (node:2277) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T20:46:11.3122882Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T20:46:11.3124666Z Successfully set up CPython (3.11.15)
+2026-06-03T20:46:11.3126546Z ##[endgroup]
+2026-06-03T20:46:11.3312234Z ##[group]Run pip install -r requirements.txt
+2026-06-03T20:46:11.3313734Z [36;1mpip install -r requirements.txt[0m
+2026-06-03T20:46:11.3357052Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:11.3358124Z env:
+2026-06-03T20:46:11.3359048Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:11.3360566Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3362625Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:11.3364505Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3366192Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3367925Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:11.3369680Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:11.3371264Z ##[endgroup]
+2026-06-03T20:46:12.1072418Z Collecting requests (from -r requirements.txt (line 1))
+2026-06-03T20:46:12.1653234Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-06-03T20:46:12.1893431Z Collecting supabase (from -r requirements.txt (line 2))
+2026-06-03T20:46:12.1931404Z   Downloading supabase-2.30.1-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:12.2077663Z Collecting beautifulsoup4 (from -r requirements.txt (line 3))
+2026-06-03T20:46:12.2112025Z   Downloading beautifulsoup4-4.14.3-py3-none-any.whl.metadata (3.8 kB)
+2026-06-03T20:46:12.2367395Z Collecting pdfplumber (from -r requirements.txt (line 4))
+2026-06-03T20:46:12.2400759Z   Downloading pdfplumber-0.11.9-py3-none-any.whl.metadata (43 kB)
+2026-06-03T20:46:12.2647914Z Collecting openpyxl (from -r requirements.txt (line 5))
+2026-06-03T20:46:12.2681523Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:12.2797550Z Collecting xlrd (from -r requirements.txt (line 6))
+2026-06-03T20:46:12.2830339Z   Downloading xlrd-2.0.2-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.2941796Z Collecting xlwt (from -r requirements.txt (line 7))
+2026-06-03T20:46:12.2974037Z   Downloading xlwt-1.3.0-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:12.3351810Z Collecting fastapi (from -r requirements.txt (line 8))
+2026-06-03T20:46:12.3387465Z   Downloading fastapi-0.136.3-py3-none-any.whl.metadata (27 kB)
+2026-06-03T20:46:12.3635849Z Collecting uvicorn (from -r requirements.txt (line 9))
+2026-06-03T20:46:12.3676341Z   Downloading uvicorn-0.48.0-py3-none-any.whl.metadata (6.7 kB)
+2026-06-03T20:46:12.4365404Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:12.4406074Z   Downloading websockets-16.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:12.5716946Z Collecting Pillow (from -r requirements.txt (line 11))
+2026-06-03T20:46:12.5761436Z   Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-06-03T20:46:12.6092448Z Collecting streamlit (from -r requirements.txt (line 12))
+2026-06-03T20:46:12.6136594Z   Downloading streamlit-1.58.0-py3-none-any.whl.metadata (9.6 kB)
+2026-06-03T20:46:12.6420465Z Collecting plotly (from -r requirements.txt (line 13))
+2026-06-03T20:46:12.6455348Z   Downloading plotly-6.8.0-py3-none-any.whl.metadata (9.0 kB)
+2026-06-03T20:46:12.7465808Z Collecting charset_normalizer<4,>=2 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.7504029Z   Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-06-03T20:46:12.7658073Z Collecting idna<4,>=2.5 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.7690485Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-06-03T20:46:12.7869649Z Collecting urllib3<3,>=1.26 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.7938147Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-06-03T20:46:12.8096862Z Collecting certifi>=2023.5.7 (from requests->-r requirements.txt (line 1))
+2026-06-03T20:46:12.8129815Z   Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:12.8295097Z Collecting realtime==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.8327602Z   Downloading realtime-2.30.1-py3-none-any.whl.metadata (7.0 kB)
+2026-06-03T20:46:12.8495906Z Collecting supabase-functions==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.8531092Z   Downloading supabase_functions-2.30.1-py3-none-any.whl.metadata (2.4 kB)
+2026-06-03T20:46:12.8663800Z Collecting storage3==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.8695677Z   Downloading storage3-2.30.1-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:12.8820713Z Collecting supabase-auth==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.8854873Z   Downloading supabase_auth-2.30.1-py3-none-any.whl.metadata (6.4 kB)
+2026-06-03T20:46:12.8998040Z Collecting postgrest==2.30.1 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.9033567Z   Downloading postgrest-2.30.1-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:12.9186809Z Collecting httpx<0.29,>=0.26 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:12.9219833Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:13.1183659Z Collecting yarl>=1.22.0 (from supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1234059Z   Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (94 kB)
+2026-06-03T20:46:13.1410520Z Collecting deprecation>=2.1.0 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.1449391Z   Downloading deprecation-2.1.0-py2.py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.2312522Z Collecting pydantic<3.0,>=1.9 (from postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.2351971Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-06-03T20:46:13.2776704Z Collecting typing-extensions>=4.14.0 (from realtime==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.2812513Z   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-06-03T20:46:13.2858920Z Collecting websockets (from -r requirements.txt (line 10))
+2026-06-03T20:46:13.2894248Z   Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+2026-06-03T20:46:13.3534443Z Collecting pyiceberg>=0.10.0 (from storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3574032Z   Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.8 kB)
+2026-06-03T20:46:13.3770153Z Collecting pyjwt>=2.12.0 (from pyjwt[crypto]>=2.12.0->supabase-auth==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3803550Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+2026-06-03T20:46:13.3916650Z Collecting strenum>=0.4.15 (from supabase-functions==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.3972894Z   Downloading StrEnum-0.4.15-py3-none-any.whl.metadata (5.3 kB)
+2026-06-03T20:46:13.4136873Z Collecting anyio (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4185000Z   Downloading anyio-4.13.0-py3-none-any.whl.metadata (4.5 kB)
+2026-06-03T20:46:13.4325515Z Collecting httpcore==1.* (from httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4366401Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-06-03T20:46:13.4483469Z Collecting h11>=0.16 (from httpcore==1.*->httpx<0.29,>=0.26->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4519182Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-06-03T20:46:13.4660073Z Collecting h2<5,>=3 (from httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4696400Z   Downloading h2-4.3.0-py3-none-any.whl.metadata (5.1 kB)
+2026-06-03T20:46:13.4811373Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4846265Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:13.4964293Z Collecting hpack<5,>=4.1 (from h2<5,>=3->httpx[http2]<0.29,>=0.26->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.4998620Z   Downloading hpack-4.1.0-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:13.5107198Z Collecting annotated-types>=0.6.0 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:13.5156787Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:14.0710288Z Collecting pydantic-core==2.46.4 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0764776Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.0872051Z Collecting typing-inspection>=0.4.2 (from pydantic<3.0,>=1.9->postgrest==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:14.0906449Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.1054999Z Collecting soupsieve>=1.6.1 (from beautifulsoup4->-r requirements.txt (line 3))
+2026-06-03T20:46:14.1090656Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:14.1213965Z Collecting pdfminer.six==20251230 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.1246841Z   Downloading pdfminer_six-20251230-py3-none-any.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.2222984Z Collecting pypdfium2>=4.18.0 (from pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.2262343Z   Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (68 kB)
+2026-06-03T20:46:14.3722082Z Collecting cryptography>=36.0.0 (from pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:14.3758911Z   Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+2026-06-03T20:46:14.3861891Z Collecting et-xmlfile (from openpyxl->-r requirements.txt (line 5))
+2026-06-03T20:46:14.3895264Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-06-03T20:46:14.4093918Z Collecting starlette>=0.46.0 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.4126819Z   Downloading starlette-1.2.1-py3-none-any.whl.metadata (6.3 kB)
+2026-06-03T20:46:14.4265760Z Collecting annotated-doc>=0.0.2 (from fastapi->-r requirements.txt (line 8))
+2026-06-03T20:46:14.4299309Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.4529630Z Collecting click>=7.0 (from uvicorn->-r requirements.txt (line 9))
+2026-06-03T20:46:14.4563264Z   Downloading click-8.4.1-py3-none-any.whl.metadata (2.6 kB)
+2026-06-03T20:46:14.4725316Z Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.4760666Z   Downloading altair-6.1.0-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:14.4900234Z Collecting blinker<2,>=1.5.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.4933865Z   Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:14.5096553Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.5135007Z   Downloading cachetools-7.1.4-py3-none-any.whl.metadata (5.5 kB)
+2026-06-03T20:46:14.5327476Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.5364291Z   Downloading gitpython-3.1.50-py3-none-any.whl.metadata (14 kB)
+2026-06-03T20:46:14.7431848Z Collecting numpy<3,>=1.23 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7469790Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-06-03T20:46:14.7612490Z Collecting packaging>=20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.7644552Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-06-03T20:46:14.8545350Z Collecting pandas<4,>=1.4.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.8582086Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-06-03T20:46:14.8965811Z Collecting pydeck<1,>=0.8.0b4 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:14.9000040Z   Downloading pydeck-0.9.2-py2.py3-none-any.whl.metadata (4.2 kB)
+2026-06-03T20:46:15.0261421Z Collecting protobuf<8,>=3.20 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.0298585Z   Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-06-03T20:46:15.0947176Z Collecting pyarrow>=7.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.0983425Z   Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+2026-06-03T20:46:15.1128178Z Collecting tenacity<10,>=8.1.0 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1163135Z   Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.1263807Z Collecting toml<2,>=0.10.1 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1298543Z   Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+2026-06-03T20:46:15.1595139Z Collecting httptools>=0.6.3 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1631731Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-06-03T20:46:15.1765447Z Collecting python-multipart>=0.0.10 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1805305Z   Downloading python_multipart-0.0.30-py3-none-any.whl.metadata (2.1 kB)
+2026-06-03T20:46:15.1917622Z Collecting itsdangerous>=2.1.2 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.1952122Z   Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+2026-06-03T20:46:15.2311559Z Collecting watchdog<7,>=2.1.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.2358703Z   Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+2026-06-03T20:46:15.2521303Z Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.2556322Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:15.3254713Z Collecting jsonschema>=3.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3291158Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-06-03T20:46:15.3592088Z Collecting narwhals>=2.4.0 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3626869Z   Downloading narwhals-2.22.0-py3-none-any.whl.metadata (15 kB)
+2026-06-03T20:46:15.3795468Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3828445Z   Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+2026-06-03T20:46:15.3950853Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.3991480Z   Downloading smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+2026-06-03T20:46:15.4138839Z Collecting python-dateutil>=2.8.2 (from pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.4173695Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-06-03T20:46:15.5117188Z Collecting cffi>=2.0.0 (from cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.5153812Z   Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-06-03T20:46:15.5268695Z Collecting pycparser (from cffi>=2.0.0->cryptography>=36.0.0->pdfminer.six==20251230->pdfplumber->-r requirements.txt (line 4))
+2026-06-03T20:46:15.5303398Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-06-03T20:46:15.5751470Z Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5788887Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-06-03T20:46:15.5918877Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.5954413Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-06-03T20:46:15.6065888Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6098465Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-06-03T20:46:15.6263379Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.6299878Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-06-03T20:46:15.9065795Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:15.9101840Z   Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+2026-06-03T20:46:15.9537152Z Collecting mmh3<6.0.0,>=4.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:15.9571924Z   Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (14 kB)
+2026-06-03T20:46:15.9875729Z Collecting rich<15.0.0,>=10.11.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:15.9909639Z   Downloading rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+2026-06-03T20:46:16.0032958Z Collecting strictyaml<2.0.0,>=1.7.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.0072125Z   Downloading strictyaml-1.7.3-py3-none-any.whl.metadata (11 kB)
+2026-06-03T20:46:16.0262002Z Collecting fsspec>=2023.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.0296062Z   Downloading fsspec-2026.4.0-py3-none-any.whl.metadata (10 kB)
+2026-06-03T20:46:16.0619728Z Collecting pyparsing<4.0.0,>=3.1.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.0656087Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-06-03T20:46:16.1132288Z Collecting pyroaring<2.0.0,>=1.0.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.1171905Z   Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (11 kB)
+2026-06-03T20:46:16.1220377Z Collecting cachetools<8,>=5.5 (from streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.1256530Z   Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+2026-06-03T20:46:16.1804598Z Collecting zstandard<1.0.0,>=0.13.0 (from pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.1843385Z   Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.3 kB)
+2026-06-03T20:46:16.2008911Z Collecting markdown-it-py>=2.2.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.2043212Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-06-03T20:46:16.2210355Z Collecting pygments<3.0.0,>=2.13.0 (from rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.2245966Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-06-03T20:46:16.2387121Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<15.0.0,>=10.11.0->pyiceberg>=0.10.0->storage3==2.30.1->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.2421323Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-06-03T20:46:16.2648955Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<4,>=1.4.0->streamlit->-r requirements.txt (line 12))
+2026-06-03T20:46:16.2682175Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-06-03T20:46:16.4604772Z Collecting multidict>=4.0 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.4646556Z   Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (5.3 kB)
+2026-06-03T20:46:16.5694627Z Collecting propcache>=0.2.1 (from yarl>=1.22.0->supabase->-r requirements.txt (line 2))
+2026-06-03T20:46:16.5738893Z   Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (16 kB)
+2026-06-03T20:46:16.5860675Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-06-03T20:46:16.5920714Z Downloading charset_normalizer-3.4.7-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (214 kB)
+2026-06-03T20:46:16.5988084Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-06-03T20:46:16.6041353Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-06-03T20:46:16.6114500Z Downloading supabase-2.30.1-py3-none-any.whl (16 kB)
+2026-06-03T20:46:16.6169708Z Downloading postgrest-2.30.1-py3-none-any.whl (23 kB)
+2026-06-03T20:46:16.6218896Z Downloading realtime-2.30.1-py3-none-any.whl (22 kB)
+2026-06-03T20:46:16.6267166Z Downloading storage3-2.30.1-py3-none-any.whl (28 kB)
+2026-06-03T20:46:16.6315869Z Downloading supabase_auth-2.30.1-py3-none-any.whl (48 kB)
+2026-06-03T20:46:16.6365712Z Downloading supabase_functions-2.30.1-py3-none-any.whl (8.8 kB)
+2026-06-03T20:46:16.6418747Z Downloading websockets-15.0.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (182 kB)
+2026-06-03T20:46:16.6474737Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:16.6537911Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-06-03T20:46:16.6592865Z Downloading h2-4.3.0-py3-none-any.whl (61 kB)
+2026-06-03T20:46:16.6646186Z Downloading hpack-4.1.0-py3-none-any.whl (34 kB)
+2026-06-03T20:46:16.6697411Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:16.6749351Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-06-03T20:46:16.6821319Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-06-03T20:46:16.6942003Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 203.5 MB/s  0:00:00
+2026-06-03T20:46:16.6976461Z Downloading beautifulsoup4-4.14.3-py3-none-any.whl (107 kB)
+2026-06-03T20:46:16.7032201Z Downloading pdfplumber-0.11.9-py3-none-any.whl (60 kB)
+2026-06-03T20:46:16.7084887Z Downloading pdfminer_six-20251230-py3-none-any.whl (6.6 MB)
+2026-06-03T20:46:16.7610626Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.6/6.6 MB 129.9 MB/s  0:00:00
+2026-06-03T20:46:16.7649073Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-06-03T20:46:16.7863029Z Downloading xlrd-2.0.2-py2.py3-none-any.whl (96 kB)
+2026-06-03T20:46:16.7918985Z Downloading xlwt-1.3.0-py2.py3-none-any.whl (99 kB)
+2026-06-03T20:46:16.7974327Z Downloading fastapi-0.136.3-py3-none-any.whl (117 kB)
+2026-06-03T20:46:16.8028304Z Downloading uvicorn-0.48.0-py3-none-any.whl (71 kB)
+2026-06-03T20:46:16.8087927Z Downloading pillow-12.2.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+2026-06-03T20:46:16.8367875Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 269.5 MB/s  0:00:00
+2026-06-03T20:46:16.8407587Z Downloading streamlit-1.58.0-py3-none-any.whl (9.2 MB)
+2026-06-03T20:46:16.9291711Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.2/9.2 MB 111.7 MB/s  0:00:00
+2026-06-03T20:46:16.9330451Z Downloading altair-6.1.0-py3-none-any.whl (796 kB)
+2026-06-03T20:46:16.9422615Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 797.0/797.0 kB 135.1 MB/s  0:00:00
+2026-06-03T20:46:16.9437309Z Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+2026-06-03T20:46:16.9492947Z Downloading click-8.4.1-py3-none-any.whl (116 kB)
+2026-06-03T20:46:16.9549035Z Downloading gitpython-3.1.50-py3-none-any.whl (212 kB)
+2026-06-03T20:46:16.9606174Z Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+2026-06-03T20:46:16.9664753Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-06-03T20:46:17.0286687Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.9/16.9 MB 285.1 MB/s  0:00:00
+2026-06-03T20:46:17.0331381Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-06-03T20:46:17.0787798Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 255.7 MB/s  0:00:00
+2026-06-03T20:46:17.0828702Z Downloading protobuf-7.35.0-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-06-03T20:46:17.0889272Z Downloading pydeck-0.9.2-py2.py3-none-any.whl (11.3 MB)
+2026-06-03T20:46:17.1286141Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.3/11.3 MB 302.4 MB/s  0:00:00
+2026-06-03T20:46:17.1329777Z Downloading smmap-5.0.3-py3-none-any.whl (24 kB)
+2026-06-03T20:46:17.1379734Z Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+2026-06-03T20:46:17.1431109Z Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.1480791Z Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+2026-06-03T20:46:17.1535285Z Downloading watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+2026-06-03T20:46:17.1597589Z Downloading plotly-6.8.0-py3-none-any.whl (9.9 MB)
+2026-06-03T20:46:17.2017847Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.9/9.9 MB 243.5 MB/s  0:00:00
+2026-06-03T20:46:17.2055813Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-06-03T20:46:17.2107748Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-06-03T20:46:17.2158978Z Downloading anyio-4.13.0-py3-none-any.whl (114 kB)
+2026-06-03T20:46:17.2216269Z Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.2283069Z Downloading cryptography-48.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+2026-06-03T20:46:17.2451528Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 315.9 MB/s  0:00:00
+2026-06-03T20:46:17.2489361Z Downloading cffi-2.0.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (215 kB)
+2026-06-03T20:46:17.2545399Z Downloading deprecation-2.1.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.2594174Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-06-03T20:46:17.2645880Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-06-03T20:46:17.2706839Z Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+2026-06-03T20:46:17.2759679Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-06-03T20:46:17.2816300Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-06-03T20:46:17.2870084Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-06-03T20:46:17.2921802Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-06-03T20:46:17.2973679Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-06-03T20:46:17.3034001Z Downloading narwhals-2.22.0-py3-none-any.whl (453 kB)
+2026-06-03T20:46:17.3096486Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-06-03T20:46:17.3207203Z Downloading pyarrow-24.0.0-cp311-cp311-manylinux_2_28_x86_64.whl (48.8 MB)
+2026-06-03T20:46:17.7058323Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.8/48.8 MB 127.1 MB/s  0:00:00
+2026-06-03T20:46:17.7095489Z Downloading pyiceberg-0.11.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (721 kB)
+2026-06-03T20:46:17.7164032Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 721.2/721.2 kB 116.5 MB/s  0:00:00
+2026-06-03T20:46:17.7224259Z Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.7275979Z Downloading mmh3-5.2.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (103 kB)
+2026-06-03T20:46:17.7328654Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-06-03T20:46:17.7383729Z Downloading pyroaring-1.1.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (2.2 MB)
+2026-06-03T20:46:17.7633472Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 97.5 MB/s  0:00:00
+2026-06-03T20:46:17.7705027Z Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+2026-06-03T20:46:17.7766070Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-06-03T20:46:17.7842885Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 170.5 MB/s  0:00:00
+2026-06-03T20:46:17.7884237Z Downloading strictyaml-1.7.3-py3-none-any.whl (123 kB)
+2026-06-03T20:46:17.8017096Z Downloading zstandard-0.25.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.6 MB)
+2026-06-03T20:46:17.8555501Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.6/5.6 MB 109.7 MB/s  0:00:00
+2026-06-03T20:46:17.8591155Z Downloading fsspec-2026.4.0-py3-none-any.whl (203 kB)
+2026-06-03T20:46:17.8649095Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-06-03T20:46:17.8704038Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-06-03T20:46:17.8755876Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+2026-06-03T20:46:17.8871229Z Downloading pypdfium2-5.9.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.7 MB)
+2026-06-03T20:46:17.8998782Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.7/3.7 MB 326.4 MB/s  0:00:00
+2026-06-03T20:46:17.9058837Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-06-03T20:46:17.9115493Z Downloading python_multipart-0.0.30-py3-none-any.whl (29 kB)
+2026-06-03T20:46:17.9167823Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-06-03T20:46:17.9224961Z Downloading rpds_py-2026.5.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (378 kB)
+2026-06-03T20:46:17.9318837Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-06-03T20:46:17.9381777Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-06-03T20:46:17.9434270Z Downloading starlette-1.2.1-py3-none-any.whl (73 kB)
+2026-06-03T20:46:17.9489431Z Downloading StrEnum-0.4.15-py3-none-any.whl (8.9 kB)
+2026-06-03T20:46:17.9543409Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-06-03T20:46:17.9653367Z Downloading yarl-1.24.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (106 kB)
+2026-06-03T20:46:17.9726578Z Downloading multidict-6.7.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (246 kB)
+2026-06-03T20:46:17.9791515Z Downloading propcache-0.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (58 kB)
+2026-06-03T20:46:17.9846052Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-06-03T20:46:17.9899747Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-06-03T20:46:18.3402987Z Installing collected packages: xlwt, strenum, pyroaring, zstandard, xlrd, websockets, watchdog, urllib3, typing-extensions, toml, tenacity, soupsieve, smmap, six, rpds-py, python-multipart, pypdfium2, pyparsing, pyjwt, pygments, pycparser, pyarrow, protobuf, propcache, Pillow, packaging, numpy, narwhals, multidict, mmh3, mdurl, MarkupSafe, itsdangerous, idna, hyperframe, httptools, hpack, h11, fsspec, et-xmlfile, click, charset_normalizer, certifi, cachetools, blinker, attrs, annotated-types, annotated-doc, yarl, uvicorn, typing-inspection, requests, referencing, python-dateutil, pydantic-core, plotly, openpyxl, markdown-it-py, jinja2, httpcore, h2, gitdb, deprecation, cffi, beautifulsoup4, anyio, strictyaml, starlette, rich, pydeck, pydantic, pandas, jsonschema-specifications, httpx, gitpython, cryptography, realtime, pyiceberg, pdfminer.six, jsonschema, fastapi, supabase-functions, supabase-auth, storage3, postgrest, pdfplumber, altair, supabase, streamlit
+2026-06-03T20:46:34.8406553Z 
+2026-06-03T20:46:34.8446354Z Successfully installed MarkupSafe-3.0.3 Pillow-12.2.0 altair-6.1.0 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.13.0 attrs-26.1.0 beautifulsoup4-4.14.3 blinker-1.9.0 cachetools-6.2.6 certifi-2026.5.20 cffi-2.0.0 charset_normalizer-3.4.7 click-8.4.1 cryptography-48.0.0 deprecation-2.1.0 et-xmlfile-2.0.0 fastapi-0.136.3 fsspec-2026.4.0 gitdb-4.0.12 gitpython-3.1.50 h11-0.16.0 h2-4.3.0 hpack-4.1.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.18 itsdangerous-2.2.0 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mdurl-0.1.2 mmh3-5.2.1 multidict-6.7.1 narwhals-2.22.0 numpy-2.4.6 openpyxl-3.1.5 packaging-26.2 pandas-3.0.3 pdfminer.six-20251230 pdfplumber-0.11.9 plotly-6.8.0 postgrest-2.30.1 propcache-0.5.2 protobuf-7.35.0 pyarrow-24.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydeck-0.9.2 pygments-2.20.0 pyiceberg-0.11.1 pyjwt-2.13.0 pyparsing-3.3.2 pypdfium2-5.9.0 pyroaring-1.1.0 python-dateutil-2.9.0.post0 python-multipart-0.0.30 realtime-2.30.1 referencing-0.37.0 requests-2.34.2 rich-14.3.4 rpds-py-2026.5.1 six-1.17.0 smmap-5.0.3 soupsieve-2.8.4 starlette-1.2.1 storage3-2.30.1 streamlit-1.58.0 strenum-0.4.15 strictyaml-1.7.3 supabase-2.30.1 supabase-auth-2.30.1 supabase-functions-2.30.1 tenacity-9.1.4 toml-0.10.2 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.48.0 watchdog-6.0.0 websockets-15.0.1 xlrd-2.0.2 xlwt-1.3.0 yarl-1.24.2 zstandard-0.25.0
+2026-06-03T20:46:34.8455075Z 
+2026-06-03T20:46:34.8455361Z [notice] A new release of pip is available: 26.1.1 -> 26.1.2
+2026-06-03T20:46:34.8455980Z [notice] To update, run: pip install --upgrade pip
+2026-06-03T20:46:35.1392710Z ##[group]Run python scrape_fencing_stores.py
+2026-06-03T20:46:35.1393116Z [36;1mpython scrape_fencing_stores.py[0m
+2026-06-03T20:46:35.1421560Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:35.1421844Z env:
+2026-06-03T20:46:35.1422090Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:35.1422473Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.1422932Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:35.1423371Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.1423775Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.1424166Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:35.1424570Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:35.1446054Z   SUPABASE_URL: ***
+2026-06-03T20:46:35.1447791Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:35.1448072Z ##[endgroup]
+2026-06-03T20:46:45.9153910Z [scrape_fencing_stores] source failed blue_gauntlet_contact https://www.blue-gauntlet.com/crm.asp?action=contactus: 403 Client Error: Forbidden for url: https://www.blue-gauntlet.com/crm.asp?action=contactus
+2026-06-03T20:46:45.9155321Z [scrape_fencing_stores] missing location data: pbt_dealers Sydney Area Swordsplay
+2026-06-03T20:46:45.9155910Z [scrape_fencing_stores] missing location data: pbt_dealers Paris area Royal Escrime
+2026-06-03T20:46:45.9156510Z [scrape_fencing_stores] missing location data: pbt_dealers France - South of France SUD Escrime
+2026-06-03T20:46:45.9157056Z [scrape_fencing_stores] missing location data: pbt_dealers Engarde
+2026-06-03T20:46:45.9157510Z [scrape_fencing_stores] missing location data: pbt_dealers Arcensis
+2026-06-03T20:46:45.9157997Z [scrape_fencing_stores] missing location data: pbt_dealers Purpleheart Armory
+2026-06-03T20:46:45.9158466Z fencing stores: 105 written, 1 failed, 0 skipped
+2026-06-03T20:46:46.0688416Z ##[group]Run python scrape_absolutefencing.py
+2026-06-03T20:46:46.0688829Z [36;1mpython scrape_absolutefencing.py[0m
+2026-06-03T20:46:46.0716876Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:46:46.0717155Z env:
+2026-06-03T20:46:46.0717400Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:46:46.0717786Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:46.0718240Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:46:46.0718687Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:46.0719091Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:46.0719481Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:46:46.0719875Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:46:46.0720576Z   SUPABASE_URL: ***
+2026-06-03T20:46:46.0722155Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:46:46.0722426Z ##[endgroup]
+2026-06-03T20:47:26.0376270Z Absolute Fencing product scrape starting - 2026-06-03T20:46:46.717771+00:00
+2026-06-03T20:47:26.0377315Z Absolute Fencing product scrape complete - read=73, written=7, failed=0, skipped=70, pages=5
+2026-06-03T20:47:26.2643710Z ##[group]Run python scrape_allstar_uhlmann.py
+2026-06-03T20:47:26.2644131Z [36;1mpython scrape_allstar_uhlmann.py[0m
+2026-06-03T20:47:26.2672953Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:26.2673245Z env:
+2026-06-03T20:47:26.2673495Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:26.2673892Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:26.2674364Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:26.2674825Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:26.2675227Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:26.2675641Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:26.2676051Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:26.2676656Z   SUPABASE_URL: ***
+2026-06-03T20:47:26.2677991Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:26.2678266Z ##[endgroup]
+2026-06-03T20:47:39.2063772Z   HTTP 404 for https://allstar.de/en/clothing-footwear/masks/
+2026-06-03T20:47:39.2064694Z   HTTP 404 for https://allstar.de/en/weapons-and-accessories/
+2026-06-03T20:47:39.2065418Z   HTTP 404 for https://uhlmann-fechtsport.com/en/shop/clothing/masks/
+2026-06-03T20:47:39.2066062Z Allstar/Uhlmann scrape complete: read=85, written=0, failed=3, skipped=85
+2026-06-03T20:47:39.4221414Z ##[group]Run python scrape_blue_gauntlet_products.py
+2026-06-03T20:47:39.4221880Z [36;1mpython scrape_blue_gauntlet_products.py[0m
+2026-06-03T20:47:39.4251207Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:39.4251500Z env:
+2026-06-03T20:47:39.4251756Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:39.4252350Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:39.4252809Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:39.4253269Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:39.4253675Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:39.4254067Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:39.4254463Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:39.4255052Z   SUPABASE_URL: ***
+2026-06-03T20:47:39.4256387Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:39.4256667Z ##[endgroup]
+2026-06-03T20:47:42.7965527Z Blue Gauntlet product scrape starting - 2026-06-03T20:47:40.101671+00:00
+2026-06-03T20:47:42.7966404Z   Blue Gauntlet listing fetch failed for https://www.blue-gauntlet.com/: 403 Client Error: Forbidden for url: https://www.blue-gauntlet.com/
+2026-06-03T20:47:42.7967476Z   Blue Gauntlet listing fetch failed for https://www.blue-gauntlet.com/Clearance_c_311.html: 403 Client Error: Forbidden for url: https://www.blue-gauntlet.com/Clearance_c_311.html
+2026-06-03T20:47:42.7968401Z Blue Gauntlet product scrape complete - read=0, written=0, failed=2, skipped=0, listing_urls=2
+2026-06-03T20:47:42.9871500Z ##[group]Run python scrape_leonpaul.py
+2026-06-03T20:47:42.9871931Z [36;1mpython scrape_leonpaul.py[0m
+2026-06-03T20:47:42.9902627Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:47:42.9902930Z env:
+2026-06-03T20:47:42.9903177Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:47:42.9903572Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:42.9904079Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:47:42.9904555Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:42.9904966Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:42.9905366Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:47:42.9905782Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:47:42.9906330Z   SUPABASE_URL: ***
+2026-06-03T20:47:42.9907686Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:47:42.9907962Z ##[endgroup]
+2026-06-03T20:48:54.0639016Z Leon Paul product scrape starting - 2026-06-03T20:47:43.659676+00:00
+2026-06-03T20:48:54.0641325Z Leon Paul product scrape complete - read=68, written=68, failed=0, skipped=0
+2026-06-03T20:48:54.1991536Z ##[group]Run python scrape_pbt_products.py
+2026-06-03T20:48:54.1992169Z [36;1mpython scrape_pbt_products.py[0m
+2026-06-03T20:48:54.2033187Z shell: /usr/bin/bash -e {0}
+2026-06-03T20:48:54.2033600Z env:
+2026-06-03T20:48:54.2033976Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T20:48:54.2034591Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:54.2035341Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T20:48:54.2036091Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:54.2036783Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:54.2037446Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T20:48:54.2038106Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T20:48:54.2038908Z   SUPABASE_URL: ***
+2026-06-03T20:48:54.2041605Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T20:48:54.2042033Z ##[endgroup]
+2026-06-03T21:03:21.3282098Z PBT products scrape starting - 2026-06-03T20:48:54.862701+00:00
+2026-06-03T21:03:21.3282720Z PBT products scrape complete - read=310, written=310, failed=0, skipped=0, blocked=0
+2026-06-03T21:03:21.5299453Z ##[group]Run python scrape_fencingnet_products.py
+2026-06-03T21:03:21.5299881Z [36;1mpython scrape_fencingnet_products.py[0m
+2026-06-03T21:03:21.5328331Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:21.5328605Z env:
+2026-06-03T21:03:21.5328852Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:21.5329237Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:21.5329900Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:21.5330342Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:21.5330736Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:21.5331358Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:21.5331751Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:21.5332273Z   SUPABASE_URL: ***
+2026-06-03T21:03:21.5333621Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:21.5333892Z ##[endgroup]
+2026-06-03T21:03:23.3216922Z Fencing.net product review scrape starting - 2026-06-03T21:03:22.209279+00:00
+2026-06-03T21:03:23.3217748Z   Fencing.net fetch failed for https://fencing.net/reviews/: 404 Client Error: Not Found for url: https://fencing.net/reviews/
+2026-06-03T21:03:23.3218463Z Fencing.net scrape complete: 0 products, 0 reviews written; 1 failed; 0 skipped
+2026-06-03T21:03:23.4815879Z ##[group]Run python scrape_secondhand_equipment.py
+2026-06-03T21:03:23.4816348Z [36;1mpython scrape_secondhand_equipment.py[0m
+2026-06-03T21:03:23.4845453Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:23.4845732Z env:
+2026-06-03T21:03:23.4845980Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:23.4846370Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:23.4846821Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:23.4847259Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:23.4847655Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:23.4848046Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:23.4848428Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:23.4848948Z   SUPABASE_URL: ***
+2026-06-03T21:03:23.4850286Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:23.4850556Z ##[endgroup]
+2026-06-03T21:03:24.9511444Z Previous second-hand equipment state: {'failed': 4, 'parsed': 0, 'skipped': 0, 'sources': 4, 'written': 0, 'updated_at': '2026-06-03T16:32:01.250017+00:00'}
+2026-06-03T21:03:24.9512633Z [secondhand_equipment] ebay fetch/parse failed: 403 Client Error: Forbidden for url: https://www.ebay.com/sch/i.html?_nkw=used+fencing+gear&_sacat=0&LH_ItemCondition=3000
+2026-06-03T21:03:24.9513744Z [secondhand_equipment] ebay fetch/parse failed: 403 Client Error: Forbidden for url: https://www.ebay.com/sch/i.html?_nkw=fencing+epee+used&_sacat=0&LH_ItemCondition=3000
+2026-06-03T21:03:24.9514837Z [secondhand_equipment] ebay fetch/parse failed: 403 Client Error: Forbidden for url: https://www.ebay.com/sch/i.html?_nkw=fencing+foil+used&_sacat=0&LH_ItemCondition=3000
+2026-06-03T21:03:24.9515923Z [secondhand_equipment] ebay fetch/parse failed: 403 Client Error: Forbidden for url: https://www.ebay.com/sch/i.html?_nkw=fencing+sabre+used&_sacat=0&LH_ItemCondition=3000
+2026-06-03T21:03:24.9516778Z Second-hand equipment scraper complete: 0 rows written, 4 failed sources, 0 skipped sources
+2026-06-03T21:03:25.1042594Z ##[group]Run python scrape_equipment_trends.py
+2026-06-03T21:03:25.1043244Z [36;1mpython scrape_equipment_trends.py[0m
+2026-06-03T21:03:25.1084673Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:25.1085090Z env:
+2026-06-03T21:03:25.1085455Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:25.1086080Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:25.1086823Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:25.1087565Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:25.1088230Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:25.1088886Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:25.1089554Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:25.1090345Z   SUPABASE_URL: ***
+2026-06-03T21:03:25.1092994Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:25.1093736Z ##[endgroup]
+2026-06-03T21:03:45.3399049Z Equipment trends complete: status=ok, evidence=64, trends=14, written=78, failed=0, skipped=2
+2026-06-03T21:03:45.7694775Z ##[group]Run python scrape_sponsorships.py
+2026-06-03T21:03:45.7695164Z [36;1mpython scrape_sponsorships.py[0m
+2026-06-03T21:03:45.7724207Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:03:45.7724474Z env:
+2026-06-03T21:03:45.7724722Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:03:45.7725113Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:45.7725564Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:03:45.7726000Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:45.7726390Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:45.7726777Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:03:45.7727160Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:03:45.7727670Z   SUPABASE_URL: ***
+2026-06-03T21:03:45.7729022Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:03:45.7729287Z ##[endgroup]
+2026-06-03T21:29:05.8540836Z Sponsorship scrape complete: scanned=1000, found=0, written=0, failed=0, skipped=1000
+2026-06-03T21:29:05.9919675Z ##[group]Run python scrape_instagram_fencing.py
+2026-06-03T21:29:05.9920105Z [36;1mpython scrape_instagram_fencing.py[0m
+2026-06-03T21:29:05.9948547Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:05.9948820Z env:
+2026-06-03T21:29:05.9949077Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:05.9949474Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:05.9949938Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:05.9950394Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:05.9950823Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:05.9951437Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:05.9951869Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:05.9952412Z   SUPABASE_URL: ***
+2026-06-03T21:29:05.9953776Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:05.9954060Z ##[endgroup]
+2026-06-03T21:29:06.8526104Z Instagram fencing aggregation complete - provider=fixture, dry_run=True, handles=1, fetched=1, written=0, failed=0, skipped=0
+2026-06-03T21:29:06.9744873Z ##[group]Run python scrape_tiktok_fencing.py
+2026-06-03T21:29:06.9745486Z [36;1mpython scrape_tiktok_fencing.py[0m
+2026-06-03T21:29:06.9786399Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:06.9786839Z env:
+2026-06-03T21:29:06.9787201Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:06.9787811Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:06.9788550Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:06.9789294Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:06.9789946Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:06.9790612Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:06.9791455Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:06.9792254Z   SUPABASE_URL: ***
+2026-06-03T21:29:06.9794591Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:06.9795003Z ##[endgroup]
+2026-06-03T21:29:06.9993521Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_tiktok_fencing.py", line 402
+2026-06-03T21:29:06.9994762Z     name_pattern = re.compile(rf"(?<![A-Za-z0-9]){re.escape(name).replace('\\ ', r'\\s+')}(?![A-Za-z0-9])", re.I)
+2026-06-03T21:29:06.9995744Z                                                                                                           ^
+2026-06-03T21:29:06.9998484Z SyntaxError: f-string expression part cannot include a backslash
+2026-06-03T21:29:07.0031771Z ##[error]Process completed with exit code 1.
+2026-06-03T21:29:07.0076692Z ##[group]Run python scrape_youtube_videos.py
+2026-06-03T21:29:07.0077284Z [36;1mpython scrape_youtube_videos.py[0m
+2026-06-03T21:29:07.0103335Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:07.0103605Z env:
+2026-06-03T21:29:07.0103852Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:07.0104233Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.0104692Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:07.0105142Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.0105537Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.0105938Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.0106485Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:07.0107118Z   SUPABASE_URL: ***
+2026-06-03T21:29:07.0108854Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:07.0109263Z ##[endgroup]
+2026-06-03T21:29:07.7826221Z Skipping YouTube video indexing: YOUTUBE_API_KEY is not set.
+2026-06-03T21:29:07.7827033Z Done - queries=0, parsed=0, written=0, failed=0, skipped=1, dry_run=True
+2026-06-03T21:29:07.9020522Z ##[group]Run python scrape_fencing_forums.py
+2026-06-03T21:29:07.9021160Z [36;1mpython scrape_fencing_forums.py[0m
+2026-06-03T21:29:07.9050695Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:07.9051261Z env:
+2026-06-03T21:29:07.9051574Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:07.9052091Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.9052732Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:07.9053424Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.9054032Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.9054676Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:07.9055236Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:07.9055761Z   SUPABASE_URL: ***
+2026-06-03T21:29:07.9057088Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:07.9057388Z ##[endgroup]
+2026-06-03T21:29:33.8876366Z Traceback (most recent call last):
+2026-06-03T21:29:33.8877108Z REDDIT_CLIENT_ID/SECRET/USER_AGENT not set; using allowed subreddit RSS
+2026-06-03T21:29:33.8887820Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fencing_forums.py", line 641, in <module>
+2026-06-03T21:29:33.8888422Z     main()
+2026-06-03T21:29:33.8888975Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fencing_forums.py", line 614, in main
+2026-06-03T21:29:33.8889578Z     summary = scrape_forum_discussions(client)
+2026-06-03T21:29:33.8889894Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T21:29:33.8890530Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fencing_forums.py", line 596, in scrape_forum_discussions
+2026-06-03T21:29:33.8891590Z     written = upsert_discussion_rows(client, discussions) if discussions else 0
+2026-06-03T21:29:33.8892031Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-06-03T21:29:33.8892691Z   File "/home/runner/work/fencespace-scraper/fencespace-scraper/scrape_fencing_forums.py", line 521, in upsert_discussion_rows
+2026-06-03T21:29:33.8893253Z     ).execute()
+2026-06-03T21:29:33.8893475Z       ^^^^^^^^^
+2026-06-03T21:29:33.8894022Z   File "/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/postgrest/_sync/request_builder.py", line 96, in execute
+2026-06-03T21:29:33.8894621Z     raise APIError(dict(json_obj))
+2026-06-03T21:29:33.8895329Z postgrest.exceptions.APIError: {'message': 'invalid input syntax for type bigint: "dfd07770-5f47-4a07-af60-0da4750ac096"', 'code': '22P02', 'hint': None, 'details': None}
+2026-06-03T21:29:34.0522083Z ##[error]Process completed with exit code 1.
+2026-06-03T21:29:34.0549441Z ##[group]Run python scrape_social_followers.py
+2026-06-03T21:29:34.0549832Z [36;1mpython scrape_social_followers.py[0m
+2026-06-03T21:29:34.0578152Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:29:34.0578430Z env:
+2026-06-03T21:29:34.0578902Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:29:34.0579283Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:34.0579724Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:29:34.0580158Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:34.0580555Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:34.0581117Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:29:34.0581511Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:29:34.0582018Z   SUPABASE_URL: ***
+2026-06-03T21:29:34.0583359Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:29:34.0583633Z ##[endgroup]
+2026-06-03T21:30:24.7045537Z Social follower snapshots starting - 2026-06-03T21:29:34.835140+00:00
+2026-06-03T21:30:24.7046395Z Policy: public/API-backed sources only; no login bypass or private profile scraping.
+2026-06-03T21:30:24.7047058Z Blocked source stubs:
+2026-06-03T21:30:24.7047482Z   facebook: skipped - Follower counts require login or restricted platform APIs.
+2026-06-03T21:30:24.7048356Z   instagram: skipped - Follower counts require login, scraping, or restricted platform APIs.
+2026-06-03T21:30:24.7049157Z   threads: skipped - Follower counts require login or restricted platform APIs.
+2026-06-03T21:30:24.7049955Z   tiktok: skipped - Follower counts require login, scraping, or restricted platform APIs.
+2026-06-03T21:30:24.7050762Z   twitter: skipped - Follower counts require login or paid/restricted platform APIs.
+2026-06-03T21:30:24.7051887Z   youtube: skipped - Follower counts require an API key; no key is configured for this scraper.
+2026-06-03T21:30:24.7052671Z Previous social follower run state found: 2026-06-03T16:59:30.302524+00:00
+2026-06-03T21:30:24.7053111Z   Fetched 954 social profile candidates so far...
+2026-06-03T21:30:24.7053452Z Total social profile candidates: 935
+2026-06-03T21:30:24.7053810Z Done - written=0, blocked=353, unmatched=582, candidates=935
+2026-06-03T21:30:24.8515449Z ##[group]Run python scrape_photographer_directory.py
+2026-06-03T21:30:24.8515876Z [36;1mpython scrape_photographer_directory.py[0m
+2026-06-03T21:30:24.8544510Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:30:24.8544791Z env:
+2026-06-03T21:30:24.8545035Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:30:24.8545421Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:24.8545878Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:30:24.8546334Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:24.8546737Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:24.8547136Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:30:24.8547524Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:30:24.8548023Z   SUPABASE_URL: ***
+2026-06-03T21:30:24.8549362Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:30:24.8549632Z ##[endgroup]
+2026-06-03T21:34:06.2548672Z event photographers: 1 written, 0 failed, 0 skipped
+2026-06-03T21:34:14.2840270Z ##[group]Run python scrape_google_club_reviews.py
+2026-06-03T21:34:14.2840678Z [36;1mpython scrape_google_club_reviews.py[0m
+2026-06-03T21:34:14.2869269Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:34:14.2869548Z env:
+2026-06-03T21:34:14.2869792Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:34:14.2870170Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:14.2870620Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:34:14.2871188Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:14.2871586Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:14.2871970Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:14.2872361Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:34:14.2872846Z   SUPABASE_URL: ***
+2026-06-03T21:34:14.2874377Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:34:14.2874650Z ##[endgroup]
+2026-06-03T21:34:15.0985539Z MAPS_API_KEY not set; skipping Google Places lookups
+2026-06-03T21:34:15.2399397Z ##[group]Run python scrape_quotes.py
+2026-06-03T21:34:15.2399952Z [36;1mpython scrape_quotes.py[0m
+2026-06-03T21:34:15.2443836Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:34:15.2444257Z env:
+2026-06-03T21:34:15.2444630Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:34:15.2445247Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:15.2445991Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:34:15.2446729Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:15.2447392Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:15.2448047Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:15.2448720Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:34:15.2449524Z   SUPABASE_URL: ***
+2026-06-03T21:34:15.2452251Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:34:15.2452667Z ##[endgroup]
+2026-06-03T21:34:49.3114277Z   Listing fetch/parse failed for british_fencing_news: 403 Client Error: Forbidden for url: https://www.britishfencing.com/news/
+2026-06-03T21:34:49.3115171Z Done - fetched=0, written=0, failed=1, skipped=8
+2026-06-03T21:34:49.4537959Z ##[group]Run python aggregate_social_feed.py
+2026-06-03T21:34:49.4538331Z [36;1mpython aggregate_social_feed.py[0m
+2026-06-03T21:34:49.4566750Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:34:49.4567026Z env:
+2026-06-03T21:34:49.4567265Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:34:49.4567639Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:49.4568095Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:34:49.4568533Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:49.4568921Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:49.4569318Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:49.4569699Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:34:49.4570173Z   SUPABASE_URL: ***
+2026-06-03T21:34:49.4571788Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:34:49.4572060Z ##[endgroup]
+2026-06-03T21:34:50.3480256Z Social feed dry run: no configured public/API search providers. Missing provider keys/settings: {'x': ['X_BEARER_TOKEN']}
+2026-06-03T21:34:50.4756573Z ##[group]Run python aggregate_videos.py
+2026-06-03T21:34:50.4757131Z [36;1mpython aggregate_videos.py[0m
+2026-06-03T21:34:50.4785794Z shell: /usr/bin/bash -e {0}
+2026-06-03T21:34:50.4786090Z env:
+2026-06-03T21:34:50.4786331Z   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+2026-06-03T21:34:50.4786717Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:50.4787160Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-06-03T21:34:50.4787605Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:50.4788017Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:50.4788404Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-06-03T21:34:50.4788783Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-06-03T21:34:50.4789274Z   SUPABASE_URL: ***
+2026-06-03T21:34:50.4790599Z   SUPABASE_SERVICE_KEY: ***
+2026-06-03T21:34:50.4790867Z ##[endgroup]
+2026-06-03T21:34:51.4577298Z Video aggregation starting - 2026-06-03T21:34:51.086075+00:00
+2026-06-03T21:34:51.4578357Z Previous video aggregation state: {'failed': 0, 'reason': 'missing YOUTUBE_API_KEY', 'dry_run': True, 'skipped': 1, 'provider': 'youtube', 'updated_at': '2026-06-03T17:03:10.110164+00:00', 'queries_run': 0, 'rows_written': 0, 'videos_found': 0}
+2026-06-03T21:34:51.4579411Z Video aggregation dry run - missing YOUTUBE_API_KEY; no provider calls or video rows written
+2026-06-03T21:34:51.5815026Z Post job cleanup.
+2026-06-03T21:34:51.7011879Z (node:2822) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-06-03T21:34:51.7013262Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-06-03T21:34:51.7167451Z Post job cleanup.
+2026-06-03T21:34:51.8032937Z [command]/usr/bin/git version
+2026-06-03T21:34:51.8069928Z git version 2.54.0
+2026-06-03T21:34:51.8104597Z Temporarily overriding HOME='/home/runner/work/_temp/c404f82a-1b90-4728-bed0-06185c5b9211' before making global git config changes
+2026-06-03T21:34:51.8105463Z Adding repository directory to the temporary git global config as a safe directory
+2026-06-03T21:34:51.8109982Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/fencespace-scraper/fencespace-scraper
+2026-06-03T21:34:51.8148430Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-06-03T21:34:51.8182994Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-06-03T21:34:51.8425453Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-06-03T21:34:51.8450803Z http.https://github.com/.extraheader
+2026-06-03T21:34:51.8461250Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-06-03T21:34:51.8492739Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-06-03T21:34:51.8722464Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-06-03T21:34:51.8752572Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-06-03T21:34:51.9125258Z Cleaning up orphan processes
+2026-06-03T21:34:51.9428700Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

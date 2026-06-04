@@ -27,16 +27,18 @@ def bout(
     tournament_id=TOURNAMENT,
     metadata=None,
 ):
-    return {
+    row = {
         "id": bout_id,
         "tournament_id": tournament_id,
-        "fencer_a": fencer_a,
-        "fencer_b": fencer_b,
+        "fencer_a_id": fencer_a,
+        "fencer_b_id": fencer_b,
         "winner_id": winner_id,
         "score_a": score_a,
         "score_b": score_b,
-        "metadata": metadata or {},
     }
+    if metadata is not None:
+        row["metadata"] = metadata
+    return row
 
 
 def normal_bouts(count=10):

@@ -300,7 +300,7 @@ def test_compute_legacy_scores_fetches_tier_fields_and_upserts_by_identity():
     }
     assert (
         "fs_tournaments",
-        "id,tier,type,competition_type,competition_tier,season,start_date,end_date,date,weapon,gender,category",
+        "id,tier,type,competition_type,competition_tier,season,start_date,end_date,weapon,gender,category",
     ) in client.selects
     assert client.upserts == [
         {

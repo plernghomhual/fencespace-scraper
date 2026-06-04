@@ -372,6 +372,9 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
         return None
 
 
+SEASON = "2025-2026"
+
+
 def current_season() -> str:
     """
     Return the current fencing season as YYYY-YYYY.

@@ -43,12 +43,12 @@ RESULT_SELECTS = (
     "id,tournament_id,fencer_id,rank",
 )
 RANKINGS_SELECT = "fie_fencer_id,season,weapon,category,rank,points,name,country"
-PERFORMANCE_SELECT = "fencer_id,weapon,competitions_count,avg_delta,clutch_score,overperformance_rate"
+PERFORMANCE_SELECT = "fencer_id,weapon,competitions_count,avg_delta,overperformance_rate"
 STRENGTH_SELECT = "tournament_id,strength_score,total_fie_ranked"
 TREND_SELECT = "fencer_id,weapon,category,projected_next_rank,trend_direction,rank_change,points_change"
 MEDAL_SELECT = "scope,fencer_id,tier,gold,silver,bronze,total"
-CAREER_SELECT = "fencer_id,total_competitions,gold_medals,silver_medals,bronze_medals,total_medals,legacy_score,elo_rating"
-ELO_SELECT = "fencer_id,weapon,rating,elo_rating"
+CAREER_SELECT = "fencer_id,total_competitions,gold_medals,silver_medals,bronze_medals,legacy_score"
+ELO_SELECT = "fencer_id,weapon,rating,peak_rating"
 
 PREDICTION_CONFLICT = "id"
 BACKTEST_CONFLICT = "id"
@@ -367,7 +367,7 @@ def build_candidates(
             "category": normalize_category(fencer.get("category")),
             "world_rank": coerce_int(fencer.get("world_rank")),
             "active": coerce_bool(fencer.get("active")),
-            "elo_rating": coerce_float(fencer.get("elo_rating")),
+            "elo_rating": coerce_float(fencer.get("rating")),
         }
 
     for ranking in rankings:
@@ -389,7 +389,7 @@ def build_candidates(
                 "category": normalize_category(ranking.get("category")),
                 "world_rank": coerce_int(fencer.get("world_rank")),
                 "active": coerce_bool(fencer.get("active")),
-                "elo_rating": coerce_float(fencer.get("elo_rating")),
+                "elo_rating": coerce_float(fencer.get("rating")),
             },
         )
 
@@ -615,8 +615,8 @@ def legacy_score(medal_row: dict[str, Any] | None, career_row: dict[str, Any] | 
         medals = coerce_int(medal_row.get("total")) or 0
         gold = coerce_int(medal_row.get("gold")) or 0
     elif career_row:
-        medals = coerce_int(career_row.get("total_medals")) or 0
         gold = coerce_int(career_row.get("gold_medals")) or 0
+        medals = gold + (coerce_int(career_row.get("silver_medals")) or 0) + (coerce_int(career_row.get("bronze_medals")) or 0)
     else:
         medals = 0
         gold = 0

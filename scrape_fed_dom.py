@@ -383,6 +383,8 @@ def main() -> None:
             f"written={total_written}, failed={total_failed}, skipped={total_skipped}, "
             f"working_combos={len(working_combos)}/{len(RANKING_COMBOS)}"
         )
+        if total_written == 0 and (total_skipped + total_failed) > 0:
+            print(f"[WARNING] {SOURCE}: zero rows written after processing all targets — check URL config or source availability")
     except Exception as exc:
         run_log.error(str(exc))
         raise

@@ -515,10 +515,27 @@ def upsert_discussion_rows(
     written = 0
     for index in range(0, len(rows), batch_size):
         batch = rows[index : index + batch_size]
-        client.table("fs_forum_discussions").upsert(
-            batch,
-            on_conflict=DISCUSSION_CONFLICT_COLUMNS,
-        ).execute()
+        try:
+            client.table("fs_forum_discussions").upsert(
+                batch,
+                on_conflict=DISCUSSION_CONFLICT_COLUMNS,
+            ).execute()
+        except Exception as exc:
+            # fs_forum_discussions.related_fencer_ids is bigint[] but fs_fencers.id
+            # is now UUID (text). Retry without the field so discussions still get
+            # written even if fencer linking fails.
+            if "22P02" in str(exc):
+                print(
+                    f"[forum_upsert] related_fencer_ids type mismatch (22P02); "
+                    f"retrying batch {index // batch_size} without related_fencer_ids"
+                )
+                stripped = [{k: v for k, v in row.items() if k != "related_fencer_ids"} for row in batch]
+                client.table("fs_forum_discussions").upsert(
+                    stripped,
+                    on_conflict=DISCUSSION_CONFLICT_COLUMNS,
+                ).execute()
+            else:
+                raise
         written += len(batch)
     return written
 

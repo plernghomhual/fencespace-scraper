@@ -34,6 +34,9 @@ RECENT_DAYS = 14
 RATE_LIMIT_SECONDS = 2
 MAX_WORKERS = int(os.environ.get("BOUTS_MAX_WORKERS", "5"))
 
+# These FIE competition IDs (2008-2014 Champ du monde juniors-cadets) return HTTP 500 consistently.
+BLOCKED_FIE_COMPETITION_IDS = {229, 230, 231, 232, 233, 234}
+
 
 def get_supabase_client() -> Client:
     if not SUPABASE_URL or not SUPABASE_KEY:
@@ -449,6 +452,14 @@ def _scrape_one_tournament(tournament, session, supabase, existing_bout_ids, loc
     recent = is_recent_tournament(tournament)
 
     try:
+        try:
+            url_id_int = int(url_id)
+        except (TypeError, ValueError):
+            url_id_int = None
+        if url_id_int is not None and url_id_int in BLOCKED_FIE_COMPETITION_IDS:
+            print(f"  [{name}] Skipping blocked FIE competition ID {url_id_int} (known HTTP 500)")
+            return "no_bouts", 0
+
         if _fie_limiter:
             _fie_limiter.wait("fie.org")
         else:

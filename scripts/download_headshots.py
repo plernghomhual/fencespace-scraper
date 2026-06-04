@@ -4,6 +4,7 @@ import io
 import json
 import os
 import re
+import sys
 import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -12,6 +13,9 @@ from typing import Any, Callable
 
 import requests
 from PIL import Image, ImageOps, UnidentifiedImageError
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state

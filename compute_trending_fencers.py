@@ -26,16 +26,14 @@ RESULT_SELECTS = (
     "id,tournament_id,fencer_id,rank,placement,medal",
 )
 TOURNAMENT_SELECTS = (
-    "id,name,weapon,category,gender,end_date,start_date,date,season,type,status,has_results,is_team,team,event_type",
-    "id,name,weapon,category,gender,end_date,start_date,date,season,type,status,has_results",
-    "id,name,weapon,category,end_date,start_date,date,season,type",
+    "id,name,weapon,category,gender,end_date,start_date,season,type,status,has_results,is_team,team,event_type",
+    "id,name,weapon,category,gender,end_date,start_date,season,type,status,has_results",
+    "id,name,weapon,category,end_date,start_date,season,type",
     "id,weapon,category,season",
 )
 IDENTITY_SELECTS = (
-    "id,canonical_id,fie_ids,fs_fencer_row_ids",
-    "id,canonical_id,fs_fencer_row_ids",
-    "canonical_id,fie_ids,fs_fencer_row_ids",
-    "canonical_id,fs_fencer_row_ids",
+    "id,fie_ids,fs_fencer_row_ids",
+    "id,fs_fencer_row_ids",
 )
 FENCER_SELECTS = (
     "id,fie_id",
@@ -140,10 +138,8 @@ def build_identity_indexes(
     for row in identity_rows or []:
         members = parse_json_array(row.get("fs_fencer_row_ids") or row.get("fencer_ids"))
         fie_ids = parse_json_array(row.get("fie_ids"))
-        canonical = clean_text(row.get("canonical_id"))
-        row_id = clean_text(row.get("id"))
-        if not canonical and row_id and row_id in members:
-            canonical = row_id
+        canonical = clean_text(row.get("id"))
+        row_id = canonical
         if not canonical and members:
             canonical = members[0]
         if not canonical:

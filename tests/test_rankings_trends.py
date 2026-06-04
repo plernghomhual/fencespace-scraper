@@ -123,7 +123,7 @@ def test_build_trend_rows_groups_by_fencer_weapon_and_category():
     assert skipped == 0
     assert len(rows) == 3
     assert {row["trend_direction"] for row in rows} == {"new"}
-    assert {(row["fencer_id"], row["weapon"], row["category"]) for row in rows} == {
+    assert {(row["fie_fencer_id"], row["weapon"], row["category"]) for row in rows} == {
         ("1001", "Epee", "Men's Senior"),
         ("1001", "Foil", "Men's Senior"),
         ("1002", "Epee", "Men's Senior"),
@@ -219,11 +219,11 @@ def test_compute_rankings_trends_fetches_history_and_upserts_rows():
 
     assert result == {"read": 2, "written": 2, "failed": 0, "skipped": 0}
     assert ("fs_rankings_history", "fie_fencer_id,season,weapon,category,rank,points") in client.selects
-    assert ("fs_rankings_trends", "fencer_id") in client.selects
+    assert ("fs_rankings_trends", "fie_fencer_id") in client.selects
     assert client.orders == ["fie_fencer_id", "weapon", "category", "season"]
     assert len(client.upserts) == 1
     assert client.upserts[0]["table"] == "fs_rankings_trends"
-    assert client.upserts[0]["on_conflict"] == "fencer_id,weapon,category,season"
+    assert client.upserts[0]["on_conflict"] == "fie_fencer_id,weapon,category,season"
     assert client.upserts[0]["rows"][1]["trend_direction"] == "up"
 
 

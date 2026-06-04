@@ -164,6 +164,12 @@ def dedupe_fencers_by_fie_id(rows: list[dict]) -> list[dict]:
 def upsert_fencer_rows(rows: list[dict]) -> None:
     if not rows:
         return
+    filtered = [r for r in rows if r.get("name") and str(r["name"]).strip()]
+    if len(filtered) < len(rows):
+        print(f"[fencer_upsert] Skipped {len(rows) - len(filtered)} rows with blank/missing name")
+    rows = filtered
+    if not rows:
+        return
     try:
         batch_upsert("fs_fencers", rows, on_conflict="fie_id,weapon,category")
     except Exception as upsert_exc:
