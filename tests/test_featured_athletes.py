@@ -29,7 +29,7 @@ def test_build_featured_rows_balances_medals_rank_activity_and_completeness():
             "country": "USA",
             "weapon": "Foil",
             "world_rank": 2,
-            "bio": "Olympic and world medalist.",
+            "bio_text": "Olympic and world medalist.",
             "image_url": "https://example.test/alice.jpg",
         },
         {

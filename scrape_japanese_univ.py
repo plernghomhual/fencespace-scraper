@@ -754,7 +754,7 @@ def upsert_results(client: Any, rows: list[dict[str, Any]]) -> int:
 
 
 def fetch_fencers(client: Any) -> list[dict[str, Any]]:
-    result = client.table("fs_fencers").select("id,name,country,nationality").execute()
+    result = client.table("fs_fencers").select("id,name,country").execute()
     return result.data or []
 
 

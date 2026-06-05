@@ -70,9 +70,9 @@ def test_build_trending_rows_scores_rank_jumps_medals_and_missing_social_data():
             tournament("old", "2026-05-20"),
         ],
         rank_trends=[
-            {"fencer_id": "1001", "rank_change": 8, "trend_direction": "up", "season": 2026},
-            {"fencer_id": BOB, "rank_change": -2, "trend_direction": "down", "season": 2026},
-            {"fencer_id": CAROL, "rank_change": 10, "trend_direction": "up", "season": 2026},
+            {"fie_fencer_id": "1001", "rank_change": 8, "trend_direction": "up", "season": 2026},
+            {"fie_fencer_id": BOB, "rank_change": -2, "trend_direction": "down", "season": 2026},
+            {"fie_fencer_id": CAROL, "rank_change": 10, "trend_direction": "up", "season": 2026},
         ],
         form_rows=[
             {"fencer_id": ALICE_ALT, "form_score": 85, "trend_direction": "improving"},
@@ -167,7 +167,7 @@ def test_rows_are_skipped_when_weekly_evidence_is_insufficient():
             tournament("outside", "2026-05-18"),
             tournament("valid", "2026-05-26"),
         ],
-        rank_trends=[{"fencer_id": ALICE, "rank_change": 20, "season": 2026}],
+        rank_trends=[{"fie_fencer_id": ALICE, "rank_change": 20, "season": 2026}],
         form_rows=[{"fencer_id": ALICE, "form_score": 100, "trend_direction": "improving"}],
         social_rows=[{"fencer_id": ALICE, "mention_count": 999, "mention_rank": 1}],
         week_start=WEEK_START,
@@ -266,7 +266,7 @@ def test_compute_trending_fencers_upserts_weekly_rows_idempotently():
                 }
             ],
             "fs_fencers": [{"id": ALICE, "fie_id": "1001"}, {"id": ALICE_ALT, "fie_id": "1001"}],
-            "fs_rankings_trends": [{"fencer_id": "1001", "rank_change": 5, "season": 2026}],
+            "fs_rankings_trends": [{"fie_fencer_id": "1001", "rank_change": 5, "season": 2026}],
             "fs_fencer_form": [{"fencer_id": ALICE_ALT, "form_score": 90, "trend_direction": "improving"}],
             "fs_fencer_social_leaderboard": [],
         }

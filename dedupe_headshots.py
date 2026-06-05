@@ -29,7 +29,7 @@ if SUPABASE_URL and SUPABASE_KEY:
 
 SOURCE = "dedupe_headshots"
 REVIEW_TABLE = "fs_headshot_duplicate_reviews"
-FENCER_COLUMNS = "id,fie_id,name,country,headshot_url,local_image_path,metadata,world_rank"
+FENCER_COLUMNS = "id,fie_id,name,country,image_url,metadata,world_rank"
 DEFAULT_LIMIT = int(os.environ.get("HEADSHOT_DEDUPE_LIMIT", "5000"))
 DEFAULT_HASH_DISTANCE_THRESHOLD = int(os.environ.get("HEADSHOT_DEDUPE_HASH_DISTANCE", "5"))
 DEFAULT_COLOR_DISTANCE_THRESHOLD = float(os.environ.get("HEADSHOT_DEDUPE_COLOR_DISTANCE", "18"))
@@ -143,7 +143,7 @@ def source_image_id_for(row: dict[str, Any], fingerprint: ImageFingerprint | Non
         return f"content:{fingerprint.normalized_sha256[:32]}"
     source = (
         normalize_url(row.get("local_image_path"))
-        or normalize_url(row.get("headshot_url"))
+        or normalize_url(row.get("image_url"))
         or clean_text(row.get("id"))
         or "unknown"
     )
@@ -152,7 +152,7 @@ def source_image_id_for(row: dict[str, Any], fingerprint: ImageFingerprint | Non
 
 
 def display_image_url(row: dict[str, Any]) -> str | None:
-    return normalize_url(row.get("local_image_path")) or normalize_url(row.get("headshot_url"))
+    return normalize_url(row.get("local_image_path")) or normalize_url(row.get("image_url"))
 
 
 def pair_key(row_a: dict[str, Any], row_b: dict[str, Any]) -> tuple[str, str]:
@@ -285,7 +285,7 @@ def evidence_source(row: dict[str, Any], source_image_id: str) -> dict[str, Any]
         "name": clean_text(row.get("name")),
         "country": clean_text(row.get("country")),
         "source_image_id": source_image_id,
-        "headshot_url": normalize_url(row.get("headshot_url")),
+        "image_url": normalize_url(row.get("image_url")),
         "local_image_path": normalize_url(row.get("local_image_path")) or clean_text(row.get("local_image_path")),
     }
 
@@ -411,7 +411,7 @@ def find_duplicate_candidates(
     stats = DedupeStats(processed=len(rows))
     candidates: dict[tuple[str, str], DuplicateCandidate] = {}
 
-    for url, row_a, row_b in grouped_pairs(rows, lambda row: normalize_url(row.get("headshot_url"))):
+    for url, row_a, row_b in grouped_pairs(rows, lambda row: normalize_url(row.get("image_url"))):
         add_candidate(
             candidates,
             row_a,

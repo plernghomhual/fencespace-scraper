@@ -286,7 +286,7 @@ def test_upsert_results_skips_unmatched_rows_and_never_inserts_null_fencer_orpha
     assert table == "fs_results"
     assert len(rows) == 1
     assert rows[0]["fencer_id"] == "known"
-    assert rows[0]["category"] == "Veteran 40-49"
+    assert rows[0]["metadata"]["category"] == "Veteran 40-49"
     assert rows[0]["metadata"]["age_category"] == "V1"
     assert rows[0]["metadata"]["category_family"] == "Veteran"
 

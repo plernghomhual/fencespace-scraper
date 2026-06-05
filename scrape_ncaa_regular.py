@@ -533,7 +533,7 @@ def load_fencer_index(client):
     rows: list[Any] = []
     offset = 0
     while True:
-        query = client.table("fs_fencers").select("id,name,country,nationality")
+        query = client.table("fs_fencers").select("id,name,country")
         if hasattr(query, "range"):
             query = query.range(offset, offset + 999)
         page = query.execute().data or []

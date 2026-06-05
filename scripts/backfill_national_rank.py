@@ -132,7 +132,45 @@ def normalized_key(value: Any) -> str:
     return re.sub(r"[^a-z0-9]+", "", text)
 
 
+_COUNTRY_ALIASES: dict[str, str] = {
+    "AIN": "Russia", "_AIN": "Russia", "AIN_": "Russia",
+    "US": "United States", "USA": "United States",
+    "UNITED STATES": "United States", "UNITED STATES OF AMERICA": "United States",
+    "GB": "Great Britain", "GBR": "Great Britain", "UK": "Great Britain",
+    "CAN": "Canada", "CANADA": "Canada",
+    "CHN": "China", "CHINA": "China",
+    "FRA": "France", "FRANCE": "France",
+    "GER": "Germany", "DEU": "Germany", "GERMANY": "Germany",
+    "ITA": "Italy", "ITALIA": "Italy",
+    "JPN": "Japan", "JAPAN": "Japan",
+    "KOR": "South Korea", "KOREA": "South Korea", "SOUTH KOREA": "South Korea",
+    "HKG": "Hong Kong", "HONG KONG, CHINA": "Hong Kong", "HONG KONG CHINA": "Hong Kong",
+    "AUS": "Australia", "AUSTRALIA": "Australia",
+    "BRA": "Brazil", "BRAZIL": "Brazil",
+    "ARG": "Argentina", "ARGENTINA": "Argentina",
+    "ESP": "Spain", "SPAIN": "Spain",
+    "HUN": "Hungary", "HUNGARY": "Hungary",
+    "RUS": "Russia", "RUSSIA": "Russia",
+    "POL": "Poland", "POLAND": "Poland",
+    "UKR": "Ukraine", "UKRAINE": "Ukraine",
+    "EGY": "Egypt", "EGYPT": "Egypt",
+    "VEN": "Venezuela", "VENEZUELA": "Venezuela",
+    "COL": "Colombia", "COLOMBIA": "Colombia",
+    "MEX": "Mexico", "MEXICO": "Mexico",
+    "AUT": "Austria", "AUSTRIA": "Austria",
+    "BEL": "Belgium", "BELGIUM": "Belgium",
+    "SUI": "Switzerland", "SWITZERLAND": "Switzerland",
+    "POR": "Portugal", "PORTUGAL": "Portugal",
+    "ROU": "Romania", "ROMANIA": "Romania",
+    "TUR": "Turkey", "TURKEY": "Turkey", "TURKIYE": "Turkey",
+}
+
+
 def _country_key(value: Any) -> str:
+    raw = (clean_text(value) or "").upper().strip()
+    canonical = _COUNTRY_ALIASES.get(raw)
+    if canonical:
+        return normalized_name(canonical)
     return normalized_name(value)
 
 

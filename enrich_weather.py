@@ -19,7 +19,7 @@ SOURCE = "enrich_weather"
 PAGE_SIZE = 1000
 LOOKUP_CACHE_KEY = "weather_lookup_cache"
 TOURNAMENT_SELECT = (
-    "id,name,start_date,end_date,date,location,country,venue_details,detail_source"
+    "id,name,start_date,end_date,location,country,venue_details,detail_source"
 )
 PROBE_BLOCKED_EVIDENCE = "sandbox DNS probe failed; escalated retry unavailable"
 

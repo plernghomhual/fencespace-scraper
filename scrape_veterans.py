@@ -532,6 +532,7 @@ def _result_db_row(tournament_id: str, event: dict[str, Any], row: dict[str, Any
         "source": SOURCE,
         "source_url": event.get("source_url"),
         "age_category": event.get("age_category"),
+        "category": event.get("category"),
         "category_family": "Veteran",
         "weapon": event.get("weapon"),
         "gender": event.get("gender"),
@@ -545,7 +546,6 @@ def _result_db_row(tournament_id: str, event: dict[str, Any], row: dict[str, Any
         "nationality": normalize_country(row.get("country") or row.get("nationality")),
         "rank": row.get("rank"),
         "medal": row.get("medal"),
-        "category": event.get("category"),
         "fencer_id": row["fencer_id"],
         "metadata": metadata,
     }

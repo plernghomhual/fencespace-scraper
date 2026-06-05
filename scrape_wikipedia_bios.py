@@ -36,10 +36,10 @@ HEADERS = {
 }
 
 FENCER_SELECT = (
-    "id,name,country,nationality,metadata,bio,birth_date,birth_place,"
+    "id,name,country,metadata,birth_place,"
     "bio_source,bio_text,wikipedia_url,nickname,height,weight"
 )
-PENDING_FIELD_FILTER = "bio.is.null,birth_date.is.null,birth_place.is.null,bio_source.is.null"
+PENDING_FIELD_FILTER = "birth_place.is.null,bio_source.is.null"
 MATCH_FILTERS = (
     ("metadata->>wikidata_id", "not.is", "null"),
     ("wikipedia_url", "not.is", "null"),
@@ -697,17 +697,17 @@ def build_update_payload(
         if (
             "bio_source" in fencer
             and not clean_text(fencer.get("bio_source"))
-            and any(field in payload for field in ("bio", "birth_date", "birth_place", "bio_text"))
+            and any(field in payload for field in ("birth_place", "bio_text"))
         ):
             payload["bio_source"] = source
 
-    for field in ("birth_date", "birth_place", "nickname", "height", "weight"):
+    for field in ("birth_place", "nickname", "height", "weight"):
         value = clean_text(enrichment.get(field))
         if value and field in fencer and not clean_text(fencer.get(field)):
             payload[field] = value
 
     if source and "bio_source" in fencer and not clean_text(fencer.get("bio_source")):
-        if any(field in payload for field in ("bio", "birth_date", "birth_place")):
+        if any(field in payload for field in ("birth_place", "bio_text")):
             payload["bio_source"] = source
 
     return payload

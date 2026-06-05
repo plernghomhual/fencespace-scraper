@@ -87,7 +87,7 @@ def fencer_row(fencer_id, path, *, url=None, name=None, country="USA"):
         "fie_id": f"FIE-{fencer_id}",
         "name": name or f"Fencer {fencer_id}",
         "country": country,
-        "headshot_url": url,
+        "image_url": url,
         "local_image_path": str(path) if path else None,
         "metadata": {"source": "test-fixture"},
     }

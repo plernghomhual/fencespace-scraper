@@ -22,7 +22,7 @@ BATCH_SIZE = 100
 SOURCE = "compute_fencer_stats"
 
 BOUT_SELECT = (
-    "id,tournament_id,fencer_a,fencer_b,fencer_a_id,fencer_b_id,winner_id,"
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,"
     "score_a,score_b,weapon,category,gender,bout_date,meeting_date,date,played_at,completed_at"
 )
 TOURNAMENT_SELECT = "id,weapon,gender,category,end_date,date,start_date"
@@ -208,8 +208,8 @@ def tournament_lookup(tournaments: dict[str, dict[str, Any]] | list[dict[str, An
 
 def raw_fencer_id(bout: dict[str, Any], side: str) -> Any:
     if side == "a":
-        return bout.get("fencer_a") or bout.get("fencer_a_id")
-    return bout.get("fencer_b") or bout.get("fencer_b_id")
+        return bout.get("fencer_a_id")
+    return bout.get("fencer_b_id")
 
 
 def bout_dimensions(

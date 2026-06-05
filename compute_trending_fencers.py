@@ -26,8 +26,7 @@ RESULT_SELECTS = (
     "id,tournament_id,fencer_id,rank,placement,medal",
 )
 TOURNAMENT_SELECTS = (
-    "id,name,weapon,category,gender,end_date,start_date,season,type,status,has_results,is_team,team,event_type",
-    "id,name,weapon,category,gender,end_date,start_date,season,type,status,has_results",
+    "id,name,weapon,category,gender,end_date,start_date,season,type,has_results",
     "id,name,weapon,category,end_date,start_date,season,type",
     "id,weapon,category,season",
 )
@@ -39,7 +38,7 @@ FENCER_SELECTS = (
     "id,fie_id",
     "id",
 )
-RANK_TREND_SELECT = "fencer_id,weapon,category,season,rank_change,trend_direction,computed_at"
+RANK_TREND_SELECT = "fie_fencer_id,weapon,category,season,rank_change,trend_direction,computed_at"
 FORM_SELECT = "fencer_id,weapon,form_score,trend_direction,recent_medals,recent_avg_rank,metadata,updated_at"
 SOCIAL_SELECT = "fencer_id,mention_count,mention_rank,is_stale,platform,normalized_handle,computed_at"
 
@@ -334,7 +333,7 @@ def form_index(form_rows: list[dict[str, Any]], indexes: IdentityIndexes | None)
 def rank_trend_index(rank_trends: list[dict[str, Any]], indexes: IdentityIndexes | None) -> dict[str, dict[str, Any]]:
     grouped: dict[str, dict[str, Any]] = {}
     for row in rank_trends:
-        fencer_id = canonical_fencer_id(row.get("fencer_id"), indexes)
+        fencer_id = canonical_fencer_id(row.get("fie_fencer_id"), indexes)
         rank_change = coerce_int(row.get("rank_change"))
         if not fencer_id or rank_change is None:
             continue

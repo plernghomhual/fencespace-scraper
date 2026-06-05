@@ -423,22 +423,22 @@ def choose_history_country(
         (active, "history_range_match"),
         (point_matches, "history_point_match"),
     ):
-        distinct = sorted({country_key(country): country for country in countries}.values())
+        distinct = sorted({country_key(country): country for country in countries}.values(), key=lambda c: c or "")
         if len(distinct) == 1:
             return {"country": distinct[0], "source": source, "resolution_reason": reason}
         if len(distinct) > 1:
             return {"country": None, "source": source, "resolution_reason": "ambiguous_history"}
 
     if dated_before:
-        latest_date = max(start for start, _ in dated_before)
+        latest_date = max((start for start, _ in dated_before), default=None)
         latest = [country for start, country in dated_before if start == latest_date]
-        distinct = sorted({country_key(country): country for country in latest}.values())
+        distinct = sorted({country_key(country): country for country in latest}.values(), key=lambda c: c or "")
         if len(distinct) == 1:
             return {"country": distinct[0], "source": source, "resolution_reason": "latest_history_before_event"}
         if len(distinct) > 1:
             return {"country": None, "source": source, "resolution_reason": "ambiguous_history"}
 
-    distinct_undated = sorted({country_key(country): country for country in undated}.values())
+    distinct_undated = sorted({country_key(country): country for country in undated}.values(), key=lambda c: c or "")
     if len(distinct_undated) == 1:
         return {
             "country": distinct_undated[0],

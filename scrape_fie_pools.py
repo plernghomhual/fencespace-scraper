@@ -523,7 +523,7 @@ def fetch_pool_tournaments(client: Client, limit: int | None = None) -> list[dic
     while True:
         page = (
             client.table("fs_tournaments")
-            .select("id,fie_id,name,season,competition_url_id,end_date,has_results,is_team,type")
+            .select("id,fie_id,name,season,competition_url_id,end_date,has_results,type")
             .not_.is_("competition_url_id", "null")
             .eq("has_results", True)
             .order("end_date", desc=True)

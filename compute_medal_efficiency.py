@@ -20,7 +20,7 @@ MIN_MEDAL_SAMPLE = 3
 MIN_COMPETITION_SAMPLE = 3
 
 MEDAL_TABLE_COLUMNS = "id,scope,country,fencer_id,tier,gold,silver,bronze,total"
-COUNTRY_DEPTH_COLUMNS = "country,country_code,season,weapon,category,total_ranked"
+COUNTRY_DEPTH_COLUMNS = "country,weapon,category,total_ranked,avg_world_rank,fencers_in_top16,fencers_in_top32,fencers_in_top64"
 COUNTRY_CODE_COLUMNS = "country,country_code,iso3,ioc,noc,name,country_name"
 POPULATION_COLUMNS = "country,country_code,iso3,iso_alpha3,ioc,noc,season,population"
 FENCER_COUNT_COLUMNS = (

@@ -388,7 +388,7 @@ def candidate_date(row: dict) -> str | None:
 def query_fencers_by_fie_id(client, fie_id: str) -> list[dict]:
     return (
         client.table("fs_fencers")
-        .select("id,fie_id,name,country,date_of_birth,birth_date,dob,metadata")
+        .select("id,fie_id,name,country,date_of_birth,metadata")
         .eq("fie_id", str(fie_id))
         .limit(20)
         .execute()
@@ -400,7 +400,7 @@ def query_fencers_by_fie_id(client, fie_id: str) -> list[dict]:
 def query_fencers_by_name_country(client, name: str, country: str) -> list[dict]:
     return (
         client.table("fs_fencers")
-        .select("id,fie_id,name,country,date_of_birth,birth_date,dob,metadata")
+        .select("id,fie_id,name,country,date_of_birth,metadata")
         .ilike("name", name)
         .eq("country", country)
         .limit(20)

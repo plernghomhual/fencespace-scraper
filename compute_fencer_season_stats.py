@@ -31,9 +31,9 @@ TOURNAMENT_SELECTS = [
     "id,season,weapon,gender,category",
 ]
 BOUT_SELECTS = [
-    "id,tournament_id,fencer_a,fencer_b,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,season,weapon,gender,category,source_confidence,confidence,metadata,bout_date,meeting_date,date,played_at,completed_at",
-    "id,tournament_id,fencer_a,fencer_b,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,weapon,category,gender",
-    "id,tournament_id,fencer_a,fencer_b,score_a,score_b",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,season,weapon,gender,category,source_confidence,confidence,metadata,bout_date,meeting_date,date,played_at,completed_at",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,weapon,category,gender",
+    "id,tournament_id,fencer_a_id,fencer_b_id,score_a,score_b",
 ]
 IDENTITY_SELECTS = [
     "id,canonical_id,fs_fencer_row_ids,fencer_ids,fie_ids",
@@ -553,8 +553,8 @@ def build_fencer_season_stat_rows(
         if not dimensions:
             counters["skipped_missing_dimension_bouts"] += 1
             continue
-        fencer_a = bout_fencer_id(raw_bout, "fencer_a", "fencer_a_id", identity_map)
-        fencer_b = bout_fencer_id(raw_bout, "fencer_b", "fencer_b_id", identity_map)
+        fencer_a = bout_fencer_id(raw_bout, "fencer_a_id", "fencer_a_id", identity_map)
+        fencer_b = bout_fencer_id(raw_bout, "fencer_b_id", "fencer_b_id", identity_map)
         if not fencer_a or not fencer_b:
             counters["skipped_missing_fencer_bouts"] += 1
             continue

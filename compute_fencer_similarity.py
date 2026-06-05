@@ -24,8 +24,8 @@ SIMILARITY_CONFLICT = "fencer_id,similar_fencer_id"
 SIMILARITY_TABLE = "fs_fencer_similarity"
 
 FENCER_SELECTS = [
-    "id,fie_id,name,country,weapon,category,hand,dominant_hand,handedness,date_of_birth,birth_date,dob,metadata,world_rank,fie_points",
-    "id,fie_id,name,country,weapon,category,date_of_birth,birth_date,dob,metadata,world_rank,fie_points",
+    "id,fie_id,name,country,weapon,category,hand,dominant_hand,handedness,date_of_birth,metadata,world_rank,fie_points",
+    "id,fie_id,name,country,weapon,category,date_of_birth,metadata,world_rank,fie_points",
     "id,fie_id,name,country,weapon,category,world_rank,fie_points",
     "id,fie_id,name,country,weapon,category",
 ]

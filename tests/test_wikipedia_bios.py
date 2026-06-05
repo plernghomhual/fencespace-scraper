@@ -263,8 +263,6 @@ def test_process_fencer_no_network_dry_run_updates_new_bio_fields(monkeypatch):
             "name": "Lee Kiefer",
             "country": "USA",
             "metadata": {"wikidata_id": "Q1657692"},
-            "bio": None,
-            "birth_date": None,
             "birth_place": None,
             "bio_source": None,
             "bio_text": None,
@@ -278,11 +276,9 @@ def test_process_fencer_no_network_dry_run_updates_new_bio_fields(monkeypatch):
     assert client.query.updates == [
         (
             {
-                "bio": "Lee Kiefer is an American right-handed foil fencer.",
                 "bio_source": "https://en.wikipedia.org/wiki/Lee_Kiefer",
                 "bio_text": "Lee Kiefer is an American right-handed foil fencer.",
                 "wikipedia_url": "https://en.wikipedia.org/wiki/Lee_Kiefer",
-                "birth_date": "1994-06-15",
                 "birth_place": "Cleveland, Ohio",
             },
             "id",

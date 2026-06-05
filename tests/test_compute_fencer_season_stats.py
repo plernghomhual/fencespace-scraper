@@ -48,8 +48,8 @@ def bout(row_id, tournament_id, fencer_a, fencer_b, score_a, score_b, **extra):
     data = {
         "id": row_id,
         "tournament_id": tournament_id,
-        "fencer_a": fencer_a,
-        "fencer_b": fencer_b,
+        "fencer_a_id": fencer_a,
+        "fencer_b_id": fencer_b,
         "score_a": score_a,
         "score_b": score_b,
     }

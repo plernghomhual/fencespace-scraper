@@ -27,8 +27,8 @@ def bout(row_id, tournament_id, fencer_a, fencer_b, score_a, score_b, **extra):
     data = {
         "id": row_id,
         "tournament_id": tournament_id,
-        "fencer_a": fencer_a,
-        "fencer_b": fencer_b,
+        "fencer_a_id": fencer_a,
+        "fencer_b_id": fencer_b,
         "score_a": score_a,
         "score_b": score_b,
     }
@@ -277,7 +277,7 @@ def test_compute_fencer_stats_fetches_bouts_and_upserts_idempotent_conflict_key(
     assert summary["stats_rows"] == 2
     assert summary["written"] == 2
     assert summary["identity_rows"] == 1
-    assert ("fs_bouts", "id,tournament_id,fencer_a,fencer_b,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,weapon,category,gender,bout_date,meeting_date,date,played_at,completed_at") in client.selects
+    assert ("fs_bouts", "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,weapon,category,gender,bout_date,meeting_date,date,played_at,completed_at") in client.selects
     assert ("fs_tournaments", "id,weapon,gender,category,end_date,date,start_date") in client.selects
     assert len(client.upserts) == 1
     upsert = client.upserts[0]

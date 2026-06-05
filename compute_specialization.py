@@ -34,7 +34,6 @@ TOURNAMENT_SELECTS = [
     "id,season,weapon,gender,category",
 ]
 FENCER_SELECTS = [
-    "id,fie_id,date_of_birth,birth_date,dob",
     "id,fie_id,date_of_birth",
     "id,fie_id",
 ]

@@ -35,10 +35,8 @@ RESULT_SELECTS = (
     "tournament_id,fencer_id,rank,placement",
 )
 FENCER_SELECTS = (
-    "id,fie_id,name,country,nationality,weapon,category,birth_date,date_of_birth",
-    "id,fie_id,name,country,nationality,weapon,category,birth_date",
-    "id,fie_id,name,country,nationality,weapon,category,date_of_birth",
-    "id,fie_id,name,country,nationality,weapon,category",
+    "id,fie_id,name,country,weapon,category,date_of_birth",
+    "id,fie_id,name,country,weapon,category",
 )
 TOURNAMENT_SELECTS = (
     "id,name,season,weapon,gender,category,start_date,end_date,date,type,source,"

@@ -21,8 +21,8 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 
 FENCER_SELECTS = (
-    "id,fie_id,name,country,weapon,category,world_rank,fie_points,image_url,bio,bio_text,metadata,active,is_active,retired,is_retired,status",
-    "id,fie_id,name,country,weapon,category,world_rank,fie_points,image_url,bio,metadata,active,is_active,retired,is_retired,status",
+    "id,fie_id,name,country,weapon,category,world_rank,fie_points,image_url,bio_text,metadata,active,is_active,retired,is_retired,status",
+    "id,fie_id,name,country,weapon,category,world_rank,fie_points,image_url,metadata,active,is_active,retired,is_retired,status",
     "id,fie_id,name,country,weapon,category,world_rank,fie_points,image_url,metadata",
     "id,fie_id,name,country,weapon,category,world_rank,fie_points",
 )
@@ -321,15 +321,11 @@ def display_completeness(row: dict[str, Any]) -> tuple[int, int, str]:
 
 
 def has_bio(row: dict[str, Any]) -> bool:
-    return bool(clean_text(row.get("bio")) or clean_text(row.get("bio_text")))
+    return bool(clean_text(row.get("bio_text")))
 
 
 def has_image(row: dict[str, Any]) -> bool:
-    return bool(
-        clean_text(row.get("image_url"))
-        or clean_text(row.get("headshot_url"))
-        or clean_text(row.get("local_image_path"))
-    )
+    return bool(clean_text(row.get("image_url")))
 
 
 def build_candidate_groups(

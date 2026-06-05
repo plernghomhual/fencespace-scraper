@@ -29,7 +29,7 @@ RESULT_SELECT = (
 BOUT_SELECT = (
     "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round,updated_at,created_at"
 )
-FENCER_SELECT = "id,name,country,nationality"
+FENCER_SELECT = "id,name,country"
 
 
 def _env_int(name: str, default: int, *, minimum: int = 0) -> int:
