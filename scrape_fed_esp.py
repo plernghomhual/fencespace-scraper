@@ -35,7 +35,7 @@ from run_logger import ScraperRunLogger
 try:
     from season_utils import normalize_season as _shared_normalize_season
 except ImportError:  # Agent 5 may not be merged yet.
-    _shared_normalize_season = None
+    _shared_normalize_season = None  # type: ignore[assignment]
 
 
 SOURCE = "esp_fencing"
@@ -251,7 +251,7 @@ def current_season() -> str:
     now = datetime.now(timezone.utc)
     end_year = now.year if now.month < 7 else now.year + 1
 
-    if _shared_normalize_season:
+    if _shared_normalize_season is not None:
         return str(_shared_normalize_season(end_year))
 
     return f"{end_year - 1}-{end_year}"

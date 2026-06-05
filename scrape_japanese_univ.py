@@ -51,7 +51,7 @@ HEADERS = {
     "Accept-Language": "ja,en-US;q=0.8,en;q=0.6",
 }
 
-DEFAULT_SOURCES = [
+DEFAULT_SOURCES: list[SourceConfig | dict[str, Any]] = [
     # Tournament information page. It may only list result links; direct parsing
     # is allowed to skip deterministically when no public result table is found.
     {
@@ -239,7 +239,7 @@ def _normalize_medal(value: Any, rank: int | None, *, infer_from_rank: bool) -> 
         return "Silver"
     if text in {"bronze", "銅"}:
         return "Bronze"
-    if not infer_from_rank:
+    if not infer_from_rank or rank is None:
         return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
@@ -434,7 +434,7 @@ def _parse_side_by_side_weapon_table(lines: list[str], context: dict[str, Any]) 
         weapon_indexes = [(index, _infer_weapon(cell)) for index, cell in enumerate(cells)]
         weapon_indexes = [(index, weapon) for index, weapon in weapon_indexes if weapon]
         if _header_key(cells[0]) == "rank" and len(weapon_indexes) >= 2:
-            groups = [(weapon, index, index + 1) for index, weapon in weapon_indexes if index + 1 < len(cells) + 1]
+            groups = [(weapon or "", index, index + 1) for index, weapon in weapon_indexes if index + 1 < len(cells) + 1]
             active = True
             continue
 
@@ -673,7 +673,8 @@ def build_result_rows(
     rows: list[dict[str, Any]] = []
     unmatched: list[str] = []
     for row in parsed_rows:
-        tournament_id = tournament_ids.get(row.get("tournament_source_id"))
+        _tsid = row.get("tournament_source_id")
+        tournament_id = tournament_ids.get(_tsid) if _tsid is not None else None
         if tournament_id is None:
             unmatched.append(f"{row.get('name')} | {row.get('university')} | missing_tournament")
             continue

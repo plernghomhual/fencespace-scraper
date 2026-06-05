@@ -92,6 +92,7 @@ def coerce_int(value: Any) -> int | None:
         return None
     if isinstance(value, bool):
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):
@@ -157,9 +158,9 @@ def build_identity_indexes(
             continue
         canonical = indexes.row_to_canonical.get(row_id, row_id)
         indexes.row_to_canonical[row_id] = canonical
-        fie_id = clean_text(row.get("fie_id"))
-        if fie_id:
-            indexes.fie_to_canonical.setdefault(fie_id, canonical)
+        fencer_fie_id: str | None = clean_text(row.get("fie_id"))
+        if fencer_fie_id:
+            indexes.fie_to_canonical.setdefault(fencer_fie_id, canonical)
 
     return indexes
 
@@ -433,9 +434,9 @@ def build_trending_rows(
             summary["skipped_insufficient_result"] += 1
             continue
 
-        event_score, event_reasons, upset_delta = result_score(result, tournament_id, rank, medal)
+        event_score, event_reasons, upset_delta = result_score(result, tournament_id, rank or 0, medal)
         key = (fencer_id, tournament_id)
-        event = {
+        event: dict[str, Any] = {
             "fencer_id": fencer_id,
             "tournament_id": tournament_id,
             "date": event_date.isoformat(),

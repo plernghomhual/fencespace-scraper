@@ -338,6 +338,8 @@ def _identifier(value) -> str | None:
 
 
 def _medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -446,9 +448,9 @@ def _parse_table_rows(table, metadata: dict) -> list[dict]:
             last = _cell(cells, name_i)
             name = f"{first or ''} {last or ''}".strip()
         elif name_i is not None:
-            name = _cell(cells, name_i)
+            name = _cell(cells, name_i) or ""
         else:
-            name = _cell(cells, first_i) or _cell(cells, last_i)
+            name = _cell(cells, first_i) or _cell(cells, last_i) or ""
         row = build_result_row(
             metadata,
             rank=_cell(cells, rank_i),
@@ -739,14 +741,14 @@ def fetch_config_payload(config: dict):
 
 def parse_config_payload(config: dict, payload) -> list[dict]:
     parser_name = config.get("parser")
-    parser = PARSERS.get(parser_name)
-    if not parser:
+    parser = PARSERS.get(parser_name) if parser_name is not None else None  # type: ignore[arg-type]
+    if not parser or not callable(parser):
         return []
     metadata = _metadata_for_config(config)
     if parser_name == "spreadsheet":
         ext = os.path.splitext(urlparse(config.get("source_url", "")).path)[1] or ".xlsx"
-        return parser(payload, metadata, file_ext=ext)
-    return parser(payload, metadata)
+        return parser(payload, metadata, file_ext=ext)  # type: ignore[operator]
+    return parser(payload, metadata)  # type: ignore[operator]
 
 
 def run_country_config(config: dict, client=None, payload=None) -> dict:

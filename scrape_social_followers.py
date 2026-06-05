@@ -202,9 +202,10 @@ def normalize_social_profile(platform: str, raw: str | None) -> SocialProfileCan
         handle, url = normalized
         return SocialProfileCandidate(platform=platform, handle=handle, url=url)
 
-    handle = _normalize_standard_handle(raw)
-    if not handle:
+    handle_std = _normalize_standard_handle(raw)
+    if not handle_std:
         return None
+    handle = handle_std
 
     if platform == "instagram":
         url = f"https://www.instagram.com/{handle}/"

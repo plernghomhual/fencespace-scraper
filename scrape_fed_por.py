@@ -21,6 +21,7 @@ import re
 import time
 import unicodedata
 from datetime import datetime, timezone
+from typing import cast
 from urllib.parse import urljoin
 
 import requests
@@ -312,7 +313,7 @@ def _matrix_descriptors(rows: list[Tag]) -> tuple[int, list[tuple[str, str] | No
             continue
         descriptors = [(_weapon_from_text(_cell_text(cell)), _gender_from_text(_cell_text(cell))) for cell in cells[1:]]
         if any(weapon and gender for weapon, gender in descriptors):
-            return index, [(weapon, gender) if weapon and gender else None for weapon, gender in descriptors]
+            return index, [cast(tuple[str, str], (weapon, gender)) if weapon and gender else None for weapon, gender in descriptors]
 
     if len(rows) < 2:
         return None
@@ -328,12 +329,12 @@ def _matrix_descriptors(rows: list[Tag]) -> tuple[int, list[tuple[str, str] | No
         genders.extend([_gender_from_text(_cell_text(cell))] * colspan)
 
     weapons = [_weapon_from_text(_cell_text(cell)) for cell in second_cells[1:]]
-    descriptors = [
-        (weapon, gender) if weapon and gender else None
+    col_descriptors: list[tuple[str, str] | None] = [
+        cast(tuple[str, str], (weapon, gender)) if weapon and gender else None
         for weapon, gender in zip(weapons, genders, strict=False)
     ]
-    if any(descriptors):
-        return 1, descriptors
+    if any(col_descriptors):
+        return 1, col_descriptors
     return None
 
 

@@ -265,6 +265,7 @@ def iter_pool_rounds(window_data: dict[str, Any]) -> list[dict[str, Any]]:
 
 def fencer_info(row: dict[str, Any]) -> dict[str, str | None]:
     nested = row.get("fencer") if isinstance(row.get("fencer"), dict) else {}
+    nested = nested or {}
     merged = {**nested, **row}
 
     first = clean_text(merged.get("firstName") or merged.get("firstname") or merged.get("first_name"))
@@ -711,7 +712,7 @@ def write_pool_bouts(client: Client, parsed_bouts: list[dict[str, Any]]) -> tupl
     return len(rows), unmatched
 
 
-def scrape_fie_pools(limit: int | None = None) -> dict[str, int]:
+def scrape_fie_pools(limit: int | None = None) -> dict[str, Any]:
     run_log = ScraperRunLogger(SOURCE).start()
     client = get_supabase_client()
     session = requests.Session()

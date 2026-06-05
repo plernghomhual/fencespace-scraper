@@ -369,7 +369,8 @@ def upsert_referees(rows: list[dict], client=None) -> int:
             continue
         normalized = dict(row)
         normalized["name"] = name
-        key = ("license", normalized.get("fie_license_id")) if normalized.get("fie_license_id") else (
+        _lic = normalized.get("fie_license_id")
+        key: tuple[str, str] = ("license", str(_lic)) if _lic else (
             "name_country",
             f"{name}|{normalized.get('country') or ''}",
         )

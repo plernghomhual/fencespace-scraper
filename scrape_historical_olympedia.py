@@ -133,6 +133,8 @@ def _rank_to_int(value: Any, previous_rank: int | None = None) -> int | None:
 
 
 def _medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return MEDALS_BY_RANK.get(rank)
 
 
@@ -372,6 +374,7 @@ def build_fencer_index(rows: list[dict[str, Any]]) -> dict[str, dict[Any, Any]]:
             _put_unique(index, "fie", fie_id, row)
 
         metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
+        metadata = metadata or {}
         athlete_id = clean_text(row.get("olympedia_athlete_id") or metadata.get("olympedia_athlete_id"))
         if athlete_id:
             _put_unique(index, "athlete", athlete_id, row)
@@ -503,11 +506,11 @@ def build_tournament_row(event: dict[str, Any]) -> dict[str, Any]:
 def upsert_tournament(event: dict[str, Any]) -> str | None:
     row = build_tournament_row(event)
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         if result.data and result.data[0].get("id"):
             return result.data[0]["id"]
         selected = (
-            supabase.table("fs_tournaments")
+            supabase.table("fs_tournaments")  # type: ignore[union-attr]
             .select("id")
             .eq("source_id", row["source_id"])
             .limit(1)
@@ -540,12 +543,12 @@ def upsert_results(
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for start in range(0, len(db_rows), 100):
         batch = db_rows[start : start + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed for {event['source_id']}: {exc}")
@@ -692,7 +695,7 @@ def main() -> None:
                 "source": SOURCE,
             },
         )
-        run_log.complete(stats["written"], stats["failed"], stats["skipped"])
+        run_log.complete(written=stats["written"], failed=stats["failed"], skipped=stats["skipped"])
     except Exception as exc:
         run_log.error(str(exc))
         raise

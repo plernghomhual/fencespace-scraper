@@ -367,6 +367,7 @@ def build_competition_index(
             row,
             ("competition_count", "competitions_count", "tournament_count"),
         )
+        count: int | None
         if explicit_count is None and (row.get("tournament_id") or row.get("competition_id")):
             count = 1
         else:
@@ -456,14 +457,14 @@ def build_medal_efficiency_rows(
     keys = sorted(set(country_counts) | set(fallback_counts))
     rows: list[dict[str, Any]] = []
     for season, code in keys:
-        counts = country_counts.get((season, code))
-        if counts is None or total_medals(counts) == 0:
-            counts = fallback_counts[(season, code)]
+        season_counts: dict[str, int] | None = country_counts.get((season, code))
+        if season_counts is None or total_medals(season_counts) == 0:
+            season_counts = fallback_counts[(season, code)]
 
-        total = total_medals(counts)
+        total = total_medals(season_counts)
         score = weighted_scores.get((season, code))
         if score is None or score == 0:
-            score = weighted_medal_score(counts, None)
+            score = weighted_medal_score(season_counts, None)
 
         population_sample = exact_or_aggregate(
             population_index,
@@ -511,9 +512,9 @@ def build_medal_efficiency_rows(
                 "country_code": code,
                 "country": country_names.get(code) or names.get(code) or code,
                 "season": season,
-                "gold": counts["gold"],
-                "silver": counts["silver"],
-                "bronze": counts["bronze"],
+                "gold": season_counts["gold"],
+                "silver": season_counts["silver"],
+                "bronze": season_counts["bronze"],
                 "total_medals": total,
                 "population": population,
                 "active_fencers": active_fencers,

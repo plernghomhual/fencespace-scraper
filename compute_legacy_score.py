@@ -360,7 +360,7 @@ def build_legacy_score_rows(
         multiplier = event_multiplier(kind)
         rank = result_rank(result)
         medal = medal_bucket(result.get("medal"))
-        medal_points = score_points(MEDAL_POINTS.get(medal, 0.0), weight, multiplier)
+        medal_points = score_points(MEDAL_POINTS.get(medal or "", 0.0), weight, multiplier)
         result_points = score_points(placement_base_points(rank), weight, multiplier)
         total_points = round(medal_points + result_points, 2)
         if total_points <= 0:

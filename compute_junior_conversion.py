@@ -288,9 +288,9 @@ def build_identity_index(
         canonical_id = by_row_id.get(row_id, row_id)
         by_row_id.setdefault(row_id, canonical_id)
         by_row_id.setdefault(canonical_id, canonical_id)
-        fie_id = clean_text(row.get("fie_id"))
-        if fie_id:
-            by_fie_id.setdefault(fie_id, canonical_id)
+        fie_id_fencer: str | None = clean_text(row.get("fie_id"))
+        if fie_id_fencer:
+            by_fie_id.setdefault(fie_id_fencer, canonical_id)
         country = normalize_country(row.get("country"))
         if country:
             country_by_identity.setdefault(canonical_id, country)
@@ -313,8 +313,9 @@ def canonical_fencer_id(row: dict[str, Any], identity_index: dict[str, dict[str,
 
 
 def tournament_lookup(tournaments: dict[Any, dict[str, Any]] | list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    values: list[dict[str, Any]]
     if isinstance(tournaments, dict):
-        values = tournaments.values()
+        values = list(tournaments.values())
     else:
         values = tournaments or []
     return {str(row["id"]): row for row in values if row.get("id") is not None}

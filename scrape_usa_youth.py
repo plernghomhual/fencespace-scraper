@@ -525,11 +525,11 @@ def normalize_person_name(value: Any) -> str | None:
         return None
     if "," in text:
         last, first = [part.strip() for part in text.split(",", 1)]
-        first = title_case(first)
-        last = title_case(last)
+        first = title_case(first) or ""
+        last = title_case(last) or ""
         if first and last:
             return first if first.lower() == last.lower() else f"{first} {last}"
-        return first or last
+        return first or last or None
     return title_case(text)
 
 
@@ -580,6 +580,8 @@ def _row_medal(row: dict[str, Any], rank: int | None) -> str | None:
         key = explicit.lower()
         if key in {"gold", "silver", "bronze"}:
             return key.title()
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -790,7 +792,7 @@ def batch_upsert(
 ) -> None:
     require_supabase()
     for i in range(0, len(rows), batch_size):
-        supabase.table(table).upsert(rows[i : i + batch_size], on_conflict=on_conflict).execute()
+        supabase.table(table).upsert(rows[i : i + batch_size], on_conflict=on_conflict).execute()  # type: ignore[union-attr]
 
 
 def fetch_tournament_id_map(source_ids: list[str]) -> dict[str, int]:
@@ -798,7 +800,7 @@ def fetch_tournament_id_map(source_ids: list[str]) -> dict[str, int]:
     ids: dict[str, int] = {}
     for i in range(0, len(source_ids), BATCH_SIZE):
         chunk = source_ids[i : i + BATCH_SIZE]
-        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", chunk).execute()
+        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", chunk).execute()  # type: ignore[union-attr]
         for row in result.data or []:
             ids[row["source_id"]] = row["id"]
     return ids
@@ -832,7 +834,7 @@ def _fetch_all(table: str, columns: str, page_size: int = 1000) -> list[dict[str
     start = 0
     while True:
         batch = (
-            supabase.table(table)
+            supabase.table(table)  # type: ignore[union-attr]
             .select(columns)
             .range(start, start + page_size - 1)
             .execute()

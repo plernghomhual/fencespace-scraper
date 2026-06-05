@@ -201,7 +201,7 @@ def wikidata_url_for(platform: str, handle: str) -> str:
 def parse_wikidata_social_binding(binding: dict[str, Any]) -> dict[str, Any]:
     athlete_url = (binding.get("athlete") or {}).get("value", "")
     wikidata_id = athlete_url.split("/")[-1] if athlete_url else None
-    parsed = {
+    parsed: dict[str, Any] = {
         "wikidata_id": wikidata_id,
         "name": (binding.get("athleteLabel") or {}).get("value"),
         "fie_id": (binding.get("fie_id") or {}).get("value"),
@@ -466,7 +466,7 @@ def extract_social_links_from_html(page_html: str, base_url: str | None = None) 
     for script in soup.find_all("script"):
         links.extend(extract_social_links_from_script_text(script.get_text(" "), base_url=base_url))
 
-    by_platform = {}
+    by_platform: dict[str, Any] = {}
     for link in links:
         by_platform.setdefault(link["platform"], link)
     return list(by_platform.values())

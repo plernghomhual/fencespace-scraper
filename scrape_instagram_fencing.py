@@ -517,6 +517,9 @@ def scrape_instagram_fencing(
     known_fencers = load_known_fencers(client)
     handles = target_handles(client, env, known_fencers)
 
+    if access_token is None or business_account_id is None:
+        return {"provider": PROVIDER_GRAPH, "written": 0, "failed": 0, "skipped": len(handles), "skip_reason": "missing_credentials"}
+
     for index, handle in enumerate(handles):
         try:
             payload = fetch_business_discovery_payload(

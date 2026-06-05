@@ -257,9 +257,9 @@ def wikidata_sitelinks_from_entity(entity: dict[str, Any]) -> dict[str, str]:
     if not isinstance(sitelinks, dict):
         return {}
     return {
-        key.removesuffix("wiki"): value.get("title")
+        key.removesuffix("wiki"): str(value.get("title"))
         for key, value in sitelinks.items()
-        if key.endswith("wiki") and isinstance(value, dict) and value.get("title")
+        if key.endswith("wiki") and isinstance(value, dict) and value.get("title") is not None
     }
 
 
@@ -755,7 +755,7 @@ def load_pending_fencers(limit: int = PAGE_SIZE) -> list[dict[str, Any]]:
 def update_fencer(fencer_id: str, payload: dict[str, str]) -> bool:
     if not payload:
         return False
-    supabase.table("fs_fencers").update(payload).eq("id", fencer_id).execute()
+    supabase.table("fs_fencers").update(payload).eq("id", fencer_id).execute()  # type: ignore[union-attr]
     return True
 
 

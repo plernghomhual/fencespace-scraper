@@ -385,7 +385,7 @@ def upsert_tournament(event: dict, classification: dict) -> str | None:
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event['source_id']}: {exc}")
@@ -397,7 +397,7 @@ def _match_fencer(name: str | None, country: str | None) -> str | None:
         return None
     try:
         rows = (
-            supabase.table("fs_fencers")
+            supabase.table("fs_fencers")  # type: ignore[union-attr]
             .select("id")
             .ilike("name", name)
             .eq("country", country)
@@ -434,12 +434,12 @@ def upsert_results(tournament_id: str, event: dict, result_rows: list[dict]) -> 
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for idx in range(0, len(db_rows), 100):
         batch = db_rows[idx:idx + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed for {event['source_id']}: {exc}")

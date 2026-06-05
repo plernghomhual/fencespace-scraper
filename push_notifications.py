@@ -144,7 +144,7 @@ class DryRunPushProvider(PushProvider):
     provider_name = "dry-run"
     dry_run = True
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.deliveries: list[dict[str, Any]] = []
 
     def send(self, subscription: dict[str, Any], payload: dict[str, Any]) -> DeliveryResult:

@@ -805,7 +805,7 @@ def scrape_tournament(
     return len(result_rows), len(fencer_updates), len(clubs)
 
 
-def main():
+def main() -> None:
     print(f"AskFRED scraper starting - {utc_now()}")
     print(
         "Settings: "

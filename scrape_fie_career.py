@@ -140,7 +140,7 @@ def load_fencers(limit: int) -> list[dict]:
 
     def run_query(with_filter: bool):
         q = (
-            supabase.table("fs_fencers")
+            supabase.table("fs_fencers")  # type: ignore[union-attr]
             .select(columns)
             .not_.is_("fie_id", "null")
             .order("world_rank", desc=False)
@@ -196,7 +196,7 @@ def upsert_career_rankings(
     for i in range(0, len(db_rows), BATCH_SIZE):
         batch = db_rows[i : i + BATCH_SIZE]
         try:
-            supabase.table("fs_rankings_history").upsert(
+            supabase.table("fs_rankings_history").upsert(  # type: ignore[union-attr]
                 batch, on_conflict="season,weapon,gender,category,fie_fencer_id"
             ).execute()
             written += len(batch)
@@ -210,7 +210,7 @@ def mark_scraped(fie_id: str, existing_metadata: Any) -> None:
     meta: dict = dict(existing_metadata) if isinstance(existing_metadata, dict) else {}
     meta["fie_career_scraped_at"] = datetime.now(timezone.utc).isoformat()
     try:
-        supabase.table("fs_fencers").update({"metadata": meta}).eq("fie_id", fie_id).execute()
+        supabase.table("fs_fencers").update({"metadata": meta}).eq("fie_id", fie_id).execute()  # type: ignore[union-attr]
     except Exception as exc:
         print(f"    Could not mark career scraped for fie_id={fie_id}: {exc}")
 

@@ -234,8 +234,9 @@ def average(values: list[int | float]) -> float | None:
 
 
 def tournament_lookup(tournaments: dict[Any, dict[str, Any]] | list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    values: list[dict[str, Any]]
     if isinstance(tournaments, dict):
-        values = tournaments.values()
+        values = list(tournaments.values())
     else:
         values = tournaments
     return {str(row["id"]): row for row in values if row.get("id") is not None}
@@ -376,7 +377,7 @@ def build_observations(
 
     by_fencer: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for observation in deduped.values():
-        by_fencer[observation["fencer_id"]].append(observation)
+        by_fencer[str(observation["fencer_id"])].append(observation)
 
     for fencer_id in by_fencer:
         by_fencer[fencer_id].sort(
@@ -613,8 +614,8 @@ def transition_report(
             }
         )
 
-    ages = [row["transition_age"] for row in transitions if row["transition_age"] is not None]
-    gaps = [row["years_between"] for row in transitions if row["years_between"] is not None]
+    ages: list[float] = [float(row["transition_age"]) for row in transitions if row["transition_age"] is not None]
+    gaps: list[float] = [float(row["years_between"]) for row in transitions if row["years_between"] is not None]
     return {
         "junior_fencers": junior_fencers,
         "senior_transitioners": len(transitions),

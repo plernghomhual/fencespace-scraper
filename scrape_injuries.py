@@ -767,8 +767,8 @@ def scrape_injuries(client=None, session: requests.Session | None = None) -> dic
         total_failed += failed
         total_skipped += skipped
 
-    for ambiguous in ambiguous_mentions:
-        print(f"  Ambiguous injury/absence mention skipped: {ambiguous}")
+    for ambiguous_item in ambiguous_mentions:
+        print(f"  Ambiguous injury/absence mention skipped: {ambiguous_item}")
 
     written = upsert_injury_absences(client, all_rows)
     combined_seen = [url for url in seen_state if isinstance(seen_state, list) and url not in successful_urls]

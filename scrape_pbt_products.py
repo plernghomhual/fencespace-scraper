@@ -173,11 +173,11 @@ def parse_price(text: str | None) -> tuple[float | None, str | None]:
 
     for raw_number, marker in SUFFIX_PRICE_RE.findall(text):
         normalized_marker = marker.upper()
-        currency = CURRENCY_BY_MARKER.get(marker) or CURRENCY_BY_MARKER.get(normalized_marker)
+        currency_opt = CURRENCY_BY_MARKER.get(marker) or CURRENCY_BY_MARKER.get(normalized_marker)
         price = parse_money_number(raw_number)
-        if currency and price is not None and (price, currency) not in seen:
-            values.append((price, currency))
-            seen.add((price, currency))
+        if currency_opt and price is not None and (price, currency_opt) not in seen:
+            values.append((price, currency_opt))
+            seen.add((price, currency_opt))
 
     if not values:
         return None, None
@@ -185,10 +185,10 @@ def parse_price(text: str | None) -> tuple[float | None, str | None]:
 
 
 def normalize_category(*values: str | None) -> str | None:
-    candidates = [clean_text(value) for value in values if clean_text(value)]
+    candidates = [c for value in values for c in [clean_text(value)] if c is not None]
     for pattern, normalized in CATEGORY_PATTERNS:
         for candidate in candidates:
-            if pattern.search(candidate or ""):
+            if pattern.search(candidate):
                 return normalized
     return candidates[0].title() if candidates else None
 
@@ -457,10 +457,10 @@ def extract_size_chart(soup: BeautifulSoup) -> dict[str, list[str]]:
             if len(cells) < 2:
                 continue
             key = clean_text(cells[0].get_text(" ", strip=True))
-            values = [clean_text(cell.get_text(" ", strip=True)) for cell in cells[1:]]
-            values = [value for value in values if value]
-            if key and values:
-                table_data[key] = values
+            values_raw = [clean_text(cell.get_text(" ", strip=True)) for cell in cells[1:]]
+            values_str = [v for v in values_raw if v is not None]
+            if key and values_str:
+                table_data[key] = values_str
 
         keys = " ".join(table_data)
         if re.search(r"order\s+size|height\s+cm|sleeve|lenght|length|méret", keys, re.I):

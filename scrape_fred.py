@@ -121,11 +121,11 @@ def normalize_person_name(value: Any) -> str | None:
         return None
     if "," in text:
         last, first = [part.strip() for part in text.split(",", 1)]
-        first = title_case(first)
-        last = title_case(last)
+        first = title_case(first) or ""
+        last = title_case(last) or ""
         if first and last:
             return first if first.lower() == last.lower() else f"{first} {last}"
-        return first or last
+        return first or last or None
     return title_case(text)
 
 
@@ -547,7 +547,7 @@ def fetch_fencer_index() -> dict[str, Any]:
     page_size = 1000
     while True:
         data = (
-            supabase.table("fs_fencers")
+            supabase.table("fs_fencers")  # type: ignore[union-attr]
             .select("id,fie_id,name,country,metadata")
             .range(start, start + page_size - 1)
             .execute()
@@ -674,7 +674,7 @@ def batch_upsert(
 ) -> None:
     require_supabase()
     for i in range(0, len(rows), batch_size):
-        supabase.table(table).upsert(rows[i : i + batch_size], on_conflict=on_conflict).execute()
+        supabase.table(table).upsert(rows[i : i + batch_size], on_conflict=on_conflict).execute()  # type: ignore[union-attr]
 
 
 def fetch_tournament_id_map(source_ids: list[str]) -> dict[str, int]:
@@ -682,7 +682,7 @@ def fetch_tournament_id_map(source_ids: list[str]) -> dict[str, int]:
     ids: dict[str, int] = {}
     for i in range(0, len(source_ids), BATCH_SIZE):
         chunk = source_ids[i : i + BATCH_SIZE]
-        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", chunk).execute()
+        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", chunk).execute()  # type: ignore[union-attr]
         for row in result.data or []:
             ids[row["source_id"]] = row["id"]
     return ids
@@ -706,7 +706,7 @@ def upsert_tournaments(rows: list[dict[str, Any]]) -> dict[str, int]:
         existing = set(fetch_tournament_id_map(source_ids))
         new_rows = [row for row in rows if row["source_id"] not in existing]
         for i in range(0, len(new_rows), BATCH_SIZE):
-            supabase.table("fs_tournaments").insert(new_rows[i : i + BATCH_SIZE]).execute()
+            supabase.table("fs_tournaments").insert(new_rows[i : i + BATCH_SIZE]).execute()  # type: ignore[union-attr]
 
     return fetch_tournament_id_map([row["source_id"] for row in rows])
 
@@ -735,7 +735,7 @@ def fetch_existing_fred_source_ids() -> set[str]:
     page_size = 1000
     while True:
         rows = (
-            supabase.table("fs_tournaments")
+            supabase.table("fs_tournaments")  # type: ignore[union-attr]
             .select("source_id")
             .like("source_id", "fred:%")
             .range(start, start + page_size - 1)

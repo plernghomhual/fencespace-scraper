@@ -370,19 +370,20 @@ def build_candidate_groups(
             fie_to_key.setdefault(fie_id, candidate_key)
 
     for fencer_id, row in sorted(fencers_by_id.items()):
-        candidate_key: str | None = fencer_to_key.get(fencer_id)
-        if not candidate_key:
-            candidate_key = f"fencer:{fencer_id}"
-            groups[candidate_key] = {
-                "candidate_key": candidate_key,
+        _maybe_key: str | None = fencer_to_key.get(fencer_id)
+        if not _maybe_key:
+            _maybe_key = f"fencer:{fencer_id}"
+            groups[_maybe_key] = {
+                "candidate_key": _maybe_key,
                 "identity_id": None,
                 "identity": {},
                 "fencers": [row],
             }
-            fencer_to_key[fencer_id] = candidate_key
-        fie_id = clean_text(row.get("fie_id"))
-        if fie_id and candidate_key:
-            fie_to_key.setdefault(fie_id, candidate_key)
+            fencer_to_key[fencer_id] = _maybe_key
+        candidate_key = _maybe_key
+        fencer_fie_id: str | None = clean_text(row.get("fie_id"))
+        if fencer_fie_id and candidate_key:
+            fie_to_key.setdefault(fencer_fie_id, candidate_key)
         name = clean_text(row.get("name"))
         country = normalize_country(row.get("country"))
         if name and country and candidate_key:
@@ -657,7 +658,7 @@ def build_featured_athlete_rows(
         if identity_id in stats_by_identity:
             stats_by_identity[identity_id].append(row)
     for candidate in candidates.values():
-        for stat in stats_by_identity.get(candidate.get("identity_id"), []):
+        for stat in stats_by_identity.get(candidate.get("identity_id") or "", []):
             candidate["has_stats"] = True
             candidate["total_bouts"] += max(to_int(stat.get("total_bouts")) or 0, 0)
             candidate["weapon"] = candidate.get("weapon") or normalize_weapon(stat.get("weapon"))

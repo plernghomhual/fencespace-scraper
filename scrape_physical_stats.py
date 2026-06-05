@@ -521,7 +521,7 @@ def scrape_physical_stats(
     wikipedia_fetcher = wikipedia_fetcher or (lambda row: fetch_wikipedia_physical_stats(row, session))
 
     previous_run = get_state(SOURCE, "last_run") if update_state else None
-    summary = {
+    summary: dict[str, Any] = {
         "queried": 0,
         "processed": 0,
         "written": 0,

@@ -264,6 +264,7 @@ def _parse_html_tables(html: str) -> list[dict]:
                 club_idx = 2 if len(cells) > 3 else None
                 points_idx = len(cells) - 1
             else:
+                assert header is not None
                 rank_idx = header["rank"]
                 name_idx = header["name"]
                 club_idx = header.get("club")

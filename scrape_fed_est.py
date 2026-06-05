@@ -32,7 +32,7 @@ from run_logger import ScraperRunLogger
 try:
     from season_utils import normalize_season
 except ImportError:  # pragma: no cover - compatibility fallback for isolated use
-    normalize_season = None
+    normalize_season = None  # type: ignore[assignment]
 
 
 SOURCE = "est_fencing"

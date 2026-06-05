@@ -429,18 +429,18 @@ def parse_usafencing_facilities(payload: dict[str, Any], source: DirectorySource
             "region": (club.get("region") or {}).get("label"),
             "club_type": clean_text(club_type),
         }
-        rows.append(
-            record_from_fields(
-                name=club.get("name"),
-                address=address,
-                city=public_address.get("city"),
-                country=source.country,
-                website=club.get("website"),
-                facility_type="club",
-                source=source,
-                metadata={key: value for key, value in metadata.items() if value},
-            )
+        _rec = record_from_fields(
+            name=club.get("name"),
+            address=address,
+            city=public_address.get("city"),
+            country=source.country,
+            website=club.get("website"),
+            facility_type="club",
+            source=source,
+            metadata={key: value for key, value in metadata.items() if value},
         )
+        if _rec is not None:
+            rows.append(_rec)
     return [row for row in rows if row]
 
 
@@ -455,8 +455,8 @@ def record_from_jsonld(item: dict[str, Any], source: DirectorySource) -> dict | 
     address, city, country = _address_from_jsonld(item.get("address"), source)
     website = normalize_url(item.get("url") or item.get("sameAs"), source.url)
     contact = merge_public_contact(
-        {"email": item.get("email")} if is_public_email(clean_text(item.get("email")), website) else None,
-        {"phone": item.get("telephone")} if is_public_phone(clean_text(item.get("telephone"))) else None,
+        {"email": str(item.get("email") or "")} if is_public_email(clean_text(item.get("email")), website) else None,
+        {"phone": str(item.get("telephone") or "")} if is_public_phone(clean_text(item.get("telephone"))) else None,
     )
     return record_from_fields(
         name=item.get("name"),
@@ -735,7 +735,7 @@ def facilities_from_existing_clubs(client: Any) -> list[dict]:
         parser="existing_table",
     )
     for club in club_rows:
-        metadata = club.get("metadata") if isinstance(club.get("metadata"), dict) else {}
+        metadata = (club.get("metadata") if isinstance(club.get("metadata"), dict) else {}) or {}
         contact = {
             key: clean_text(club.get(key))
             for key in ("instagram", "twitter", "facebook")
@@ -774,6 +774,8 @@ def _coerce_geocode(value: Any) -> tuple[float, float] | None:
         lat = getattr(value, "lat", None) or getattr(value, "latitude", None)
         lon = getattr(value, "lon", None) or getattr(value, "longitude", None)
     try:
+        if lat is None or lon is None:
+            return None
         return float(lat), float(lon)
     except (TypeError, ValueError):
         return None

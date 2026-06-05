@@ -606,8 +606,8 @@ def build_product_row(
     detail_metadata = detail.get("metadata") if isinstance(detail.get("metadata"), dict) else {}
     listing_metadata = listing_row.get("metadata") if isinstance(listing_row.get("metadata"), dict) else {}
 
-    metadata: dict[str, Any] = dict(listing_metadata)  # type: ignore[arg-type]
-    for key, value in detail_metadata.items():  # type: ignore[union-attr]
+    metadata: dict[str, Any] = dict(listing_metadata) if isinstance(listing_metadata, dict) else {}
+    for key, value in (detail_metadata.items() if isinstance(detail_metadata, dict) else []):
         if key == "missing_price_reason":
             metadata["detail_missing_price_reason"] = value
         else:

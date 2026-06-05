@@ -87,6 +87,7 @@ def clean_text(value: Any) -> str | None:
 def coerce_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):
@@ -260,7 +261,7 @@ def merge_fencer_profiles(
         if not raw_id:
             skipped += 1
             continue
-        canonical_id = canonical_fencer_id(raw_id, row_identity)
+        canonical_id: str = canonical_fencer_id(raw_id, row_identity) or raw_id
         fie_id = clean_text(fencer.get("fie_id"))
         if fie_id and fie_identity and fie_id in fie_identity:
             canonical_id = fie_identity[fie_id]
@@ -619,7 +620,7 @@ def build_score_components(
     age = age_component(profile, season, category)
     category_info = category_component(category)
 
-    components = {
+    components: dict[str, Any] = {
         "score_label": "transfer impact score",
         "ranking": ranking,
         "performance": performance,

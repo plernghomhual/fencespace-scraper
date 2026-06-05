@@ -161,7 +161,7 @@ def parse_scholarshipstats_programs(
 ) -> list[CollegeProgramSeed]:
     soup = BeautifulSoup(html, "html.parser")
     scholarship_limits = parse_scholarship_limits(soup)
-    programs = []
+    programs: list[CollegeProgramSeed] = []
 
     for table in soup.find_all("table"):
         header = clean_text(table.get_text(" ", strip=True)) or ""

@@ -294,7 +294,7 @@ def create_checkout_session(
     allow_live: bool | None = None,
     http_post: Callable[..., Any] = requests.post,
 ) -> dict[str, Any]:
-    key: str = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
+    key: str = stripe_secret_key if stripe_secret_key is not None else os.environ.get("STRIPE_SECRET_KEY", "")
     assert_test_mode_stripe_key(key, allow_live=allow_live)
     price_id = price_id or os.environ.get(f"STRIPE_PRICE_ID_{plan_id.upper()}", "")
     if not price_id:
@@ -328,7 +328,7 @@ def create_customer_portal_session(
     allow_live: bool | None = None,
     http_post: Callable[..., Any] = requests.post,
 ) -> dict[str, Any]:
-    key: str = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
+    key: str = stripe_secret_key if stripe_secret_key is not None else os.environ.get("STRIPE_SECRET_KEY", "")
     assert_test_mode_stripe_key(key, allow_live=allow_live)
     return _stripe_post(
         "billing_portal/sessions",

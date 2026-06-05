@@ -276,8 +276,9 @@ def compute_confirmed_ranking_transfers(
 
 
 def tournament_map(tournaments: dict[Any, dict[str, Any]] | list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    values: list[dict[str, Any]]
     if isinstance(tournaments, dict):
-        values = tournaments.values()
+        values = list(tournaments.values())
     else:
         values = tournaments
     return {str(row["id"]): row for row in values if row.get("id") is not None}

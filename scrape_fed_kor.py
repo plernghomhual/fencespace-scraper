@@ -357,7 +357,7 @@ def current_season() -> str:
         pass
 
     try:
-        from season_utils import current_season as shared_current_season
+        from season_utils import current_fie_season as shared_current_season
         from season_utils import normalize_season
 
         return normalize_season(shared_current_season())

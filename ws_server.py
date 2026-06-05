@@ -295,7 +295,7 @@ class LiveClient:
 
 
 class ConnectionManager:
-    def __init__(self):
+    def __init__(self) -> None:
         self._clients: set[LiveClient] = set()
 
     async def add(self, client: LiveClient) -> None:

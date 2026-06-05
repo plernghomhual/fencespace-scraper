@@ -29,8 +29,8 @@ from scraper_state import get_state, set_state
 try:
     from season_utils import normalize_season, season_to_string
 except Exception:  # pragma: no cover - compatibility fallback for stripped envs.
-    normalize_season = None
-    season_to_string = None
+    normalize_season = None  # type: ignore[assignment]
+    season_to_string = None  # type: ignore[assignment]
 
 
 SOURCE = "bul_fencing"

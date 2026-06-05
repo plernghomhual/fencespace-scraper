@@ -23,10 +23,3 @@ ignore_missing_imports = true
 follow_imports = "skip"
 check_untyped_defs = false
 warn_unused_configs = true
-files = [
-    "api.py",
-    "api_syndication.py",
-    "graphql/app.py",
-    "marketplace_api.py",
-    "ws_server.py",
-]

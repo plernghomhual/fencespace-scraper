@@ -305,7 +305,7 @@ def bout_completeness(row: dict[str, Any]) -> tuple[int, str]:
 def dedupe_bouts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     deduped: dict[tuple[Any, ...], dict[str, Any]] = {}
     for row in rows:
-        key = (
+        _raw_key = (
             clean_text(row.get("bracket_key"))
             or (
                 row.get("tournament_id"),
@@ -316,8 +316,7 @@ def dedupe_bouts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 side_fencer_id(row, "b"),
             )
         )
-        if not isinstance(key, tuple):
-            key = (key,)
+        key: tuple[Any, ...] = _raw_key if isinstance(_raw_key, tuple) else (_raw_key,)
         existing = deduped.get(key)
         if not existing or bout_completeness(row) > bout_completeness(existing):
             deduped[key] = row

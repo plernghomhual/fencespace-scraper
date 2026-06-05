@@ -12,7 +12,25 @@ import hashlib
 import os
 import re
 from datetime import date, datetime, timezone
-from typing import Any
+from typing import Any, TypedDict
+
+
+class RuleChangeSeed(TypedDict, total=False):
+    summary: str
+    effective_date: str
+    effective_season: str
+    weapons_affected: list[str]
+    categories_affected: list[str]
+    rule_area: str
+    source_url: str
+    source_type: str
+    source_title: str
+    evidence_quote: str
+    affected_competition_ids: list[str]
+    affected_seasons: list[str]
+    impact_analysis_status: str
+    impact_summary: str
+    metadata: dict[str, Any]
 from urllib.parse import urljoin
 
 import requests
@@ -51,7 +69,7 @@ CHANGELOG_SOURCES = [
     },
 ]
 
-DEFAULT_MANUAL_SEEDS = [
+DEFAULT_MANUAL_SEEDS: list[RuleChangeSeed] = [
     {
         "summary": "Updated unwillingness-to-fight/non-combativity P-card rules took effect for USA Fencing events on Jan. 1, 2023.",
         "effective_date": "2023-01-01",
@@ -689,7 +707,7 @@ def valid_rule_change_rows(candidates: list[dict[str, Any]]) -> tuple[list[dict[
     return rows, skipped
 
 
-def load_manual_seed_fixtures(seeds: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
+def load_manual_seed_fixtures(seeds: list[RuleChangeSeed] | None = None) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for seed in seeds if seeds is not None else DEFAULT_MANUAL_SEEDS:
         metadata = dict(seed.get("metadata") or {})

@@ -201,6 +201,11 @@ def first_labeled_value(lines: list[str], aliases: tuple[str, ...]) -> tuple[str
     return None, None
 
 
+def _get_dict(d: dict[str, Any], key: str) -> dict[str, Any]:
+    val = d.get(key)
+    return val if isinstance(val, dict) else {}
+
+
 def labeled_block_value(
     lines: list[str],
     aliases: tuple[str, ...],
@@ -256,7 +261,7 @@ def normalize_detail_date(value: Any) -> str | None:
 
     numeric_match = re.fullmatch(r"(\d{1,2})([./-])(\d{1,2})\2(\d{4})", candidate)
     if numeric_match:
-        first, separator, second, year = numeric_match.groups()
+        first, separator, second, year_str = numeric_match.groups()
         first_int = int(first)
         second_int = int(second)
         if separator == "/" and first_int <= 12 and second_int <= 12:
@@ -265,7 +270,7 @@ def normalize_detail_date(value: Any) -> str | None:
         if separator == "/" and second_int > 12:
             month, day = first_int, second_int
         try:
-            return datetime(int(year), month, day).date().isoformat()
+            return datetime(int(year_str), month, day).date().isoformat()
         except ValueError:
             return None
 
@@ -533,7 +538,7 @@ def extract_de_rounds(tableau_block: Any) -> list[str]:
 def athlete_country(entry: Any) -> str | None:
     if not isinstance(entry, dict):
         return None
-    fencer = entry.get("fencer") if isinstance(entry.get("fencer"), dict) else {}
+    fencer = _get_dict(entry, "fencer")
     return clean_text(
         entry.get("nationality")
         or entry.get("country")
@@ -639,7 +644,7 @@ def extract_html_links(html: str) -> dict[str, Any]:
 
 
 def extract_competition_link_fields(competition: dict[str, Any]) -> tuple[dict[str, str | None], dict[str, str]]:
-    fields = {"registration_url": None, "live_results_url": None}
+    fields: dict[str, str | None] = {"registration_url": None, "live_results_url": None}
     raw: dict[str, str] = {}
     for key, value in competition.items():
         if not isinstance(value, str) or not value.strip():
@@ -660,8 +665,8 @@ def extract_competition_link_fields(competition: dict[str, Any]) -> tuple[dict[s
 
 
 def extract_document_urls(blocks: dict[str, Any]) -> list[str]:
-    competition = blocks.get("_competition") if isinstance(blocks.get("_competition"), dict) else {}
-    download_links = blocks.get("_downloadLinks") if isinstance(blocks.get("_downloadLinks"), dict) else {}
+    competition = _get_dict(blocks, "_competition")
+    download_links = _get_dict(blocks, "_downloadLinks")
     urls: list[str] = []
     for source in (competition, download_links):
         for key, value in source.items():
@@ -832,7 +837,7 @@ def extract_detail_fields(
     document_texts: list[str] | None,
     fallback_format: str | None,
 ) -> tuple[dict[str, Any], dict[str, str], list[str]]:
-    competition = blocks.get("_competition") if isinstance(blocks.get("_competition"), dict) else {}
+    competition = _get_dict(blocks, "_competition")
     rendered_fields, rendered_raw = extract_rendered_detail_fields(html, competition)
     document_fields, document_raw = extract_document_detail_fields(document_texts)
     fields, raw = merge_detail_fields(rendered_fields, rendered_raw, document_fields, document_raw, fallback_format)
@@ -841,8 +846,8 @@ def extract_detail_fields(
 
 
 def build_tournament_update(detail_row: dict[str, Any]) -> dict[str, Any]:
-    metadata = detail_row.get("metadata") if isinstance(detail_row.get("metadata"), dict) else {}
-    fields = metadata.get("detail_fields") if isinstance(metadata.get("detail_fields"), dict) else {}
+    metadata = _get_dict(detail_row, "metadata")
+    fields = _get_dict(metadata, "detail_fields")
     update = {
         column: fields.get(column)
         for column in TOURNAMENT_DETAIL_COLUMNS
@@ -860,7 +865,7 @@ def parse_competition_detail_page(
     document_texts: list[str] | None = None,
 ) -> dict[str, Any]:
     blocks = extract_window_blocks(html)
-    competition = blocks.get("_competition") if isinstance(blocks.get("_competition"), dict) else {}
+    competition = _get_dict(blocks, "_competition")
     athletes = blocks.get("_athletes")
     pools = extract_pools(blocks.get("_pools"))
     pool_sizes = [len(pool_rows(pool)) for pool in pools if pool_rows(pool)]

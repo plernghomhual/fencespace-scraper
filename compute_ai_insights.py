@@ -845,7 +845,7 @@ def compute_ai_insights(
             upsert_insight_rows(client, rows, batch_size=batch_size) if rows else (0, 0)
         )
 
-        summary = {
+        summary: dict[str, Any] = {
             "fencers_read": len(source_data["fencers"]),
             "career_stats_read": len(source_data["career_stats"]),
             "performance_rows_read": len(source_data["performance"]),

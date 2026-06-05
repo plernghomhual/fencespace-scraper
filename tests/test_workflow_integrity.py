@@ -502,7 +502,7 @@ def test_prompt_scripts_only_appear_in_intended_workflows():
         assert actual == intended, f"{script} workflows should be {intended}, got {actual}"
 
 
-def test_frontend_product_scripts_not_in_any_workflow():
+def test_frontend_product_scripts_not_in_any_workflow() -> None:
     workflows = all_workflows()
     all_ci_scripts: set[str] = set()
     for workflow in workflows.values():

@@ -294,7 +294,7 @@ def parse_public_review_html(html: str, source: ReviewSource) -> list[dict[str, 
         if not snippet and rating is None:
             continue
         metadata: dict[str, Any] = {"source_kind": source.source_kind}
-        metadata.update(aggregate)
+        metadata.update(aggregate)  # type: ignore[arg-type]
         reviews.append(
             {
                 "camp_name": extract_card_camp_name(card, source),

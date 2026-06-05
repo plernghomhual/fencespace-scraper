@@ -479,7 +479,7 @@ def attach_related_fencers(
 
 
 def fetch_fencer_rows(client, *, page_size: int = 1000) -> list[dict[str, Any]]:
-    rows = []
+    rows: list[dict[str, Any]] = []
     for offset in range(0, 100000, page_size):
         result = (
             client.table("fs_fencers")

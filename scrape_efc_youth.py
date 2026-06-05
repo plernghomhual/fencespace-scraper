@@ -414,7 +414,7 @@ def _row_name(cells: list[str], mapping: dict) -> str | None:
 
 
 def parse_result_matrix(matrix: list[list], event: dict, source_url: str) -> list[dict]:
-    rows = []
+    rows: list[dict] = []
     header_index = None
     mapping = {}
     for index, raw_row in enumerate(matrix):

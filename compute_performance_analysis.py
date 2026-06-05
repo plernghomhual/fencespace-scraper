@@ -42,6 +42,7 @@ def clean_text(value: Any) -> str | None:
 def coerce_positive_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):

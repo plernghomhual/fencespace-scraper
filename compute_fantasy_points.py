@@ -511,7 +511,7 @@ def add_upset_points(
             continue
 
         bout_id = clean_text(bout.get("id"))
-        bout_key: tuple[str, ...]
+        bout_key: tuple[str | None, ...]
         if bout_id:
             bout_key = ("id", bout_id)
         else:
@@ -611,7 +611,7 @@ def build_fantasy_rows(
             skips["results_missing_required_fields"] += 1
             continue
 
-        item = {
+        item: dict[str, Any] = {
             "result": result,
             "tournament": tournament,
             "fencer_id": fencer_id,

@@ -191,6 +191,7 @@ def simulated_winner(
     if not fencer_a and not fencer_b:
         return None, None
 
+    assert fencer_a is not None and fencer_b is not None
     probability_a = elo_win_probability(ratings[fencer_a], ratings[fencer_b])
     if rng.random() < probability_a:
         return fencer_a, fencer_b

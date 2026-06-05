@@ -181,6 +181,10 @@ def _parse_html_tables(html: str) -> list[dict]:
                 else:
                     continue
 
+            rank_idx: int
+            name_idx: int
+            club_idx: int | None
+            points_idx: int | None
             if positional_mode:
                 rank_idx, name_idx, club_idx, points_idx = 0, 1, 2, len(texts) - 1
             else:

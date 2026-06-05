@@ -348,12 +348,12 @@ def discover_latest_ranking_documents() -> dict[str, dict]:
     documents: dict[str, dict] = {}
 
     for category, criteria in CATEGORY_SEARCH.items():
-        for item in _search_documents(criteria["query"]):
+        for item in _search_documents(str(criteria["query"])):
             title = unescape(str(item.get("title") or ""))
             if not _title_matches(
                 title,
-                required=criteria["required"],
-                excluded=criteria["excluded"],
+                required=tuple(criteria["required"]),
+                excluded=tuple(criteria["excluded"]),
             ):
                 continue
 

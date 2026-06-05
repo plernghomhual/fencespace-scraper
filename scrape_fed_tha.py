@@ -428,7 +428,8 @@ def _google_drive_file_id(url: str) -> str | None:
         return match.group(1)
     parsed = urlparse(url)
     query = parse_qs(parsed.query)
-    return (query.get("id") or [None])[0]
+    ids = query.get("id")
+    return ids[0] if ids else None
 
 
 def _download_url(url: str) -> str:

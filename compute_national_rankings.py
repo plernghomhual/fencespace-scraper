@@ -323,7 +323,7 @@ def load_tournaments() -> dict[str, dict[str, Any]]:
 
 def compute_results_scores(
     fencers: list[dict[str, Any]],
-    tournaments: dict[int, dict[str, Any]],
+    tournaments: dict[str, dict[str, Any]],
 ) -> tuple[dict[Any, float], int]:
     by_id, by_fie_weapon_category, by_fie_id_only, by_name_country_weapon_category = build_fencer_indexes(fencers)
     result_rows = fetch_all(

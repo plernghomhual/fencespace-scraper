@@ -157,9 +157,11 @@ def build_brand_catalog(product_rows: Iterable[dict[str, Any]]) -> BrandCatalog:
         brand = clean_text(row.get("brand"))
         if not brand:
             continue
-        canonical = normalize_brand(brand, BrandCatalog(aliases)) if aliases else title_brand(brand)
-        aliases.setdefault(normalize_key(canonical), canonical)
-        aliases.setdefault(normalize_key(brand), canonical)
+        brand_canonical = normalize_brand(brand, BrandCatalog(aliases)) if aliases else title_brand(brand)
+        if brand_canonical is None:
+            continue
+        aliases.setdefault(normalize_key(brand_canonical), brand_canonical)
+        aliases.setdefault(normalize_key(brand), brand_canonical)
 
     return BrandCatalog(aliases=aliases)
 
@@ -558,7 +560,7 @@ def aggregate_trend_rows(evidence_rows: list[dict[str, Any]], updated_at: str | 
         source = clean_text(row.get("source"))
         if source:
             group["sources"].add(source)
-        group["confidence_scores"].append(CONFIDENCE_WEIGHTS.get(row.get("confidence"), 0.0))
+        group["confidence_scores"].append(CONFIDENCE_WEIGHTS.get(row.get("confidence") or "", 0.0))
         group["confidences"].append(row.get("confidence"))
 
     trends: list[dict[str, Any]] = []

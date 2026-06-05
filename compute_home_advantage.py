@@ -5,7 +5,7 @@ import re
 import unicodedata
 from collections import defaultdict
 from datetime import date, datetime, timezone
-from typing import Any
+from typing import Any, cast
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
@@ -235,6 +235,7 @@ def normalize_tier(tournament: dict[str, Any] | None) -> str | None:
 def coerce_positive_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):
@@ -704,13 +705,13 @@ def build_home_advantage_rows(
 
     maps = baseline_maps(preliminary_rows)
     rows: list[dict[str, Any]] = []
-    for row in sorted(preliminary_rows, key=lambda item: item["id"]):
-        baseline = expected_baseline(row, maps)
-        delta = baseline - float(row["actual_placement"]) if baseline is not None else None
-        row = dict(row)
-        row["expected_placement"] = round_metric(baseline)
-        row["placement_delta"] = round_metric(delta)
-        rows.append(row)
+    for _row_raw in sorted(preliminary_rows, key=lambda item: item["id"]):
+        _row: dict[str, Any] = cast(dict[str, Any], _row_raw)
+        baseline = expected_baseline(_row, maps)
+        delta = baseline - float(cast(float, _row["actual_placement"])) if baseline is not None else None
+        _row["expected_placement"] = round_metric(baseline)
+        _row["placement_delta"] = round_metric(delta)
+        rows.append(_row)
     return rows, skipped
 
 

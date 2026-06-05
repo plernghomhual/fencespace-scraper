@@ -454,8 +454,8 @@ def _merge_video_rows(existing: dict[str, Any], new_row: dict[str, Any]) -> dict
         if field in existing or field in new_row:
             merged[field] = _merge_list_field(existing.get(field), new_row.get(field))
 
-    existing_metadata = existing.get("metadata") if isinstance(existing.get("metadata"), dict) else {}
-    new_metadata = new_row.get("metadata") if isinstance(new_row.get("metadata"), dict) else {}
+    existing_metadata = (existing.get("metadata") if isinstance(existing.get("metadata"), dict) else {}) or {}
+    new_metadata = (new_row.get("metadata") if isinstance(new_row.get("metadata"), dict) else {}) or {}
     if existing_metadata or new_metadata:
         merged["metadata"] = {**existing_metadata, **new_metadata}
 

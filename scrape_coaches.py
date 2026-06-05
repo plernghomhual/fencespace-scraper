@@ -396,13 +396,13 @@ def parse_fencer_coach_relationships(
                 )
 
         for match in re.finditer(r"\bcoach\s+([^:]{2,80}):\s*([^.;]+)", text, flags=re.IGNORECASE):
-            coach_name = clean_text(match.group(1))
-            if not coach_name or not _looks_like_person_name(coach_name):
+            found_coach_name = clean_text(match.group(1))
+            if not found_coach_name or not _looks_like_person_name(found_coach_name):
                 continue
             for athlete_name in _split_names(match.group(2)):
                 relationships.append(
                     {
-                        "coach_name": coach_name,
+                        "coach_name": found_coach_name,
                         "fencer_name": athlete_name,
                         "country": country,
                         "metadata": {"federation": federation},
@@ -537,7 +537,7 @@ def upsert_coaches_and_relationships(
         client.table("fs_coaches").upsert(batch, on_conflict="id").execute()
         coaches_written += len(batch)
 
-    coach_by_name = {}
+    coach_by_name: dict[tuple[str | None, str | None, str | None], str] = {}
     for row in coach_values:
         coach_by_name.setdefault((row["name"], row.get("country"), row.get("federation")), row["id"])
 

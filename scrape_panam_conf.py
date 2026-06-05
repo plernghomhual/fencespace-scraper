@@ -249,6 +249,8 @@ def _parse_rank(value) -> int | None:
 
 
 def _medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -923,7 +925,7 @@ def upsert_tournament(event: dict) -> str | None:
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
@@ -1050,12 +1052,12 @@ def upsert_results(tournament_id: str, source_id: str, result_rows: list[dict]) 
     if not db_rows:
         return 0, len(unmatched)
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for idx in range(0, len(db_rows), BATCH_SIZE):
         batch = db_rows[idx : idx + BATCH_SIZE]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed for {source_id}: {exc}")

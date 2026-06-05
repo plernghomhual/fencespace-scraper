@@ -30,9 +30,9 @@ from run_logger import ScraperRunLogger
 try:
     from season_utils import current_fie_season, normalize_season, season_to_string
 except ImportError:  # Agent 5 may not be merged yet.
-    current_fie_season = None
-    normalize_season = None
-    season_to_string = None
+    current_fie_season = None  # type: ignore[assignment]
+    normalize_season = None  # type: ignore[assignment]
+    season_to_string = None  # type: ignore[assignment]
 
 
 SOURCE = "sui_fencing"

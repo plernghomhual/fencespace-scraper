@@ -240,6 +240,8 @@ def _rank_to_int(value) -> int | None:
 
 
 def _medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -627,7 +629,7 @@ def parse_ffsu_workbook_bytes(content: bytes, season=None, source_url=None) -> l
     for sheet in workbook.worksheets:
         rows = [[_clean_text(cell) for cell in row] for row in sheet.iter_rows(values_only=True)]
         current = _make_event(sheet.title, season, source_url, "xlsx")
-        headers = []
+        headers: list[str] = []
         for row in rows:
             nonempty = [cell for cell in row if _clean_text(cell)]
             if not nonempty:
@@ -718,7 +720,7 @@ def upsert_tournament(event: dict) -> str | int | None:
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event.get('source_id')}: {exc}")
@@ -785,11 +787,11 @@ def upsert_results(tournament_id, event: dict) -> dict:
     if not db_rows:
         return {"written": 0, "unmatched": 0, "unmatched_rows": []}
     try:
-        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
         written = 0
         for index in range(0, len(db_rows), 100):
             batch = db_rows[index:index + 100]
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         if unmatched_rows:
             print(f"  Unmatched FFSU rows for {event.get('source_id')}: {len(unmatched_rows)}")

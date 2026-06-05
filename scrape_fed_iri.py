@@ -29,7 +29,7 @@ from run_logger import ScraperRunLogger
 try:
     from season_utils import season_to_string
 except ImportError:  # pragma: no cover - compatibility fallback for isolated runs.
-    season_to_string = None
+    season_to_string = None  # type: ignore[assignment]
 
 
 SOURCE = "iri_fencing"

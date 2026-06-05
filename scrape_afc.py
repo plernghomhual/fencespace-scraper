@@ -505,15 +505,15 @@ def _extract_date_from_text(text: str | None) -> str | None:
             except ValueError:
                 continue
 
-    match2 = re.search(r"\b(\d{1,2})\s+([A-Za-z]+)\s+((?:19|20)\d{2})\b", value)
-    if match2:
-        month = MONTHS.get(match2.group(2).lower())
+    m2 = re.search(r"\b(\d{1,2})\s+([A-Za-z]+)\s+((?:19|20)\d{2})\b", value)
+    if m2:
+        month = MONTHS.get(m2.group(2).lower())
         if month:
-            return f"{match2.group(3)}-{month}-{int(match2.group(1)):02d}"
+            return f"{m2.group(3)}-{month}-{int(m2.group(1)):02d}"
 
-    match3 = re.search(r"\b((?:19|20)\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일", value)
-    if match3:
-        return f"{match3.group(1)}-{int(match3.group(2)):02d}-{int(match3.group(3)):02d}"
+    m3 = re.search(r"\b((?:19|20)\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일", value)
+    if m3:
+        return f"{m3.group(1)}-{int(m3.group(2)):02d}-{int(m3.group(3)):02d}"
 
     return None
 

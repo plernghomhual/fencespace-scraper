@@ -195,7 +195,7 @@ def parse_price(text: str | None) -> tuple[float | None, str | None]:
 
 
 def price_from_card(card, retailer: RetailerConfig) -> tuple[float | None, str | None, str | None]:
-    texts = []
+    texts: list[str] = []
     for selector in retailer.price_selectors:
         texts.extend(element.get_text(" ", strip=True) for element in card.select(selector))
     if not texts:

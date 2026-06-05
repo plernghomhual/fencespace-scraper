@@ -160,14 +160,15 @@ def build_longevity_rows(
         if season is not None:
             stat["seasons"].append(season)
 
-    all_fencer_ids = {clean_text(fencer_id) for fencer_id in (fencer_ids or [])}
-    all_fencer_ids.update(stats.keys())
-    all_fencer_ids.discard(None)
+    _all_fencer_ids_raw = {clean_text(fencer_id) for fencer_id in (fencer_ids or [])}
+    _all_fencer_ids_raw.update(stats.keys())
+    _all_fencer_ids_raw.discard(None)
+    all_fencer_ids: set[str] = {fid for fid in _all_fencer_ids_raw if fid is not None}
 
     rows: list[dict[str, Any]] = []
     for fencer_id in sorted(all_fencer_ids):
-        stat = stats.get(fencer_id)
-        if not stat or stat["competition_count"] == 0:
+        fencer_stat = stats.get(fencer_id)
+        if not fencer_stat or fencer_stat["competition_count"] == 0:
             rows.append(
                 {
                     "fencer_id": fencer_id,
@@ -183,8 +184,8 @@ def build_longevity_rows(
             )
             continue
 
-        dates = sorted(stat["dates"])
-        seasons = sorted(stat["seasons"])
+        dates = sorted(fencer_stat["dates"])
+        seasons = sorted(fencer_stat["seasons"])
         first_date = dates[0] if dates else None
         last_date = dates[-1] if dates else None
         first_season = seasons[0] if seasons else None
@@ -194,7 +195,7 @@ def build_longevity_rows(
         if first_season is not None and last_season is not None:
             career_years = max(last_season - first_season, 0)
             denominator = career_years if career_years > 0 else 1
-            competitions_per_season = round(stat["competition_count"] / denominator, 2)
+            competitions_per_season = round(fencer_stat["competition_count"] / denominator, 2)
 
         rows.append(
             {

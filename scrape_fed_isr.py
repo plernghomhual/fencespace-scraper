@@ -369,7 +369,7 @@ def _cell_text(cell: ET.Element, shared: list[str]) -> str:
         return "".join(node.text or "" for node in cell.findall(".//a:t", _XLSX_NS))
 
     value = cell.find("a:v", _XLSX_NS)
-    raw = value.text if value is not None else ""
+    raw: str = (value.text if value is not None else "") or ""
     if cell_type == "s" and raw.isdigit():
         idx = int(raw)
         return shared[idx] if idx < len(shared) else ""

@@ -739,14 +739,14 @@ def build_technique_analysis_rows(
             ensure_stats(grouped, fencer_id, weapon)
 
     for result in results:
-        fencer_id = canonical_fencer_id(result.get("fencer_id"), identity_map)
-        if not fencer_id:
+        result_fencer_id = canonical_fencer_id(result.get("fencer_id"), identity_map)
+        if not result_fencer_id:
             continue
-        subject_ids.add(fencer_id)
+        subject_ids.add(result_fencer_id)
         weapon = result_weapon(result, tournaments_by_id, fencers_by_id, identity_map)
         if not weapon:
             continue
-        stats = ensure_stats(grouped, fencer_id, weapon)
+        stats = ensure_stats(grouped, result_fencer_id, weapon)
         stats["results_count"] += 1
         rank = to_int(result.get("rank") if result.get("rank") is not None else result.get("placement"))
         if rank is not None and rank > 0:

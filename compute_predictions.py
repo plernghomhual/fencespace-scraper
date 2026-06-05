@@ -795,7 +795,7 @@ def build_feature_record(
         },
         "calendar": {
             "score": calendar_component,
-            "target_date": event_date(event).isoformat() if event_date(event) else None,
+            "target_date": _ed.isoformat() if (_ed := event_date(event)) else None,
         },
         "data_quality": {
             "penalty_multiplier": round(penalty, 6),

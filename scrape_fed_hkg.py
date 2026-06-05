@@ -27,6 +27,7 @@ import io
 import re
 import time
 from datetime import datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -182,15 +183,16 @@ def _append_row(
         return
 
     clean_club = re.sub(r"\s+", " ", club).strip() if club else None
+    metadata: dict[str, Any] = {}
+    if alt_name:
+        metadata["alt_name"] = alt_name
     row = {
         "rank": rank,
         "name": name,
         "club": clean_club or None,
         "points": points,
-        "metadata": {},
+        "metadata": metadata,
     }
-    if alt_name:
-        row["metadata"]["alt_name"] = alt_name
     rows.append(row)
 
 

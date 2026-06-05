@@ -198,6 +198,8 @@ def _classify_weapon_gender(value: Any) -> tuple[str | None, str | None]:
 
 
 def _medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -240,8 +242,8 @@ def _parse_result_line(line: str) -> dict[str, Any] | None:
 
 def parse_evf_results_page(html: str, source_url: str) -> list[dict[str, Any]]:
     soup = BeautifulSoup(html or "", "html.parser")
-    lines = [clean_text(line) for line in soup.get_text("\n").splitlines()]
-    lines = [line for line in lines if line]
+    lines_raw = [clean_text(line) for line in soup.get_text("\n").splitlines()]
+    lines: list[str] = [line for line in lines_raw if line is not None]
 
     tournament = next((line for line in lines if re.search(r"\bchampionships?\b.*\b(19|20)\d{2}\b", line, re.I)), None)
     tournament = tournament or "EVF Veteran Results"
@@ -658,7 +660,7 @@ def run(
                 },
             )
         if run_log:
-            run_log.complete(written, failed, skipped)
+            run_log.complete(written=written, failed=failed, skipped=skipped)
         return {"written": written, "failed": failed, "skipped": skipped}
     except Exception as exc:
         if run_log:

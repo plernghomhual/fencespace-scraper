@@ -362,7 +362,7 @@ def score_window(window: list[dict[str, Any]]) -> tuple[float, list[dict[str, An
             continue
 
         base_score = rank_score(rank)
-        bonus = MEDAL_BONUS.get(medal, 0)
+        bonus = MEDAL_BONUS.get(medal or "", 0)
         event_score = min(100.0, base_score + bonus)
         weighted_contribution = event_score * weight
         weighted_score += weighted_contribution
@@ -513,7 +513,7 @@ def build_form_rows(
             "date": competition_date(result, tournament),
             "season": result.get("season") or (tournament.get("season") if tournament else None),
         }
-        dedupe_key = (canonical_id, weapon, candidate["tournament_id"])
+        dedupe_key = (canonical_id, weapon, str(candidate["tournament_id"]))
         if dedupe_key in deduped:
             summary["skipped_duplicate_results"] += 1
             deduped[dedupe_key] = choose_competition(deduped[dedupe_key], candidate)

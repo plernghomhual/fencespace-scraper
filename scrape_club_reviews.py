@@ -213,7 +213,7 @@ def parse_reddit_search_response(payload: dict[str, Any], club_name: str) -> dic
 
     if not threads:
         return None
-    summary = "; ".join(thread["title"] for thread in threads[:3])
+    summary = "; ".join(str(thread["title"]) for thread in threads[:3] if thread["title"] is not None)
     return {
         "source": "reddit",
         "rating": None,
@@ -348,7 +348,7 @@ def fetch_all_rows(
     *,
     page_size: int = PAGE_SIZE,
 ) -> list[dict[str, Any]]:
-    rows = []
+    rows: list[dict[str, Any]] = []
     offset = 0
     while True:
         page = (

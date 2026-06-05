@@ -49,7 +49,7 @@ DEFAULT_TARGETS = [
     "handle:leekiefer",
 ]
 
-DEFAULT_KNOWN_FENCERS = [
+DEFAULT_KNOWN_FENCERS: list[dict[str, Any]] = [
     {
         "id": None,
         "name": "Lee Kiefer",
@@ -309,8 +309,8 @@ def _int_or_none(value: Any) -> int | None:
 
 
 def extract_metrics(raw: dict[str, Any]) -> dict[str, int]:
-    stats = raw.get("statistics") if isinstance(raw.get("statistics"), dict) else {}
-    stats_alt = raw.get("stats") if isinstance(raw.get("stats"), dict) else {}
+    stats = (raw.get("statistics") if isinstance(raw.get("statistics"), dict) else {}) or {}
+    stats_alt = (raw.get("stats") if isinstance(raw.get("stats"), dict) else {}) or {}
     metrics = {
         "views": _int_or_none(_first_value(raw, [("play_count",), ("playCount",), ("views",)]))
         or _int_or_none(stats.get("play_count"))

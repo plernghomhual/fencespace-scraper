@@ -398,7 +398,7 @@ def parse_review_page(html: str, source_url: str, *, scraped_at: str | None = No
         },
         "scraped_at": scraped_at,
     }
-    product["metadata"] = {key: value for key, value in product["metadata"].items() if value is not None}
+    product["metadata"] = {key: value for key, value in product["metadata"].items() if value is not None}  # type: ignore[union-attr]
 
     reviews: list[dict[str, Any]] = []
     seen_hashes: set[str] = set()
@@ -579,7 +579,7 @@ def scrape_fencingnet_products(
         review_written, review_failed = upsert_reviews(client, list(reviews_by_url.values()))
         failed += product_failed + review_failed
 
-        summary = {
+        summary: dict[str, Any] = {
             "fetched": fetched,
             "products_read": len(products_by_id),
             "reviews_read": len(reviews_by_url),

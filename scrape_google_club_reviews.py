@@ -153,7 +153,7 @@ def fetch_all_rows(
     *,
     page_size: int = PAGE_SIZE,
 ) -> list[dict[str, Any]]:
-    rows = []
+    rows: list[dict[str, Any]] = []
     offset = 0
     while True:
         page = (
@@ -456,7 +456,7 @@ def query_google_places_review(
         if selected:
             details_payload = fetch_place_details(
                 clean_text(selected.get("place_id")),
-                maps_api_key=maps_api_key,
+                maps_api_key=maps_api_key,  # type: ignore[arg-type]
                 session=http,
                 timeout=timeout,
             )
@@ -503,7 +503,7 @@ def build_review_row(
     if not source:
         raise ValueError("Review source is required")
     metadata = review.get("metadata") if isinstance(review.get("metadata"), dict) else {}
-    metadata = dict(metadata)
+    metadata = dict(metadata or {})
     if club.source_tables:
         metadata["source_tables"] = list(club.source_tables)
     return {

@@ -71,6 +71,8 @@ def fetch_all(
 
 
 def build_fencer_rank_lookup(fencers: list[dict[str, Any]] | dict[str, Any]) -> dict[str, int]:
+    from typing import Iterable
+    items: Iterable[tuple[Any, Any]]
     if isinstance(fencers, dict):
         items = fencers.items()
     else:
