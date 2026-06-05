@@ -21,11 +21,8 @@ PAGE_SIZE = 1000
 BATCH_SIZE = 100
 SOURCE = "compute_fencer_stats"
 
-BOUT_SELECT = (
-    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,"
-    "score_a,score_b,weapon,category,gender,bout_date,meeting_date,date,played_at,completed_at"
-)
-TOURNAMENT_SELECT = "id,weapon,gender,category,end_date,date,start_date"
+BOUT_SELECT = "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round"
+TOURNAMENT_SELECT = "id,weapon,gender,category,end_date,start_date"
 IDENTITY_SELECTS = (
     "canonical_id,fs_fencer_row_ids",
     "id,canonical_id,fs_fencer_row_ids",

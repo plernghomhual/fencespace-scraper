@@ -347,6 +347,8 @@ def compute_name_variants(
         )
 
         variants, stats = _build_name_variants_with_stats(identities, fencers, results, national_fed_rankings)
+        valid_fencer_ids = {str(f["id"]) for f in fencers if f.get("id")}
+        variants = [v for v in variants if str(v.get("fencer_id", "")) in valid_fencer_ids]
         written = upsert_name_variants(client, variants, batch_size=batch_size) if variants else 0
         report = {
             "identities_loaded": len(identities),

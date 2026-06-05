@@ -271,7 +271,7 @@ def query_fencers_with_wikidata_id(client: Any, *, offset: int, limit: int) -> l
     result = (
         client.table("fs_fencers")
         .select(SELECT_COLUMNS)
-        .not_("metadata->>wikidata_id", "is", "null")
+        .not_.is_("metadata->>wikidata_id", "null")
         .order("id")
         .range(offset, offset + limit - 1)
         .execute()

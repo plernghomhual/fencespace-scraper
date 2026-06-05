@@ -33,14 +33,7 @@ RESULT_SELECTS = [
     "id,tournament_id,fencer_id,fie_fencer_id,name,placement,rank,metadata",
 ]
 BOUT_SELECTS = [
-    (
-        "id,tournament_id,fencer_a,fencer_b,fencer_a_id,fencer_b_id,"
-        "winner,winner_id,score_a,score_b,round,metadata,weapon"
-    ),
-    "id,tournament_id,fencer_a,fencer_b,winner,winner_id,score_a,score_b,round,metadata",
-    "id,tournament_id,fencer_a,fencer_b,winner_id,score_a,score_b,round,metadata",
-    "id,tournament_id,fencer_a,fencer_b,winner,score_a,score_b,round,metadata",
-    "id,tournament_id,fencer_a,fencer_b,score_a,score_b,round",
+    "id,tournament_id,fencer_a_id,fencer_b_id,winner_id,score_a,score_b,round",
 ]
 TOURNAMENT_SELECTS = [
     "id,name,type,category,weapon,gender,event_type,is_individual,metadata",
