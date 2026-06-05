@@ -236,6 +236,35 @@ def test_failed_chunk_is_retried_before_progress_is_recorded(monkeypatch):
     assert state_updates[0][2]["completed"] is False
 
 
+def test_validation_skips_include_capped_diagnostics(monkeypatch):
+    module = load_module(monkeypatch)
+    client = FakeSupabase(
+        {
+            "fs_fencers": [
+                {"id": "f1", "name": "Alex Lee"},
+                {"id": "", "name": "Missing Id", "metadata": {"private": "not logged"}},
+            ]
+        }
+    )
+    writer = RecordingWriter()
+
+    summary = module.export_table(
+        "fencers",
+        client=client,
+        writer=writer,
+        page_size=2,
+        chunk_size=2,
+        update_state=False,
+        log_run=False,
+    )
+
+    assert summary["rows_read"] == 2
+    assert summary["rows_written"] == 1
+    assert summary["skipped"] == 1
+    assert summary["validation_errors"] == [{"source_offset": 1, "row_id": None, "error": "id is required"}]
+    assert "private" not in json.dumps(summary["validation_errors"])
+
+
 def test_resume_continues_from_saved_offset_and_chunk_number(monkeypatch):
     module = load_module(monkeypatch)
     rows = [{"id": f"f{i}", "name": f"Fencer {i}"} for i in range(4)]

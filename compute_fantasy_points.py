@@ -198,7 +198,8 @@ def normalize_medal(value: Any) -> str | None:
 
 
 def normalize_status(row: dict[str, Any]) -> str | None:
-    metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
+    _meta_raw = row.get("metadata")
+    metadata: dict[str, Any] = _meta_raw if isinstance(_meta_raw, dict) else {}
     if truthy(row.get("dq")) or truthy(metadata.get("dq")):
         return "dq"
     if truthy(row.get("dns")) or truthy(metadata.get("dns")):
@@ -455,7 +456,8 @@ def build_fencer_rank_map(
 def is_bye_bout(bout: dict[str, Any]) -> bool:
     if truthy(bout.get("is_bye")) or truthy(bout.get("bye")):
         return True
-    metadata = bout.get("metadata") if isinstance(bout.get("metadata"), dict) else {}
+    _meta_raw_bye = bout.get("metadata")
+    metadata: dict[str, Any] = _meta_raw_bye if isinstance(_meta_raw_bye, dict) else {}
     if truthy(metadata.get("is_bye")) or truthy(metadata.get("bye")):
         return True
     text = " ".join(clean_text(bout.get(field)) or "" for field in ("round", "status"))
@@ -509,6 +511,7 @@ def add_upset_points(
             continue
 
         bout_id = clean_text(bout.get("id"))
+        bout_key: tuple[str, ...]
         if bout_id:
             bout_key = ("id", bout_id)
         else:
@@ -629,11 +632,16 @@ def build_fantasy_rows(
     rows_by_key: dict[tuple[str, str, int], dict[str, Any]] = {}
     result_statuses: dict[tuple[str, str, int], str | None] = {}
     for key, item in result_items.items():
-        components = score_result_components(item["result"], item["tournament"], rules)
+        item_result: dict[str, Any] = item["result"]
+        item_tournament: dict[str, Any] | None = item["tournament"]
+        item_fencer_id: str = item["fencer_id"]
+        item_tournament_id: str = item["tournament_id"]
+        item_season: int = item["season"]
+        components = score_result_components(item_result, item_tournament, rules)
         row = make_fantasy_row(
-            item["fencer_id"],
-            item["tournament_id"],
-            item["season"],
+            item_fencer_id,
+            item_tournament_id,
+            item_season,
             components,
             rules,
             updated_at,

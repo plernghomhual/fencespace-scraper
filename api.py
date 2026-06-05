@@ -1,3 +1,4 @@
+import hashlib
 import os
 import time
 from collections import defaultdict, deque
@@ -37,6 +38,23 @@ DEFAULT_LIMIT = 50
 MAX_LIMIT = 500
 RATE_LIMIT_PER_MINUTE = int(os.environ.get("FENCESPACE_RATE_LIMIT_PER_MINUTE", "100"))
 RATE_WINDOW_SECONDS = 60
+TABLE_SELECT_COLUMNS = {
+    "fs_fencers": "id,fie_id,name,country,weapon,category,gender,world_rank,fie_points",
+    "fs_fencer_career_stats": "fencer_id,total_competitions,gold_medals,silver_medals,bronze_medals",
+    "fs_fencer_social_media": "fencer_id,platform,url,handle",
+    "fs_fencer_equipment": "fencer_id,brand,equipment_type,sponsor_name,source,source_url,confidence",
+    "fs_tournaments": "id,fie_id,season,name,country,type,start_date,end_date",
+    "fs_results": "id,tournament_id,fencer_id,rank,name,nationality,points",
+    "fs_rankings_history": "id,season,weapon,gender,category,rank,name,country,points",
+    "fs_head_to_head": (
+        "id,fencer_a_id,fencer_b_id,weapon,a_wins,b_wins,a_touches,b_touches,"
+        "bouts_total,last_meeting_date,last_winner_id"
+    ),
+    "fs_country_depth": (
+        "country,weapon,category,fencers_in_top16,fencers_in_top32,"
+        "fencers_in_top64,total_ranked,avg_world_rank"
+    ),
+}
 
 _supabase_client = None
 _rate_limit_lock = Lock()
@@ -80,25 +98,53 @@ def _row_allows_key(row: dict[str, Any]) -> bool:
     return True
 
 
-def is_valid_api_key(api_key: str) -> bool:
+def hash_primary_api_key(api_key: str) -> str:
+    return hashlib.sha256(api_key.encode("utf-8")).hexdigest()
+
+
+def _lookup_api_key_row(client: Any, api_key: str) -> dict[str, Any] | None:
+    key_hash = hash_primary_api_key(api_key)
+    rows = (
+        client.table("fs_api_keys")
+        .select("key_hash,key,active,revoked")
+        .eq("key_hash", key_hash)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if rows:
+        return rows[0]
+
+    # Primary API key rotation cutover:
+    # keep this plaintext compatibility window until production API consumers
+    # have rotated and all stored keys are backfilled to key_hash.
+    legacy_rows = (
+        client.table("fs_api_keys")
+        .select("key_hash,key,active,revoked")
+        .eq("key", api_key)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    return legacy_rows[0] if legacy_rows else None
+
+
+def is_valid_api_key_for_client(client: Any, api_key: str) -> bool:
     if api_key in ENV_API_KEYS:
         return True
 
     try:
-        rows = (
-            get_supabase_client()
-            .table("fs_api_keys")
-            .select("*")
-            .eq("key", api_key)
-            .limit(1)
-            .execute()
-            .data
-            or []
-        )
+        row = _lookup_api_key_row(client, api_key)
     except Exception:
         return False
 
-    return bool(rows and _row_allows_key(rows[0]))
+    return bool(row and _row_allows_key(row))
+
+
+def is_valid_api_key(api_key: str) -> bool:
+    return is_valid_api_key_for_client(get_supabase_client(), api_key)
 
 
 def check_rate_limit(api_key: str, now: float | None = None) -> tuple[bool, int]:
@@ -159,8 +205,15 @@ def execute_optional_rows(query) -> list[dict[str, Any]]:
         return []
 
 
+def select_columns(table_name: str) -> str:
+    columns = TABLE_SELECT_COLUMNS.get(table_name)
+    if not columns:
+        raise HTTPException(status_code=500, detail=f"No public column allowlist configured for {table_name}")
+    return columns
+
+
 def first_row(table_name: str, column: str, value: Any, *, optional: bool = False) -> dict[str, Any] | None:
-    query = get_supabase_client().table(table_name).select("*").eq(column, value).limit(1)
+    query = get_supabase_client().table(table_name).select(select_columns(table_name)).eq(column, value).limit(1)
     rows = execute_optional_rows(query) if optional else execute_rows(query, table_name)
     return rows[0] if rows else None
 
@@ -172,7 +225,7 @@ def list_rows(
     limit: int = DEFAULT_LIMIT,
     offset: int = 0,
 ) -> list[dict[str, Any]]:
-    query = get_supabase_client().table(table_name).select("*")
+    query = get_supabase_client().table(table_name).select(select_columns(table_name))
     if configure:
         query = configure(query)
     return execute_rows(query.range(offset, offset + limit - 1), table_name)
@@ -218,10 +271,16 @@ def get_fencer(fencer_id: str):
 
     career_stats = first_row("fs_fencer_career_stats", "fencer_id", fencer_id, optional=True)
     social = execute_optional_rows(
-        get_supabase_client().table("fs_fencer_social_media").select("*").eq("fencer_id", fencer_id)
+        get_supabase_client()
+        .table("fs_fencer_social_media")
+        .select(select_columns("fs_fencer_social_media"))
+        .eq("fencer_id", fencer_id)
     )
     equipment = execute_optional_rows(
-        get_supabase_client().table("fs_fencer_equipment").select("*").eq("fencer_id", fencer_id)
+        get_supabase_client()
+        .table("fs_fencer_equipment")
+        .select(select_columns("fs_fencer_equipment"))
+        .eq("fencer_id", fencer_id)
     )
 
     return {
@@ -287,7 +346,7 @@ def head_to_head(fencer_a: str, fencer_b: str):
     rows = execute_rows(
         get_supabase_client()
         .table("fs_head_to_head")
-        .select("*")
+        .select(select_columns("fs_head_to_head"))
         .eq("fencer_a_id", left)
         .eq("fencer_b_id", right),
         "fs_head_to_head",

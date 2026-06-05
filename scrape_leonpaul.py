@@ -278,7 +278,7 @@ def parse_variant_options(soup: BeautifulSoup) -> dict[str, list[str]]:
         ]
         values = [value for value in values if value]
         if values:
-            variants[select_label(soup, select)] = list(dict.fromkeys(values))
+            variants[select_label(soup, select)] = list(dict.fromkeys(v for v in values if v is not None))
 
     for attribute in soup.select(".swatch-attribute"):
         label_element = attribute.select_one(".swatch-attribute-label")
@@ -290,7 +290,7 @@ def parse_variant_options(soup: BeautifulSoup) -> dict[str, list[str]]:
         ]
         values = [value for value in values if value]
         if label and values:
-            variants[label] = list(dict.fromkeys(values))
+            variants[label] = list(dict.fromkeys(v for v in values if v is not None))
 
     return variants
 

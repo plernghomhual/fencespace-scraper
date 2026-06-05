@@ -314,7 +314,7 @@ def ranking_counts_by_dimension(ranking_rows: list[dict[str, Any]]) -> dict[tupl
     counts: dict[tuple[int, str, str, str], int] = defaultdict(int)
     for row in ranking_rows:
         dims, reason = normalize_dimension_row(row)
-        if reason:
+        if reason or dims is None:
             continue
         counts[(dims["season"], dims["weapon"], dims["gender"], dims["category"])] += 1
     return counts
@@ -390,8 +390,8 @@ def build_difficulty_trend_rows(
             continue
 
         dims, reason = normalize_dimension_row(tournament)
-        if reason:
-            skipped[reason] += 1
+        if reason or dims is None:
+            skipped[reason or "missing_dims"] += 1
             continue
 
         key = (

@@ -9,7 +9,7 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -59,7 +59,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["GET", "HEAD", "OPTIONS"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "X-Overlay-Token"],
 )
 
 FRONTEND_DIR = Path(__file__).resolve().parent / "frontend" / "obs-overlay"
@@ -262,7 +262,7 @@ def _fencer_payload(
     results: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
     key = str(fencer_id) if fencer_id is not None else None
-    fencer = fencers.get(key or "") or results.get(key or {}) or {}
+    fencer = fencers.get(key or "") or results.get(key or "") or {}
     return {
         "id": key,
         "name": fencer.get("name") or key or "TBD",
@@ -439,8 +439,9 @@ def live_score_overlay(
     tournament_id: str | None = None,
     event_id: str | None = None,
     token: str | None = None,
+    overlay_token: str | None = Header(default=None, alias="X-Overlay-Token"),
 ):
-    selection = resolve_selection(tournament_id, event_id, token)
+    selection = resolve_selection(tournament_id, event_id, overlay_token or token)
     now = time.time()
     cached = _cached_payload(selection, now)
     if cached is not None:

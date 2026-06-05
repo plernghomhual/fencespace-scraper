@@ -302,7 +302,7 @@ def build_update_payload(
         field_names.append("education")
     if occupation:
         field_names.append("occupation")
-    clean_errors = [clean_text(error)[:500] for error in errors or [] if clean_text(error)]
+    clean_errors = [t[:500] for error in errors or [] if (t := clean_text(error))]
 
     if clean_errors and not field_names:
         status = "error"

@@ -87,7 +87,7 @@ class FakeSupabase:
 
 
 class FakeLogger:
-    instances = []
+    instances: list[object] = []
 
     def __init__(self, module):
         self.module = module

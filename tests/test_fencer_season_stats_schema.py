@@ -35,9 +35,9 @@ def table_body(sql: str, table_name: str) -> str:
 
 
 def split_top_level_defs(body: str) -> list[str]:
-    parts = []
+    parts: list[str] = []
     depth = 0
-    current = []
+    current: list[str] = []
     in_single_quote = False
     for index, char in enumerate(body):
         previous = body[index - 1] if index > 0 else ""

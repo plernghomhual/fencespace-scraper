@@ -634,32 +634,14 @@ def upsert_tournament_row(row, *, on_conflict="source_id"):
 def replace_results(tournament_id, rows):
     if not rows or supabase is None:
         return 0
-    old_rows = []
-    offset = 0
-    while True:
-        page = (
-            supabase.table("fs_results")
-            .select("*")
-            .eq("tournament_id", tournament_id)
-            .range(offset, offset + 999)
-            .execute()
-            .data
-            or []
-        )
-        old_rows.extend(page)
-        if len(page) < 1000:
-            break
-        offset += 1000
-
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     try:
         for i in range(0, len(rows), BATCH_SIZE):
-            supabase.table("fs_results").insert(rows[i : i + BATCH_SIZE]).execute()
+            supabase.table("fs_results").upsert(
+                rows[i : i + BATCH_SIZE],
+                on_conflict="tournament_id,name",
+            ).execute()
     except Exception as exc:
-        print(f"  Results insert failed for {tournament_id}; restoring old rows: {exc}")
-        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
-        for i in range(0, len(old_rows), BATCH_SIZE):
-            supabase.table("fs_results").insert(old_rows[i : i + BATCH_SIZE]).execute()
+        print(f"  Results upsert failed for {tournament_id}; existing rows were preserved: {exc}")
         return 0
     return len(rows)
 

@@ -31,7 +31,7 @@ from scraper_state import get_state, set_state
 try:
     from fed_rankings_common import federation_request
 except Exception:  # pragma: no cover - defensive fallback for standalone runs
-    federation_request = None
+    federation_request = None  # type: ignore[assignment]
 
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -505,15 +505,15 @@ def _extract_date_from_text(text: str | None) -> str | None:
             except ValueError:
                 continue
 
-    match = re.search(r"\b(\d{1,2})\s+([A-Za-z]+)\s+((?:19|20)\d{2})\b", value)
-    if match:
-        month = MONTHS.get(match.group(2).lower())
+    match2 = re.search(r"\b(\d{1,2})\s+([A-Za-z]+)\s+((?:19|20)\d{2})\b", value)
+    if match2:
+        month = MONTHS.get(match2.group(2).lower())
         if month:
-            return f"{match.group(3)}-{month}-{int(match.group(1)):02d}"
+            return f"{match2.group(3)}-{month}-{int(match2.group(1)):02d}"
 
-    match = re.search(r"\b((?:19|20)\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일", value)
-    if match:
-        return f"{match.group(1)}-{int(match.group(2)):02d}-{int(match.group(3)):02d}"
+    match3 = re.search(r"\b((?:19|20)\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일", value)
+    if match3:
+        return f"{match3.group(1)}-{int(match3.group(2)):02d}-{int(match3.group(3)):02d}"
 
     return None
 
@@ -924,7 +924,7 @@ def upsert_tournament(event: dict, source: AFCScrapeSource):
             "team": bool(event.get("team")),
         },
     }
-    result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+    result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
     return result.data[0]["id"] if result.data else None
 
 
@@ -936,7 +936,7 @@ def _extract_year(text) -> str | None:
 def _fetch_source(source: AFCScrapeSource) -> bytes | str | None:
     if source.blocked_reason:
         return None
-    requester = federation_request if federation_request else requests.request
+    requester = federation_request if federation_request is not None else requests.request
     response = requester("get", source.url, headers=HEADERS, timeout=30)
     if response.status_code != 200:
         return None
@@ -971,11 +971,11 @@ def write_results_for_event(tournament_id: str, event: dict) -> tuple[int, int]:
     if not db_rows:
         return 0, len(unmatched)
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for index in range(0, len(db_rows), BATCH_SIZE):
         batch = db_rows[index : index + BATCH_SIZE]
-        supabase.table("fs_results").insert(batch).execute()
+        supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
         written += len(batch)
     return written, len(unmatched)
 

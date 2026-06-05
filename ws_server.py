@@ -8,8 +8,9 @@ Connect to:
     ws://127.0.0.1:8001/ws/live-results/<tournament_id>
 
 Pass the API key with the `X-API-Key` header, `Authorization: Bearer ...`, or
-`?api_key=...`. This server only reads from Supabase; `watch_live_results.py`
-is responsible for scraping and writing `fs_results` / `fs_bouts`.
+the WebSocket client equivalent. This server only reads from Supabase;
+`watch_live_results.py` is responsible for scraping and writing `fs_results` /
+`fs_bouts`.
 """
 
 from __future__ import annotations
@@ -106,7 +107,24 @@ def _row_allows_tournament(row: dict[str, Any], tournament_id: str) -> bool:
 
 
 def _lookup_api_key_row(api_key: str) -> dict[str, Any] | None:
+    key_hash = hashlib.sha256(api_key.encode("utf-8")).hexdigest()
     rows = (
+        get_supabase_client()
+        .table("fs_api_keys")
+        .select("*")
+        .eq("key_hash", key_hash)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if rows:
+        return rows[0]
+
+    # Primary API key rotation cutover:
+    # keep this plaintext compatibility window until production API consumers
+    # have rotated and all stored keys are backfilled to key_hash.
+    legacy_rows = (
         get_supabase_client()
         .table("fs_api_keys")
         .select("*")
@@ -116,7 +134,7 @@ def _lookup_api_key_row(api_key: str) -> dict[str, Any] | None:
         .data
         or []
     )
-    return rows[0] if rows else None
+    return legacy_rows[0] if legacy_rows else None
 
 
 async def is_authorized_api_key(api_key: str | None, tournament_id: str) -> bool:
@@ -142,8 +160,7 @@ def api_key_from_websocket(websocket: WebSocket) -> str | None:
         if token:
             return token
 
-    query_key = websocket.query_params.get("api_key")
-    return query_key.strip() if query_key else None
+    return None
 
 
 def is_valid_tournament_id(tournament_id: str) -> bool:

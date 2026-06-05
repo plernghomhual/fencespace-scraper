@@ -97,7 +97,7 @@ NO_PRICE_LISTING_HTML = """
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []
 
 
 class FakeTable:

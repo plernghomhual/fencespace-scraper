@@ -20,15 +20,15 @@ try:
     from compute_transfers import country_key as transfer_country_key
     from compute_transfers import normalize_country as transfer_normalize_country
 except Exception:  # pragma: no cover - fallback keeps tests/imports isolated.
-    transfer_country_key = None
-    transfer_normalize_country = None
+    transfer_country_key = None  # type: ignore[assignment]
+    transfer_normalize_country = None  # type: ignore[assignment]
 
 try:
     from scrape_club_reviews import display_club_name as review_display_club_name
     from scrape_club_reviews import normalize_club_name as review_normalize_club_name
 except Exception:  # pragma: no cover - local fallbacks below cover import failures.
-    review_display_club_name = None
-    review_normalize_club_name = None
+    review_display_club_name = None  # type: ignore[assignment]
+    review_normalize_club_name = None  # type: ignore[assignment]
 
 try:
     from supabase import create_client
@@ -152,7 +152,7 @@ def normalize_country(value: Any) -> str | None:
         return COUNTRY_ALIASES[key]
     if compact in COUNTRY_ALIASES:
         return COUNTRY_ALIASES[compact]
-    if transfer_normalize_country:
+    if transfer_normalize_country is not None:
         normalized = transfer_normalize_country(text)
         if normalized:
             return normalized
@@ -160,14 +160,14 @@ def normalize_country(value: Any) -> str | None:
 
 
 def country_key(value: Any) -> str:
-    if transfer_country_key:
+    if transfer_country_key is not None:
         return transfer_country_key(normalize_country(value))
     normalized = normalize_country(value) or ""
     return normalized.casefold()
 
 
 def display_club_name(value: Any) -> str | None:
-    if review_display_club_name:
+    if review_display_club_name is not None:
         return review_display_club_name(value)
     text = clean_text(str(value or "").replace("-", " "))
     if not text:
@@ -176,7 +176,7 @@ def display_club_name(value: Any) -> str | None:
 
 
 def normalize_club_name(value: Any) -> str | None:
-    if review_normalize_club_name:
+    if review_normalize_club_name is not None:
         return review_normalize_club_name(value)
     text = clean_text(value)
     if not text:
@@ -699,7 +699,8 @@ def merge_enrichment(primary: dict[str, Any], secondary: dict[str, Any] | None) 
         list(merged.get("source_urls") or []) + list(secondary.get("source_urls") or [])
     )
     metadata = dict(merged.get("metadata") or {})
-    secondary_meta = secondary.get("metadata") if isinstance(secondary.get("metadata"), dict) else {}
+    _raw_secondary_meta = secondary.get("metadata")
+    secondary_meta: dict[Any, Any] = _raw_secondary_meta if isinstance(_raw_secondary_meta, dict) else {}
     sources = list(metadata.get("sources") or [])
     if metadata.get("source"):
         sources.append(metadata["source"])

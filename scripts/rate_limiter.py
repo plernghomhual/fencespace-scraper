@@ -22,8 +22,8 @@ class RateLimiter:
         self.default_rps = default_rps
         self.jitter = jitter
         self.backoff = backoff
-        self._last_request = defaultdict(float)
-        self._failures = defaultdict(int)
+        self._last_request: defaultdict[str, float] = defaultdict(float)
+        self._failures: defaultdict[str, int] = defaultdict(int)
 
     def wait(self, domain: str, rps: float | None = None):
         """Sleep if needed to maintain rps for domain."""

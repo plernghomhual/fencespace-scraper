@@ -320,8 +320,8 @@ def test_upsert_event_results_never_inserts_null_fencer_orphans():
     assert written == 1
     assert skipped == 1
     assert unmatched[0]["name"] == "Missing Person"
-    assert fake.deletes == [("fs_results", (("tournament_id", "tournament-1"),))]
-    table_name, inserted = fake.inserts[0]
+    assert fake.deletes == []
+    table_name, inserted, _conflict = fake.upserts[0]
     assert table_name == "fs_results"
     assert len(inserted) == 1
     assert inserted[0]["fencer_id"] == "matched"

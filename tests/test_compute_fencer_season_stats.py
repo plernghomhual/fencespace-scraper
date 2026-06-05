@@ -101,6 +101,11 @@ def test_aggregate_counts_placements_medals_bouts_and_duplicate_identities():
             "fs_fencer_row_ids": [ALICE_EPEE_ROW, ALICE_FOIL],
             "fie_ids": ["1001"],
         },
+        {
+            "id": "identity-bob",
+            "fs_fencer_row_ids": [BOB],
+            "fie_ids": ["2002"],
+        },
     ]
 
     rows, counters = build_fencer_season_stat_rows(
@@ -111,7 +116,7 @@ def test_aggregate_counts_placements_medals_bouts_and_duplicate_identities():
         updated_at=NOW,
     )
     by_key = {
-        (row["fencer_id"], row["season"], row["weapon"], row["gender"], row["category"]): row
+        (row["fencer_identity_id"], row["season"], row["weapon"], row["gender"], row["category"]): row
         for row in rows
     }
 
@@ -121,35 +126,34 @@ def test_aggregate_counts_placements_medals_bouts_and_duplicate_identities():
     assert counters["skipped_missing_score_bouts"] == 1
     assert counters["duplicate_identity_members"] == 2
 
-    alice = by_key[(ALICE_FOIL, "2025-2026", "Foil", "Women", "Senior")]
+    alice = by_key[("identity-alice-a", 2026, "Foil", "Women", "Senior")]
+    assert alice["fencer_id"] == ALICE_FOIL
     assert alice["starts"] == 2
     assert alice["best_finish"] == 1
-    assert alice["avg_finish"] == 4.5
     assert alice["gold_medals"] == 1
     assert alice["silver_medals"] == 0
     assert alice["bronze_medals"] == 0
-    assert alice["medal_count"] == 1
-    assert alice["top4_count"] == 1
+    assert alice["medals"] == 1
     assert alice["top8_count"] == 2
     assert alice["top16_count"] == 2
     assert alice["top32_count"] == 2
     assert alice["wins"] == 1
     assert alice["losses"] == 1
-    assert alice["bouts_total"] == 2
+    assert alice["bouts"] == 2
     assert alice["touches_scored"] == 29
     assert alice["touches_received"] == 25
-    assert alice["touch_differential"] == 4
-    assert alice["win_pct"] == 0.5
-    assert alice["source_confidence"] == "unknown"
+    assert "touch_differential" not in alice
+    assert "win_pct" not in alice
+    assert "source_confidence" not in alice
     assert alice["updated_at"] == NOW
 
-    bob = by_key[(BOB, "2025-2026", "Foil", "Women", "Senior")]
+    bob = by_key[("identity-bob", 2026, "Foil", "Women", "Senior")]
     assert bob["starts"] == 1
     assert bob["bronze_medals"] == 1
     assert bob["wins"] == 1
     assert bob["losses"] == 1
 
-    assert (ALICE_EPEE_ROW, "2025-2026", "Foil", "Women", "Senior") not in by_key
+    assert (ALICE_EPEE_ROW, 2026, "Foil", "Women", "Senior") not in by_key
 
 
 def test_aggregate_computes_finish_deltas_between_normalized_seasons():
@@ -170,20 +174,16 @@ def test_aggregate_computes_finish_deltas_between_normalized_seasons():
         results=results,
         tournaments=tournaments,
         bouts=[],
-        identity_rows=[],
+        identity_rows=[{"id": "identity-alice", "fs_fencer_row_ids": [ALICE_FOIL]}],
         updated_at=NOW,
     )
     by_season = {row["season"]: row for row in rows}
 
     assert counters["skipped_orphan_results"] == 0
-    assert by_season["2024-2025"]["best_finish"] == 8
-    assert by_season["2024-2025"]["previous_best_finish"] is None
-    assert by_season["2025-2026"]["best_finish"] == 2
-    assert by_season["2025-2026"]["avg_finish"] == 3.0
-    assert by_season["2025-2026"]["previous_best_finish"] == 8
-    assert by_season["2025-2026"]["best_finish_delta"] == -6
-    assert by_season["2025-2026"]["previous_avg_finish"] == 8.0
-    assert by_season["2025-2026"]["avg_finish_delta"] == -5.0
+    assert by_season[2025]["best_finish"] == 8
+    assert by_season[2025]["rank_delta"] is None
+    assert by_season[2026]["best_finish"] == 2
+    assert by_season[2026]["rank_delta"] == -6
 
 
 class FakeResult:
@@ -272,7 +272,12 @@ def test_compute_fencer_season_stats_upserts_with_deterministic_conflict_key():
                     "id": "identity-alice",
                     "fs_fencer_row_ids": [ALICE_FOIL, ALICE_EPEE_ROW],
                     "fie_ids": ["1001"],
-                }
+                },
+                {
+                    "id": "identity-bob",
+                    "fs_fencer_row_ids": [BOB],
+                    "fie_ids": ["2002"],
+                },
             ],
         }
     )
@@ -292,16 +297,18 @@ def test_compute_fencer_season_stats_upserts_with_deterministic_conflict_key():
     assert summary["written"] == 2
     assert summary["failed"] == 0
     assert summary["skipped"] == 0
-    assert summary["identity_rows"] == 1
+    assert summary["identity_rows"] == 2
     assert len(client.upserts) == 2
     assert {call["table"] for call in client.upserts} == {"fs_fencer_season_stats"}
     assert {call["on_conflict"] for call in client.upserts} == {
-        "fencer_id,season,weapon,gender,category,source_confidence"
+        "fencer_identity_id,season,weapon,gender,category"
     }
     upserted = [row for call in client.upserts for row in call["rows"]]
-    alice = next(row for row in upserted if row["fencer_id"] == ALICE_FOIL)
+    alice = next(row for row in upserted if row["fencer_identity_id"] == "identity-alice")
     assert alice["starts"] == 2
-    assert alice["season"] == "2025-2026"
+    assert alice["season"] == 2026
+    assert alice["fencer_id"] == ALICE_FOIL
+    assert "win_pct" not in alice
 
 
 def test_compute_fencer_season_stats_empty_inputs_do_not_upsert():

@@ -271,7 +271,7 @@ def normalize_category(*values: str | None) -> str | None:
         for pattern, normalized in patterns:
             if pattern.search(comparable):
                 return normalized
-    return candidates[0].title() if candidates else None
+    return candidates[0].title() if candidates else None  # type: ignore[union-attr]
 
 
 def normalize_weapon(*values: str | None) -> str | None:
@@ -606,8 +606,8 @@ def build_product_row(
     detail_metadata = detail.get("metadata") if isinstance(detail.get("metadata"), dict) else {}
     listing_metadata = listing_row.get("metadata") if isinstance(listing_row.get("metadata"), dict) else {}
 
-    metadata: dict[str, Any] = dict(listing_metadata)
-    for key, value in detail_metadata.items():
+    metadata: dict[str, Any] = dict(listing_metadata)  # type: ignore[arg-type]
+    for key, value in detail_metadata.items():  # type: ignore[union-attr]
         if key == "missing_price_reason":
             metadata["detail_missing_price_reason"] = value
         else:

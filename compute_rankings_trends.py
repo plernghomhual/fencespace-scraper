@@ -107,7 +107,7 @@ def build_trend_rows(
 
     for raw_row in history_rows:
         row, was_skipped = normalize_history_row(raw_row)
-        if was_skipped:
+        if was_skipped or row is None:
             skipped += 1
             continue
         grouped[(row["fie_fencer_id"], row["weapon"], row["category"])].append(row)

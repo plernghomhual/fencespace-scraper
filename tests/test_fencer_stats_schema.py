@@ -35,9 +35,9 @@ def table_body(sql: str, table_name: str) -> str:
 
 
 def split_top_level_defs(body: str) -> list[str]:
-    parts = []
+    parts: list[str] = []
     depth = 0
-    current = []
+    current: list[str] = []
     for char in body:
         if char == "(":
             depth += 1

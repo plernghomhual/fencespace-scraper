@@ -51,7 +51,7 @@ DETAIL_FIXTURE = """
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []
 
 
 class FakeTable:

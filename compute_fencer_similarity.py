@@ -167,6 +167,7 @@ def normalize_category(category: Any, gender: Any = None) -> str | None:
 def to_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):
@@ -271,8 +272,9 @@ def build_identity_maps(
             identity_id = members[0]
         if not identity_id:
             continue
-        if not members and clean_text(row.get("id")):
-            members = [clean_text(row.get("id"))]
+        _row_id = clean_text(row.get("id"))
+        if not members and _row_id:
+            members = [_row_id]
         identity_members[identity_id] = members
         for member in members:
             row_to_identity[member] = identity_id
@@ -406,7 +408,8 @@ def _prepare_identity_groups(
 
     for identity_id in sorted(grouped):
         rows = grouped[identity_id]
-        canonical = sorted(clean_text(row.get("id")) for row in rows if clean_text(row.get("id")))[0]
+        _ids: list[str] = [_id for row in rows if (_id := clean_text(row.get("id")))]
+        canonical: str = sorted(_ids)[0] if _ids else identity_id
         identity_to_canonical[identity_id] = canonical
         for row in rows:
             row_id = clean_text(row.get("id"))
@@ -599,8 +602,7 @@ def _build_vector(
     vector["age_norm"] = clamp((age or 0.0) / 60.0) if age is not None else 0.0
 
     ranking_scores = [score for obs in ranking_observations if (score := rank_score(obs.get("rank"))) is not None]
-    ranking_points = [to_float(obs.get("points")) for obs in ranking_observations]
-    ranking_points = [value for value in ranking_points if value is not None]
+    ranking_points: list[float] = [v for obs in ranking_observations if (v := to_float(obs.get("points"))) is not None]
     sorted_rankings = sorted(
         ranking_observations,
         key=lambda obs: str(obs.get("season") or ""),
@@ -619,8 +621,7 @@ def _build_vector(
     vector["points_score"] = clamp(1 - math.exp(-(average(ranking_points) or 0.0) / 200.0))
 
     result_scores = [score for obs in result_observations if (score := rank_score(obs.get("rank"))) is not None]
-    result_ranks = [to_int(obs.get("rank")) for obs in result_observations]
-    result_ranks = [rank for rank in result_ranks if rank is not None]
+    result_ranks: list[int] = [r for obs in result_observations if (r := to_int(obs.get("rank"))) is not None]
     result_count = len(result_ranks)
     vector["result_score"] = average(result_scores) or 0.0
     vector["top8_rate"] = (

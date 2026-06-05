@@ -1,4 +1,5 @@
 import importlib
+import hashlib
 import os
 import sys
 import time
@@ -138,6 +139,36 @@ def test_websocket_validates_api_key_and_tournament_before_subscribing(ws_module
             "tournament_id": "t-1",
             "include": ["results", "bouts"],
         }
+
+
+def test_websocket_rejects_api_keys_in_query_string(ws_module):
+    fake = FakeSupabase(tournaments=[{"id": "t-1", "name": "Live Grand Prix"}])
+    client = make_client(ws_module, fake)
+
+    with pytest.raises(WebSocketDisconnect) as rejected:
+        with client.websocket_connect("/ws/live-results/t-1?api_key=secret"):
+            pass
+
+    assert rejected.value.code == 1008
+
+
+@pytest.mark.anyio
+async def test_websocket_accepts_hashed_and_legacy_database_api_keys(ws_module):
+    fake = FakeSupabase(
+        api_keys=[
+            {
+                "key_hash": hashlib.sha256("ws-hashed-secret".encode("utf-8")).hexdigest(),
+                "active": True,
+                "revoked": False,
+            },
+            {"key": "ws-legacy-secret", "active": True, "revoked": False},
+        ]
+    )
+    ws_module.app.state.supabase_client = fake
+    ws_module.ENV_API_KEYS.clear()
+
+    assert await ws_module.is_authorized_api_key("ws-hashed-secret", "t-1") is True
+    assert await ws_module.is_authorized_api_key("ws-legacy-secret", "t-1") is True
 
     assert fake.write_operations == []
 

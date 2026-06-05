@@ -1,4 +1,5 @@
 import importlib
+import hashlib
 import os
 import sys
 from textwrap import dedent
@@ -408,6 +409,27 @@ def test_graphql_rejects_missing_api_key(client):
 
     assert response.status_code == 401
     assert response.json()["detail"] == "Missing API key"
+
+
+def test_graphql_accepts_hashed_database_api_key_during_rotation(graphql_module):
+    fake = graphql_module.app.state.supabase_client
+    fake.tables["fs_api_keys"] = [
+        {
+            "key_hash": hashlib.sha256("graphql-hashed-secret".encode("utf-8")).hexdigest(),
+            "active": True,
+            "revoked": False,
+        }
+    ]
+    graphql_module.rest_api.ENV_API_KEYS.clear()
+
+    response = gql(
+        TestClient(graphql_module.app),
+        "{ fencers { data { id } } }",
+        headers={"X-API-Key": "graphql-hashed-secret"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["data"]["fencers"]["data"][0]["id"] == "f1"
 
 
 def test_graphql_rejects_mutations(client):

@@ -722,15 +722,10 @@ def upsert_results(rows: list[dict[str, Any]]) -> None:
         message = str(exc)
         if "unique" not in message.lower() and "constraint" not in message.lower() and "42P10" not in message:
             raise
-        print(
-            "    Results upsert conflict key is not available; "
-            "falling back to replacing rows for affected FRED events."
-        )
-
-    for tournament_id in sorted({row["tournament_id"] for row in rows}):
-        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
-    for i in range(0, len(rows), BATCH_SIZE):
-        supabase.table("fs_results").insert(rows[i : i + BATCH_SIZE]).execute()
+        raise RuntimeError(
+            "fs_results requires a unique conflict target on (tournament_id, name); "
+            "refusing to delete existing FRED rows as a fallback."
+        ) from exc
 
 
 def fetch_existing_fred_source_ids() -> set[str]:

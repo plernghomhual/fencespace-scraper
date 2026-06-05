@@ -191,6 +191,8 @@ def parse_points(value) -> float | None:
 
 
 def medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return {1: "Gold", 2: "Silver", 3: "Bronze"}.get(rank)
 
 
@@ -364,13 +366,15 @@ def parse_ftl_results_html(html: str, source_url: str, fallback_event: dict | No
     if result_table is None or header_map is None:
         return None
 
+    rank_col = header_map["rank"] or 0
+    name_col = header_map["name"] or 0
     results = []
     for tr in result_table.find_all("tr")[1:]:
         cells = tr.find_all(["td", "th"])
-        if len(cells) <= max(header_map["rank"], header_map["name"]):
+        if len(cells) <= max(rank_col, name_col):
             continue
-        rank = parse_rank(cells[header_map["rank"]].get_text(" ", strip=True))
-        name = _name_from_cell(cells[header_map["name"]])
+        rank = parse_rank(cells[rank_col].get_text(" ", strip=True))
+        name = _name_from_cell(cells[name_col])
         if rank is None or not name:
             continue
         club = None

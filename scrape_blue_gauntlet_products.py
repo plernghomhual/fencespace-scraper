@@ -273,7 +273,7 @@ def _first_image_url(element) -> str | None:
 
 
 def _price_text(element) -> str | None:
-    parts = []
+    parts: list[str] = []
     for selector in (".price", ".product-price", "[class*='price']", "#price"):
         parts.extend(found.get_text(" ", strip=True) for found in element.select(selector))
     return clean_text(" ".join(parts)) or clean_text(element.get_text(" ", strip=True))

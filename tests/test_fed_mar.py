@@ -115,7 +115,7 @@ class DummyResponse:
 
 
 class DummyRunLogger:
-    instances = []
+    instances: list[object] = []
 
     def __init__(self, module):
         self.module = module

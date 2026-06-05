@@ -373,7 +373,8 @@ def get_fencer_h2h(
             normalize_weapon(row.get("weapon"))
             for row in all_target_h2h_rows
             if row.get("weapon")
-        }
+        },
+        key=lambda w: w or "",
     )
 
     if not scoped_target_ids:

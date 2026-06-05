@@ -182,8 +182,8 @@ def _coerce_float(value: Any) -> float | None:
 
 
 def _mean_numeric(values: list[Any]) -> float | None:
-    numbers = [_coerce_float(value) for value in values]
-    numbers = [value for value in numbers if value is not None]
+    raw = [_coerce_float(value) for value in values]
+    numbers: list[float] = [value for value in raw if value is not None]
     if not numbers:
         return None
     return round(mean(numbers), 1)

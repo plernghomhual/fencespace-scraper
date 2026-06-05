@@ -654,7 +654,7 @@ def scrape_absolutefencing(
     robots_policy = load_robots_policy(fetcher=fetcher, robots_fetcher=robots_fetcher) if respect_robots else RobotsPolicy()
     done_source_ids = set(get_state(STATE_SOURCE, "done_source_ids") or []) if update_state else set()
     scraped_at = utc_now()
-    summary = {
+    summary: dict[str, Any] = {
         "read": 0,
         "written": 0,
         "failed": 0,

@@ -479,14 +479,26 @@ def build_result_loss_updates(
 
 
 def apply_result_updates(supabase, updates: list[dict[str, Any]]) -> int:
-    written = 0
+    payload = []
     for update in updates:
-        query = supabase.table("fs_results").update(update["values"])
-        for column, value in update["filters"].items():
-            query = query.eq(column, value)
-        query.execute()
-        written += 1
-    return written
+        filters = update["filters"]
+        values = update["values"]
+        row = {
+            key: filters[key]
+            for key in ("id", "tournament_id", "fencer_id", "name")
+            if filters.get(key) is not None
+        }
+        row.update(
+            {
+                "defeats": values.get("defeats"),
+                "elimination_loss_metadata": values.get("elimination_loss_metadata"),
+            }
+        )
+        payload.append(row)
+    if not payload:
+        return 0
+    supabase.rpc("fs_bulk_update_result_losses", {"p_updates": payload}).execute()
+    return len(payload)
 
 
 def backfill_result_losses(supabase, *, dry_run: bool = False) -> dict[str, int]:

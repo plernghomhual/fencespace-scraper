@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pytest
 from fastapi import HTTPException
+from fastapi.testclient import TestClient
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -270,6 +271,125 @@ def test_live_stripe_checkout_is_blocked_before_http_call():
             http_post=lambda *args, **kwargs: calls.append((args, kwargs)),
         )
 
+    assert calls == []
+
+
+def test_checkout_session_requires_api_key_before_stripe_call(monkeypatch):
+    module = load_module()
+    fake = FakeSupabase()
+    module.app.state.supabase_client = fake
+    calls = []
+    monkeypatch.setattr(module, "create_checkout_session", lambda **kwargs: calls.append(kwargs))
+
+    response = TestClient(module.app).post(
+        "/checkout/session",
+        json={
+            "plan_id": "starter",
+            "customer_email": "buyer@example.test",
+            "api_key_id": "key-1",
+            "success_url": "https://app.fencespace.com/success",
+            "cancel_url": "https://app.fencespace.com/cancel",
+        },
+    )
+
+    assert response.status_code == 401
+    assert calls == []
+
+
+def test_checkout_session_rejects_api_key_id_not_owned_by_header_key(monkeypatch):
+    module = load_module()
+    fake = FakeSupabase()
+    api_key = provision_active_key(module, fake)
+    module.app.state.supabase_client = fake
+    calls = []
+    monkeypatch.setattr(module, "create_checkout_session", lambda **kwargs: calls.append(kwargs))
+
+    response = TestClient(module.app).post(
+        "/checkout/session",
+        headers={"X-API-Key": api_key},
+        json={
+            "plan_id": "starter",
+            "customer_email": "buyer@example.test",
+            "api_key_id": "key-2",
+            "success_url": "https://app.fencespace.com/success",
+            "cancel_url": "https://app.fencespace.com/cancel",
+        },
+    )
+
+    assert response.status_code == 403
+    assert calls == []
+
+
+def test_checkout_session_rejects_untrusted_redirect_before_stripe_call(monkeypatch):
+    module = load_module()
+    fake = FakeSupabase()
+    api_key = provision_active_key(module, fake)
+    module.app.state.supabase_client = fake
+    calls = []
+    monkeypatch.setattr(module, "create_checkout_session", lambda **kwargs: calls.append(kwargs))
+
+    response = TestClient(module.app).post(
+        "/checkout/session",
+        headers={"X-API-Key": api_key},
+        json={
+            "plan_id": "starter",
+            "customer_email": "buyer@example.test",
+            "api_key_id": "key-1",
+            "success_url": "https://evil.example/success",
+            "cancel_url": "https://app.fencespace.com/cancel",
+        },
+    )
+
+    assert response.status_code == 400
+    assert calls == []
+
+
+def test_checkout_session_allows_owned_api_key_and_safe_redirect(monkeypatch):
+    module = load_module()
+    fake = FakeSupabase()
+    api_key = provision_active_key(module, fake)
+    module.app.state.supabase_client = fake
+    calls = []
+
+    def fake_checkout(**kwargs):
+        calls.append(kwargs)
+        return {"url": "https://checkout.stripe.test/session", "id": "cs_test_123"}
+
+    monkeypatch.setattr(module, "create_checkout_session", fake_checkout)
+
+    response = TestClient(module.app).post(
+        "/checkout/session",
+        headers={"X-API-Key": api_key},
+        json={
+            "plan_id": "starter",
+            "customer_email": "buyer@example.test",
+            "api_key_id": "key-1",
+            "success_url": "https://app.fencespace.com/success",
+            "cancel_url": "https://app.fencespace.com/cancel",
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {"url": "https://checkout.stripe.test/session", "id": "cs_test_123"}
+    assert calls[0]["api_key_id"] == "key-1"
+
+
+def test_billing_portal_requires_owned_stripe_customer_id(monkeypatch):
+    module = load_module()
+    fake = FakeSupabase()
+    api_key = provision_active_key(module, fake)
+    fake.tables["fs_marketplace_subscriptions"][0]["stripe_customer_id"] = "cus_owned"
+    module.app.state.supabase_client = fake
+    calls = []
+    monkeypatch.setattr(module, "create_customer_portal_session", lambda **kwargs: calls.append(kwargs))
+
+    response = TestClient(module.app).post(
+        "/billing/portal",
+        headers={"X-API-Key": api_key},
+        json={"stripe_customer_id": "cus_other", "return_url": "https://app.fencespace.com/billing"},
+    )
+
+    assert response.status_code == 403
     assert calls == []
 
 

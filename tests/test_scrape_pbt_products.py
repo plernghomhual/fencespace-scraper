@@ -107,7 +107,7 @@ HUNGARIAN_DETAIL_HTML = """
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []
 
 
 class FakeTable:

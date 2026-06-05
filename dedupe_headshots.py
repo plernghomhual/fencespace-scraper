@@ -158,7 +158,8 @@ def display_image_url(row: dict[str, Any]) -> str | None:
 def pair_key(row_a: dict[str, Any], row_b: dict[str, Any]) -> tuple[str, str]:
     first = clean_text(row_a.get("id")) or source_image_id_for(row_a)
     second = clean_text(row_b.get("id")) or source_image_id_for(row_b)
-    return tuple(sorted((first, second)))
+    a, b = sorted((first, second))
+    return a, b
 
 
 def candidate_key_for(row_a: dict[str, Any], row_b: dict[str, Any]) -> str:
@@ -217,7 +218,7 @@ def fingerprint_image(row: dict[str, Any], image_bytes: bytes) -> ImageFingerpri
                 byte_sha256=byte_sha256,
                 normalized_sha256=normalized_sha256,
                 average_hash=average_hash(rgb),
-                mean_rgb=tuple(float(channel) for channel in mean_pixel),
+                mean_rgb=(float(mean_pixel[0]), float(mean_pixel[1]), float(mean_pixel[2])),
                 width=width,
                 height=height,
             )

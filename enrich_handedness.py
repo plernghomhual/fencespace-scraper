@@ -24,7 +24,7 @@ except Exception:  # pragma: no cover - script remains usable without the helper
 try:
     from compute_transfers import country_key as transfer_country_key
 except Exception:  # pragma: no cover - fallback is enough for standalone parsing tests.
-    transfer_country_key = None
+    transfer_country_key = None  # type: ignore[assignment]
 
 
 SOURCE = "enrich_handedness"
@@ -466,7 +466,7 @@ def ensure_metadata(value: Any) -> dict[str, Any]:
 
 
 def _country_key(value: Any) -> str:
-    if transfer_country_key:
+    if transfer_country_key is not None:
         return transfer_country_key(value)
     key = _compact_key(value)
     aliases = {

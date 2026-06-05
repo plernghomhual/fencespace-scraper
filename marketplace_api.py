@@ -7,6 +7,7 @@ import secrets
 import time
 from datetime import UTC, date, datetime
 from typing import Any, Callable
+from urllib.parse import urlparse
 
 import requests
 from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
@@ -21,6 +22,7 @@ WEBHOOK_TOLERANCE_SECONDS = int(os.environ.get("STRIPE_WEBHOOK_TOLERANCE_SECONDS
 ALLOWED_SUBSCRIPTION_STATUSES = {"active", "trialing"}
 DEFAULT_LIMIT = 50
 MAX_LIMIT = 500
+DEFAULT_MARKETPLACE_REDIRECT_HOSTS = {"app.fencespace.com", "www.fencespace.com", "localhost", "127.0.0.1", "::1"}
 
 logger = logging.getLogger(__name__)
 _supabase_client = None
@@ -92,6 +94,83 @@ def _select_one(supabase, table_name: str, column: str, value: Any) -> dict[str,
         table_name,
     )
     return rows[0] if rows else None
+
+
+def _allowed_redirect_hosts() -> set[str]:
+    configured = os.environ.get("FENCESPACE_MARKETPLACE_ALLOWED_REDIRECT_HOSTS", "")
+    hosts = {host.strip().lower() for host in configured.split(",") if host.strip()}
+    return hosts or DEFAULT_MARKETPLACE_REDIRECT_HOSTS
+
+
+def _is_local_redirect_host(hostname: str) -> bool:
+    return hostname in {"localhost", "127.0.0.1", "::1"}
+
+
+def _validate_marketplace_redirect_url(value: str, *, field_name: str) -> str:
+    parsed = urlparse(value or "")
+    hostname = (parsed.hostname or "").lower()
+    if not parsed.scheme or not parsed.netloc or not hostname:
+        raise HTTPException(status_code=400, detail=f"Invalid {field_name}")
+    if parsed.username or parsed.password:
+        raise HTTPException(status_code=400, detail=f"Invalid {field_name}")
+    if hostname not in _allowed_redirect_hosts():
+        raise HTTPException(status_code=400, detail=f"Untrusted {field_name}")
+    if parsed.scheme != "https" and not (_is_local_redirect_host(hostname) and parsed.scheme == "http"):
+        raise HTTPException(status_code=400, detail=f"Invalid {field_name}")
+    return value
+
+
+def _load_marketplace_key_for_billing(supabase, raw_api_key: str | None) -> dict[str, Any]:
+    if not raw_api_key:
+        raise HTTPException(status_code=401, detail="Missing API key")
+    try:
+        key_hash = hash_api_key(raw_api_key)
+    except ValueError as exc:
+        raise HTTPException(status_code=401, detail="Missing API key") from exc
+    key_row = _select_one(supabase, "fs_marketplace_api_keys", "key_hash", key_hash)
+    if not key_row or key_row.get("active") is False or key_row.get("revoked_at"):
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    expires_at = key_row.get("expires_at")
+    if expires_at and parse_timestamp(expires_at) <= datetime.now(UTC):
+        raise HTTPException(status_code=401, detail="Expired API key")
+    return key_row
+
+
+def _require_owned_marketplace_key(supabase, raw_api_key: str | None, api_key_id: str) -> dict[str, Any]:
+    key_row = _load_marketplace_key_for_billing(supabase, raw_api_key)
+    if str(key_row.get("id")) != str(api_key_id):
+        raise HTTPException(status_code=403, detail="API key does not own this billing object")
+    return key_row
+
+
+def _subscriptions_for_marketplace_key(supabase, key_row: dict[str, Any]) -> list[dict[str, Any]]:
+    subscriptions: list[dict[str, Any]] = []
+    loaded = _load_subscription(supabase, key_row)
+    if loaded:
+        subscriptions.append(loaded)
+    key_id = key_row.get("id")
+    if key_id:
+        rows = _execute_rows(
+            supabase.table("fs_marketplace_subscriptions").select("*").eq("api_key_id", key_id).limit(10),
+            "fs_marketplace_subscriptions",
+        )
+        seen = {str(row.get("id") or row.get("stripe_subscription_id")) for row in subscriptions}
+        for row in rows:
+            identity = str(row.get("id") or row.get("stripe_subscription_id"))
+            if identity not in seen:
+                subscriptions.append(row)
+                seen.add(identity)
+    return subscriptions
+
+
+def _require_owned_stripe_customer(supabase, raw_api_key: str | None, stripe_customer_id: str) -> dict[str, Any]:
+    key_row = _load_marketplace_key_for_billing(supabase, raw_api_key)
+    if key_row.get("stripe_customer_id") == stripe_customer_id:
+        return key_row
+    for subscription in _subscriptions_for_marketplace_key(supabase, key_row):
+        if subscription.get("stripe_customer_id") == stripe_customer_id:
+            return key_row
+    raise HTTPException(status_code=403, detail="API key does not own this billing object")
 
 
 def _upsert(supabase, table_name: str, row: dict[str, Any], on_conflict: str) -> list[dict[str, Any]]:
@@ -215,8 +294,8 @@ def create_checkout_session(
     allow_live: bool | None = None,
     http_post: Callable[..., Any] = requests.post,
 ) -> dict[str, Any]:
-    stripe_secret_key = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
-    assert_test_mode_stripe_key(stripe_secret_key, allow_live=allow_live)
+    key: str = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
+    assert_test_mode_stripe_key(key, allow_live=allow_live)
     price_id = price_id or os.environ.get(f"STRIPE_PRICE_ID_{plan_id.upper()}", "")
     if not price_id:
         raise StripeConfigurationError(f"Missing Stripe price ID for plan {plan_id}")
@@ -236,7 +315,7 @@ def create_checkout_session(
             "subscription_data[metadata][plan_id]": plan_id,
             "subscription_data[metadata][api_key_id]": api_key_id,
         },
-        stripe_secret_key=stripe_secret_key,
+        stripe_secret_key=key,
         http_post=http_post,
     )
 
@@ -249,12 +328,12 @@ def create_customer_portal_session(
     allow_live: bool | None = None,
     http_post: Callable[..., Any] = requests.post,
 ) -> dict[str, Any]:
-    stripe_secret_key = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
-    assert_test_mode_stripe_key(stripe_secret_key, allow_live=allow_live)
+    key: str = stripe_secret_key or os.environ.get("STRIPE_SECRET_KEY", "")
+    assert_test_mode_stripe_key(key, allow_live=allow_live)
     return _stripe_post(
         "billing_portal/sessions",
         {"customer": stripe_customer_id, "return_url": return_url},
-        stripe_secret_key=stripe_secret_key,
+        stripe_secret_key=key,
         http_post=http_post,
     )
 
@@ -605,22 +684,35 @@ def list_marketplace_plans():
 
 
 @app.post("/checkout/session")
-def checkout_session(payload: dict[str, Any] = Body(...)):
+def checkout_session(
+    payload: dict[str, Any] = Body(...),
+    x_api_key: str | None = Header(default=None, alias="X-API-Key"),
+):
+    supabase = get_supabase_client()
+    _require_owned_marketplace_key(supabase, x_api_key, payload["api_key_id"])
+    success_url = _validate_marketplace_redirect_url(payload["success_url"], field_name="success_url")
+    cancel_url = _validate_marketplace_redirect_url(payload["cancel_url"], field_name="cancel_url")
     session = create_checkout_session(
         plan_id=payload["plan_id"],
         customer_email=payload["customer_email"],
         api_key_id=payload["api_key_id"],
-        success_url=payload["success_url"],
-        cancel_url=payload["cancel_url"],
+        success_url=success_url,
+        cancel_url=cancel_url,
     )
     return {"url": session.get("url"), "id": session.get("id")}
 
 
 @app.post("/billing/portal")
-def billing_portal(payload: dict[str, Any] = Body(...)):
+def billing_portal(
+    payload: dict[str, Any] = Body(...),
+    x_api_key: str | None = Header(default=None, alias="X-API-Key"),
+):
+    supabase = get_supabase_client()
+    _require_owned_stripe_customer(supabase, x_api_key, payload["stripe_customer_id"])
+    return_url = _validate_marketplace_redirect_url(payload["return_url"], field_name="return_url")
     session = create_customer_portal_session(
         stripe_customer_id=payload["stripe_customer_id"],
-        return_url=payload["return_url"],
+        return_url=return_url,
     )
     return {"url": session.get("url"), "id": session.get("id")}
 

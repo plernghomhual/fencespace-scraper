@@ -750,7 +750,7 @@ def build_ai_insight_rows(
     skipped = {"performance_summaries": 0, "comparisons": 0}
 
     for fencer_id in sorted(fencers_by_id):
-        row = build_performance_summary(
+        built_row: dict[str, Any] | None = build_performance_summary(
             fencers_by_id[fencer_id],
             career=career_by_fencer.get(fencer_id),
             performance_rows=performance_by_fencer.get(fencer_id, []),
@@ -759,13 +759,13 @@ def build_ai_insight_rows(
             tournaments_by_id=tournaments_by_id,
             generated_at=generated_at,
         )
-        if row:
-            rows.append(row)
+        if built_row:
+            rows.append(built_row)
         else:
             skipped["performance_summaries"] += 1
 
     for h2h in source_data.get("head_to_head", []):
-        row = build_comparison(
+        built_row = build_comparison(
             h2h,
             fencers_by_id=fencers_by_id,
             career_by_fencer=career_by_fencer,
@@ -774,8 +774,8 @@ def build_ai_insight_rows(
             tournaments_by_id=tournaments_by_id,
             generated_at=generated_at,
         )
-        if row:
-            rows.append(row)
+        if built_row:
+            rows.append(built_row)
         else:
             skipped["comparisons"] += 1
 
@@ -872,7 +872,7 @@ def compute_ai_insights(
             run_log.complete(
                 written=written,
                 failed=failed,
-                skipped=summary["skipped"],
+                skipped=int(summary["skipped"]),
                 metadata=summary,
             )
         return summary

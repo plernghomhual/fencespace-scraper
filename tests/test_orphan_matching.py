@@ -143,12 +143,27 @@ class FakeTable:
         return type("Result", (), {"data": []})()
 
 
+class FakeRpc:
+    def __init__(self, client, name, params):
+        self.client = client
+        self.name = name
+        self.params = params
+
+    def execute(self):
+        self.client.rpcs.append((self.name, self.params))
+        return type("Result", (), {"data": len(self.params["p_updates"])})()
+
+
 class FakeClient:
     def __init__(self):
         self.updates = []
+        self.rpcs = []
 
     def table(self, table_name):
         return FakeTable(self, table_name)
+
+    def rpc(self, name, params):
+        return FakeRpc(self, name, params)
 
 
 def test_apply_updates_sets_fencer_id_by_row_id():
@@ -162,7 +177,13 @@ def test_apply_updates_sets_fencer_id_by_row_id():
     written = apply_updates(client, "fs_results", matches, batch_size=100)
 
     assert written == 1
-    assert client.updates == [("fs_results", "id", "r2", {"fencer_id": "exact"})]
+    assert client.rpcs == [
+        (
+            "fs_bulk_update_fencer_matches",
+            {"p_table_name": "fs_results", "p_updates": [{"id": "r2", "fencer_id": "exact"}]},
+        )
+    ]
+    assert client.updates == []
 
 
 def test_unmatched_orphans_are_written_to_log(tmp_path):

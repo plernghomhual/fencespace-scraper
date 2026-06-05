@@ -192,8 +192,8 @@ class IdentityResolver:
                 self.identity_to_person[identity_id] = person
             for member in member_ids:
                 self.fencer_to_person[member] = person
-            for fie_id in fie_ids:
-                text = clean_text(fie_id)
+            for fie_id_entry in fie_ids:
+                text = clean_text(fie_id_entry)
                 if text:
                     self.fie_to_person[text] = person
 
@@ -208,7 +208,7 @@ class IdentityResolver:
             if not row_id:
                 continue
             existing = self.fencer_to_person.get(row_id)
-            fie_id = clean_text(row.get("fie_id"))
+            fie_id: str | None = clean_text(row.get("fie_id"))
             if existing:
                 if fie_id:
                     self.fie_to_person.setdefault(fie_id, existing)
@@ -509,8 +509,9 @@ def is_international_tournament(tournament: dict[str, Any] | None) -> bool:
 
 
 def tournament_lookup(tournaments: dict[Any, dict[str, Any]] | list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    values: list[dict[str, Any]]
     if isinstance(tournaments, dict):
-        values = tournaments.values()
+        values = list(tournaments.values())
     else:
         values = tournaments
     return {str(row["id"]): row for row in values if row.get("id") is not None}
@@ -658,7 +659,7 @@ def build_result_observations(
         )
         season = season_label(result.get("season") or (tournament or {}).get("season"))
         source_id = clean_text(result.get("id")) or f"result:{index}"
-        observation = {
+        observation: dict[str, Any] = {
             "person": person,
             "source_id": source_id,
             "raw": result,
@@ -691,7 +692,7 @@ def build_ranking_observations(
     rankings: list[dict[str, Any]],
     resolver: IdentityResolver,
 ) -> tuple[dict[str, list[dict[str, Any]]], int, int]:
-    deduped: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    deduped: dict[tuple[str, str, str, str, str], dict[str, Any]] = {}
     skipped = 0
     duplicate_count = 0
 
@@ -705,7 +706,8 @@ def build_ranking_observations(
         weapon = normalize_weapon(row.get("weapon"))
         category = normalize_category(row.get("category"), row.get("gender"))
         season = season_label(row.get("season"))
-        observation = {
+        country = normalize_country(row.get("country") or row.get("nationality"))
+        observation: dict[str, Any] = {
             "person": person,
             "source_id": f"ranking:{index}",
             "raw": row,
@@ -717,14 +719,14 @@ def build_ranking_observations(
             "category": category,
             "season": season,
             "season_sort": season_to_int(season),
-            "country": normalize_country(row.get("country") or row.get("nationality")),
+            "country": country,
         }
         key = (
             person.key,
             season or "",
             weapon or "",
             category or "",
-            observation.get("country") or "",
+            country or "",
         )
         if key in deduped:
             duplicate_count += 1
@@ -950,7 +952,7 @@ def add_weapon_transition_milestones(rows: list[dict[str, Any]], observations_by
             if obs.get("season_sort") is not None:
                 by_season[obs["season_sort"]].append(obs)
 
-        season_rows = []
+        season_rows: list[dict[str, Any]] = []
         for season in sorted(by_season):
             weapon, evidence, ambiguous = primary_weapon_for_season(by_season[season])
             if ambiguous:
@@ -962,25 +964,25 @@ def add_weapon_transition_milestones(rows: list[dict[str, Any]], observations_by
         for previous, current in zip(season_rows, season_rows[1:]):
             if current["weapon"] == previous["weapon"]:
                 continue
-            obs = current["evidence"]
+            evidence_obs: dict[str, Any] = current["evidence"]
             rows.append(
                 make_milestone(
-                    obs["person"],
+                    evidence_obs["person"],
                     milestone_type="weapon_transition",
-                    milestone_date=obs["event_date"],
-                    tournament_id=obs.get("tournament_id"),
-                    weapon=obs.get("weapon"),
-                    season=obs.get("season"),
-                    rank=obs.get("rank"),
-                    medal=obs.get("medal"),
+                    milestone_date=evidence_obs["event_date"],
+                    tournament_id=evidence_obs.get("tournament_id"),
+                    weapon=evidence_obs.get("weapon"),
+                    season=evidence_obs.get("season"),
+                    rank=evidence_obs.get("rank"),
+                    medal=evidence_obs.get("medal"),
                     title=f"Weapon transition to {current['weapon']}",
-                    description=f"Primary weapon changed from {previous['weapon']} to {current['weapon']} in {obs.get('season')}.",
+                    description=f"Primary weapon changed from {previous['weapon']} to {current['weapon']} in {evidence_obs.get('season')}.",
                     source="fs_results",
                     metadata={
                         "from_weapon": previous["weapon"],
                         "to_weapon": current["weapon"],
                         "previous_evidence": result_evidence(previous["evidence"]),
-                        "evidence": result_evidence(obs),
+                        "evidence": result_evidence(evidence_obs),
                     },
                 )
             )

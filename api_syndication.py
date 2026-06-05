@@ -5,7 +5,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from threading import Lock
-from typing import Any, Callable
+from typing import Any, Callable, Coroutine
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,7 +43,7 @@ RESULT_COLUMNS = ("id", "tournament_id", "fencer_id", "rank", "name", "nationali
 MEDAL_TABLE_COLUMNS = ("id", "scope", "country", "fencer_id", "tier", "gold", "silver", "bronze", "total", "updated_at")
 
 
-_supabase_client = None
+_supabase_client: Any = None
 _rate_limit_lock = Lock()
 _rate_limits: dict[str, deque[float]] = defaultdict(deque)
 
@@ -254,7 +254,7 @@ def _mark_last_used(partner: PartnerKey, used_at: str, request: Request) -> None
         return
 
 
-def require_scope(scope: str) -> Callable[[Request], PartnerKey]:
+def require_scope(scope: str) -> Callable[[Request], Coroutine[Any, Any, PartnerKey]]:
     async def dependency(request: Request) -> PartnerKey:
         api_key = _extract_api_key(request)
         if not api_key:

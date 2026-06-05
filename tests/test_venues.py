@@ -214,6 +214,23 @@ class FakeTable:
         return type("Result", (), {"data": []})()
 
 
+class FakeRpc:
+    def __init__(self, client, name, params):
+        self.client = client
+        self.name = name
+        self.params = params
+
+    def execute(self):
+        self.client.rpcs.append((self.name, self.params))
+        updates = self.params.get("p_updates", [])
+        if self.name == "fs_bulk_update_tournament_metadata":
+            for update in updates:
+                for row in self.client.tables["fs_tournaments"]:
+                    if row.get("id") == update.get("id"):
+                        row["metadata"] = dict(update.get("metadata") or {})
+        return type("Result", (), {"data": len(updates)})()
+
+
 class FakeClient:
     def __init__(self, tournaments, venues=None):
         self.tables = {
@@ -226,9 +243,13 @@ class FakeClient:
         }
         self.upserts = []
         self.updates = []
+        self.rpcs = []
 
     def table(self, name):
         return FakeTable(self, name)
+
+    def rpc(self, name, params):
+        return FakeRpc(self, name, params)
 
 
 class FakeGeocoder:

@@ -100,7 +100,7 @@ SKIPPED_EDITIONS = [
 
 
 def discover_editions() -> tuple[list[dict], list[dict]]:
-    structured = [dict(edition) for edition in STRUCTURED_EDITIONS]
+    structured = [dict(edition) for edition in STRUCTURED_EDITIONS]  # type: ignore[call-overload]
     skipped = [
         {
             "edition_id": edition_id,
@@ -123,6 +123,8 @@ def classify_event(event_name: str) -> dict:
 
 
 def medal_for_rank(rank: int | None) -> str | None:
+    if rank is None:
+        return None
     return MEDALS_BY_RANK.get(rank)
 
 

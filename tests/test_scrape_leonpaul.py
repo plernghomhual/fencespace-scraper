@@ -66,7 +66,7 @@ NO_PRICE_REGION_FIXTURE = """
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []
 
 
 class FakeTable:

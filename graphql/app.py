@@ -495,22 +495,7 @@ def get_supabase_client():
 
 
 def is_valid_api_key(api_key: str) -> bool:
-    if api_key in rest_api.ENV_API_KEYS:
-        return True
-    try:
-        rows = (
-            get_supabase_client()
-            .table("fs_api_keys")
-            .select("key,active,revoked")
-            .eq("key", api_key)
-            .limit(1)
-            .execute()
-            .data
-            or []
-        )
-    except Exception:
-        return False
-    return bool(rows and rest_api._row_allows_key(rows[0]))
+    return rest_api.is_valid_api_key_for_client(get_supabase_client(), api_key)
 
 
 @app.middleware("http")
@@ -733,9 +718,9 @@ def _resolve_fencer(selection: Selection) -> dict[str, Any] | None:
         raise GraphQLError("Field 'fencer' requires a selection set")
     children = _children_by_name(selection.children)
     allowed_children = {"profile", "careerStats", "social", "equipment"}
-    for child in children:
-        if child not in allowed_children:
-            raise GraphQLError(f"Unknown field '{child}' for FencerProfile")
+    for child_name in children:
+        if child_name not in allowed_children:
+            raise GraphQLError(f"Unknown field '{child_name}' for FencerProfile")
 
     fencer_id = selection.args["id"]
     result: dict[str, Any] = {}

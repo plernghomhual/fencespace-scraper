@@ -16,6 +16,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
@@ -55,6 +56,12 @@ PRIVATE_PAYLOAD_KEYS = {
     "device_id",
     "fie_fencer_id",
 }
+SENSITIVE_ERROR_PATTERNS = [
+    re.compile(r"(authorization\s*:\s*bearer\s+)[^\s,;]+", re.IGNORECASE),
+    re.compile(r"((?:provider_)?token\s*=\s*)[^\s,;]+", re.IGNORECASE),
+    re.compile(r"((?:api[_-]?key|server[_-]?key|secret|private[_-]?key)\s*=\s*)[^\s,;]+", re.IGNORECASE),
+    re.compile(r"\b(sk|rk|pk)_(live|test)_[A-Za-z0-9_]+\b"),
+]
 
 
 @dataclass
@@ -84,6 +91,18 @@ class RetryPolicy:
 
     def delay_for_attempt(self, attempt: int) -> float:
         return min(self.max_delay, self.base_delay * (2 ** max(0, attempt - 1)))
+
+
+def redact_provider_error(message: Any, *, max_length: int = 1000) -> str | None:
+    if message in (None, ""):
+        return None
+    redacted = str(message)
+    for pattern in SENSITIVE_ERROR_PATTERNS:
+        if pattern.groups >= 2 and pattern.pattern.startswith("\\b("):
+            redacted = pattern.sub("[REDACTED]", redacted)
+        else:
+            redacted = pattern.sub(lambda match: f"{match.group(1)}[REDACTED]", redacted)
+    return redacted[:max_length]
 
 
 class SimpleRateLimiter:
@@ -185,6 +204,8 @@ class TransportPushProvider(PushProvider):
             status = "dry_run_missing_credentials" if self.setup_required else "dry_run"
             return DeliveryResult(success=True, status=status, dry_run=True)
         try:
+            if self.transport is None:
+                raise RuntimeError("transport is not configured")
             response = self.transport(subscription, payload, self.credentials)
             message_id = None
             if isinstance(response, dict):
@@ -199,7 +220,7 @@ class TransportPushProvider(PushProvider):
             return DeliveryResult(
                 success=False,
                 status="failed",
-                error=str(exc)[:1000],
+                error=redact_provider_error(exc),
                 dry_run=False,
             )
 
@@ -473,7 +494,7 @@ def send_with_retries(
             result = DeliveryResult(
                 success=False,
                 status="failed",
-                error=str(exc)[:1000],
+                error=redact_provider_error(exc),
                 dry_run=getattr(provider, "dry_run", True),
             )
         result.attempts = attempt
@@ -511,7 +532,7 @@ def _write_delivery_log(
         "attempt_count": result.attempts,
         "payload": payload,
         "provider_message_id": result.provider_message_id,
-        "error": result.error,
+        "error": redact_provider_error(result.error),
         "dry_run": result.dry_run,
         "delivered_at": now.astimezone(timezone.utc).isoformat() if result.success else None,
         "next_attempt_at": result.next_attempt_at,

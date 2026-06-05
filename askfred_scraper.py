@@ -75,8 +75,8 @@ def normalize_person_name(value: Any) -> str | None:
 
     if "," in text:
         last, first = [part.strip() for part in text.split(",", 1)]
-        first = title_case(first)
-        last = title_case(last)
+        first = title_case(first) or ""
+        last = title_case(last) or ""
         if first and last:
             return first if first.lower() == last.lower() else f"{first} {last}"
         return first or last
@@ -725,22 +725,10 @@ def upsert_results(rows: list[dict[str, Any]]):
         if "unique" not in message.lower() and "constraint" not in message.lower() and "42P10" not in message:
             raise
 
-        print(
-            "    Results upsert conflict key is not available in this database; "
-            "falling back to replacing AskFRED rows for affected events."
-        )
-
-    affected_tournament_ids = sorted({row["tournament_id"] for row in rows})
-    for tournament_id in affected_tournament_ids:
-        (
-            supabase.table("fs_results")
-            .delete()
-            .eq("tournament_id", tournament_id)
-            .execute()
-        )
-
-    for i in range(0, len(rows), BATCH_SIZE):
-        supabase.table("fs_results").insert(rows[i : i + BATCH_SIZE]).execute()
+        raise RuntimeError(
+            "fs_results requires a unique conflict target on (tournament_id, name); "
+            "refusing to delete existing AskFRED rows as a fallback."
+        ) from exc
 
 
 def upsert_fencer_updates(rows: list[dict[str, Any]]):

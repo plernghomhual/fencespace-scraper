@@ -689,14 +689,13 @@ def prepare_result_rows(tournament_id, event, fencer_index, unmatched_log=None):
 def upsert_event_results(client, tournament_id, event, fencer_index):
     unmatched = []
     db_rows = prepare_result_rows(tournament_id, event, fencer_index, unmatched)
-    client.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     if not db_rows:
         return 0, len(unmatched), unmatched
 
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i : i + 100]
-        client.table("fs_results").insert(batch).execute()
+        client.table("fs_results").upsert(batch, on_conflict="tournament_id,name").execute()
         written += len(batch)
     return written, len(unmatched), unmatched
 

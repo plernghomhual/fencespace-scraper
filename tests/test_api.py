@@ -1,11 +1,16 @@
 import importlib
+import hashlib
 import os
 import sys
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
+ROOT = Path(__file__).resolve().parents[1]
+API_KEYS_MIGRATION = ROOT / "supabase" / "migrations" / "20260601_api_keys.sql"
 
 
 class FakeResponse:
@@ -27,6 +32,7 @@ class FakeQuery:
 
     def select(self, columns):
         self.selected = columns
+        self.client.selects.append((self.table_name, columns))
         return self
 
     def eq(self, column, value):
@@ -66,12 +72,16 @@ class FakeQuery:
             rows = rows[self.start : self.end + 1]
         if self.limit_count is not None:
             rows = rows[: self.limit_count]
+        if self.selected and self.selected != "*":
+            columns = [column.strip() for column in self.selected.split(",") if column.strip()]
+            rows = [{column: row[column] for column in columns if column in row} for row in rows]
         return FakeResponse(rows)
 
 
 class FakeSupabase:
     def __init__(self):
         self.ranges = []
+        self.selects = []
         self.tables = {
             "fs_fencers": [
                 {"id": "f1", "name": "Alex Lee", "country": "KOR", "weapon": "Epee", "category": "Senior"},
@@ -162,6 +172,38 @@ def test_api_accepts_api_key_from_database(monkeypatch):
     sys.modules.pop("api", None)
 
 
+def test_api_accepts_hashed_database_api_key_during_rotation(monkeypatch):
+    monkeypatch.delenv("FENCESPACE_API_KEY", raising=False)
+    monkeypatch.delenv("FS_API_KEY", raising=False)
+    monkeypatch.delenv("API_KEY", raising=False)
+    sys.modules.pop("api", None)
+    module = importlib.import_module("api")
+    fake = FakeSupabase()
+    fake.tables["fs_api_keys"] = [
+        {
+            "key_hash": hashlib.sha256("hashed-secret".encode("utf-8")).hexdigest(),
+            "active": True,
+            "revoked": False,
+        }
+    ]
+    module.app.state.supabase_client = fake
+    module.reset_rate_limits()
+
+    response = TestClient(module.app).get("/fencer/f1", headers={"X-API-Key": "hashed-secret"})
+
+    assert response.status_code == 200
+    assert response.json()["profile"]["id"] == "f1"
+    sys.modules.pop("api", None)
+
+
+def test_api_key_schema_documents_dual_mode_rotation_window():
+    sql = API_KEYS_MIGRATION.read_text(encoding="utf-8").lower()
+
+    assert "key_hash" in sql
+    assert "primary api key rotation cutover" in sql
+    assert "plaintext compatibility window" in sql
+
+
 def test_api_rejects_write_methods(client):
     response = client.post("/fencer/search", headers=auth_headers())
 
@@ -245,3 +287,24 @@ def test_country_depth_happy_path(client):
 
     assert response.status_code == 200
     assert response.json()["data"][0]["fencers_in_top16"] == 3
+
+
+def test_public_rest_routes_do_not_use_wildcard_selects(client, api_module):
+    for path in (
+        "/fencer/search",
+        "/fencer/f1",
+        "/tournaments",
+        "/tournaments/t1/results",
+        "/rankings",
+        "/h2h/f2/f1",
+        "/countries/KOR/depth",
+    ):
+        assert client.get(path, headers=auth_headers()).status_code == 200
+
+    public_selects = [
+        (table, columns)
+        for table, columns in api_module.app.state.supabase_client.selects
+        if table != "fs_api_keys"
+    ]
+    assert public_selects
+    assert all(columns != "*" for _table, columns in public_selects)

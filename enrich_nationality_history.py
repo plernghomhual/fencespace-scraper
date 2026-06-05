@@ -23,8 +23,8 @@ try:
     from compute_transfers import country_key as transfer_country_key
     from compute_transfers import normalize_country as transfer_normalize_country
 except Exception:  # pragma: no cover - keep enrichment usable before Agent 26 is installed.
-    transfer_country_key = None
-    transfer_normalize_country = None
+    transfer_country_key = None  # type: ignore[assignment]
+    transfer_normalize_country = None  # type: ignore[assignment]
 
 
 SOURCE = "enrich_nationality_history"
@@ -69,7 +69,7 @@ class NationalityHistoryItem(dict):
         legacy = {
             "country": self.get("country"),
             "country_id": self.get("country_id"),
-            "source": "wikidata" if clean_text(self.get("source", "")).startswith("wikidata") else self.get("source"),
+            "source": "wikidata" if (clean_text(self.get("source", "")) or "").startswith("wikidata") else self.get("source"),
         }
         if self.get("start_date"):
             legacy["start_time"] = self["start_date"]
@@ -164,14 +164,14 @@ def clean_text(value: Any) -> str | None:
 
 
 def normalize_country(value: Any) -> str | None:
-    if transfer_normalize_country:
+    if transfer_normalize_country is not None:
         return transfer_normalize_country(value)
     text = clean_text(value)
     return text.title() if text else None
 
 
 def country_key(value: Any) -> str:
-    if transfer_country_key:
+    if transfer_country_key is not None:
         return transfer_country_key(value)
     return (normalize_country(value) or "").casefold()
 

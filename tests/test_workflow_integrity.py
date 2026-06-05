@@ -551,12 +551,55 @@ INFRASTRUCTURE_SCRIPTS = {
 }
 
 
-def test_each_python_script_step_has_continue_on_error_and_supabase_env():
+def test_python_script_steps_fail_closed_and_have_supabase_env():
     for filename, workflow in all_workflows().items():
         for step in workflow_steps(workflow):
             script = script_from_step(step)
             if not script or script in INFRASTRUCTURE_SCRIPTS:
                 continue
-            assert step.get("continue-on-error") is True, f"{filename}: {step['name']}"
+            assert step.get("continue-on-error") is not True, f"{filename}: {step['name']}"
             env = step.get("env", {})
             assert SUPABASE_ENV_KEYS <= set(env), f"{filename}: {step['name']}"
+
+
+def test_migration_step_requires_supabase_db_url():
+    workflow = load_workflow(SCRAPER_WORKFLOW)
+    migration_steps = [
+        step for step in workflow_steps(workflow)
+        if "migrate.py apply" in str(step.get("run", ""))
+    ]
+    assert migration_steps, "scraper.yml must apply migrations before scraper jobs"
+    run = str(migration_steps[0].get("run", ""))
+
+    assert "SUPABASE_DB_URL" in migration_steps[0].get("env", {})
+    assert "exit 1" in run
+    assert "skipping migration apply" not in run.lower()
+
+
+def test_scraper_workflow_runs_frontend_test_and_typecheck_gate():
+    workflow = load_workflow(SCRAPER_WORKFLOW)
+    runs = "\n".join(str(step.get("run", "")) for step in workflow_steps(workflow))
+
+    assert "npm test -- --run" in runs
+    assert "tsc --noEmit --pretty false --incremental false" in runs
+
+
+def test_scraper_workflow_runs_python_lint_and_type_gate():
+    workflow = load_workflow(SCRAPER_WORKFLOW)
+    jobs = workflow["jobs"]
+    assert "python-quality" in jobs
+
+    runs = "\n".join(str(step.get("run", "")) for step in jobs["python-quality"].get("steps", []))
+    assert "pip install -r requirements-dev.txt" in runs
+    assert "python -m ruff check ." in runs
+    assert "python -m mypy" in runs
+
+
+def test_python_quality_config_files_exist():
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    requirements_dev = (ROOT / "requirements-dev.txt").read_text(encoding="utf-8")
+
+    assert "[tool.ruff]" in pyproject
+    assert "[tool.mypy]" in pyproject
+    assert "ruff" in requirements_dev
+    assert "mypy" in requirements_dev

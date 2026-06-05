@@ -313,7 +313,7 @@ def watch_live_results(
     today_value = today or now_value.date()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
 
-    summary = {
+    summary: dict[str, Any] = {
         "tournaments_checked": 0,
         "new_results": 0,
         "new_bouts": 0,

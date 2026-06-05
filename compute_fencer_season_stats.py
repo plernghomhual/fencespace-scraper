@@ -18,7 +18,7 @@ MODULE_NAME = "compute_fencer_season_stats"
 PAGE_SIZE = 1000
 BATCH_SIZE = 100
 SEASON_STATS_TABLE = "fs_fencer_season_stats"
-SEASON_STATS_CONFLICT_COLUMNS = "fencer_id,season,weapon,gender,category,source_confidence"
+SEASON_STATS_CONFLICT_COLUMNS = "fencer_identity_id,season,weapon,gender,category"
 
 RESULT_SELECTS = [
     "id,tournament_id,fencer_id,fie_fencer_id,season,weapon,gender,category,rank,placement,medal,source_confidence,confidence,metadata,date",
@@ -212,8 +212,9 @@ def normalize_source_confidence(*rows: dict[str, Any] | None) -> str:
 
 
 def tournament_lookup(tournaments: dict[Any, dict[str, Any]] | list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    values: list[dict[str, Any]]
     if isinstance(tournaments, dict):
-        values = tournaments.values()
+        values = list(tournaments.values())
     else:
         values = tournaments
     return {str(row["id"]): row for row in values if row.get("id") is not None}
@@ -227,10 +228,9 @@ def row_tournament(row: dict[str, Any], tournaments_by_id: dict[str, dict[str, A
 def row_dimensions(
     row: dict[str, Any],
     tournament: dict[str, Any] | None,
-) -> tuple[tuple[str, str, str, str, str] | None, str | None]:
-    try:
-        season = normalize_stat_season(row.get("season") or (tournament or {}).get("season"))
-    except (TypeError, ValueError):
+) -> tuple[tuple[int, str, str, str] | None, str | None]:
+    season = season_end_year(row.get("season") or (tournament or {}).get("season"))
+    if season is None:
         return None, "season"
 
     weapon = normalize_weapon(row.get("weapon") or (tournament or {}).get("weapon"))
@@ -244,8 +244,7 @@ def row_dimensions(
         return None, "gender"
     if not category:
         return None, "category"
-    source_confidence = normalize_source_confidence(row, tournament)
-    return (season, weapon, gender, category, source_confidence), None
+    return (season, weapon, gender, category), None
 
 
 def parse_identity_members(value: Any) -> list[str]:
@@ -261,9 +260,10 @@ def parse_identity_members(value: Any) -> list[str]:
     return sorted({str(item) for item in value if clean_text(item)})
 
 
-def build_identity_maps(identity_rows: list[dict[str, Any]]) -> tuple[dict[str, str], dict[str, str], int]:
+def build_identity_maps(identity_rows: list[dict[str, Any]]) -> tuple[dict[str, str], dict[str, str], dict[str, str], int]:
     identity_map: dict[str, str] = {}
     fie_id_map: dict[str, str] = {}
+    representative_fencer_map: dict[str, str] = {}
     duplicate_members = 0
 
     for row in identity_rows:
@@ -274,36 +274,41 @@ def build_identity_maps(identity_rows: list[dict[str, Any]]) -> tuple[dict[str, 
         )
         if not members:
             continue
-        canonical = clean_text(row.get("canonical_id")) or members[0]
+        identity_id = clean_text(row.get("id") or row.get("identity_id") or row.get("canonical_identity_id"))
+        if not identity_id:
+            continue
+        representative_fencer_id = clean_text(row.get("canonical_id")) or members[0]
+        representative_fencer_map.setdefault(identity_id, representative_fencer_id)
 
         for member in members:
             existing = identity_map.get(member)
             if existing:
                 duplicate_members += 1
-                if existing != canonical:
-                    chosen = min(existing, canonical)
+                if existing != identity_id:
+                    chosen = min(existing, identity_id)
+                    representative_fencer_map.setdefault(chosen, representative_fencer_map.get(existing, representative_fencer_id))
                     for mapped_member, mapped_canonical in list(identity_map.items()):
-                        if mapped_canonical in {existing, canonical}:
+                        if mapped_canonical in {existing, identity_id}:
                             identity_map[mapped_member] = chosen
-                    canonical = chosen
-            identity_map[member] = canonical
+                    identity_id = chosen
+            identity_map[member] = identity_id
 
         for fie_id in parse_identity_members(row.get("fie_ids")):
             existing = fie_id_map.get(fie_id)
-            if existing and existing != canonical:
-                canonical = min(existing, canonical)
-            fie_id_map[fie_id] = canonical
+            if existing and existing != identity_id:
+                identity_id = min(existing, identity_id)
+            fie_id_map[fie_id] = identity_id
 
-    for canonical in set(identity_map.values()):
-        identity_map.setdefault(canonical, canonical)
-    return identity_map, fie_id_map, duplicate_members
+    for identity_id in set(identity_map.values()):
+        identity_map.setdefault(identity_id, identity_id)
+    return identity_map, fie_id_map, representative_fencer_map, duplicate_members
 
 
-def canonical_fencer_id(fencer_id: Any, identity_map: dict[str, str] | None) -> str | None:
+def canonical_identity_id(fencer_id: Any, identity_map: dict[str, str] | None) -> str | None:
     text = clean_text(fencer_id)
     if not text:
         return None
-    return (identity_map or {}).get(text, text)
+    return (identity_map or {}).get(text)
 
 
 def result_fencer_id(
@@ -311,15 +316,15 @@ def result_fencer_id(
     identity_map: dict[str, str],
     fie_id_map: dict[str, str],
 ) -> str | None:
-    fencer_id = canonical_fencer_id(result.get("fencer_id"), identity_map)
-    if fencer_id:
-        return fencer_id
+    identity_id = canonical_identity_id(result.get("fencer_id"), identity_map)
+    if identity_id:
+        return identity_id
     fie_id = clean_text(result.get("fie_fencer_id") or result.get("fie_id"))
     return fie_id_map.get(fie_id or "")
 
 
 def bout_fencer_id(row: dict[str, Any], primary: str, fallback: str, identity_map: dict[str, str]) -> str | None:
-    return canonical_fencer_id(row.get(primary) or row.get(fallback), identity_map)
+    return canonical_identity_id(row.get(primary) or row.get(fallback), identity_map)
 
 
 def medal_kind(rank: int | None, medal: Any) -> str | None:
@@ -339,15 +344,20 @@ def medal_kind(rank: int | None, medal: Any) -> str | None:
     return None
 
 
-def new_stat(fencer_id: str, dimensions: tuple[str, str, str, str, str], updated_at: str) -> dict[str, Any]:
-    season, weapon, gender, category, source_confidence = dimensions
+def new_stat(
+    fencer_identity_id: str,
+    representative_fencer_id: str | None,
+    dimensions: tuple[int, str, str, str],
+    updated_at: str,
+) -> dict[str, Any]:
+    season, weapon, gender, category = dimensions
     return {
-        "fencer_id": fencer_id,
+        "fencer_identity_id": fencer_identity_id,
+        "fencer_id": representative_fencer_id,
         "season": season,
         "weapon": weapon,
         "gender": gender,
         "category": category,
-        "source_confidence": source_confidence,
         "results_by_competition": {},
         "wins": 0,
         "losses": 0,
@@ -370,16 +380,20 @@ def choose_better_result(current: dict[str, Any] | None, candidate: dict[str, An
 
 
 def add_result_observation(
-    stats: dict[tuple[str, str, str, str, str, str], dict[str, Any]],
+    stats: dict[tuple[str, int, str, str, str], dict[str, Any]],
     *,
-    fencer_id: str,
-    dimensions: tuple[str, str, str, str, str],
+    fencer_identity_id: str,
+    representative_fencer_id: str | None,
+    dimensions: tuple[int, str, str, str],
     result: dict[str, Any],
     result_index: int,
     updated_at: str,
 ) -> None:
-    key = (fencer_id, *dimensions)
-    stat = stats.setdefault(key, new_stat(fencer_id, dimensions, updated_at))
+    key = (fencer_identity_id, *dimensions)
+    stat = stats.setdefault(
+        key,
+        new_stat(fencer_identity_id, representative_fencer_id, dimensions, updated_at),
+    )
     competition_id = clean_text(result.get("tournament_id") or result.get("competition_id") or result.get("id"))
     competition_id = competition_id or f"result:{result_index}"
     rank = positive_int(result.get("rank") if result.get("rank") is not None else result.get("placement"))
@@ -392,17 +406,21 @@ def add_result_observation(
 
 
 def add_bout_observation(
-    stats: dict[tuple[str, str, str, str, str, str], dict[str, Any]],
+    stats: dict[tuple[str, int, str, str, str], dict[str, Any]],
     *,
-    fencer_id: str,
-    dimensions: tuple[str, str, str, str, str],
+    fencer_identity_id: str,
+    representative_fencer_id: str | None,
+    dimensions: tuple[int, str, str, str],
     scored: int,
     received: int,
     won: bool,
     updated_at: str,
 ) -> None:
-    key = (fencer_id, *dimensions)
-    stat = stats.setdefault(key, new_stat(fencer_id, dimensions, updated_at))
+    key = (fencer_identity_id, *dimensions)
+    stat = stats.setdefault(
+        key,
+        new_stat(fencer_identity_id, representative_fencer_id, dimensions, updated_at),
+    )
     if won:
         stat["wins"] += 1
     else:
@@ -444,65 +462,52 @@ def stat_to_row(stat: dict[str, Any]) -> dict[str, Any]:
     bouts_total = wins + losses
     touches_scored = stat["touches_scored"]
     touches_received = stat["touches_received"]
-    avg_finish = round_float(sum(ranks) / len(ranks), 2) if ranks else None
 
     return {
+        "fencer_identity_id": stat["fencer_identity_id"],
         "fencer_id": stat["fencer_id"],
         "season": stat["season"],
         "weapon": stat["weapon"],
         "gender": stat["gender"],
         "category": stat["category"],
-        "source_confidence": stat["source_confidence"],
         "starts": len(stat["results_by_competition"]),
         "best_finish": min(ranks) if ranks else None,
-        "avg_finish": avg_finish,
         "gold_medals": medal_counts["gold"],
         "silver_medals": medal_counts["silver"],
         "bronze_medals": medal_counts["bronze"],
-        "medal_count": sum(medal_counts.values()),
-        "top4_count": sum(1 for rank in ranks if rank <= 4),
+        "medals": sum(medal_counts.values()),
         "top8_count": sum(1 for rank in ranks if rank <= 8),
         "top16_count": sum(1 for rank in ranks if rank <= 16),
         "top32_count": sum(1 for rank in ranks if rank <= 32),
         "wins": wins,
         "losses": losses,
-        "bouts_total": bouts_total,
+        "bouts": bouts_total,
         "touches_scored": touches_scored,
         "touches_received": touches_received,
-        "touch_differential": touches_scored - touches_received,
-        "win_pct": round_float(wins / bouts_total, 4) if bouts_total else None,
-        "previous_best_finish": None,
-        "best_finish_delta": None,
-        "previous_avg_finish": None,
-        "avg_finish_delta": None,
+        "rank_delta": None,
         "updated_at": stat["updated_at"],
     }
 
 
 def add_finish_deltas(rows: list[dict[str, Any]]) -> None:
-    grouped: dict[tuple[str, str, str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    grouped: dict[tuple[str, str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
         grouped[
             (
-                row["fencer_id"],
+                row["fencer_identity_id"],
                 row["weapon"],
                 row["gender"],
                 row["category"],
-                row["source_confidence"],
             )
         ].append(row)
 
     for group_rows in grouped.values():
-        group_rows.sort(key=lambda row: (season_end_year(row["season"]) or 0, row["season"]))
+        group_rows.sort(key=lambda row: row["season"])
         previous: dict[str, Any] | None = None
         for row in group_rows:
             if previous:
                 if previous.get("best_finish") is not None and row.get("best_finish") is not None:
-                    row["previous_best_finish"] = previous["best_finish"]
-                    row["best_finish_delta"] = row["best_finish"] - previous["best_finish"]
-                if previous.get("avg_finish") is not None and row.get("avg_finish") is not None:
-                    row["previous_avg_finish"] = previous["avg_finish"]
-                    row["avg_finish_delta"] = round_float(row["avg_finish"] - previous["avg_finish"], 2)
+                    row["rank_delta"] = row["best_finish"] - previous["best_finish"]
             previous = row
 
 
@@ -516,15 +521,15 @@ def build_fencer_season_stat_rows(
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
     timestamp = updated_at or datetime.now(timezone.utc).isoformat()
     identity_rows = identity_rows or []
-    identity_map, fie_id_map, duplicate_members = build_identity_maps(identity_rows)
+    identity_map, fie_id_map, representative_fencer_map, duplicate_members = build_identity_maps(identity_rows)
     counters = initial_counters(results, bouts, identity_rows)
     counters["duplicate_identity_members"] = duplicate_members
     tournaments_by_id = tournament_lookup(tournaments)
-    stats: dict[tuple[str, str, str, str, str, str], dict[str, Any]] = {}
+    stats: dict[tuple[str, int, str, str, str], dict[str, Any]] = {}
 
     for index, raw_result in enumerate(results):
-        fencer_id = result_fencer_id(raw_result, identity_map, fie_id_map)
-        if not fencer_id:
+        fencer_identity_id = result_fencer_id(raw_result, identity_map, fie_id_map)
+        if not fencer_identity_id:
             counters["skipped_orphan_results"] += 1
             continue
         tournament = row_tournament(raw_result, tournaments_by_id)
@@ -534,7 +539,8 @@ def build_fencer_season_stat_rows(
             continue
         add_result_observation(
             stats,
-            fencer_id=fencer_id,
+            fencer_identity_id=fencer_identity_id,
+            representative_fencer_id=representative_fencer_map.get(fencer_identity_id),
             dimensions=dimensions,
             result=raw_result,
             result_index=index,
@@ -560,7 +566,7 @@ def build_fencer_season_stat_rows(
         if score_a is None or score_b is None:
             counters["skipped_missing_score_bouts"] += 1
             continue
-        winner = canonical_fencer_id(raw_bout.get("winner_id"), identity_map)
+        winner = canonical_identity_id(raw_bout.get("winner_id"), identity_map)
         if winner not in {fencer_a, fencer_b} and score_a != score_b:
             winner = fencer_a if score_a > score_b else fencer_b
         if winner not in {fencer_a, fencer_b}:
@@ -568,7 +574,8 @@ def build_fencer_season_stat_rows(
             continue
         add_bout_observation(
             stats,
-            fencer_id=fencer_a,
+            fencer_identity_id=fencer_a,
+            representative_fencer_id=representative_fencer_map.get(fencer_a),
             dimensions=dimensions,
             scored=score_a,
             received=score_b,
@@ -577,7 +584,8 @@ def build_fencer_season_stat_rows(
         )
         add_bout_observation(
             stats,
-            fencer_id=fencer_b,
+            fencer_identity_id=fencer_b,
+            representative_fencer_id=representative_fencer_map.get(fencer_b),
             dimensions=dimensions,
             scored=score_b,
             received=score_a,

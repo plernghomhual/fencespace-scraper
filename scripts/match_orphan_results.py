@@ -255,14 +255,14 @@ def match_orphan_row(row: dict[str, Any], index: dict[str, Any], table_name: str
             ambiguous_reason = "ambiguous_normalized_name_country"
 
         row_fuzzy_key = fuzzy_key(name)
-        scored = []
-        for candidate in index["by_country"].get(country, []):
-            score = levenshtein_ratio(row_fuzzy_key, fuzzy_key(candidate.name))
+        scored: list[tuple[float, FencerCandidate]] = []
+        for fc in index["by_country"].get(country, []):
+            score = levenshtein_ratio(row_fuzzy_key, fuzzy_key(fc.name))
             if score >= 0.85:
-                scored.append((score, candidate))
+                scored.append((score, fc))
         if scored:
             best_score = max(score for score, _candidate in scored)
-            best_candidates = [candidate for score, candidate in scored if score == best_score]
+            best_candidates: list[FencerCandidate] = [fc for score, fc in scored if score == best_score]
             candidate, ambiguous = resolve_candidate(best_candidates)
             if candidate:
                 return _matched(row, table_name, candidate, "tier_4_fuzzy_name_country", score=best_score)
@@ -361,11 +361,18 @@ def fetch_national_ranking_orphans(client) -> list[dict[str, Any]]:
 def apply_updates(client, table_name: str, matches: list[MatchResult], batch_size: int = 100) -> int:
     written = 0
     for i in range(0, len(matches), batch_size):
-        for match in matches[i:i + batch_size]:
-            if not match.row_id or not match.fencer_id:
-                continue
-            client.table(table_name).update({"fencer_id": match.fencer_id}).eq("id", match.row_id).execute()
-            written += 1
+        payload = [
+            {"id": match.row_id, "fencer_id": match.fencer_id}
+            for match in matches[i:i + batch_size]
+            if match.row_id and match.fencer_id
+        ]
+        if not payload:
+            continue
+        client.rpc(
+            "fs_bulk_update_fencer_matches",
+            {"p_table_name": table_name, "p_updates": payload},
+        ).execute()
+        written += len(payload)
     return written
 
 

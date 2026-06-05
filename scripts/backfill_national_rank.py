@@ -218,8 +218,8 @@ def _build_match_index(
     identities_by_name_country: dict[tuple[str, str], list[dict[str, Any]]] = {}
 
     for identity in identities:
-        row_ids = [clean_text(row_id) for row_id in _as_list(identity.get("fs_fencer_row_ids"))]
-        row_ids = [row_id for row_id in row_ids if row_id and row_id in fencers_by_id]
+        _raw_row_ids = [clean_text(row_id) for row_id in _as_list(identity.get("fs_fencer_row_ids"))]
+        row_ids: list[str] = [row_id for row_id in _raw_row_ids if row_id and row_id in fencers_by_id]
         if not row_ids:
             continue
         normalized_identity = dict(identity)
@@ -592,7 +592,7 @@ def main() -> BackfillSummary:
     logger = ScraperRunLogger(SOURCE).start()
     try:
         summary = backfill_national_rank(get_supabase())
-        metadata = summary.as_dict()
+        metadata: dict[str, Any] = dict(summary.as_dict())
         metadata["completed_at"] = datetime.now(timezone.utc).isoformat()
         set_state(SOURCE, "last_run", metadata)
         logger.complete(written=summary.written, failed=summary.failed, skipped=summary.skipped, metadata=metadata)

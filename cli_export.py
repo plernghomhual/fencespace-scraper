@@ -56,7 +56,7 @@ def write_output(rows: list[dict[str, Any]], output_format: str, output_path: st
             writer.writeheader()
             for row in rows:
                 writer.writerow({key: _jsonable_value(value) for key, value in row.items()})
-        content = "" if output_path is None else buffer.getvalue()
+        content = "" if output_path is None else buffer.getvalue()  # type: ignore[union-attr]
 
     if output_path:
         Path(output_path).write_text(content)

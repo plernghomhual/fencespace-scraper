@@ -316,7 +316,8 @@ def parse_nominatim_country(raw_country: str, payload: Any) -> CountryGeo | None
     except (KeyError, TypeError, ValueError):
         return None
 
-    address = row.get("address") if isinstance(row.get("address"), dict) else {}
+    _raw_address = row.get("address")
+    address: dict[Any, Any] = _raw_address if isinstance(_raw_address, dict) else {}
     alpha2 = clean_text(address.get("country_code")).upper() or None
     display_name = (
         clean_text(address.get("country"))

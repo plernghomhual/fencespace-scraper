@@ -1042,10 +1042,8 @@ def bout_rows_for_db(tournament_id, parsed_bouts, fencer_index):
 
 
 def replace_results(tournament_id, rows):
-    client = get_supabase_client()
-    client.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     if rows:
-        batch_upsert("fs_results", rows)
+        batch_upsert("fs_results", rows, on_conflict="tournament_id,name")
 
 
 def strip_generated_ids(rows):
@@ -1053,8 +1051,6 @@ def strip_generated_ids(rows):
 
 
 def replace_bouts(tournament_id, rows):
-    client = get_supabase_client()
-    client.table("fs_bouts").delete().eq("tournament_id", tournament_id).execute()
     if not rows:
         return
     try:

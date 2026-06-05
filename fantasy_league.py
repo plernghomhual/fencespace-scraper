@@ -420,12 +420,11 @@ def upset_bonus_points(result: dict[str, Any], rules: dict[str, Any]) -> int:
 def score_result(result: dict[str, Any], rules: dict[str, Any]) -> tuple[int, dict[str, int]]:
     medal = result_medal(result)
     medal_points = rules.get("medal_points", {})
-    components = {
+    components: dict[str, int] = {
         "participation": to_int(rules.get("participation_points")) or 0,
-        "medal": to_int(medal_points.get(medal)) if medal else 0,
+        "medal": to_int(medal_points.get(medal)) or 0 if medal else 0,
         "upset": upset_bonus_points(result, rules),
     }
-    components["medal"] = components["medal"] or 0
     return sum(components.values()), components
 
 
@@ -571,12 +570,12 @@ def compute_weekly_scores(
     for key in sorted(best_results):
         result = best_results[key]
         fencer_id = clean_text(result.get("fencer_id"))
-        roster = scoring_roster_by_fencer[fencer_id]
+        roster = scoring_roster_by_fencer[fencer_id]  # type: ignore[index]
         team_id = clean_text(roster.get("team_id"))
         points, components = score_result(result, rules)
         rows.append(
             {
-                "id": stable_score_id(period_id, team_id, fencer_id, key),
+                "id": stable_score_id(period_id or "", team_id or "", fencer_id or "", key),
                 "league_id": lid,
                 "period_id": period_id,
                 "team_id": team_id,

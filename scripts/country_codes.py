@@ -89,8 +89,8 @@ def _country_from_row(row: dict[str, object]) -> CountryCode:
         olympic_code=str(row["olympic_code"]).upper() if row.get("olympic_code") else None,
         fie_code=str(row["fie_code"]).upper() if row.get("fie_code") else None,
         aliases=tuple(str(alias) for alias in aliases),
-        latitude=float(row["latitude"]) if row.get("latitude") is not None else None,
-        longitude=float(row["longitude"]) if row.get("longitude") is not None else None,
+        latitude=float(row["latitude"]) if row.get("latitude") is not None else None,  # type: ignore[arg-type]
+        longitude=float(row["longitude"]) if row.get("longitude") is not None else None,  # type: ignore[arg-type]
     )
 
 

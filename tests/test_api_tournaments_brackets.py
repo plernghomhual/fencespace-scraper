@@ -113,7 +113,12 @@ def bracket_row(**overrides):
         "winner_id": FENCER_A,
         "is_bye": False,
         "source": "fixture",
-        "metadata": {"piste": "Blue", "source_bout_id": "de-1"},
+        "metadata": {
+            "piste": "Blue",
+            "source_bout_id": "de-1",
+            "internal_note": "not public",
+            "provider_payload": {"secret": "not public"},
+        },
     }
     row.update(overrides)
     return row
@@ -220,6 +225,29 @@ def test_helper_preserves_byes_and_missing_scores_without_fabricating_matches():
     assert bouts[1]["status"] == "incomplete"
     assert bouts[1]["winner_id"] is None
     assert bouts[1]["score"] == {"a": None, "b": None}
+
+
+def test_helper_allows_only_public_scalar_bracket_metadata():
+    module = load_bracket_module()
+    fake = FakeSupabase(
+        [
+            bracket_row(
+                metadata={
+                    "piste": "Blue",
+                    "source_bout_id": "de-1",
+                    "source_round": "L8",
+                    "internal_note": "not public",
+                    "provider_payload": {"secret": "not public"},
+                    "debug_flags": ["private"],
+                }
+            )
+        ]
+    )
+
+    payload = module.get_tournament_bracket_payload(fake, TOURNAMENT_ID)
+    metadata = payload["events"][0]["rounds"][0]["bouts"][0]["metadata"]
+
+    assert metadata == {"piste": "Blue", "source_bout_id": "de-1", "source_round": "L8"}
 
 
 def test_helper_applies_event_filters_and_returns_empty_for_missing_data():

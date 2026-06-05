@@ -122,6 +122,7 @@ def normalize_weapon(value: Any) -> str | None:
 def to_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    number: int | None
     try:
         number = int(float(value))
     except (TypeError, ValueError):
@@ -251,7 +252,7 @@ def medal_bucket(result: dict[str, Any]) -> str | None:
     if medal in MEDAL_POINTS:
         return medal
     rank = to_int(result.get("rank") if result.get("rank") is not None else result.get("placement"))
-    return MEDAL_BY_RANK.get(rank)
+    return MEDAL_BY_RANK.get(rank) if rank is not None else None
 
 
 def medal_recency_multiplier(result_date: datetime | None, reference: datetime) -> float:
@@ -369,7 +370,7 @@ def build_candidate_groups(
             fie_to_key.setdefault(fie_id, candidate_key)
 
     for fencer_id, row in sorted(fencers_by_id.items()):
-        candidate_key = fencer_to_key.get(fencer_id)
+        candidate_key: str | None = fencer_to_key.get(fencer_id)
         if not candidate_key:
             candidate_key = f"fencer:{fencer_id}"
             groups[candidate_key] = {
@@ -380,11 +381,11 @@ def build_candidate_groups(
             }
             fencer_to_key[fencer_id] = candidate_key
         fie_id = clean_text(row.get("fie_id"))
-        if fie_id:
+        if fie_id and candidate_key:
             fie_to_key.setdefault(fie_id, candidate_key)
         name = clean_text(row.get("name"))
         country = normalize_country(row.get("country"))
-        if name and country:
+        if name and country and candidate_key:
             name_country_to_key.setdefault((normalize_key(name), normalize_key(country)), candidate_key)
 
     return groups, fencer_to_key, fie_to_key, name_country_to_key
@@ -636,13 +637,13 @@ def build_featured_athlete_rows(
             candidates[key] = candidate
 
     for row in rankings:
-        key = candidate_key_for_row(
+        ranking_key: str | None = candidate_key_for_row(
             row,
             fencer_to_key=fencer_to_key,
             fie_to_key=fie_to_key,
             name_country_to_key=name_country_to_key,
         )
-        candidate = candidates.get(key or "")
+        candidate = candidates.get(ranking_key or "")
         if not candidate:
             continue
         candidate["country"] = candidate.get("country") or normalize_country(row.get("country"))
@@ -650,7 +651,7 @@ def build_featured_athlete_rows(
         candidate["category"] = candidate.get("category") or clean_text(row.get("category"))
         update_best_rank(candidate, row)
 
-    stats_by_identity = {clean_text(row.get("identity_id")): [] for row in stats if clean_text(row.get("identity_id"))}
+    stats_by_identity: dict[str, list[dict[str, Any]]] = {clean_text(row.get("identity_id")): [] for row in stats if clean_text(row.get("identity_id"))}  # type: ignore[misc]
     for row in stats:
         identity_id = clean_text(row.get("identity_id"))
         if identity_id in stats_by_identity:
@@ -672,13 +673,13 @@ def build_featured_athlete_rows(
         if (tournament_id := clean_text(row.get("id")))
     }
     for result in results:
-        key = candidate_key_for_row(
+        result_key: str | None = candidate_key_for_row(
             result,
             fencer_to_key=fencer_to_key,
             fie_to_key=fie_to_key,
             name_country_to_key=name_country_to_key,
         )
-        candidate = candidates.get(key or "")
+        candidate = candidates.get(result_key or "")
         if not candidate:
             continue
         tournament_id = clean_text(result.get("tournament_id"))

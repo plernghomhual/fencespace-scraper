@@ -225,6 +225,7 @@ def build_country_code_index(country_codes: list[dict[str, Any]]) -> CountryCode
 def to_int(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    result: int | None
     try:
         result = int(float(str(value).replace(",", "")))
     except (TypeError, ValueError):

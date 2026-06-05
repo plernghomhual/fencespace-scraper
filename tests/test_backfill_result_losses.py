@@ -62,6 +62,7 @@ class FakeUpdateClient:
         self.updates = []
         self.inserts = []
         self.upserts = []
+        self.rpcs = []
 
     def table(self, table_name):
         self.table_name = table_name
@@ -77,6 +78,13 @@ class FakeUpdateClient:
     def upsert(self, row, on_conflict=None):
         self.upserts.append((self.table_name, row, on_conflict))
         return self
+
+    def rpc(self, name, params):
+        self.rpcs.append((name, params))
+        return self
+
+    def execute(self):
+        return type("Result", (), {"data": len(self.rpcs[-1][1]["p_updates"])})()
 
 
 def test_result_losses_migration_is_idempotent_and_safe():
@@ -321,12 +329,20 @@ def test_apply_result_updates_updates_existing_rows_only():
     )
 
     assert written == 1
-    assert client.updates == [
+    assert client.rpcs == [
         (
-            "fs_results",
-            {"defeats": 1, "elimination_loss_metadata": {"source": "test"}},
-            (("id", "result-1"),),
+            "fs_bulk_update_result_losses",
+            {
+                "p_updates": [
+                    {
+                        "id": "result-1",
+                        "defeats": 1,
+                        "elimination_loss_metadata": {"source": "test"},
+                    }
+                ]
+            },
         )
     ]
+    assert client.updates == []
     assert client.inserts == []
     assert client.upserts == []

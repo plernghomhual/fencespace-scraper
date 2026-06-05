@@ -50,7 +50,7 @@ POOL_WINDOW_DATA = {
     ]
 }
 
-EMPTY_WINDOW_DATA = {}
+EMPTY_WINDOW_DATA: dict[str, object] = {}
 
 
 def test_extract_pool_bouts_returns_rows():

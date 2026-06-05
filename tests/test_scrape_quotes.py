@@ -301,4 +301,4 @@ class FakeTable:
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []

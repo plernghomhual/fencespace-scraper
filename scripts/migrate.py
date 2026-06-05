@@ -175,6 +175,8 @@ def validate_applied_hashes(migrations: list[MigrationFile], rows: list[dict[str
         row = by_filename.get(migration.filename)
         if not row_is_success(row):
             continue
+        if row is None:
+            continue
         stored_hash = row.get("hash")
         if stored_hash and stored_hash != migration.hash:
             messages.append(

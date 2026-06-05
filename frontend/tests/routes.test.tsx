@@ -71,7 +71,7 @@ describe("route rendering", () => {
   it("renders fencer search filters and forwards normalized params", async () => {
     const Page = (await import("@/app/fencers/page")).default;
 
-    render(await Page({ searchParams: { name: "Alex", country: "kor", weapon: "Epee", limit: "25" } }));
+    render(await Page({ searchParams: Promise.resolve({ name: "Alex", country: "kor", weapon: "Epee", limit: "25" }) }));
 
     expect(api.searchFencers).toHaveBeenCalledWith(expect.objectContaining({ name: "Alex", country: "KOR", weapon: "Epee" }));
     expect(screen.getByLabelText("Name")).toHaveValue("Alex");
@@ -82,7 +82,7 @@ describe("route rendering", () => {
     api.searchFencers.mockResolvedValue(okList([]));
     const Page = (await import("@/app/fencers/page")).default;
 
-    render(await Page({ searchParams: { name: "No Match" } }));
+    render(await Page({ searchParams: Promise.resolve({ name: "No Match" }) }));
 
     expect(screen.getByText("No fencers match the current filters.")).toBeInTheDocument();
   });
@@ -91,7 +91,7 @@ describe("route rendering", () => {
     api.listRankings.mockResolvedValue({ ok: false, source: "live", error: "API unavailable", status: 502 });
     const Page = (await import("@/app/rankings/page")).default;
 
-    render(await Page({ searchParams: { weapon: "Epee" } }));
+    render(await Page({ searchParams: Promise.resolve({ weapon: "Epee" }) }));
 
     expect(screen.getByRole("alert")).toHaveTextContent("API unavailable");
   });
@@ -102,14 +102,14 @@ describe("route rendering", () => {
     const CountryPage = (await import("@/app/countries/[code]/page")).default;
     const HeadToHeadPage = (await import("../pages/head-to-head")).default;
 
-    const { rerender } = render(await FencerPage({ params: { id: "f1" } }));
+    const { rerender } = render(await FencerPage({ params: Promise.resolve({ id: "f1" }) }));
     expect(screen.getByRole("heading", { name: "Alex Lee" })).toBeInTheDocument();
 
-    rerender(await TournamentPage({ params: { id: "t1" } }));
+    rerender(await TournamentPage({ params: Promise.resolve({ id: "t1" }) }));
     expect(screen.getByRole("heading", { name: "Tournament t1" })).toBeInTheDocument();
     expect(screen.getByText("Tournament summary is not exposed by the current API contract.")).toBeInTheDocument();
 
-    rerender(await CountryPage({ params: { code: "kor" } }));
+    rerender(await CountryPage({ params: Promise.resolve({ code: "kor" }) }));
     expect(screen.getByRole("heading", { name: "KOR fencing depth" })).toBeInTheDocument();
 
     rerender(

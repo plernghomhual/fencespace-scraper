@@ -327,7 +327,7 @@ def normalize_weapon(*values: Any) -> str | None:
     for value in values:
         key = normalize_key(value)
         if key:
-            return WEAPON_MAP.get(key, clean_text(value).title())
+            return WEAPON_MAP.get(key, (clean_text(value) or "").title())
     return None
 
 
@@ -335,7 +335,7 @@ def normalize_category(*values: Any) -> str:
     for value in values:
         key = normalize_key(value)
         if key:
-            return CATEGORY_MAP.get(key, clean_text(value).title())
+            return CATEGORY_MAP.get(key, (clean_text(value) or "").title())
     return "Open"
 
 

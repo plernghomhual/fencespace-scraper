@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import type { GetServerSidePropsContext } from "next";
 import { vi } from "vitest";
 
 import H2HComparison, {
@@ -128,6 +129,15 @@ function installFetchMock(options: { h2h?: unknown; h2hStatus?: number; rejectH2
   return { calls, fetchMock };
 }
 
+function h2hContext(query: Record<string, string>): GetServerSidePropsContext {
+  return {
+    query,
+    req: {} as GetServerSidePropsContext["req"],
+    res: {} as GetServerSidePropsContext["res"],
+    resolvedUrl: "/head-to-head",
+  } as GetServerSidePropsContext;
+}
+
 async function searchAndSelect(label: string, searchText: string, optionName: string) {
   fireEvent.change(screen.getByLabelText(label), { target: { value: searchText } });
   const option = await screen.findByRole("option", { name: new RegExp(`select ${optionName}`, "i") });
@@ -194,9 +204,7 @@ describe("H2HComparison", () => {
   });
 
   test("loads server-side H2H records from query param aliases", async () => {
-    const response = await getServerSideProps({
-      query: { a: fencers.alex.id, b: fencers.jordan.id },
-    } as Parameters<typeof getServerSideProps>[0]);
+    const response = await getServerSideProps(h2hContext({ a: fencers.alex.id, b: fencers.jordan.id }));
 
     expect("props" in response ? response.props : null).toMatchObject({
       fencerA: fencers.alex.id,
@@ -205,6 +213,9 @@ describe("H2HComparison", () => {
     });
 
     const props = "props" in response ? await response.props : null;
+    if (!props) {
+      throw new Error("expected getServerSideProps to return props");
+    }
     render(<HeadToHeadPage {...props} />);
 
     expect(screen.getByRole("heading", { name: "Head-to-head" })).toBeInTheDocument();
@@ -213,11 +224,12 @@ describe("H2HComparison", () => {
   });
 
   test("renders an empty state when no server-side H2H query is provided", async () => {
-    const response = await getServerSideProps({
-      query: {},
-    } as Parameters<typeof getServerSideProps>[0]);
+    const response = await getServerSideProps(h2hContext({}));
 
     const props = "props" in response ? await response.props : null;
+    if (!props) {
+      throw new Error("expected getServerSideProps to return props");
+    }
     render(<HeadToHeadPage {...props} />);
 
     expect(screen.getByText("Enter two fencer IDs to load head-to-head records.")).toBeInTheDocument();

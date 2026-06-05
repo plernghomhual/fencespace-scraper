@@ -183,7 +183,8 @@ def parse_nominatim_result(payload: Any) -> GeocodeResult | None:
     except (KeyError, TypeError, ValueError):
         return None
 
-    address = row.get("address") if isinstance(row.get("address"), dict) else {}
+    _raw_address = row.get("address")
+    address: dict[Any, Any] = _raw_address if isinstance(_raw_address, dict) else {}
     raw_country_code = clean_text(address.get("country_code"))
     country_code = raw_country_code.upper() or None
     nominatim_meta = {
@@ -367,6 +368,13 @@ def merge_tournament_metadata(metadata: Any, venue_id: Any) -> dict[str, Any]:
     return merged
 
 
+def apply_tournament_metadata_updates(client: Any, updates: list[dict[str, Any]]) -> int:
+    if not updates:
+        return 0
+    client.rpc("fs_bulk_update_tournament_metadata", {"p_updates": updates}).execute()
+    return len(updates)
+
+
 def link_tournaments_to_venue(
     client: Any,
     tournaments: list[dict[str, Any]],
@@ -375,18 +383,16 @@ def link_tournaments_to_venue(
     if not venue_id:
         return 0
 
-    linked = 0
+    updates: list[dict[str, Any]] = []
     for tournament in tournaments:
-        metadata = tournament.get("metadata") if isinstance(tournament.get("metadata"), dict) else {}
+        _raw_metadata = tournament.get("metadata")
+        metadata: dict[Any, Any] = _raw_metadata if isinstance(_raw_metadata, dict) else {}
         if str(metadata.get("venue_id")) == str(venue_id):
             continue
         merged = merge_tournament_metadata(metadata, venue_id)
-        client.table("fs_tournaments").update({"metadata": merged}).eq(
-            "id", tournament["id"]
-        ).execute()
+        updates.append({"id": tournament["id"], "metadata": merged})
         tournament["metadata"] = merged
-        linked += 1
-    return linked
+    return apply_tournament_metadata_updates(client, updates)
 
 
 def _state_list(value: Any) -> set[str]:

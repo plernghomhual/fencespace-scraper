@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hmac
 import os
 from collections import Counter
 from datetime import datetime, timedelta, timezone
@@ -10,6 +11,7 @@ import streamlit as st
 
 
 REQUIRED_ENV_VARS = ("SUPABASE_URL", "SUPABASE_SERVICE_KEY")
+DASHBOARD_AUTH_TOKEN_ENV_VARS = ("FENCESPACE_DASHBOARD_TOKEN", "DASHBOARD_AUTH_TOKEN")
 
 PAGE_STATUS = "Status Dashboard"
 PAGE_COUNTS = "Data Counts"
@@ -63,6 +65,39 @@ HEALTH_BACKGROUND = {
 
 def _missing_env_vars() -> list[str]:
     return [name for name in REQUIRED_ENV_VARS if not os.environ.get(name)]
+
+
+def _dashboard_auth_token() -> str | None:
+    for name in DASHBOARD_AUTH_TOKEN_ENV_VARS:
+        value = os.environ.get(name, "").strip()
+        if value:
+            return value
+    return None
+
+
+def require_dashboard_auth() -> bool:
+    expected = _dashboard_auth_token()
+    if not expected:
+        st.error("Dashboard authentication is not configured.")
+        st.stop()
+        return False
+
+    if st.session_state.get("dashboard_authenticated") is True:
+        return True
+
+    provided = st.sidebar.text_input("Dashboard token", type="password")
+    if not provided:
+        st.warning("Authentication required.")
+        st.stop()
+        return False
+
+    if not hmac.compare_digest(str(provided), expected):
+        st.error("Invalid dashboard token.")
+        st.stop()
+        return False
+
+    st.session_state["dashboard_authenticated"] = True
+    return True
 
 
 @st.cache_resource(show_spinner=False)
@@ -529,6 +564,8 @@ def render_error_log(client: Any) -> None:
 def main() -> None:
     st.set_page_config(page_title="Scraper Health", layout="wide")
     st.title("Scraper Health")
+
+    require_dashboard_auth()
 
     missing = _missing_env_vars()
     if missing:

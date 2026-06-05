@@ -23,6 +23,7 @@ DEFAULT_PAGE_SIZE = 1000
 DEFAULT_CHUNK_SIZE = 5000
 DEFAULT_RETRIES = 2
 DEFAULT_OUTPUT_DIR = "bigquery_export"
+VALIDATION_DIAGNOSTIC_LIMIT = 50
 
 
 @dataclass(frozen=True)
@@ -518,6 +519,7 @@ def _coerce_json(value: Any) -> Any:
 
 
 def coerce_value(value: Any, column: Column) -> Any:
+    coerced: Any
     if column.bq_type == "STRING":
         coerced = _coerce_string(value)
     elif column.bq_type == "INTEGER":
@@ -799,6 +801,7 @@ def export_table(
     chunks = resume_progress["chunks"]
     source_rows_consumed = 0
     chunk: list[dict[str, Any]] = []
+    validation_errors: list[dict[str, Any]] = []
 
     try:
         client = client or get_supabase_client()
@@ -823,8 +826,16 @@ def export_table(
                 source_rows_consumed += 1
                 try:
                     chunk.append(build_payload(config.key, row))
-                except RowValidationError:
+                except RowValidationError as exc:
                     skipped += 1
+                    if len(validation_errors) < VALIDATION_DIAGNOSTIC_LIMIT:
+                        validation_errors.append(
+                            {
+                                "source_offset": start_offset + source_rows_consumed - 1,
+                                "row_id": row.get("id") or None,
+                                "error": str(exc),
+                            }
+                        )
                     continue
 
                 if len(chunk) >= chunk_size:
@@ -871,6 +882,8 @@ def export_table(
             "chunks": chunks,
             "dry_run": bool(getattr(writer, "dry_run", False)),
         }
+        if validation_errors:
+            summary["validation_errors"] = validation_errors
         if update_state:
             _record_progress(
                 state_setter,

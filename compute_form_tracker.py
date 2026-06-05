@@ -77,6 +77,7 @@ def compact_key(value: Any) -> str:
 def coerce_rank(value: Any) -> int | None:
     if value is None or value == "":
         return None
+    rank: int | None
     try:
         rank = int(float(value))
     except (TypeError, ValueError):

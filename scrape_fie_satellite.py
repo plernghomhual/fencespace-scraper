@@ -800,32 +800,14 @@ def upsert_tournament_rows(client, rows: list[dict[str, Any]]) -> dict[str, str]
 def replace_results(client, tournament_id: str, rows: list[dict[str, Any]]) -> int:
     if not rows:
         return 0
-    old_rows: list[dict[str, Any]] = []
-    offset = 0
-    while True:
-        page = (
-            client.table("fs_results")
-            .select("*")
-            .eq("tournament_id", tournament_id)
-            .range(offset, offset + PAGE_SIZE - 1)
-            .execute()
-            .data
-            or []
-        )
-        old_rows.extend(page)
-        if len(page) < PAGE_SIZE:
-            break
-        offset += PAGE_SIZE
-
-    client.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     try:
         for i in range(0, len(rows), BATCH_SIZE):
-            client.table("fs_results").insert(rows[i : i + BATCH_SIZE]).execute()
+            client.table("fs_results").upsert(
+                rows[i : i + BATCH_SIZE],
+                on_conflict="tournament_id,name",
+            ).execute()
     except Exception as exc:
-        print(f"  Results insert failed for {tournament_id}; restoring old rows: {exc}")
-        client.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
-        for i in range(0, len(old_rows), BATCH_SIZE):
-            client.table("fs_results").insert(old_rows[i : i + BATCH_SIZE]).execute()
+        print(f"  Results upsert failed for {tournament_id}; existing rows were preserved: {exc}")
         return 0
     return len(rows)
 

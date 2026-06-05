@@ -10,8 +10,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class FakeStreamlit:
     def __init__(self):
-        self.sidebar = types.SimpleNamespace(radio=lambda *args, **kwargs: "Status Dashboard")
+        self.session_state = {}
+        self.sidebar_text_input_value = ""
+        self.sidebar = types.SimpleNamespace(
+            radio=lambda *args, **kwargs: "Status Dashboard",
+            text_input=self._sidebar_text_input,
+        )
         self.calls = []
+
+    def _sidebar_text_input(self, *args, **kwargs):
+        self.calls.append(("sidebar.text_input", args, kwargs))
+        return self.sidebar_text_input_value
 
     def cache_data(self, *args, **kwargs):
         return lambda fn: fn
@@ -119,6 +128,33 @@ def test_dashboard_app_imports_with_streamlit_mock(monkeypatch):
     assert module.REQUIRED_ENV_VARS == ("SUPABASE_URL", "SUPABASE_SERVICE_KEY")
     assert callable(module.main)
     assert callable(module.fetch_status_rows)
+
+
+def test_dashboard_auth_fails_closed_without_configured_token(monkeypatch):
+    monkeypatch.delenv("FENCESPACE_DASHBOARD_TOKEN", raising=False)
+    monkeypatch.delenv("DASHBOARD_AUTH_TOKEN", raising=False)
+    module, fake_streamlit = import_dashboard_with_fake_streamlit(monkeypatch)
+
+    try:
+        module.require_dashboard_auth()
+    except RuntimeError as exc:
+        assert str(exc) == "streamlit stopped"
+    else:
+        raise AssertionError("dashboard auth must stop when no token is configured")
+
+    assert ("error", ("Dashboard authentication is not configured.",), {}) in fake_streamlit.calls
+
+
+def test_dashboard_auth_uses_password_input_and_session_state(monkeypatch):
+    monkeypatch.setenv("FENCESPACE_DASHBOARD_TOKEN", "dashboard-secret")
+    module, fake_streamlit = import_dashboard_with_fake_streamlit(monkeypatch)
+    fake_streamlit.sidebar_text_input_value = "dashboard-secret"
+
+    assert module.require_dashboard_auth() is True
+
+    assert fake_streamlit.session_state["dashboard_authenticated"] is True
+    assert fake_streamlit.calls[0][0] == "sidebar.text_input"
+    assert fake_streamlit.calls[0][2]["type"] == "password"
 
 
 def test_dashboard_fetchers_handle_status_counts_coverage_and_errors(monkeypatch):

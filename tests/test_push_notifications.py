@@ -391,3 +391,55 @@ def test_provider_failures_retry_with_backoff_and_log_success(monkeypatch):
     assert delivery_log["status"] == "sent"
     assert delivery_log["attempt_count"] == 3
     assert delivery_log["error"] is None
+
+
+def test_provider_failure_errors_are_redacted_before_delivery_log(monkeypatch):
+    import push_notifications
+
+    class SecretFailingProvider:
+        provider_name = "fcm"
+        dry_run = False
+
+        def send(self, subscription, payload):
+            return push_notifications.DeliveryResult(
+                success=False,
+                status="failed",
+                error=(
+                    "Authorization: Bearer raw-access-token "
+                    "provider_token=private-device-token FCM_SERVER_KEY=raw-server-key"
+                ),
+                dry_run=False,
+            )
+
+    state = {}
+    client = FakeSupabase(
+        results=[live_result_row()],
+        subscriptions=[subscription_row(provider="fcm")],
+    )
+    monkeypatch.setattr(
+        push_notifications,
+        "get_state",
+        lambda source, key: state.get((source, key)),
+    )
+    monkeypatch.setattr(
+        push_notifications,
+        "set_state",
+        lambda source, key, value: state.__setitem__((source, key), value),
+    )
+
+    summary = push_notifications.run_push_notifications(
+        client=client,
+        provider=SecretFailingProvider(),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        log_run=False,
+        retry_policy=push_notifications.RetryPolicy(max_attempts=1),
+    )
+
+    delivery_log = [
+        call for call in client.upserts if call["table"] == "fs_push_delivery_log"
+    ][0]["row"]
+    assert summary["failed"] == 1
+    assert "[REDACTED]" in delivery_log["error"]
+    assert "raw-access-token" not in delivery_log["error"]
+    assert "private-device-token" not in delivery_log["error"]
+    assert "raw-server-key" not in delivery_log["error"]

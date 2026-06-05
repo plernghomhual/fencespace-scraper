@@ -596,10 +596,10 @@ def upsert_social_feed_rows(client, rows: list[dict[str, Any]]) -> None:
 
 
 def build_default_providers(env: dict[str, str] | None = None):
-    env = env if env is not None else os.environ
-    providers = [XRecentSearchProvider(env=env)]
-    if env.get("BLUESKY_SEARCH_ENABLED"):
-        providers.append(BlueskySearchProvider(env=env))
+    resolved_env: dict[str, str] = env if env is not None else dict(os.environ)
+    providers: list[XRecentSearchProvider | BlueskySearchProvider] = [XRecentSearchProvider(env=resolved_env)]
+    if resolved_env.get("BLUESKY_SEARCH_ENABLED"):
+        providers.append(BlueskySearchProvider(env=resolved_env))
     return providers
 
 
@@ -618,7 +618,8 @@ def run(
     env: dict[str, str] | None = None,
     sleep=time.sleep,
 ) -> dict[str, Any]:
-    env = env if env is not None else os.environ
+    resolved_env: dict[str, str] = env if env is not None else dict(os.environ)
+    env = resolved_env
     providers = list(providers) if providers is not None else build_default_providers(env)
     missing_provider_keys = _missing_provider_keys(providers)
     configured = [
@@ -672,9 +673,9 @@ def run(
 
 
 def _get_client(env: dict[str, str] | None = None):
-    env = env if env is not None else os.environ
-    url = env.get("SUPABASE_URL")
-    key = env.get("SUPABASE_SERVICE_KEY") or env.get("SUPABASE_SERVICE_ROLE_KEY")
+    resolved_env: dict[str, str] = env if env is not None else dict(os.environ)
+    url = resolved_env.get("SUPABASE_URL")
+    key = resolved_env.get("SUPABASE_SERVICE_KEY") or resolved_env.get("SUPABASE_SERVICE_ROLE_KEY")
     if not url or not key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY are required")
     from supabase import create_client
@@ -685,7 +686,7 @@ def _get_client(env: dict[str, str] | None = None):
 def main() -> int:
     run_log = ScraperRunLogger(SOURCE).start()
     try:
-        env = os.environ
+        env: dict[str, str] = dict(os.environ)
         providers = build_default_providers(env)
         missing_provider_keys = _missing_provider_keys(providers)
         client = None

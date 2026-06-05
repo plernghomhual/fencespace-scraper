@@ -176,7 +176,7 @@ def medalist_row(row: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_medalists(sorted_results: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
-    medalists = {"gold": [], "silver": [], "bronze": []}
+    medalists: dict[str, list[dict[str, Any]]] = {"gold": [], "silver": [], "bronze": []}
     for row in sorted_results:
         rank = result_rank(row)
         if rank == 1:
@@ -244,7 +244,8 @@ def round_sort_value(round_name: Any) -> tuple[int, int, str]:
 
 
 def bout_sort_key(row: dict[str, Any]) -> tuple[int, int, str, str]:
-    metadata = row.get("metadata") if isinstance(row.get("metadata"), dict) else {}
+    _raw_meta = row.get("metadata")
+    metadata: dict[str, Any] = _raw_meta if isinstance(_raw_meta, dict) else {}
     order = coerce_int(metadata.get("bout_order") or row.get("bout_order"))
     round_group, round_number, round_name = round_sort_value(row.get("round"))
     return (round_group, order or round_number, round_name, display_value(row.get("id"), ""))

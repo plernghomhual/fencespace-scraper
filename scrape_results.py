@@ -26,6 +26,21 @@ HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 RESULTS_UNAVAILABLE_THRESHOLD = int(os.environ.get("RESULTS_UNAVAILABLE_THRESHOLD", "3"))
 
 
+def fetch_all_pages(client, table_name, columns, configure=None, page_size=1000):
+    rows = []
+    start = 0
+    while True:
+        query = client.table(table_name).select(columns)
+        if configure:
+            query = configure(query)
+        page = query.range(start, start + page_size - 1).execute().data or []
+        rows.extend(page)
+        if len(page) < page_size:
+            break
+        start += page_size
+    return rows
+
+
 def extract_inline_json(html):
     matches = re.findall(r'window\.\w+\s*=\s*(\{.*?\}|\[.*?\]);', html, re.DOTALL)
     blocks = []
@@ -266,13 +281,15 @@ def filter_tournaments(tournaments, season=None, weapon=None):
 
 def discover_urls_main(season=None):
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    tournaments_no_url = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,start_date")\
-        .lte("end_date", today)\
-        .eq("is_sub_competition", False)\
-        .is_("competition_url_id", "null")\
-        .not_.is_("fie_id", "null")\
-        .execute().data
+    tournaments_no_url = fetch_all_pages(
+        supabase,
+        "fs_tournaments",
+        "id,fie_id,name,season,weapon,gender,start_date",
+        lambda query: query.lte("end_date", today)
+        .eq("is_sub_competition", False)
+        .is_("competition_url_id", "null")
+        .not_.is_("fie_id", "null"),
+    )
 
     tournaments_no_url = filter_tournaments(tournaments_no_url, season=season)
     print(f"Found {len(tournaments_no_url)} completed tournaments needing URL ID discovery")
@@ -298,26 +315,34 @@ def main(season=None, weapon=None, limit=0):
 
     # Get all completed tournaments that don't have results yet
     # and have a competition_url_id; exclude permanently unavailable ones
-    tournaments = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
-        .lte("end_date", today)\
-        .eq("is_sub_competition", False)\
-        .not_.is_("competition_url_id", "null")\
-        .neq("results_unavailable", True)\
-        .execute().data
+    tournament_columns = (
+        "id,fie_id,name,season,weapon,gender,competition_url_id,"
+        "results_check_failures,results_unavailable"
+    )
+    tournaments = fetch_all_pages(
+        supabase,
+        "fs_tournaments",
+        tournament_columns,
+        lambda query: query.lte("end_date", today)
+        .eq("is_sub_competition", False)
+        .not_.is_("competition_url_id", "null")
+        .neq("results_unavailable", True),
+    )
 
     tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
     print(f"Found {len(tournaments)} completed tournaments with URL IDs (excluding unavailable)")
 
     # Also get tournaments without competition_url_id — need to discover them
-    tournaments_no_url = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,start_date")\
-        .lte("end_date", today)\
-        .eq("is_sub_competition", False)\
-        .is_("competition_url_id", "null")\
-        .not_.is_("fie_id", "null")\
-        .neq("results_unavailable", True)\
-        .execute().data
+    tournaments_no_url = fetch_all_pages(
+        supabase,
+        "fs_tournaments",
+        "id,fie_id,name,season,weapon,gender,start_date",
+        lambda query: query.lte("end_date", today)
+        .eq("is_sub_competition", False)
+        .is_("competition_url_id", "null")
+        .not_.is_("fie_id", "null")
+        .neq("results_unavailable", True),
+    )
 
     tournaments_no_url = filter_tournaments(tournaments_no_url, season=season, weapon=weapon)
     print(f"Found {len(tournaments_no_url)} completed tournaments needing URL ID discovery")
@@ -328,47 +353,46 @@ def main(season=None, weapon=None, limit=0):
             print(f"Only {len(tournaments_no_url)} unmapped — running targeted discovery")
         discover_competition_url_ids(tournaments_no_url)
         # Re-fetch with url ids now populated
-        tournaments = supabase.table("fs_tournaments")\
-            .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
-            .lte("end_date", today)\
-            .eq("is_sub_competition", False)\
-            .not_.is_("competition_url_id", "null")\
-            .neq("results_unavailable", True)\
-            .execute().data
+        tournaments = fetch_all_pages(
+            supabase,
+            "fs_tournaments",
+            tournament_columns,
+            lambda query: query.lte("end_date", today)
+            .eq("is_sub_competition", False)
+            .not_.is_("competition_url_id", "null")
+            .neq("results_unavailable", True),
+        )
         tournaments = filter_tournaments(tournaments, season=season, weapon=weapon)
 
     # Also include currently live tournaments (started but not ended yet)
-    live_tournaments = supabase.table("fs_tournaments")\
-        .select("id,fie_id,name,season,weapon,gender,competition_url_id,results_check_failures,results_unavailable")\
-        .lte("start_date", today)\
-        .gte("end_date", today)\
-        .eq("is_sub_competition", False)\
-        .not_.is_("competition_url_id", "null")\
-        .execute().data
+    live_tournaments = fetch_all_pages(
+        supabase,
+        "fs_tournaments",
+        tournament_columns,
+        lambda query: query.lte("start_date", today)
+        .gte("end_date", today)
+        .eq("is_sub_competition", False)
+        .not_.is_("competition_url_id", "null"),
+    )
 
     live_tournaments = filter_tournaments(live_tournaments, season=season, weapon=weapon)
     print(f"Found {len(live_tournaments)} live tournaments")
     tournaments = tournaments + live_tournaments
 
     # Check which already have results (paginated — fs_results can exceed 1000 rows)
-    existing_ids: set = set()
-    _ex_offset = 0
-    while True:
-        _page = supabase.table("fs_results").select("tournament_id")\
-            .range(_ex_offset, _ex_offset + 999).execute().data or []
-        for r in _page:
-            if r.get("tournament_id"):
-                existing_ids.add(r["tournament_id"])
-        if len(_page) < 1000:
-            break
-        _ex_offset += 1000
+    existing_ids = {
+        row["tournament_id"]
+        for row in fetch_all_pages(supabase, "fs_results", "tournament_id")
+        if row.get("tournament_id")
+    }
 
     # Always re-scrape recent tournaments (ended within the last 7 days)
-    recent_tournaments = supabase.table("fs_tournaments")\
-        .select("id")\
-        .gte("end_date", week_ago)\
-        .lte("end_date", today)\
-        .execute().data
+    recent_tournaments = fetch_all_pages(
+        supabase,
+        "fs_tournaments",
+        "id",
+        lambda query: query.gte("end_date", week_ago).lte("end_date", today),
+    )
     recent_ids = set(r["id"] for r in recent_tournaments)
 
     # Scrape if: no results yet OR recently ended
@@ -432,29 +456,14 @@ def main(season=None, weapon=None, limit=0):
             time.sleep(1)
             continue
 
-        # Fetch existing rows so we can restore them if inserts fail (paginated)
-        old_rows: list = []
-        _old_offset = 0
-        while True:
-            _old_page = supabase.table("fs_results").select("*").eq("tournament_id", tournament_id)\
-                .range(_old_offset, _old_offset + 999).execute().data or []
-            old_rows.extend(_old_page)
-            if len(_old_page) < 1000:
-                break
-            _old_offset += 1000
-        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
         try:
             for i in range(0, len(result_rows), 100):
-                supabase.table("fs_results").insert(result_rows[i:i+100]).execute()
-        except Exception as insert_exc:
-            print(f"    Insert failed: {insert_exc}; restoring {len(old_rows)} existing rows")
-            supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
-            if old_rows:
-                try:
-                    for i in range(0, len(old_rows), 100):
-                        supabase.table("fs_results").insert(old_rows[i:i+100]).execute()
-                except Exception as restore_exc:
-                    print(f"    CRITICAL: restore also failed for tournament {tournament_id}: {restore_exc}")
+                supabase.table("fs_results").upsert(
+                    result_rows[i:i+100],
+                    on_conflict="tournament_id,name",
+                ).execute()
+        except Exception as upsert_exc:
+            print(f"    Result upsert failed without deleting existing rows: {upsert_exc}")
             mark_results_failure(tournament_id, current_failures)
             failed += 1
             time.sleep(1)
@@ -465,7 +474,7 @@ def main(season=None, weapon=None, limit=0):
             "results_check_failures": 0,
             "results_unavailable": False,
         }).eq("id", tournament_id).execute()
-        print(f"    Inserted {len(result_rows)} results")
+        print(f"    Upserted {len(result_rows)} results")
         scraped += 1
         time.sleep(0.3)  # be polite to FIE
 

@@ -183,7 +183,7 @@ def test_blocked_public_probe_is_skipped_without_parser_execution():
 
 
 class FakeResult:
-    data = []
+    data: list[object] = []
 
 
 class FakeUpsertTable:

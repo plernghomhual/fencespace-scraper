@@ -10,6 +10,18 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 BRACKET_TABLE = "fs_tournament_brackets"
 DEFAULT_MAX_ROWS = 1000
 MAX_BRACKET_ROWS = 2000
+PUBLIC_METADATA_KEYS = frozenset(
+    {
+        "piste",
+        "source_bout_id",
+        "source_round",
+        "source_file",
+        "source_url",
+        "result_url",
+        "competition_url",
+    }
+)
+PUBLIC_METADATA_VALUE_TYPES = (str, int, float, bool)
 
 BRACKET_SELECT = ",".join(
     [
@@ -98,6 +110,17 @@ def score_value(row: dict[str, Any], side: str) -> Any:
     return None
 
 
+def public_metadata(row: dict[str, Any]) -> dict[str, Any]:
+    metadata = row.get("metadata")
+    if not isinstance(metadata, dict):
+        return {}
+    return {
+        key: value
+        for key, value in metadata.items()
+        if key in PUBLIC_METADATA_KEYS and isinstance(value, PUBLIC_METADATA_VALUE_TYPES)
+    }
+
+
 def fencer_payload(row: dict[str, Any], side: str) -> dict[str, Any] | None:
     prefix = f"fencer_{side}"
     fencer_id = first_present(row, f"{prefix}_id", prefix, f"fie_fencer_id_{side}")
@@ -177,7 +200,7 @@ def bout_payload(row: dict[str, Any]) -> dict[str, Any]:
         "winner_id": row.get("winner_id"),
         "source": row.get("source"),
         "source_url": row.get("source_url"),
-        "metadata": row.get("metadata") if isinstance(row.get("metadata"), dict) else {},
+        "metadata": public_metadata(row),
     }
 
 

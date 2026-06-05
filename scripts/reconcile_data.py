@@ -9,7 +9,7 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -450,9 +450,9 @@ def reconcile(
             set_state(MODULE_NAME, "last_run", state)
         if run_log:
             run_log.complete(
-                written=report["matched"],
-                failed=report["mismatched"],
-                skipped=report["in_a_only"] + report["in_b_only"],
+                written=cast(int, report["matched"]),
+                failed=cast(int, report["mismatched"]),
+                skipped=cast(int, report["in_a_only"]) + cast(int, report["in_b_only"]),
                 metadata=state,
             )
         return report
