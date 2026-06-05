@@ -1,6 +1,7 @@
 import ast
 import sys
 from pathlib import Path
+from typing import Any
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -58,7 +59,7 @@ def _direct_requests_calls(path: Path) -> list[int]:
 def test_federation_request_waits_for_domain_and_records_success(monkeypatch):
     import fed_rankings_common
 
-    calls = []
+    calls: list[tuple[Any, ...]] = []
 
     class Response:
         status_code = 200

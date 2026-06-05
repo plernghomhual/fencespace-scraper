@@ -1,3 +1,4 @@
+from typing import Any, cast
 import sys
 from pathlib import Path
 
@@ -104,7 +105,7 @@ class FakeSession:
 def test_geocode_location_calls_nominatim_with_required_user_agent():
     session = FakeSession([FakeResponse(200, [NOMINATIM_PARIS])])
 
-    result = geocode_location("Paris", "France", session=session)
+    result = cast(GeocodeResult, geocode_location("Paris", "France", session=session))
 
     assert result.latitude == 48.8534951
     assert session.calls == [
@@ -133,9 +134,9 @@ def test_geocode_location_retries_once_after_rate_limit():
             FakeResponse(200, [NOMINATIM_PARIS]),
         ]
     )
-    sleeps = []
+    sleeps: list[Any] = []
 
-    result = geocode_location("Paris", "France", session=session, sleep_func=sleeps.append)
+    result = cast(GeocodeResult, geocode_location("Paris", "France", session=session, sleep_func=sleeps.append))
 
     assert result.country_code == "FR"
     assert len(session.calls) == 2
@@ -187,7 +188,7 @@ class FakeTable:
             return type("Result", (), {"data": [dict(row) for row in rows]})()
 
         if self.operation == "upsert":
-            row = dict(self.payload)
+            row = dict(cast(dict[str, Any], self.payload))
             self.client.upserts.append((self.name, row, self.on_conflict))
             if self.name == "fs_venues":
                 key = (row["name"], row["city"], row["country"])
@@ -204,11 +205,11 @@ class FakeTable:
             return type("Result", (), {"data": [row]})()
 
         if self.operation == "update":
-            column, value = self.eq_filter
-            self.client.updates.append((self.name, column, value, dict(self.payload)))
+            column, value = cast(tuple[str, Any], self.eq_filter)
+            self.client.updates.append((self.name, column, value, dict(cast(dict[str, Any], self.payload))))
             for row in self.client.tables.get(self.name, []):
                 if row.get(column) == value:
-                    row.update(self.payload)
+                    row.update(cast(dict[str, Any], self.payload))
             return type("Result", (), {"data": []})()
 
         return type("Result", (), {"data": []})()
@@ -431,7 +432,7 @@ def test_enrich_locations_persists_nominatim_failure_cache_on_failed_geocode():
         ]
     )
     geocoder = FakeGeocoder({("Atlantis", "Ocean"): None})
-    state = {}
+    state: dict[Any, Any] = {}
 
     enrich_locations(
         client,
@@ -461,7 +462,7 @@ def test_enrich_locations_sleeps_one_second_between_geocode_requests():
             ("Turin", "Italy"): GeocodeResult(45.0677551, 7.6824892, "IT", {}),
         }
     )
-    sleeps = []
+    sleeps: list[Any] = []
 
     enrich_locations(client, geocode_func=geocoder, sleep_func=sleeps.append)
 

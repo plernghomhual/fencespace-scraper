@@ -1,3 +1,4 @@
+from typing import Any, cast
 from enrich_locations import link_tournaments_to_venue
 
 
@@ -38,7 +39,7 @@ class FakeClient:
 
 def test_link_tournaments_to_venue_bulk_updates_metadata():
     client = FakeClient()
-    tournaments = [
+    tournaments: list[dict[str, Any]] = [
         {"id": "t-1", "metadata": {"source": "fie"}},
         {"id": "t-2", "metadata": {"venue_id": "venue-1"}},
         {"id": "t-3", "metadata": {}},

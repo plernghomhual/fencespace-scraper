@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 
@@ -219,7 +220,7 @@ def test_prepare_result_rows_matches_fie_id_then_name_country_and_logs_unmatched
             {"rank": 3, "fencer": "Unknown Athlete", "country": "POL", "fie_id": None, "medal": "Bronze", "points": 16.0},
         ],
     }
-    unmatched = []
+    unmatched: list[Any] = []
 
     rows = prepare_result_rows("tournament-1", event, fencer_index, unmatched)
 
@@ -332,7 +333,7 @@ def test_upsert_event_results_never_inserts_null_fencer_orphans():
 def test_rate_limiter_waits_between_requests():
     from scrape_iwas_games import RateLimiter
 
-    observed_sleeps = []
+    observed_sleeps: list[Any] = []
     now = iter([10.0, 10.2, 11.0])
     limiter = RateLimiter(delay_seconds=1.0, monotonic=lambda: next(now), sleep=observed_sleeps.append)
 

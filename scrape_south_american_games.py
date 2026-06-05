@@ -13,6 +13,7 @@ import re
 import time
 import unicodedata
 from datetime import datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -29,6 +30,12 @@ if SUPABASE_URL and SUPABASE_KEY:
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
+
 SOURCE = "south_american_games"
 REQUEST_DELAY = 2.0
 HEADERS = {
@@ -36,7 +43,7 @@ HEADERS = {
     "Accept": "text/html,*/*;q=0.8",
 }
 
-KNOWN_EDITIONS = [
+KNOWN_EDITIONS: list[dict[str, Any]] = [
     {"edition_id": "1978", "edition_name": "La Paz 1978", "year": "1978", "source_url": None},
     {"edition_id": "1982", "edition_name": "Rosario 1982", "year": "1982", "source_url": None},
     {"edition_id": "1986", "edition_name": "Santiago 1986", "year": "1986", "source_url": None},
@@ -220,7 +227,8 @@ def parse_result_rows(html):
             for idx, name in enumerate(names):
                 country = countries[idx] if idx < len(countries) else (countries[0] if countries else None)
                 athlete_link = cells[name_idx].find("a", href=re.compile(r"/athletes?/(\d+)"))
-                athlete_id = re.search(r"/athletes?/(\d+)", athlete_link["href"]).group(1) if athlete_link else None
+                athlete_match = re.search(r"/athletes?/(\d+)", athlete_link["href"]) if athlete_link else None
+                athlete_id = athlete_match.group(1) if athlete_match else None
                 rows.append(
                     {
                         "rank": rank,
@@ -404,7 +412,7 @@ def discover_events():
 
 def _match_fencer(name, country):
     try:
-        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
+        rows = _db().table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
         return rows[0]["id"] if len(rows) == 1 else None
     except Exception:
         return None
@@ -413,7 +421,7 @@ def _match_fencer(name, country):
 def upsert_tournament(event):
     row = build_tournament_row(event, event["classification"])
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {row['source_id']}: {exc}")
@@ -439,12 +447,12 @@ def upsert_results(tournament_id, result_rows):
         )
     if not db_rows:
         return 0
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i : i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

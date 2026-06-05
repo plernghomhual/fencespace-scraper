@@ -9,6 +9,7 @@ Probe evidence:
     ФАМИЛИЯ | ИМЕ | КЛУБ | Год. | Точки.
 """
 
+from typing import cast
 import os
 import sys
 
@@ -190,6 +191,7 @@ def test_fetch_rankings_page_decodes_google_csv_as_utf8(monkeypatch):
     monkeypatch.setattr(scrape_fed_bul.requests, "get", lambda *args, **kwargs: Response())
 
     content = scrape_fed_bul.fetch_rankings_page("Sabre", "Men", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_bul.parse_rankings_table(content)
 
     assert rows[0]["name"] == "Стойчев Тодор"

@@ -1,3 +1,4 @@
+from typing import Any
 import json
 import re
 from pathlib import Path
@@ -159,7 +160,7 @@ def test_no_duplicate_codes_or_conflicting_aliases():
     from scripts.country_codes import COUNTRY_CODES, country_seed_rows
 
     def assert_unique(values, label):
-        seen = {}
+        seen: dict[Any, Any] = {}
         for country in COUNTRY_CODES:
             value = getattr(country, label)
             if not value:

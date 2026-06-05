@@ -1,3 +1,4 @@
+from typing import Any
 from pathlib import Path
 import os
 import sys
@@ -25,7 +26,7 @@ def test_build_leaderboard_dedupes_platform_handles_and_excludes_private_missing
             }
         ]
     )
-    social_rows = [
+    social_rows: list[dict[str, Any]] = [
         {
             "fencer_id": ALICE_DUPLICATE,
             "platform": "Instagram",

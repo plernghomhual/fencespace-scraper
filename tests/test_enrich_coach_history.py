@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -295,7 +296,7 @@ def test_fetch_source_pages_rate_limits_and_skips_blocked_stubs():
     from enrich_coach_history import fetch_source_pages
 
     session = FakeSession()
-    sleeps = []
+    sleeps: list[Any] = []
     pages, summary = fetch_source_pages(
         [
             {

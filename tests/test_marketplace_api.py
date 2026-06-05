@@ -1,3 +1,4 @@
+from typing import Any, cast
 import hashlib
 import hmac
 import importlib
@@ -65,30 +66,31 @@ class FakeQuery:
                 rows = rows[: self.limit_count]
             return FakeResponse(rows)
         if self.operation == "insert":
-            self.client.inserts.append({"table": self.table_name, "row": dict(self.payload)})
-            self.client.tables.setdefault(self.table_name, []).append(dict(self.payload))
-            return FakeResponse([dict(self.payload)])
+            self.client.inserts.append({"table": self.table_name, "row": dict(cast(dict[str, Any], self.payload))})
+            self.client.tables.setdefault(self.table_name, []).append(dict(cast(dict[str, Any], self.payload)))
+            return FakeResponse([dict(cast(dict[str, Any], self.payload))])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {
                     "table": self.table_name,
-                    "row": dict(self.payload),
+                    "row": dict(cast(dict[str, Any], self.payload)),
                     "on_conflict": self.on_conflict,
                 }
             )
             rows = self.client.tables.setdefault(self.table_name, [])
             conflict_columns = [part.strip() for part in (self.on_conflict or "").split(",") if part.strip()]
             match = None
+            payload = cast(dict[str, Any], self.payload)
             if conflict_columns:
                 for row in rows:
-                    if all(str(row.get(column)) == str(self.payload.get(column)) for column in conflict_columns):
+                    if all(str(row.get(column)) == str(payload.get(column)) for column in conflict_columns):
                         match = row
                         break
             if match is None:
-                rows.append(dict(self.payload))
+                rows.append(dict(cast(dict[str, Any], self.payload)))
             else:
-                match.update(dict(self.payload))
-            return FakeResponse([dict(self.payload)])
+                match.update(dict(cast(dict[str, Any], self.payload)))
+            return FakeResponse([dict(cast(dict[str, Any], self.payload))])
         raise AssertionError(f"unexpected operation {self.operation}")
 
 

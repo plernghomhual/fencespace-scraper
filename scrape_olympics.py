@@ -10,6 +10,7 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -24,6 +25,12 @@ supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 OLYMPEDIA_BASE = "https://www.olympedia.org"
 SOURCE = "olympedia"
@@ -91,8 +98,12 @@ def parse_sport_page(html):
         edition_link = cells[1].find("a", href=re.compile(r"/editions/\d+"))
         if not result_link or not edition_link:
             continue
-        result_id = re.search(r"/results/(\d+)", result_link["href"]).group(1)
-        edition_id = re.search(r"/editions/(\d+)", edition_link["href"]).group(1)
+        result_match = re.search(r"/results/(\d+)", result_link["href"])
+        edition_match = re.search(r"/editions/(\d+)", edition_link["href"])
+        if not result_match or not edition_match:
+            continue
+        result_id = result_match.group(1)
+        edition_id = edition_match.group(1)
         events.append({
             "result_id": result_id,
             "event_name": result_link.text.strip(),
@@ -120,7 +131,10 @@ def parse_edition_sport_page(html, edition_id, edition_name):
         result_link = td.find("a", href=re.compile(r"^/results/\d+$"))
         if not result_link:
             continue
-        result_id = re.search(r"/results/(\d+)", result_link["href"]).group(1)
+        result_match = re.search(r"/results/(\d+)", result_link["href"])
+        if not result_match:
+            continue
+        result_id = result_match.group(1)
         events.append({
             "result_id": result_id,
             "event_name": result_link.text.strip(),
@@ -160,7 +174,8 @@ def parse_results_page(html, result_id):
 
         competitor_td = cells[2]
         athlete_link = competitor_td.find("a", href=re.compile(r"/athletes/\d+"))
-        athlete_id = re.search(r"/athletes/(\d+)", athlete_link["href"]).group(1) if athlete_link else None
+        athlete_match = re.search(r"/athletes/(\d+)", athlete_link["href"]) if athlete_link else None
+        athlete_id = athlete_match.group(1) if athlete_match else None
         name = competitor_td.text.strip()
         if not name:
             continue
@@ -240,7 +255,7 @@ def upsert_tournament(event, classification):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
@@ -249,7 +264,7 @@ def upsert_tournament(event, classification):
 
 def _match_fencer(name, country):
     try:
-        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
+        rows = _db().table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
         return rows[0]["id"] if len(rows) == 1 else None
     except Exception:
         return None
@@ -276,12 +291,12 @@ def upsert_results(tournament_id, result_rows):
     # Delete existing results for this tournament before re-inserting.
     # Return 0 on partial failure so caller skips marking result done;
     # next run will delete+reinsert cleanly (idempotent retry).
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

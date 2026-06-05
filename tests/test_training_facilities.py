@@ -1,7 +1,8 @@
+from typing import Any, cast
 from pathlib import Path
 
 
-USAFENCING_CLUBS_PAYLOAD = {
+USAFENCING_CLUBS_PAYLOAD = cast(dict[str, Any], {
     "indexData": {
         "models": [
             {
@@ -29,7 +30,7 @@ USAFENCING_CLUBS_PAYLOAD = {
         ],
         "pages": {"hasMorePages": False},
     }
-}
+})
 
 
 PUBLIC_FACILITY_HTML = """

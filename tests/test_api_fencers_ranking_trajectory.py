@@ -12,6 +12,8 @@ MODULE_PATH = ROOT / "api" / "v1" / "fencer_ranking_trajectory.py"
 
 def load_module():
     spec = importlib.util.spec_from_file_location("fencer_ranking_trajectory_under_test", MODULE_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module

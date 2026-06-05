@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -66,7 +67,7 @@ class FakeTable:
     def execute(self):
         if self.operation == "select":
             rows = self.client.tables.get(self.name, [])
-            return FakeResult(rows[self.range_start:self.range_end + 1])
+            return FakeResult(rows[self.range_start:cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {
@@ -81,7 +82,7 @@ class FakeTable:
 
 class FakeClient:
     def __init__(self, tables=None):
-        self.tables = {
+        self.tables: dict[str, list[dict[str, Any]]] = {
             "fs_national_fed_rankings": [],
             "fs_results": [],
             "fs_fencers": [],

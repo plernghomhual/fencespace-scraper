@@ -15,6 +15,7 @@ HKFA PDF rows contain bilingual names in one field, for example:
   1 Choi Chun Yin Ryan 蔡俊彥 ... Overall points
 """
 
+from typing import Any
 import os
 import re
 import sys
@@ -163,7 +164,7 @@ def test_hkg_ranking_combos_cover_required_rankings():
 def test_storage_rank_keeps_tied_published_rank_in_metadata():
     from scrape_fed_hkg import _storage_rank
 
-    used_ranks = set()
+    used_ranks: set[Any] = set()
 
     assert _storage_rank(1, used_ranks, 1) == (1, {})
     assert _storage_rank(2, used_ranks, 2) == (2, {})

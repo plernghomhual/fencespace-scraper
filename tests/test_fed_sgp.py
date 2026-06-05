@@ -10,6 +10,7 @@ Key columns:
   # | Fencer | Club/School | ... | Final Ranking Points | Final Rank
 """
 
+from typing import cast
 import io
 import os
 import re
@@ -227,6 +228,7 @@ def test_fetch_rankings_page_extracts_requested_sheet_from_public_xlsx(monkeypat
     scrape_fed_sgp._WORKBOOK_CACHE.clear()
 
     content = scrape_fed_sgp.fetch_rankings_page("Foil", "Men", "Junior")
+    content = cast(str, content)
     rows = scrape_fed_sgp.parse_rankings_table(content)
 
     assert calls[0][0] == "https://example.test/foil-page"

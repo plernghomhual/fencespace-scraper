@@ -1,3 +1,4 @@
+from typing import Any, cast
 import sys
 from pathlib import Path
 
@@ -165,7 +166,7 @@ def test_fetch_pending_tournaments_paginates_all_missing_rows():
 
 def test_rate_limiter_waits_before_second_request():
     times = iter([10.0, 10.25])
-    slept = []
+    slept: list[Any] = []
     limiter = discover.RateLimiter(
         min_interval=1.0,
         time_func=lambda: next(times),
@@ -290,9 +291,10 @@ def test_main_logs_counts_and_writes_state(monkeypatch):
 
     assert result == discover.DiscoveryResult(written=1, failed=0, skipped=0)
     assert logger.started is True
-    assert logger.completed["written"] == 1
-    assert logger.completed["failed"] == 0
-    assert logger.completed["skipped"] == 0
+    completed = cast(dict[str, Any], logger.completed)
+    assert completed["written"] == 1
+    assert completed["failed"] == 0
+    assert completed["skipped"] == 0
     assert states[0][0:2] == (discover.SOURCE, "summary")
     assert states[0][2]["written"] == 1
     assert states[0][2]["previous_completed_at"] == "old"

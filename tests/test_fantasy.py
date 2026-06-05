@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -29,7 +30,7 @@ def zero_skips():
 def test_fantasy_rules_are_versioned_and_document_component_weights():
     from compute_fantasy_points import FANTASY_SCORING_RULES
 
-    weights = FANTASY_SCORING_RULES["documented_weights"]
+    weights = cast(dict[str, Any], FANTASY_SCORING_RULES["documented_weights"])
     assert FANTASY_SCORING_RULES["rules_version"] == "2026.06.v1"
     assert weights["participation"] == 2
     assert weights["placement"]["1"] == 32

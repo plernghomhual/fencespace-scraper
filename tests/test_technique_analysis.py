@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import sys
 from pathlib import Path
@@ -333,7 +334,7 @@ class FakeTable:
         rows = self.client.tables.get(self.name)
         if rows is None:
             raise RuntimeError(f"missing table {self.name}")
-        return FakeResult(rows[self.range_start : self.range_end + 1])
+        return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
 
 
 class FakeSupabase:

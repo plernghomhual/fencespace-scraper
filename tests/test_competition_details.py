@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -206,7 +207,8 @@ def test_find_tournaments_needing_details_filters_existing_and_requires_fie_id()
 
     rows = find_tournaments_needing_details(fake)
 
-    assert rows == [fake.tables["fs_tournaments"][0]]
+    tables = cast(dict[str, list[dict[str, Any]]], fake.tables)
+    assert rows == [tables["fs_tournaments"][0]]
     assert ("fs_tournaments", "fie_id") in fake.not_null_filters
 
 

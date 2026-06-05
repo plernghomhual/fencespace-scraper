@@ -14,6 +14,7 @@ Probe evidence:
       1 Quliyeva Aynur 2007 28.5
 """
 
+from typing import cast
 import os
 import re
 import sys
@@ -149,6 +150,7 @@ def test_fetch_rankings_page_extracts_requested_public_section(monkeypatch):
     monkeypatch.setattr(scrape_fed_aze, "federation_request", fake_get)
 
     content = scrape_fed_aze.fetch_rankings_page("Epee", "Women", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_aze.parse_rankings_table(content)
 
     assert calls[0][0] == "get"

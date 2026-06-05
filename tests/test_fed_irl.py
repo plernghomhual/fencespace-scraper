@@ -13,6 +13,7 @@ Probe evidence:
 
 from __future__ import annotations
 
+from typing import cast
 import io
 import os
 import re
@@ -180,6 +181,7 @@ def test_fetch_rankings_page_extracts_requested_public_workbook_sheet(monkeypatc
     scrape_fed_irl._WORKBOOK_CACHE.clear()
 
     content = scrape_fed_irl.fetch_rankings_page("Epee", "Men", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_irl.parse_rankings_table(content)
 
     assert calls[0][0] == "get"

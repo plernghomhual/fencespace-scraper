@@ -1,3 +1,4 @@
+from typing import Any
 import io
 import os
 import re
@@ -130,7 +131,7 @@ def slugify(value):
 
 def recent_seasons(current_year=None, count=5):
     year = current_year or datetime.now(timezone.utc).year
-    seasons = []
+    seasons: list[Any] = []
     while len(seasons) < count:
         if year != 2020:
             seasons.append(year)
@@ -529,7 +530,7 @@ def country_is_usa(row):
 
 
 def load_fencer_index(client):
-    rows = []
+    rows: list[Any] = []
     offset = 0
     while True:
         query = client.table("fs_fencers").select("id,name,country,nationality")
@@ -541,7 +542,7 @@ def load_fencer_index(client):
             break
         offset += 1000
 
-    fencer_index = {}
+    fencer_index: dict[Any, Any] = {}
     for row in rows:
         if not row.get("id") or not row.get("name") or not country_is_usa(row):
             continue
@@ -603,7 +604,7 @@ def iter_bout_sides(bout):
 
 
 def build_result_rows(tournament_id, bouts, fencer_index):
-    summaries = {}
+    summaries: dict[Any, Any] = {}
     for bout in bouts:
         for side in iter_bout_sides(bout):
             if normalize_key(side["name"]) == "bout forfeited":

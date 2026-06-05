@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -14,7 +15,7 @@ NOW = "2026-06-01T12:00:00+00:00"
 def test_build_performance_rows_computes_deltas_and_splits_mixed_weapons():
     from compute_performance_analysis import build_performance_rows
 
-    results = [
+    results: list[dict[str, Any]] = [
         {"id": "r1", "tournament_id": "foil-1", "fencer_id": ALICE, "rank": 5},
         {"id": "r2", "tournament_id": "foil-2", "fencer_id": ALICE, "rank": 15},
         {"id": "r3", "tournament_id": "epee-1", "fencer_id": ALICE, "rank": 4},
@@ -23,12 +24,12 @@ def test_build_performance_rows_computes_deltas_and_splits_mixed_weapons():
         {"id": "unranked-fencer", "tournament_id": "foil-1", "fencer_id": CAROL, "rank": 2},
         {"id": "bob", "tournament_id": "foil-1", "fencer_id": BOB, "rank": "T6."},
     ]
-    fencers = [
+    fencers: list[dict[str, Any]] = [
         {"id": ALICE, "world_rank": 10, "weapon": "Foil"},
         {"id": BOB, "world_rank": "3", "weapon": "Foil"},
         {"id": CAROL, "world_rank": None, "weapon": "Foil"},
     ]
-    tournaments = [
+    tournaments: list[dict[str, Any]] = [
         {"id": "foil-1", "weapon": "foil"},
         {"id": "foil-2", "weapon": "Foil"},
         {"id": "epee-1", "weapon": "Epee"},

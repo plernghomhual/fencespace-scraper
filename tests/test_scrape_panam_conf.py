@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -60,6 +61,7 @@ def test_parse_spanish_html_table_normalizes_rank_name_country_points_and_links(
         source_url="https://example.test/panam/results",
     )
 
+    event = cast(dict[str, Any], event)
     assert event["event_code"] == "women-foil-individual"
     assert event["category"] == "Senior"
     assert event["date"] == "2025-06-24"
@@ -109,6 +111,7 @@ def test_parse_fie_inline_json_result_page_extracts_english_metadata_and_fie_ids
         source_url="https://fie.org/competitions/2025/799?tab=results",
     )
 
+    event = cast(dict[str, Any], event)
     assert event["event_code"] == "men-foil-individual"
     assert event["date"] == "2025-06-24"
     assert event["source_kind"] == "fie_inline_json"
@@ -143,7 +146,7 @@ def test_parse_pdf_text_events_handles_spanish_headings_and_country_names():
     )
 
     assert len(events) == 1
-    event = events[0]
+    event = cast(dict[str, Any], events[0])
     assert event["event_code"] == "men-epee-individual"
     assert event["category"] == "Junior"
     assert event["results"] == [

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from datetime import date
@@ -18,7 +19,7 @@ TODAY = date(2026, 6, 1)
 def test_build_longevity_rows_computes_active_retired_unknown_and_single_season_cases():
     from compute_longevity import build_longevity_rows
 
-    tournaments = {
+    tournaments: dict[str, dict[str, Any]] = {
         "active-2025": {"id": "active-2025", "start_date": "2025-03-10", "season": "2024-2025"},
         "active-2026": {"id": "active-2026", "start_date": "2026-02-01T10:30:00+00:00", "season": 2026},
         "retired-2020": {"id": "retired-2020", "start_date": "2020-01-15", "season": 2020},
@@ -26,7 +27,7 @@ def test_build_longevity_rows_computes_active_retired_unknown_and_single_season_
         "retired-2023": {"id": "retired-2023", "start_date": "2023-01-15", "season": "2022/2023"},
         "single-2026": {"id": "single-2026", "start_date": "2026-01-08", "season": 2026},
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {"fencer_id": FENCER_ACTIVE, "tournament_id": "active-2025"},
         {"fencer_id": FENCER_ACTIVE, "tournament_id": "active-2026"},
         {"fencer_id": FENCER_RETIRED, "tournament_id": "retired-2020"},
@@ -135,7 +136,7 @@ class FakeTable:
 
     def execute(self):
         if self.operation == "select":
-            return FakeResult(self.client.tables[self.name][self.range_start : self.range_end + 1])
+            return FakeResult(self.client.tables[self.name][self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

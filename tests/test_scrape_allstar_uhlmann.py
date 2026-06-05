@@ -1,3 +1,4 @@
+from typing import Any
 from pathlib import Path
 
 import pytest
@@ -223,7 +224,7 @@ def test_upsert_products_uses_shared_fs_products_conflict_key():
     from scrape_allstar_uhlmann import upsert_products
 
     client = FakeClient()
-    rows = [
+    rows: list[dict[str, Any]] = [
         {
             "source": "allstar",
             "source_id": "350010",

@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import re
 import sys
@@ -133,7 +134,7 @@ class FakeTable:
 
     def execute(self):
         if self.operation == "select" and self.name == "fs_fencers":
-            return FakeResult(self.client.fencers[self.range_start:self.range_end + 1])
+            return FakeResult(self.client.fencers[self.range_start:cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append({
                 "table": self.name,

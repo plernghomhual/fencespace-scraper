@@ -1,3 +1,4 @@
+from typing import Any, cast
 import pytest
 
 
@@ -300,4 +301,5 @@ def test_scrape_blue_gauntlet_products_fetches_details_logs_and_updates_state(mo
     assert states[-1][0:2] == ("blue_gauntlet_products", "last_run")
     assert states[-1][2]["written"] == 2
     assert run_logs[0].module == "scrape_blue_gauntlet_products"
-    assert run_logs[0].completed["written"] == 2
+    completed = cast(dict[str, Any], run_logs[0].completed)
+    assert completed["written"] == 2

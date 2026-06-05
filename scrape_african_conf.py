@@ -14,6 +14,7 @@ Probe summary (verified 2026-06-02 with web-accessible sources):
 """
 from __future__ import annotations
 
+from typing import Any
 import io
 import os
 import re
@@ -289,7 +290,7 @@ def normalize_name(value):
         text = f"{first} {last}"
     parts = text.split()
     leading_surname = []
-    given = []
+    given: list[Any] = []
     for part in parts:
         letters = re.sub(r"[^A-Za-zÀ-ÖØ-öø-ÿ]", "", part)
         if not given and letters and letters.upper() == letters:
@@ -320,9 +321,9 @@ def normalize_date(value):
         month_key = "".join(
             ch for ch in unicodedata.normalize("NFKD", month_key) if unicodedata.category(ch) != "Mn"
         )
-        month = MONTHS.get(month_key) or MONTHS.get(month_match.group(2).lower())
-        if month:
-            return f"{int(month_match.group(3)):04d}-{month:02d}-{day:02d}"
+        matched_month = MONTHS.get(month_key) or MONTHS.get(month_match.group(2).lower())
+        if matched_month:
+            return f"{int(month_match.group(3)):04d}-{matched_month:02d}-{day:02d}"
     return None
 
 

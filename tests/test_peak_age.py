@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from datetime import date
 from pathlib import Path
+from typing import cast
 
 import pytest
 
@@ -17,7 +19,7 @@ def test_age_calculation_requires_full_dates_and_excludes_implausible_ages():
         parse_reliable_date,
     )
 
-    assert parse_reliable_date("2000-06-01").isoformat() == "2000-06-01"
+    assert cast(date, parse_reliable_date("2000-06-01")).isoformat() == "2000-06-01"
     assert parse_reliable_date("2000-06") is None
     assert parse_reliable_date("2000") is None
     assert parse_reliable_date(None) is None
@@ -449,4 +451,3 @@ def test_format_peak_age_report_documents_thresholds_and_sparse_status():
     assert "exact YYYY-MM-DD birth/result dates only" in report
     assert "sparse" in report.lower()
     assert "fencer_id" not in report
-

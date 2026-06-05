@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from datetime import datetime, timezone
@@ -174,7 +175,7 @@ def test_dry_run_without_credentials_generates_post_and_does_not_call_provider(m
 
     client = FakeSupabase(tournaments=[TOURNAMENT], results_by_tournament={"t-1": RESULT_ROWS})
     provider = FakeProvider()
-    state = {}
+    state: dict[Any, Any] = {}
     monkeypatch.delenv("RESULT_TWEETS_LIVE", raising=False)
     monkeypatch.delenv("X_API_BEARER_TOKEN", raising=False)
     monkeypatch.setattr(tweets, "get_state", lambda source, key: state.get((source, key)))
@@ -206,7 +207,7 @@ def test_live_post_uses_mock_provider_and_marks_state_after_success(monkeypatch)
 
     client = FakeSupabase(tournaments=[TOURNAMENT], results_by_tournament={"t-1": RESULT_ROWS})
     provider = FakeProvider()
-    state = {}
+    state: dict[Any, Any] = {}
     monkeypatch.setenv("RESULT_TWEETS_LIVE", "1")
     monkeypatch.setenv("X_API_BEARER_TOKEN", "test-token-never-printed")
     monkeypatch.setattr(tweets, "get_state", lambda source, key: state.get((source, key)))

@@ -1,3 +1,4 @@
+from typing import Any
 import json
 import os
 import sys
@@ -52,7 +53,7 @@ def test_build_transfer_value_rows_scores_public_signals_with_transparent_compon
         {"id": "t3", "season": 2026, "weapon": "Epee", "gender": "Women", "category": "Senior"},
         {"id": "old", "season": 2025, "weapon": "Epee", "gender": "Women", "category": "Senior"},
     ]
-    results = [
+    results: list[dict[str, Any]] = [
         {"tournament_id": "t1", "fencer_id": ALICE, "rank": 1},
         {"tournament_id": "t2", "fencer_id": ALICE, "rank": 8},
         {"tournament_id": "t3", "fencer_id": ALICE, "rank": 17},

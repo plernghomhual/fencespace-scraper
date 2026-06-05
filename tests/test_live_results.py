@@ -1,3 +1,4 @@
+from typing import Any, cast
 import json
 from datetime import date, datetime, timezone
 
@@ -87,7 +88,7 @@ class FakeTable:
         if self.operation == "select" and self.name == "fs_tournaments":
             return FakeResult(self.client.tournaments)
         if self.operation == "select" and self.name == "fs_fencers":
-            column, values = self.in_values
+            column, values = cast(tuple[str, list[Any]], self.in_values)
             rows = [row for row in self.client.fencers if row.get(column) in values]
             return FakeResult(rows)
         if self.operation == "update" and self.name == "fs_tournaments":
@@ -185,7 +186,7 @@ def test_watcher_upserts_only_new_results_and_bouts_between_checks(monkeypatch):
         ],
     )
     session = FakeSession([first_html, second_html])
-    state = {}
+    state: dict[Any, Any] = {}
 
     monkeypatch.setattr(
         watch_live_results,

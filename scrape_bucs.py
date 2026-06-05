@@ -19,6 +19,7 @@ the public web-probed structures above and deterministic blocked-path handling.
 """
 from __future__ import annotations
 
+from typing import Any
 import io
 import os
 import re
@@ -340,7 +341,7 @@ def parse_bucs_event_results_page(html, source_url):
     heading = soup.find("h1") or soup.title
     title = clean_text(heading.get_text(" ", strip=True)) if heading else ""
     season = normalize_season(title) or normalize_season(source_url)
-    events_by_code = {}
+    events_by_code: dict[Any, Any] = {}
 
     for table in soup.find_all("table"):
         rows = table_rows(table)
@@ -704,11 +705,11 @@ def tournament_row(event):
 
 def upsert_tournament(event):
     try:
-        result = supabase.table("fs_tournaments").upsert(tournament_row(event), on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(tournament_row(event), on_conflict="source_id").execute()  # type: ignore[union-attr]
         if result.data:
             return result.data[0].get("id")
         rows = (
-            supabase.table("fs_tournaments")
+            supabase.table("fs_tournaments")  # type: ignore[union-attr]
             .select("id")
             .eq("source_id", event["source_id"])
             .limit(1)
@@ -786,7 +787,7 @@ def upsert_results(tournament_id, event):
         return {"written": 0, "skipped": skipped, "failed": failed}
 
     try:
-        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+        supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     except Exception as exc:
         print(f"  Results delete failed for {event['source_id']}: {exc}")
         return {"written": 0, "skipped": skipped, "failed": 1}
@@ -795,7 +796,7 @@ def upsert_results(tournament_id, event):
     for index in range(0, len(db_rows), 100):
         batch = db_rows[index : index + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed for {event['source_id']}: {exc}")

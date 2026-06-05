@@ -11,6 +11,7 @@ Relevant table columns:
 AFF embeds state in the fencer display value, e.g. "CROOK, Jacob (QLD)".
 """
 
+from typing import cast
 import os
 import re
 import sys
@@ -188,6 +189,7 @@ def test_extract_combo_table_selects_requested_aff_section():
     from scrape_fed_aus import extract_combo_table_html, parse_rankings_table
 
     table_html = extract_combo_table_html(FIXTURE_PAGE_WITH_ACCORDIONS, "Foil", "Women")
+    table_html = cast(str, table_html)
     rows = parse_rankings_table(table_html)
 
     assert len(rows) == 1
@@ -238,6 +240,7 @@ def test_fetch_rankings_page_extracts_requested_combo(monkeypatch):
     monkeypatch.setattr(scrape_fed_aus.requests, "get", fake_get)
 
     html = scrape_fed_aus.fetch_rankings_page("Epee", "Men", "Senior")
+    html = cast(str, html)
     rows = scrape_fed_aus.parse_rankings_table(html)
 
     assert rows[0]["name"] == "CROOK, Jacob"

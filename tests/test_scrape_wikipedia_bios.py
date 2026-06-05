@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -158,6 +159,7 @@ def test_fetch_wikipedia_enrichment_falls_back_to_english_summary():
         sleep_func=lambda _: None,
     )
 
+    result = cast(dict[str, Any], result)
     assert result["bio_text"] == "Lee Kiefer is an American right-handed foil fencer."
     assert result["wikipedia_url"] == "https://en.wikipedia.org/wiki/Lee_Kiefer"
     assert result["language"] == "en"
@@ -219,11 +221,11 @@ def test_fetch_wikipedia_enrichment_extracts_summary_and_infobox_fields():
         ]
     )
 
-    result = fetch_wikipedia_enrichment(
+    result = cast(dict[str, Any], fetch_wikipedia_enrichment(
         {"metadata": {"wikidata_id": "Q229967"}, "country": "ITA"},
         session=session,
         sleep_func=lambda _: None,
-    )
+    ))
 
     assert result == {
         "bio_text": "Maria Valentina Vezzali is an Italian politician and retired Olympic fencer.",

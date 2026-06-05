@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -166,7 +167,7 @@ def test_upsert_equipment_reviews_uses_url_conflict_key():
     from scrape_equipment_reviews import upsert_equipment_reviews
 
     client = FakeClient()
-    rows = [
+    rows: list[dict[str, Any]] = [
         {
             "product_name": "Apex FIE Mens Jacket",
             "brand": "Leon Paul",

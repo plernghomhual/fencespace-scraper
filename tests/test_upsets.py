@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import sys
 from pathlib import Path
@@ -326,7 +327,7 @@ class FakeTable:
             if self.name not in self.client.tables:
                 raise RuntimeError(f"missing table {self.name}")
             rows = list(self.client.tables[self.name])
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {"table": self.name, "rows": self.rows, "on_conflict": self.on_conflict}

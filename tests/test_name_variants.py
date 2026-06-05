@@ -1,3 +1,4 @@
+from typing import Any, cast
 import sys
 from pathlib import Path
 
@@ -26,7 +27,7 @@ def test_detect_script_covers_supported_scripts_and_other():
 def test_build_name_variants_groups_multi_script_names_by_identity():
     from compute_name_variants import build_name_variants
 
-    identities = [
+    identities: list[dict[str, Any]] = [
         {
             "id": IDENTITY_ID,
             "country": "KOR",
@@ -34,12 +35,12 @@ def test_build_name_variants_groups_multi_script_names_by_identity():
             "fs_fencer_row_ids": [FENCER_ROW_A, FENCER_ROW_B],
         }
     ]
-    fencers = [
+    fencers: list[dict[str, Any]] = [
         {"id": FENCER_ROW_A, "name": " Lee Kiefer ", "country": "USA"},
         {"id": FENCER_ROW_B, "name": "윤지수", "country": "KOR"},
         {"id": "00000000-0000-0000-0000-000000000999", "name": "Ignored", "country": "USA"},
     ]
-    results = [
+    results: list[dict[str, Any]] = [
         {
             "id": "r1",
             "fencer_id": FENCER_ROW_A,
@@ -57,7 +58,7 @@ def test_build_name_variants_groups_multi_script_names_by_identity():
         },
         {"id": "r3", "fencer_id": None, "fie_fencer_id": "nope", "name": "No Identity"},
     ]
-    rankings = [
+    rankings: list[dict[str, Any]] = [
         {
             "id": "n1",
             "fencer_id": FENCER_ROW_B,
@@ -134,7 +135,7 @@ class FakeTable:
     def execute(self):
         if self.operation == "select":
             rows = self.client.tables[self.name]
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             return FakeResult([])
         raise AssertionError(f"unexpected operation for {self.name}")

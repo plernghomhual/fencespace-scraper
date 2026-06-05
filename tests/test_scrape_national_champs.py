@@ -1,3 +1,4 @@
+from typing import Any, cast
 import io
 import os
 import sys
@@ -65,20 +66,21 @@ def metadata(**overrides):
 def test_country_configs_cover_top_20_with_probe_evidence_and_stubs():
     import scrape_national_champs as champs
 
-    assert len(champs.COUNTRY_CONFIGS) == 20
-    assert len({cfg["country"] for cfg in champs.COUNTRY_CONFIGS}) == 20
+    country_configs = cast(list[dict[str, Any]], champs.COUNTRY_CONFIGS)
+    assert len(country_configs) == 20
+    assert len({cfg["country"] for cfg in country_configs}) == 20
     assert {"ITA", "FRA", "GER", "CAN", "GBR", "HKG"}.issubset(
-        {cfg["country"] for cfg in champs.COUNTRY_CONFIGS}
+        {cfg["country"] for cfg in country_configs}
     )
-    for cfg in champs.COUNTRY_CONFIGS:
+    for cfg in country_configs:
         assert cfg["federation_url"].startswith("https://")
         assert cfg["language"]
         assert cfg["result_page_types"]
         assert cfg["fallback_notes"]
         assert cfg["probe_evidence"]
 
-    blocked = [cfg for cfg in champs.COUNTRY_CONFIGS if cfg["status"] == "blocked"]
-    parsable = [cfg for cfg in champs.COUNTRY_CONFIGS if cfg["status"] == "parsable"]
+    blocked = [cfg for cfg in country_configs if cfg["status"] == "blocked"]
+    parsable = [cfg for cfg in country_configs if cfg["status"] == "parsable"]
     assert blocked
     assert len(parsable) >= 3
 

@@ -21,6 +21,8 @@ FENCER_D = "dddddddd-dddd-4ddd-8ddd-dddddddddddd"
 def load_bracket_module():
     module_path = ROOT / "api" / "v1" / "tournament_brackets.py"
     spec = importlib.util.spec_from_file_location("tournament_brackets_under_test", module_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)

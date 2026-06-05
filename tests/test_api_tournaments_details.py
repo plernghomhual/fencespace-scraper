@@ -14,6 +14,8 @@ MISSING_ID = "00000000-0000-0000-0000-000000000066"
 
 def load_module():
     spec = importlib.util.spec_from_file_location("api_v1_tournament_details", MODULE_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)

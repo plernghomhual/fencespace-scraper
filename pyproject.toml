@@ -21,5 +21,5 @@ select = [
 python_version = "3.11"
 ignore_missing_imports = true
 follow_imports = "skip"
-check_untyped_defs = false
+check_untyped_defs = true
 warn_unused_configs = true

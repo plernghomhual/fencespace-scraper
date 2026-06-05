@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -112,7 +113,7 @@ class FakeTable:
             raise RuntimeError(f"{self.name} unavailable")
         if self.operation == "select":
             rows = self.client.tables.get(self.name, [])
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "update":
             row_id = dict(self.filters)["id"]
             self.client.updates.append(
@@ -124,7 +125,7 @@ class FakeTable:
             )
             for row in self.client.tables[self.name]:
                 if row["id"] == row_id:
-                    row.update(self.payload)
+                    row.update(cast(dict[str, Any], self.payload))
             return FakeResult([])
         if self.operation == "upsert":
             payload = self.payload if isinstance(self.payload, list) else [self.payload]

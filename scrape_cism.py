@@ -9,6 +9,7 @@ Probe notes (verified 2026-06-01):
 The CISM site mixes HTML event pages and PDF downloads. This scraper imports only
 World Games fencing PDFs whose standings text can be extracted reliably.
 """
+from typing import Any
 import os
 import re
 import tempfile
@@ -199,7 +200,7 @@ def _find_rank_run(segment):
             if start is None:
                 start = j
             ranks.append(rank)
-        if ranks:
+        if ranks and start is not None:
             return idx, start, start + len(ranks), ranks
     return None, None, None, []
 
@@ -304,7 +305,7 @@ def parse_pdf_text(text, edition_id, edition_name):
     """Parse CISM PDF-extracted text into event dicts with placement rows."""
     lines = [_clean_line(line) for line in (text or "").splitlines()]
     lines = [line for line in lines if line]
-    events_by_code = {}
+    events_by_code: dict[Any, Any] = {}
 
     for idx, title in enumerate(lines):
         if not _is_event_title(title):
@@ -423,7 +424,7 @@ def upsert_tournament(event):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
@@ -432,7 +433,7 @@ def upsert_tournament(event):
 
 def _match_fencer(name, country):
     try:
-        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
+        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data  # type: ignore[union-attr]
         return rows[0]["id"] if len(rows) == 1 else None
     except Exception:
         return None
@@ -458,12 +459,12 @@ def upsert_results(tournament_id, result_rows):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for idx in range(0, len(db_rows), 100):
         batch = db_rows[idx:idx + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

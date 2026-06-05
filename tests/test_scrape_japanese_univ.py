@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -359,10 +360,11 @@ def test_scrape_sources_logs_state_and_skips_blocked_source(monkeypatch):
         "unmatched": 0,
     }
     assert fake_logger.started is True
-    assert fake_logger.completed["written"] == 0
-    assert fake_logger.completed["failed"] == 0
-    assert fake_logger.completed["skipped"] == 1
-    assert fake_logger.completed["metadata"]["blocked_sources"] == ["https://blocked.example/results.pdf"]
+    completed = cast(dict[str, Any], fake_logger.completed)
+    assert completed["written"] == 0
+    assert completed["failed"] == 0
+    assert completed["skipped"] == 1
+    assert completed["metadata"]["blocked_sources"] == ["https://blocked.example/results.pdf"]
     assert state_updates[-1][0] == "scrape_japanese_univ"
     assert state_updates[-1][1] == "last_run"
     assert state_updates[-1][2]["skipped"] == 1

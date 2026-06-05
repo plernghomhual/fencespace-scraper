@@ -25,6 +25,8 @@ def load_h2h_module():
     if not MODULE_PATH.exists():
         pytest.fail("api/v1/fencer_h2h.py is missing")
     spec = importlib.util.spec_from_file_location("fencer_h2h_under_test", MODULE_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -51,11 +52,11 @@ class FakeTable:
             self.client.upserts.append(
                 {
                     "table": self.table_name,
-                    "row": dict(self.payload),
+                    "row": dict(cast(dict[str, Any], self.payload)),
                     "on_conflict": self.pending_conflict,
                 }
             )
-            return FakeResult([dict(self.payload)])
+            return FakeResult([dict(cast(dict[str, Any], self.payload))])
         raise AssertionError(f"unexpected operation for {self.table_name}")
 
 

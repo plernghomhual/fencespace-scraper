@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import sys
 
@@ -145,7 +146,7 @@ class FakeTable:
 
     def execute(self):
         if self.operation == "select":
-            return FakeResult(self.client.fencers[self.range_start:self.range_end + 1])
+            return FakeResult(self.client.fencers[self.range_start:cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             return FakeResult([])
         raise AssertionError(f"unexpected operation for {self.name}")

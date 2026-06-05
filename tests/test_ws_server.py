@@ -3,6 +3,7 @@ import hashlib
 import os
 import sys
 import time
+from typing import Any, cast
 
 import pytest
 from fastapi.testclient import TestClient
@@ -86,7 +87,7 @@ class FakeSupabase:
 def ws_module(monkeypatch):
     monkeypatch.setenv("FENCESPACE_API_KEY", "secret")
     sys.modules.pop("ws_server", None)
-    module = importlib.import_module("ws_server")
+    module = cast(Any, importlib.import_module("ws_server"))
     module.POLL_INTERVAL_SECONDS = 0.02
     module.HEARTBEAT_INTERVAL_SECONDS = 0.03
     module.SEND_TIMEOUT_SECONDS = 1.0

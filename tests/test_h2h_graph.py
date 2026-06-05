@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -46,7 +47,7 @@ def fencer_rows():
 def test_build_h2h_graph_rows_dedupes_identities_and_skips_bad_bouts():
     from compute_h2h_graph import build_h2h_graph_rows
 
-    bouts = [
+    bouts: list[dict[str, Any]] = [
         {
             "id": "bout-1",
             "tournament_id": "t1",

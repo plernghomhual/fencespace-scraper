@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import re
 import json
@@ -27,7 +28,7 @@ RESULTS_UNAVAILABLE_THRESHOLD = int(os.environ.get("RESULTS_UNAVAILABLE_THRESHOL
 
 
 def fetch_all_pages(client, table_name, columns, configure=None, page_size=1000):
-    rows = []
+    rows: list[Any] = []
     start = 0
     while True:
         query = client.table(table_name).select(columns)
@@ -194,7 +195,7 @@ def discover_competition_url_ids(tournaments):
     s.get("https://fie.org/competitions", timeout=15)
 
     # Group by season for efficient searching
-    by_season = {}
+    by_season: dict[Any, Any] = {}
     for t in tournaments:
         season = int(t.get("season") or datetime.now(timezone.utc).year)
         by_season.setdefault(season, []).append(t)

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import json
 import re
 import sys
@@ -225,7 +226,7 @@ def test_dry_run_provider_is_default_and_records_no_external_secret():
 def test_duplicate_suppression_is_per_subscription(monkeypatch):
     import push_notifications
 
-    state = {}
+    state: dict[Any, Any] = {}
     client = FakeSupabase(
         results=[live_result_row()],
         subscriptions=[subscription_row()],
@@ -245,13 +246,13 @@ def test_duplicate_suppression_is_per_subscription(monkeypatch):
 
     first = push_notifications.run_push_notifications(
         client=client,
-        provider=provider,
+        provider=cast(Any, provider),
         now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
         log_run=False,
     )
     second = push_notifications.run_push_notifications(
         client=client,
-        provider=provider,
+        provider=cast(Any, provider),
         now=datetime(2026, 1, 28, 12, 5, tzinfo=timezone.utc),
         log_run=False,
     )
@@ -304,7 +305,7 @@ def test_payload_privacy_excludes_private_result_and_subscription_fields():
 def test_subscription_ownership_and_opt_in_are_validated(monkeypatch):
     import push_notifications
 
-    state = {}
+    state: dict[Any, Any] = {}
     client = FakeSupabase(
         results=[live_result_row()],
         subscriptions=[
@@ -353,7 +354,7 @@ def test_subscription_ownership_and_opt_in_are_validated(monkeypatch):
 def test_provider_failures_retry_with_backoff_and_log_success(monkeypatch):
     import push_notifications
 
-    state = {}
+    state: dict[Any, Any] = {}
     clock = FakeClock()
     client = FakeSupabase(
         results=[live_result_row()],
@@ -374,7 +375,7 @@ def test_provider_failures_retry_with_backoff_and_log_success(monkeypatch):
 
     summary = push_notifications.run_push_notifications(
         client=client,
-        provider=provider,
+        provider=cast(Any, provider),
         now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
         log_run=False,
         retry_policy=push_notifications.RetryPolicy(max_attempts=3, base_delay=2.0),
@@ -411,7 +412,7 @@ def test_provider_failure_errors_are_redacted_before_delivery_log(monkeypatch):
                 dry_run=False,
             )
 
-    state = {}
+    state: dict[Any, Any] = {}
     client = FakeSupabase(
         results=[live_result_row()],
         subscriptions=[subscription_row(provider="fcm")],
@@ -429,7 +430,7 @@ def test_provider_failure_errors_are_redacted_before_delivery_log(monkeypatch):
 
     summary = push_notifications.run_push_notifications(
         client=client,
-        provider=SecretFailingProvider(),
+        provider=cast(Any, SecretFailingProvider()),
         now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
         log_run=False,
         retry_policy=push_notifications.RetryPolicy(max_attempts=1),

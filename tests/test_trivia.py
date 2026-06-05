@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import sys
 from datetime import date
@@ -268,7 +269,7 @@ class FakeTable:
     def execute(self):
         if self.operation == "select":
             rows = self.client.tables[self.table_name]
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

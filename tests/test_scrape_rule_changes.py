@@ -1,6 +1,8 @@
 from pathlib import Path
+from typing import cast
 
 import pytest
+from scrape_rule_changes import RuleChangeSeed
 
 
 FIE_RULES_HTML = """
@@ -287,7 +289,7 @@ def test_manual_seed_fixture_supports_older_cited_rule_changes():
         }
     ]
 
-    rows = load_manual_seed_fixtures(seeds)
+    rows = load_manual_seed_fixtures(cast(list[RuleChangeSeed], seeds))
 
     assert len(rows) == 1
     assert rows[0]["rule_key"]

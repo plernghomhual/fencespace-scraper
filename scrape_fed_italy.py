@@ -416,15 +416,15 @@ def main():
         for weapon, gender, category in RANKING_COMBOS:
             label = _combo_label(weapon, gender, category)
             print(f"  {label}...")
-            document = documents.get(category)
-            if not document:
+            ranking_document = documents.get(category)
+            if not ranking_document:
                 print("    No ranking workbook found")
                 total_skipped += 1
                 continue
 
             try:
                 if category not in file_cache:
-                    file_cache[category] = download_ranking_file(document["download_url"])
+                    file_cache[category] = download_ranking_file(ranking_document["download_url"])
                 parsed = parse_rankings_xls(
                     file_cache[category],
                     weapon=weapon,

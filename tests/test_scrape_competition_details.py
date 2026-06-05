@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -347,8 +348,9 @@ def test_scraper_updates_existing_tournament_and_never_upserts_tournaments():
     from scrape_competition_details import scrape_competition_details
 
     fake = FakeSupabase()
-    fake.tables["fs_tournaments"] = [fake.tables["fs_tournaments"][0]]
-    fake.tables["fs_competition_details"] = []
+    tables = cast(dict[str, list[dict[str, Any]]], fake.tables)
+    tables["fs_tournaments"] = [tables["fs_tournaments"][0]]
+    tables["fs_competition_details"] = []
 
     result = scrape_competition_details(
         client=fake,
@@ -384,8 +386,9 @@ def test_scraper_handles_missing_detail_html_gracefully():
     from scrape_competition_details import scrape_competition_details
 
     fake = FakeSupabase()
-    fake.tables["fs_tournaments"] = [fake.tables["fs_tournaments"][0]]
-    fake.tables["fs_competition_details"] = []
+    tables = cast(dict[str, list[dict[str, Any]]], fake.tables)
+    tables["fs_tournaments"] = [tables["fs_tournaments"][0]]
+    tables["fs_competition_details"] = []
 
     result = scrape_competition_details(
         client=fake,

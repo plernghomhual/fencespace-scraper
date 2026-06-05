@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -79,7 +80,7 @@ def test_build_legacy_score_rows_groups_identities_dedupes_and_explains_componen
             "name": "World Championships Grand Prix Invitational",
         },
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {
             "id": "r1",
             "tournament_id": "world-individual",
@@ -224,7 +225,7 @@ class FakeTable:
         if self.operation == "select":
             if self.name not in self.client.tables:
                 raise RuntimeError(f"missing table {self.name}")
-            return FakeResult(self.client.tables[self.name][self.range_start : self.range_end + 1])
+            return FakeResult(self.client.tables[self.name][self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

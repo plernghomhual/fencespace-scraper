@@ -15,6 +15,7 @@ import re
 import time
 import unicodedata
 from datetime import datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -30,6 +31,12 @@ if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 OLYMPEDIA_BASE = "https://www.olympedia.org"
 REQUEST_DELAY = 1.5
@@ -148,7 +155,10 @@ def parse_yog_edition_sport_page(html, edition_id, edition_name):
     events = []
     seen = set()
     for link in soup.find_all("a", href=re.compile(r"^/results/\d+$")):
-        result_id = re.search(r"/results/(\d+)", link["href"]).group(1)
+        result_match = re.search(r"/results/(\d+)", link["href"])
+        if not result_match:
+            continue
+        result_id = result_match.group(1)
         if result_id in seen:
             continue
         seen.add(result_id)
@@ -224,7 +234,8 @@ def parse_olympedia_results_page(html, result_id):
         athlete_link = competitor_cell.find("a", href=re.compile(r"/athletes/\d+"))
         athlete_id = None
         if athlete_link:
-            athlete_id = re.search(r"/athletes/(\d+)", athlete_link["href"]).group(1)
+            athlete_match = re.search(r"/athletes/(\d+)", athlete_link["href"])
+            athlete_id = athlete_match.group(1) if athlete_match else None
         country = cells[country_idx].get_text(" ", strip=True) if country_idx < len(cells) else None
         medal_raw = cells[medal_idx].get_text(" ", strip=True) if medal_idx < len(cells) else ""
         medal = medal_raw if medal_raw in MEDALS else None
@@ -453,7 +464,7 @@ def build_wfg_tournament_row(event):
 
 def upsert_tournament(row):
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {row.get('source_id')}: {exc}")
@@ -525,12 +536,12 @@ def upsert_results(tournament_id, result_rows, source):
     db_rows = build_result_rows(tournament_id, result_rows, source)
     if not db_rows:
         return 0
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i : i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

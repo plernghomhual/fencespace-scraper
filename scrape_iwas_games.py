@@ -18,6 +18,7 @@ Probe summary (verified with public pages on 2026-06-02):
 """
 from __future__ import annotations
 
+from typing import Any
 import io
 import os
 import re
@@ -361,7 +362,7 @@ def build_no_public_data_stub(source):
 def _header_map(table):
     first_row = table.find("tr")
     headers = first_row.find_all(["th", "td"], recursive=False) if first_row else []
-    mapping = {}
+    mapping: dict[Any, Any] = {}
     for index, cell in enumerate(headers):
         text = _key(cell.get_text(" ", strip=True))
         if text in {"rank", "place", "ranking"}:
@@ -579,8 +580,8 @@ def _canonical_name(value):
 
 
 def build_fencer_index(fencers):
-    by_fie_id = {}
-    by_identity = {}
+    by_fie_id: dict[Any, Any] = {}
+    by_identity: dict[Any, Any] = {}
     for row in fencers or []:
         row_id = row.get("id")
         if not row_id:
@@ -611,7 +612,7 @@ def match_fencer(row, fencer_index):
 
 
 def load_fencer_index(client):
-    rows = []
+    rows: list[Any] = []
     start = 0
     page_size = 1000
     while True:
@@ -687,7 +688,7 @@ def prepare_result_rows(tournament_id, event, fencer_index, unmatched_log=None):
 
 
 def upsert_event_results(client, tournament_id, event, fencer_index):
-    unmatched = []
+    unmatched: list[Any] = []
     db_rows = prepare_result_rows(tournament_id, event, fencer_index, unmatched)
     if not db_rows:
         return 0, len(unmatched), unmatched

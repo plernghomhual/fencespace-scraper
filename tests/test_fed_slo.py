@@ -1,3 +1,4 @@
+from typing import cast
 from datetime import datetime
 
 import pytest
@@ -130,6 +131,7 @@ def test_fetch_rankings_page_extracts_requested_combo_from_public_pdf(monkeypatc
     )
 
     content = scrape_fed_slo.fetch_rankings_page("Epee", "Men", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_slo.parse_rankings_table(content)
 
     assert rows[0]["name"] == "Jan Golobič"

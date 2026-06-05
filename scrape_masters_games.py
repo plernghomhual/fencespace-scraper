@@ -7,6 +7,7 @@ Probe notes (2026-06-01):
     - All-fencing-results-2019.pdf: extractable PDF text.
   Olympedia search: no World Masters Games fencing result tables found.
 """
+from typing import Any
 import io
 import os
 import re
@@ -29,6 +30,12 @@ supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 SOURCE = "masters_games"
 IMGA_RESULTS_URL = "https://www.imga.ch/other-sports-results-a-h/"
@@ -151,7 +158,7 @@ def _parse_medal(text, rank):
 
 
 def _header_indexes(header_cells):
-    indexes = {}
+    indexes: dict[Any, Any] = {}
     for i, header in enumerate(header_cells):
         value = _normalized(header)
         if any(k in value for k in ("rank", "place", "pos", "position", "posto")):
@@ -238,11 +245,11 @@ def parse_html_results_page(html, edition_id, edition_name=None, source_url=None
 
 
 def _group_words_by_top(words, tolerance=3.0):
-    rows = []
+    rows: list[tuple[float, list[Any]]] = []
     for word in sorted(words, key=lambda w: (float(w.get("top", 0)), float(w.get("x0", 0)))):
         top = float(word.get("top", 0))
         if not rows or abs(rows[-1][0] - top) > tolerance:
-            rows.append([top, [word]])
+            rows.append((top, [word]))
         else:
             rows[-1][1].append(word)
     return [row_words for _, row_words in rows]
@@ -330,7 +337,7 @@ def parse_pdf_page_words(words, edition_id, edition_name=None, source_url=None):
 
     rows = []
     for row in word_rows[header_index + 1:]:
-        buckets = {name: [] for name in columns}
+        buckets: dict[str, list[str]] = {name: [] for name in columns}
         for word in row:
             token = _clean_pdf_token(word.get("text", ""))
             if not token:
@@ -491,7 +498,7 @@ def upsert_tournament(event):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event['source_id']}: {exc}")
@@ -502,7 +509,7 @@ def _match_fencer(name, country):
     if not name or not country:
         return None
     try:
-        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
+        rows = _db().table("fs_fencers").select("id").ilike("name", name).eq("country", country).limit(2).execute().data
         return rows[0]["id"] if len(rows) == 1 else None
     except Exception:
         return None
@@ -531,12 +538,12 @@ def upsert_results(tournament_id, event):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

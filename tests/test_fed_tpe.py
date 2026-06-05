@@ -13,6 +13,7 @@ Probe evidence:
 
 from __future__ import annotations
 
+from typing import Any, cast
 import io
 import os
 import re
@@ -196,6 +197,7 @@ def test_fetch_rankings_page_discovers_public_workbook_and_extracts_combo(monkey
     scrape_fed_tpe._WORKBOOK_CACHE.clear()
 
     content = scrape_fed_tpe.fetch_rankings_page("Epee", "Men", "Junior")
+    content = cast(str, content)
     rows = scrape_fed_tpe.parse_rankings_table(content)
 
     assert calls[0][1] == scrape_fed_tpe.BASE_URL
@@ -276,7 +278,7 @@ def test_main_attempts_all_12_combos_and_reports_partial_coverage(monkeypatch):
 
     calls = []
     completed = {}
-    states = {}
+    states: dict[Any, Any] = {}
 
     def fake_fetch(weapon, gender, category):
         calls.append((weapon, gender, category))

@@ -16,6 +16,7 @@ import re
 import time
 import unicodedata
 from datetime import datetime, timezone
+from typing import Any, cast
 
 import requests
 
@@ -29,6 +30,12 @@ supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 SOURCE = "cac_games"
 REQUEST_DELAY = 2.0
@@ -243,7 +250,7 @@ def discover_events_from_manifest(manifest=None):
     """Return (events, skipped_editions) from the static probed archive manifest."""
     events = []
     skipped = []
-    for edition in manifest or CAC_GAMES_ARCHIVES:
+    for edition in cast(list[dict[str, Any]], manifest or CAC_GAMES_ARCHIVES):
         if edition.get("skip_reason"):
             skipped.append({
                 "edition_id": edition["edition_id"],
@@ -251,7 +258,7 @@ def discover_events_from_manifest(manifest=None):
                 "reason": edition["skip_reason"],
             })
             continue
-        for event in edition.get("events", []):
+        for event in cast(list[dict[str, Any]], edition.get("events", [])):
             item = {
                 "edition_id": edition["edition_id"],
                 "edition_name": edition["edition_name"],
@@ -433,7 +440,7 @@ def upsert_tournament(event, classification):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event['source_id']}: {exc}")
@@ -443,7 +450,7 @@ def upsert_tournament(event, classification):
 def _match_fencer(name, country):
     try:
         rows = (
-            supabase.table("fs_fencers")
+            _db().table("fs_fencers")
             .select("id")
             .ilike("name", name)
             .eq("country", country)
@@ -475,12 +482,12 @@ def upsert_results(tournament_id, result_rows, team=False):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

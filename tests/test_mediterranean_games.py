@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -116,7 +117,7 @@ def test_parse_tarragona_final_rank_assigns_medals_and_athlete_ids():
 def test_parse_oran_standings_text_assigns_medals_and_event_code():
     from scrape_mediterranean_games import parse_oran_standings_text
 
-    event = parse_oran_standings_text(ORAN_STANDINGS_TEXT)
+    event = cast(dict[str, Any], parse_oran_standings_text(ORAN_STANDINGS_TEXT))
 
     assert event["event_code"] == "FENMEPEE"
     assert event["event_name"] == "Men's Épée Individual"

@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any, cast
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -103,7 +104,7 @@ class FakeTable:
             self.client.updates.append(
                 {
                     "table": self.table_name,
-                    "payload": dict(self.pending_update),
+                    "payload": dict(cast(dict[str, Any], self.pending_update)),
                     "filters": list(self.filters),
                 }
             )

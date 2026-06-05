@@ -1,3 +1,4 @@
+from typing import Any
 import io
 import os
 import sys
@@ -171,7 +172,7 @@ def test_parse_xlsx_events_handles_federation_download_workbook():
 def test_result_rows_do_not_store_minor_age_or_profile_urls_and_log_unmatched():
     from scrape_efc_youth import build_result_rows
 
-    unmatched = []
+    unmatched: list[Any] = []
     event = {
         "source_url": "https://fencing-efc.eu/results/cadet-circuit",
         "event_name": "Individual - Cadets - Female - Foil",
@@ -271,7 +272,7 @@ def test_upsert_results_matches_fie_id_before_name_country_and_logs_unmatched(mo
     import scrape_efc_youth
 
     fake = FakeClient()
-    unmatched = []
+    unmatched: list[Any] = []
     monkeypatch.setattr(scrape_efc_youth, "supabase", fake)
     monkeypatch.setattr(scrape_efc_youth, "log_unmatched_fencer", unmatched.append)
 

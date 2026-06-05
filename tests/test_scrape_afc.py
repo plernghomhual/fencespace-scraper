@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 
@@ -205,7 +206,7 @@ def test_probe_sources_marks_network_errors_as_blocked_with_evidence():
 def test_build_result_rows_matches_fie_id_then_identity_and_skips_unmatched():
     from scrape_afc import build_result_rows
 
-    unmatched = []
+    unmatched: list[Any] = []
     rows = build_result_rows(
         tournament_id="tournament-1",
         event={

@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import sys
 
@@ -222,7 +223,7 @@ class FakeTable:
 
     def execute(self):
         if self.operation == "select":
-            page = self.client.tables.get(self.name, [])[self.range_start : self.range_end + 1]
+            page = self.client.tables.get(self.name, [])[self.range_start : cast(int, self.range_end) + 1]
             return FakeResult(page)
         if self.operation == "upsert":
             self.client.upserts.append(

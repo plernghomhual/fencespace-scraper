@@ -1,3 +1,4 @@
+from typing import Any
 import io
 import sys
 from pathlib import Path
@@ -243,7 +244,7 @@ def test_process_headshots_rate_limits_external_downloads(tmp_path):
             FakeResponse(200, "image/jpeg", image_bytes()),
         ]
     )
-    sleeps = []
+    sleeps: list[Any] = []
 
     dh.process_headshots(
         client,
@@ -263,7 +264,7 @@ def test_process_headshots_rate_limits_external_downloads(tmp_path):
 def test_duplicate_headshot_urls_are_downloaded_once_but_update_each_fencer(tmp_path):
     client = FakeClient()
     session = FakeSession([FakeResponse(200, "image/jpeg", image_bytes())])
-    sleeps = []
+    sleeps: list[Any] = []
 
     stats = dh.process_headshots(
         client,

@@ -9,6 +9,7 @@ Sources verified 2026-06-01:
   - African Games 2019 official result book PDF:
     /resultats/resJA2019/pdf/JA2019/FE/JA2019_FE_C99_FE0000000.pdf
 """
+from typing import Any
 import io
 import os
 import re
@@ -30,6 +31,12 @@ supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 OLYMPEDIA_BASE = "https://www.olympedia.org"
 SOURCE = "continental_games"
@@ -129,7 +136,8 @@ def parse_olympedia_list_page(
         athlete_link = cells[0].find("a", href=re.compile(r"/athletes/\d+"))
         athlete_id = None
         if athlete_link:
-            athlete_id = re.search(r"/athletes/(\d+)", athlete_link["href"]).group(1)
+            athlete_match = re.search(r"/athletes/(\d+)", athlete_link["href"])
+            athlete_id = athlete_match.group(1) if athlete_match else None
         athlete_name = cells[0].get_text(" ", strip=True)
         country = _extract_country_code(cells[1].get_text(" ", strip=True))
         notes = cells[5].get_text(" ", strip=True)
@@ -227,7 +235,7 @@ def parse_african_pdf_final_standings_text(text, edition_name="2019 Rabat"):
 
 def group_rows_by_event(rows):
     """Return [(event, result_rows)] preserving source order and exact duplicate rows once."""
-    grouped = OrderedDict()
+    grouped: OrderedDict[tuple[Any, Any, Any], list[Any]] = OrderedDict()
     seen = set()
     for row in rows:
         key = (row["games_type"], row["edition_id"], row["event_code"])
@@ -289,7 +297,7 @@ def discover_all_results():
 
 
 def discover_olympedia_results(games_type, config):
-    athlete_gender_cache = {}
+    athlete_gender_cache: dict[Any, Any] = {}
     rows = []
     list_id = config["list_id"]
     first_html = _get(f"{OLYMPEDIA_BASE}/lists/{list_id}/manual")
@@ -359,11 +367,11 @@ def parse_athlete_gender_page(html):
 def upsert_tournament(event):
     row = build_tournament_row(event)
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         if result.data and result.data[0].get("id"):
             return result.data[0]["id"]
         selected = (
-            supabase.table("fs_tournaments")
+            _db().table("fs_tournaments")
             .select("id")
             .eq("source_id", row["source_id"])
             .limit(1)
@@ -404,12 +412,12 @@ def upsert_results(tournament_id, result_rows):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")
@@ -596,7 +604,7 @@ def _max_page_number(html):
 def _match_fencer(name, country):
     try:
         rows = (
-            supabase.table("fs_fencers")
+            _db().table("fs_fencers")
             .select("id")
             .ilike("name", name)
             .eq("country", country)

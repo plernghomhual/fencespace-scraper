@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -83,7 +84,7 @@ def test_google_maps_no_key_skips_without_http_call(capsys):
 def test_forum_parsers_extract_review_thread_mentions():
     from scrape_club_reviews import parse_fencing_net_search_html, parse_reddit_search_response
 
-    reddit = parse_reddit_search_response(
+    reddit = cast(dict[str, Any], parse_reddit_search_response(
         {
             "data": {
                 "children": [
@@ -99,8 +100,8 @@ def test_forum_parsers_extract_review_thread_mentions():
             }
         },
         "Massialas Foundation",
-    )
-    fencing_net = parse_fencing_net_search_html(
+    ))
+    fencing_net = cast(dict[str, Any], parse_fencing_net_search_html(
         """
         <html><body>
           <a href="/forums/threads/massialas-foundation-review.123/">
@@ -110,7 +111,7 @@ def test_forum_parsers_extract_review_thread_mentions():
         </body></html>
         """,
         "Massialas Foundation",
-    )
+    ))
 
     assert reddit["review_count"] == 1
     assert "Reviews of Massialas Foundation?" in reddit["review_summary"]
@@ -205,7 +206,7 @@ def test_fetch_distinct_clubs_merges_sources_and_skips_missing_city():
 
         def execute(self):
             rows = self.client.tables[self.table_name]
-            return FakeResponse(rows[self.start : self.end + 1])
+            return FakeResponse(rows[self.start : cast(int, self.end) + 1])
 
     class FakeClient:
         def __init__(self):

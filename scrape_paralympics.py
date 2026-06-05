@@ -12,6 +12,7 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -27,6 +28,12 @@ supabase = None
 if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 PARALYMPIC_BASE = "https://www.paralympic.org"
 SOURCE = "paralympics"
@@ -176,7 +183,7 @@ def classify_event(event_name):
         "gender": gender,
         "team": team,
         "disability_class": disability_class,
-        "classification_description": CLASSIFICATION_DESCRIPTIONS.get(disability_class),
+        "classification_description": CLASSIFICATION_DESCRIPTIONS.get(disability_class or ""),
     }
 
 
@@ -372,7 +379,7 @@ def upsert_tournament(event, classification):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = _db().table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
@@ -382,7 +389,7 @@ def upsert_tournament(event, classification):
 def _match_fencer(name, country):
     try:
         rows = (
-            supabase.table("fs_fencers")
+            _db().table("fs_fencers")
             .select("id")
             .ilike("name", name)
             .eq("country", country)
@@ -435,12 +442,12 @@ def upsert_results(tournament_id, result_rows, event, classification):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    _db().table("fs_results").delete().eq("tournament_id", tournament_id).execute()
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            _db().table("fs_results").insert(batch).execute()
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

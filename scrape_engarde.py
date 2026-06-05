@@ -1,3 +1,4 @@
+from typing import Any
 import html
 import json
 import os
@@ -461,7 +462,7 @@ def fetch_competitions_for_service(client, service):
 
 
 def fetch_engarde_competitions(client):
-    seen = {}
+    seen: dict[Any, Any] = {}
     for service in ENGARDE_SERVICES:
         for comp in fetch_competitions_for_service(client, service):
             existing = seen.get(comp["event_id"])
@@ -552,7 +553,7 @@ def fetch_tournament_id_map(source_ids):
 def fetch_all_fencers():
     client = get_supabase_client()
     print("Loading fs_fencers for name/country matching...")
-    rows = []
+    rows: list[Any] = []
     start = 0
     page_size = 1000
     while True:
@@ -572,8 +573,8 @@ def fetch_all_fencers():
 
 
 def build_fencer_index(rows):
-    exact = {}
-    last = {}
+    exact: dict[Any, Any] = {}
+    last: dict[Any, Any] = {}
     for row in rows:
         name = clean_text(row.get("name"))
         ckey = country_key(row.get("country"))

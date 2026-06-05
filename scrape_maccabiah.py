@@ -11,6 +11,7 @@ Probe findings (2026-06-01):
     fencing result link was found.
 """
 
+from typing import Any, cast
 import html
 import os
 import re
@@ -227,7 +228,7 @@ def _header_map(cells):
         re.sub(r"[^a-z0-9]+", " ", (clean_text(c.get_text(" ")) or "").lower()).strip()
         for c in cells
     ]
-    mapping = {}
+    mapping: dict[Any, Any] = {}
     for idx, label in enumerate(labels):
         if not label:
             continue
@@ -337,7 +338,8 @@ def discover_official_page(html_text, edition, source_url):
         if "engarde-service.com" not in href:
             continue
         query = parse_qs(urlparse(href).query)
-        engarde_id = (query.get("id") or [None])[0]
+        engarde_values = query.get("id") or []
+        engarde_id = engarde_values[0] if engarde_values else None
         if engarde_id and engarde_id not in engarde_ids:
             engarde_ids.append(engarde_id)
 
@@ -589,7 +591,7 @@ def discover_events():
         if page.get("stub"):
             discovered.append(page["stub"])
             continue
-        probe_dates = page["probe_dates"] or edition.get("probe_dates") or []
+        probe_dates = cast(list[str], page["probe_dates"] or edition.get("probe_dates") or [])
         edition_events = []
         for probe_date in probe_dates:
             listing = fetch_official_event_listing(probe_date)
@@ -629,7 +631,7 @@ def upsert_tournament(event):
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event['source_id']}: {exc}")
@@ -639,7 +641,7 @@ def upsert_tournament(event):
 def _match_fencer(name, country):
     try:
         rows = (
-            supabase.table("fs_fencers")
+            supabase.table("fs_fencers")  # type: ignore[union-attr]
             .select("id")
             .ilike("name", name)
             .eq("country", country)
@@ -682,12 +684,12 @@ def upsert_results(tournament_id, event, result_rows):
         })
     if not db_rows:
         return 0
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert failed for {event['source_id']}: {exc}")

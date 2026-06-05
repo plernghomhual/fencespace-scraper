@@ -20,6 +20,8 @@ FENCER_MISSING = "00000000-0000-0000-0000-000000000004"
 def load_stats_module():
     path = ROOT / "api" / "v1" / "fencer_stats.py"
     spec = importlib.util.spec_from_file_location("fencespace_api_v1_fencer_stats", path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)

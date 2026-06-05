@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -13,7 +14,7 @@ FENCER_CAROL = "00000000-0000-0000-0000-000000000004"
 def test_aggregate_career_stats_groups_identities_and_counts_medals_average_and_touches():
     from compute_career_stats import aggregate_career_stats
 
-    tournaments = {
+    tournaments: dict[str, dict[str, Any]] = {
         "tournament-2025-foil": {
             "id": "tournament-2025-foil",
             "season": "2025",
@@ -36,7 +37,7 @@ def test_aggregate_career_stats_groups_identities_and_counts_medals_average_and_
             "category": "Senior",
         },
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {"tournament_id": "tournament-2025-foil", "fencer_id": FENCER_ALICE_FOIL, "rank": 1},
         {"tournament_id": "tournament-2026-epee", "fencer_id": FENCER_ALICE_EPEE, "rank": 3},
         {"tournament_id": "tournament-2025-foil", "fencer_id": FENCER_ALICE_EPEE, "rank": 1},
@@ -44,7 +45,7 @@ def test_aggregate_career_stats_groups_identities_and_counts_medals_average_and_
         {"tournament_id": "tournament-2026-sabre", "fencer_id": FENCER_BOB, "rank": "T8."},
         {"tournament_id": "tournament-2026-epee", "fencer_id": None, "rank": 4},
     ]
-    bouts = [
+    bouts: list[dict[str, Any]] = [
         {
             "tournament_id": "tournament-2025-foil",
             "fencer_a_id": FENCER_ALICE_FOIL,
@@ -67,7 +68,7 @@ def test_aggregate_career_stats_groups_identities_and_counts_medals_average_and_
             "score_b": 7,
         },
     ]
-    identity_map = {
+    identity_map: dict[str, str] = {
         FENCER_ALICE_FOIL: FENCER_ALICE_FOIL,
         FENCER_ALICE_EPEE: FENCER_ALICE_FOIL,
     }
@@ -138,7 +139,7 @@ class FakeTable:
         if self.operation == "select":
             if self.name not in self.client.tables:
                 raise RuntimeError(f"missing table {self.name}")
-            return FakeResult(self.client.tables[self.name][self.range_start : self.range_end + 1])
+            return FakeResult(self.client.tables[self.name][self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

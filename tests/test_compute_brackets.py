@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -248,7 +249,7 @@ def test_groups_multiple_events_by_result_metadata_when_bouts_have_no_event_key(
     )
 
     assert skip_reason is None
-    by_event = {}
+    by_event: dict[Any, Any] = {}
     for row in rows:
         by_event.setdefault(row["event_key"], []).append(row)
 
@@ -295,7 +296,7 @@ class FakeTable:
     def execute(self):
         if self.operation == "select":
             rows = list(self.client.tables.get(self.name, []))
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {
@@ -319,11 +320,11 @@ class FakeSupabase:
 
 
 class FakeRunLogger:
-    instances: list[object] = []
+    instances: list["FakeRunLogger"] = []
 
     def __init__(self, module):
         self.module = module
-        self.completed = []
+        self.completed: list[dict[str, Any]] = []
         self.errors = []
         FakeRunLogger.instances.append(self)
 

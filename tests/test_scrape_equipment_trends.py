@@ -1,3 +1,4 @@
+from typing import Any, cast
 import sys
 from pathlib import Path
 
@@ -97,7 +98,7 @@ def test_brand_normalization_uses_sponsor_aliases_and_product_rows():
 def test_build_evidence_rows_joins_equipment_to_results_and_preserves_sources():
     from scrape_equipment_trends import build_brand_catalog, build_evidence_rows
 
-    equipment_rows = [
+    equipment_rows: list[dict[str, Any]] = [
         {
             "id": "eq-1",
             "fencer_id": "fencer-1",
@@ -237,6 +238,7 @@ def test_build_evidence_rows_accepts_rate_limited_profile_evidence_sources():
         ),
     )
 
+    profile_source = cast(dict[str, Any], profile_source)
     rows, skipped = build_evidence_rows(
         [profile_source],
         [fencer],
@@ -257,6 +259,7 @@ def test_build_evidence_rows_accepts_rate_limited_profile_evidence_sources():
 
     assert skipped == 0
     assert len(rows) == 1
+    rows = cast(list[dict[str, Any]], rows)
     assert rows[0]["equipment_category"] == "mask"
     assert rows[0]["metadata"]["equipment_evidence_id"] == profile_source["equipment_evidence_id"]
 
@@ -297,7 +300,7 @@ def test_aggregate_trends_counts_brand_wins_by_weapon_and_preserves_confidence()
         },
     ]
 
-    rows = aggregate_trend_rows(evidence_rows, updated_at="2026-06-02T12:00:00+00:00")
+    rows = cast(list[dict[str, Any]], aggregate_trend_rows(evidence_rows, updated_at="2026-06-02T12:00:00+00:00"))
     by_brand_weapon = {(row["brand"], row["weapon"]): row for row in rows}
 
     leon = by_brand_weapon[("Leon Paul", "Foil")]

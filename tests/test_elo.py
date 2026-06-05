@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -48,7 +49,7 @@ def test_build_elo_rows_orders_bouts_chronologically_and_groups_identities():
         },
         {"id": BOB_IDENTITY, "canonical_id": BOB_ROW, "fs_fencer_row_ids": [BOB_ROW]},
     ]
-    bouts = [
+    bouts: list[dict[str, Any]] = [
         {
             "id": "late-bout",
             "tournament_id": "late",
@@ -123,7 +124,7 @@ def test_build_elo_rows_skips_duplicates_incomplete_missing_fencers_and_team_eve
             "has_results": False,
         },
     }
-    bouts = [
+    bouts: list[dict[str, Any]] = [
         {
             "id": "bout-1",
             "tournament_id": "valid",

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import re
 import sys
@@ -147,7 +148,7 @@ def test_country_at_event_uses_history_range_before_current_fencer_country():
     from compute_home_advantage import resolve_fencer_country_at_event
 
     fencer_row = fencer(TRANSFER, country="France")
-    history_rows = [
+    history_rows: list[dict[str, Any]] = [
         {
             "fencer_id": TRANSFER,
             "country": "Italy",
@@ -342,7 +343,7 @@ class FakeTable:
             raise RuntimeError(f"{self.name} unavailable")
         if self.operation == "select":
             rows = self.client.tables.get(self.name, [])
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

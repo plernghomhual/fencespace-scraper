@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import re
 import sys
@@ -232,7 +233,7 @@ def test_match_observation_prefers_wikidata_and_fie_ids_then_logs_ambiguous_name
     identities = [{"fs_fencer_row_ids": ["row-a", "row-b"], "fie_ids": ["42855"]}]
     row_groups, fie_groups = build_identity_maps(identities)
     indexes = build_fencer_indexes(fencers)
-    logs = []
+    logs: list[Any] = []
 
     id_observation = HandednessObservation(
         handedness="left",

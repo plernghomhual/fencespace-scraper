@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -43,7 +44,7 @@ def test_build_medal_efficiency_rows_computes_denominator_and_tier_metrics():
             "total": 2,
         },
     ]
-    country_depth_rows = [
+    country_depth_rows: list[dict[str, Any]] = [
         {"country": "USA", "weapon": "Foil", "category": "Senior", "total_ranked": 60},
         {"country": "USA", "weapon": "Epee", "category": "Senior", "total_ranked": "40"},
     ]
@@ -127,6 +128,10 @@ def test_build_medal_efficiency_rows_computes_denominator_and_tier_metrics():
 def test_missing_population_and_fencer_counts_leave_null_efficiency_fields():
     from compute_medal_efficiency import build_medal_efficiency_rows
 
+    country_depth_rows: list[dict[str, Any]] = [
+        {"country": "ITA", "weapon": "Foil", "category": "Senior", "total_ranked": 75}
+    ]
+
     rows, skipped = build_medal_efficiency_rows(
         [
             {
@@ -139,9 +144,7 @@ def test_missing_population_and_fencer_counts_leave_null_efficiency_fields():
                 "total": 3,
             }
         ],
-        country_depth_rows=[
-            {"country": "ITA", "weapon": "Foil", "category": "Senior", "total_ranked": 75}
-        ],
+        country_depth_rows=country_depth_rows,
         country_code_rows=[
             {"country": "Italy", "country_code": "ITA", "ioc": "ITA", "name": "Italy"}
         ],
@@ -355,7 +358,7 @@ class FakeTable:
             return FakeResult(self.rows)
 
         rows = list(self.client.tables.get(self.name, []))
-        return FakeResult(rows[self.range_start : self.range_end + 1])
+        return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
 
 
 class FakeSupabase:

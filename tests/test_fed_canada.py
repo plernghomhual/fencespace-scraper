@@ -11,6 +11,8 @@ Data source: https://rankingapi.fencing.ca/api/rankings/published
 
 Fixtures are trimmed representations of real API responses.
 """
+
+from typing import Any
 import pytest
 import sys
 import os
@@ -124,9 +126,9 @@ FIXTURE_API_EMPTY_RANKS = [
     }
 ]
 
-FIXTURE_API_EMPTY_LIST: list[object] = []
+FIXTURE_API_EMPTY_LIST: list[dict[Any, Any]] = []
 
-FIXTURE_API_MISSING_FIELDS = [
+FIXTURE_API_MISSING_FIELDS: list[dict[str, Any]] = [
     {
         "_id": "cccc0001",
         "weapon": None,

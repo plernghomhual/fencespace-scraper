@@ -10,6 +10,7 @@ Olympedia was probed first, but accessible fencing/editions pages did not expose
 Universiade event routes. FISU's official statistics PDF is used as the canonical
 source because it covers historical editions and naturally omits missing editions.
 """
+from typing import Any
 import io
 import os
 import re
@@ -196,7 +197,7 @@ def fetch_fisu_stats_tables():
     response = requests.get(FISU_STATS_PDF_URL, headers=HEADERS, timeout=90)
     response.raise_for_status()
 
-    tables = []
+    tables: list[Any] = []
     with pdfplumber.open(io.BytesIO(response.content)) as pdf:
         for page in pdf.pages:
             text = page.extract_text(x_tolerance=1, y_tolerance=3) or ""
@@ -231,7 +232,7 @@ def upsert_tournament(event):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {event['source_id']}: {exc}")
@@ -243,7 +244,7 @@ def _match_fencer(name, country):
         return None
     try:
         rows = (
-            supabase.table("fs_fencers")
+            supabase.table("fs_fencers")  # type: ignore[union-attr]
             .select("id")
             .ilike("name", name)
             .eq("country", country)
@@ -278,12 +279,12 @@ def upsert_results(tournament_id, event):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i:i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed for {event['source_id']}: {exc}")

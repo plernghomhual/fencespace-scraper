@@ -13,6 +13,7 @@ Probe notes:
 Representative Polish table headers:
   Miejsce | Imię i Nazwisko | Rocznik | Klub | Suma punktów | ...
 """
+from typing import cast, Any
 import os
 import sys
 
@@ -215,5 +216,6 @@ def test_pol_get_with_retry_retries_transient_http_status(monkeypatch):
 
     response = scrape_fed_pol._get_with_retry("https://pzszerm.pl/test")
 
+    response = cast(Any, response)
     assert response.status_code == 200
     assert len(calls) == 2

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -87,7 +88,7 @@ class FakeSupabase:
 
 
 class FakeLogger:
-    instances: list[object] = []
+    instances: list["FakeLogger"] = []
 
     def __init__(self, module):
         self.module = module
@@ -133,19 +134,20 @@ def test_no_key_defaults_to_fixture_dry_run_without_supabase_writes(monkeypatch)
     assert client.upserts == []
     assert state_updates[-1][0] == "scrape_tiktok_fencing"
     assert state_updates[-1][1] == "last_run"
-    assert FakeLogger.instances[0].completed["metadata"]["dry_run"] is True
+    completed = cast(dict[str, Any], FakeLogger.instances[0].completed)
+    assert completed["metadata"]["dry_run"] is True
 
 
 def test_api_fixture_parser_normalizes_public_video_metadata():
     import scrape_tiktok_fencing as tk
 
     videos = tk.parse_provider_payload(PROVIDER_FIXTURE)
-    row = tk.build_video_row(
+    row = cast(dict[str, Any], tk.build_video_row(
         videos[0],
         target=tk.Target(kind="hashtag", value="Fencing"),
         known_fencers=KNOWN_FENCERS,
         provider_name="fixture-provider",
-    )
+    ))
 
     assert row["platform"] == "tiktok"
     assert row["video_id"] == "7351234567890123456"

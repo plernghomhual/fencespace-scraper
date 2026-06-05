@@ -12,6 +12,7 @@ Probe evidence, 2026-06-02:
     No public foil/sabre domestic ranking sheets were found in the probed workbook.
 """
 
+from typing import cast
 import os
 import sys
 
@@ -202,6 +203,7 @@ def test_fetch_rankings_page_uses_public_epee_sheet_export(monkeypatch):
 
     content = scrape_fed_ltu.fetch_rankings_page("Epee", "Men", "Senior")
 
+    content = cast(str, content)
     assert "Tamošiūnas" in content
     assert calls[0][0] == "get"
     assert "format=csv" in calls[0][1]

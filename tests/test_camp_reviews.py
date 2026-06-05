@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -239,15 +240,16 @@ def test_match_review_to_camp_uses_disambiguators_and_logs_ambiguity():
         "start_date": "2026-06-15",
         "end_date": "2026-06-19",
     }
-    ambiguity_log = []
+    ambiguity_log: list[Any] = []
 
     matched = match_review_to_camp(exact_review, CAMP_ROWS, ambiguity_log=ambiguity_log)
 
+    matched = cast(dict[str, Any], matched)
     assert matched["id"] == "11111111-1111-1111-1111-111111111111"
     assert ambiguity_log == []
 
     ambiguous_review = {"camp_name": "Pre-Nationals Epee Camp"}
-    matched = match_review_to_camp(ambiguous_review, CAMP_ROWS, ambiguity_log=ambiguity_log)
+    matched = cast(dict[str, Any], match_review_to_camp(ambiguous_review, CAMP_ROWS, ambiguity_log=ambiguity_log))
 
     assert matched is None
     assert ambiguity_log == [

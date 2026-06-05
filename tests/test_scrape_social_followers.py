@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from datetime import datetime, timezone
@@ -87,10 +88,10 @@ def test_login_only_profile_urls_are_skipped_before_fetch():
 
 
 def test_parse_public_mastodon_snapshot_counts_and_date_bucket():
-    from scrape_social_followers import parse_mastodon_account_snapshot, normalize_social_profile
+    from scrape_social_followers import SocialProfileCandidate, parse_mastodon_account_snapshot, normalize_social_profile
 
     collected_at = datetime(2026, 6, 2, 15, 30, tzinfo=timezone.utc)
-    profile = normalize_social_profile("mastodon", "@ada@mastodon.social")
+    profile = cast(SocialProfileCandidate, normalize_social_profile("mastodon", "@ada@mastodon.social"))
     row = parse_mastodon_account_snapshot(
         profile,
         PUBLIC_MASTODON_ACCOUNT,
@@ -113,9 +114,9 @@ def test_parse_public_mastodon_snapshot_counts_and_date_bucket():
 
 
 def test_parse_mastodon_snapshot_handles_missing_hidden_counts():
-    from scrape_social_followers import parse_mastodon_account_snapshot, normalize_social_profile
+    from scrape_social_followers import SocialProfileCandidate, parse_mastodon_account_snapshot, normalize_social_profile
 
-    profile = normalize_social_profile("mastodon", "@private-fencer@mastodon.social")
+    profile = cast(SocialProfileCandidate, normalize_social_profile("mastodon", "@private-fencer@mastodon.social"))
     row = parse_mastodon_account_snapshot(
         profile,
         HIDDEN_COUNT_ACCOUNT,
@@ -130,7 +131,7 @@ def test_parse_mastodon_snapshot_handles_missing_hidden_counts():
 
 
 def test_collect_profile_snapshot_skips_blocked_platform_without_request():
-    from scrape_social_followers import collect_profile_snapshot, normalize_social_profile
+    from scrape_social_followers import SocialProfileCandidate, collect_profile_snapshot, normalize_social_profile
 
     class Session:
         def __init__(self):
@@ -140,7 +141,7 @@ def test_collect_profile_snapshot_skips_blocked_platform_without_request():
             self.calls.append((url, kwargs))
             raise AssertionError("blocked platform should not be fetched")
 
-    profile = normalize_social_profile("instagram", "@Ada.Blade")
+    profile = cast(SocialProfileCandidate, normalize_social_profile("instagram", "@Ada.Blade"))
     session = Session()
 
     row, blocked = collect_profile_snapshot(
@@ -151,6 +152,7 @@ def test_collect_profile_snapshot_skips_blocked_platform_without_request():
     )
 
     assert row is None
+    blocked = cast(dict[str, Any], blocked)
     assert blocked["platform"] == "instagram"
     assert blocked["reason"] == "blocked_login_or_restricted_api"
     assert session.calls == []

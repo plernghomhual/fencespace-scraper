@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 
@@ -469,7 +470,7 @@ def test_dry_run_with_client_emits_payload_without_database_update(monkeypatch):
     import enrich_education as edu
 
     client = FakeSupabase([{"id": "fencer-a", "metadata": {"wikidata_id": "Q312123"}}])
-    emitted = []
+    emitted: list[Any] = []
     monkeypatch.setattr(edu.time, "sleep", lambda delay: None)
 
     summary = edu.run_enrichment(

@@ -9,6 +9,7 @@ Probe summary (verified 2026-06-01):
 """
 from __future__ import annotations
 
+from typing import Any
 import io
 import os
 import re
@@ -171,7 +172,7 @@ def parse_history_page(html, base_url=CFF_BASE):
         if not re.search(r"championship|games", title, re.I):
             continue
 
-        year = re.search(r"\b((?:19|20)\d{2})\b", title).group(1)
+        year = re.search(r"\b((?:19|20)\d{2})\b", title).group(1)  # type: ignore[union-attr]
         normalized_title = title.replace(" - ", " - ")
         key = (year, normalized_title)
         if key in seen:
@@ -223,7 +224,7 @@ def _format_upper_surname_name(name):
     if len(parts) < 2:
         return name
     surname_parts = []
-    given_parts = []
+    given_parts: list[Any] = []
     for part in parts:
         if not given_parts and re.fullmatch(r"[A-Z][A-Z'\-\u2019]+", part):
             surname_parts.append(part)
@@ -489,7 +490,7 @@ def upsert_tournament(event, classification=None):
         },
     }
     try:
-        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()
+        result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
         return result.data[0]["id"] if result.data else None
     except Exception as exc:
         print(f"  Tournament upsert failed for {source_id}: {exc}")
@@ -556,12 +557,12 @@ def upsert_results(tournament_id, result_rows):
     if not db_rows:
         return 0
 
-    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()
+    supabase.table("fs_results").delete().eq("tournament_id", tournament_id).execute()  # type: ignore[union-attr]
     written = 0
     for i in range(0, len(db_rows), 100):
         batch = db_rows[i : i + 100]
         try:
-            supabase.table("fs_results").insert(batch).execute()
+            supabase.table("fs_results").insert(batch).execute()  # type: ignore[union-attr]
             written += len(batch)
         except Exception as exc:
             print(f"  Results insert batch failed: {exc}")

@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -201,7 +202,7 @@ class FakeTable:
             self.client.upserts.append(
                 {
                     "table": self.name,
-                    "rows": list(self.upsert_rows),
+                    "rows": list(cast(list[Any], self.upsert_rows)),
                     "on_conflict": self.on_conflict,
                 }
             )

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -15,7 +16,7 @@ NOW = "2026-06-01T12:00:00+00:00"
 def test_build_medal_table_rows_aggregates_country_fencer_and_tier_counts():
     from compute_medal_tables import build_medal_table_rows
 
-    tournaments = {
+    tournaments: dict[str, dict[str, Any]] = {
         "olympics-foil": {
             "id": "olympics-foil",
             "type": "OG",
@@ -41,7 +42,7 @@ def test_build_medal_table_rows_aggregates_country_fencer_and_tier_counts():
             "category": "Senior",
         },
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {
             "id": "r1",
             "tournament_id": "olympics-foil",
@@ -183,7 +184,7 @@ class FakeTable:
             rows = list(self.client.tables[self.name])
             for column in self.not_null_columns:
                 rows = [row for row in rows if row.get(column) is not None]
-            return FakeResult(rows[self.range_start : self.range_end + 1])
+            return FakeResult(rows[self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

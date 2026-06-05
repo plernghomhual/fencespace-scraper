@@ -20,6 +20,8 @@ IDENTITY_ID = "10000000-0000-0000-0000-000000000001"
 
 def load_module():
     spec = importlib.util.spec_from_file_location("api_v1_fencer_milestones", MODULE_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Unable to load module")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)

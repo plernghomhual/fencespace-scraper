@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 
@@ -23,12 +24,12 @@ def row_key(row):
 def test_moving_average_uses_available_sparse_seasons_in_order():
     from compute_difficulty_trend import build_difficulty_trend_rows
 
-    tournaments = [
+    tournaments: list[dict[str, Any]] = [
         {"id": "t-2022", "season": "2021-2022", "weapon": "E", "gender": "M", "category": "Senior", "tier": "GP", "competition_type": "Individual"},
         {"id": "t-2024", "season": "2023/24", "weapon": "Epee", "gender": "Men", "category": "Senior", "tier": "Grand Prix", "competition_type": "Individual"},
         {"id": "t-2025", "season": 2025, "weapon": "epee", "gender": "Men's", "category": "Men's Senior", "tier": "GP", "competition_type": "Individual"},
     ]
-    strength_rows = [
+    strength_rows: list[dict[str, Any]] = [
         {"tournament_id": "t-2024", "strength_score": 70, "avg_world_rank": 25, "top8_count": 2, "top16_count": 4, "total_fie_ranked": 12},
         {"tournament_id": "t-2022", "strength_score": 50, "avg_world_rank": 40, "top8_count": 1, "top16_count": 2, "total_fie_ranked": 8},
         {"tournament_id": "t-2025", "strength_score": 90, "avg_world_rank": 15, "top8_count": 3, "top16_count": 6, "total_fie_ranked": 16},
@@ -80,7 +81,7 @@ def test_tier_grouping_uses_explicit_fields_not_event_names():
             "competition_type": "Individual",
         },
     ]
-    strength_rows = [
+    strength_rows: list[dict[str, Any]] = [
         {"tournament_id": "explicit-gp", "strength_score": 80, "total_fie_ranked": 20},
         {"tournament_id": "name-only", "strength_score": 20, "total_fie_ranked": 6},
     ]
@@ -109,7 +110,7 @@ def test_missing_strength_is_skipped_but_missing_rankings_reduce_confidence():
         {"id": "no-ranking", "season": 2025, "weapon": "S", "gender": "M", "category": "Junior", "type": "WC", "event_type": "Individual"},
         {"id": "missing-strength", "season": 2025, "weapon": "S", "gender": "F", "category": "Junior", "type": "WC", "event_type": "Individual"},
     ]
-    strength_rows = [
+    strength_rows: list[dict[str, Any]] = [
         {"tournament_id": "ranked", "strength_score": 77, "total_fie_ranked": 10},
         {"tournament_id": "no-ranking", "strength_score": 55, "total_fie_ranked": 9},
         {"tournament_id": "missing-strength", "strength_score": None, "total_fie_ranked": 3},

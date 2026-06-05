@@ -139,7 +139,7 @@ def fetch_wikidata_fencers():
 
 def match_fencer_by_fie_id(fie_id):
     try:
-        rows = supabase.table("fs_fencers").select("id").eq("fie_id", fie_id).execute().data
+        rows = supabase.table("fs_fencers").select("id").eq("fie_id", fie_id).execute().data  # type: ignore[union-attr]
         return [r["id"] for r in rows]
     except Exception:
         return []
@@ -147,7 +147,7 @@ def match_fencer_by_fie_id(fie_id):
 
 def match_fencer_by_name_country(name, country):
     try:
-        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).execute().data
+        rows = supabase.table("fs_fencers").select("id").ilike("name", name).eq("country", country).execute().data  # type: ignore[union-attr]
         return [r["id"] for r in rows]
     except Exception:
         return []
@@ -157,7 +157,7 @@ def apply_update(fencer_uuid, payload):
     if not payload:
         return False
     try:
-        existing = supabase.table("fs_fencers").select(
+        existing = supabase.table("fs_fencers").select(  # type: ignore[union-attr]
             "date_of_birth,nationality,headshot_url,gender,metadata"
         ).eq("id", fencer_uuid).single().execute().data
 
@@ -176,7 +176,7 @@ def apply_update(fencer_uuid, payload):
         if not payload:
             return False
 
-        supabase.table("fs_fencers").update(payload).eq("id", fencer_uuid).execute()
+        supabase.table("fs_fencers").update(payload).eq("id", fencer_uuid).execute()  # type: ignore[union-attr]
         return True
     except Exception as exc:
         print(f"    Update failed for {fencer_uuid}: {exc}")

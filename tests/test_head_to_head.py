@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -14,13 +15,13 @@ NOW = "2026-06-01T12:00:00+00:00"
 def test_build_head_to_head_rows_canonicalizes_pairs_and_skips_incomplete_bouts():
     from compute_head_to_head import build_head_to_head_rows
 
-    tournaments = {
+    tournaments: dict[str, dict[str, Any]] = {
         "foil-1": {"id": "foil-1", "weapon": "foil", "end_date": "2025-01-10"},
         "foil-2": {"id": "foil-2", "weapon": "Foil", "end_date": "2025-03-20T18:30:00+00:00"},
         "epee-1": {"id": "epee-1", "weapon": "epee", "end_date": "2025-02-05"},
         "missing-weapon": {"id": "missing-weapon", "end_date": "2025-04-01"},
     }
-    bouts = [
+    bouts: list[dict[str, Any]] = [
         {
             "id": "bout-1",
             "tournament_id": "foil-1",

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -164,6 +165,7 @@ def test_fetch_wikipedia_enrichment_prefers_wikidata_id_over_existing_title():
         sleep_func=lambda _: None,
     )
 
+    result = cast(dict[str, Any], result)
     assert result["title"] == "Correct Page"
     assert [call["url"] for call in session.calls] == [
         "https://www.wikidata.org/wiki/Special:EntityData/Q1657692.json",
@@ -182,11 +184,11 @@ def test_fetch_wikipedia_enrichment_uses_explicit_wikipedia_url_without_wikidata
         ]
     )
 
-    result = fetch_wikipedia_enrichment(
+    result = cast(dict[str, Any], fetch_wikipedia_enrichment(
         {"wikipedia_url": "https://en.wikipedia.org/wiki/Lee_Kiefer"},
         session=session,
         sleep_func=lambda _: None,
-    )
+    ))
 
     assert result["title"] == "Lee Kiefer"
     assert result["bio_text"] == "Lee Kiefer is an American right-handed foil fencer."

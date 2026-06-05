@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 
@@ -69,7 +70,7 @@ def test_specialization_report_classifies_weapons_and_compares_success_rates():
             "start_date": "2024-12-12",
         },
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {"fencer_id": FENCER_ALICE_FOIL, "tournament_id": "foil-2025", "rank": 1},
         {"fencer_id": FENCER_ALICE_EPEE_ROW, "tournament_id": "foil-2026", "rank": 2},
         {"fencer_id": FENCER_BOB, "tournament_id": "epee-2025", "rank": 3},
@@ -150,7 +151,7 @@ def test_report_computes_junior_to_senior_transition_and_weapon_switching():
             "start_date": "2024-04-01",
         },
     }
-    results = [
+    results: list[dict[str, Any]] = [
         {"fencer_id": FENCER_DANA, "tournament_id": "junior-foil", "rank": 6},
         {"fencer_id": FENCER_DANA, "tournament_id": "senior-epee", "rank": 4},
         {"fencer_id": FENCER_ERIN, "tournament_id": "junior-sabre", "rank": 2},

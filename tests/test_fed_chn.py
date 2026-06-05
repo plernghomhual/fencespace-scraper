@@ -6,6 +6,7 @@ Fixture JSON is trimmed from the public China fencing information platform API:
   params: season=2026, week=第二十一周(05月18日至05月24日), itemType=I,
           groupCode=PS/PJ, weapon=F/E/S, gender=M/F
 """
+from typing import cast
 import os
 import sys
 
@@ -190,6 +191,7 @@ def test_fetch_rankings_page_uses_supported_page_size_and_paginates(monkeypatch)
     monkeypatch.setattr(scraper, "_get_json", fake_get_json)
 
     content = scraper.fetch_rankings_page("Foil", "Men", "Senior")
+    content = cast(str, content)
     rows = scraper.parse_rankings_table(content)
 
     assert [row["name"] for row in rows] == ["郭一凡", "张思琪"]

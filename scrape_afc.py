@@ -1027,7 +1027,7 @@ def main():
     run_log = ScraperRunLogger("scrape_afc").start()
     try:
         written, failed, skipped = run()
-        run_log.complete(written, failed, skipped)
+        run_log.complete(written=written, failed=failed, skipped=skipped)
     except Exception as exc:
         run_log.error(str(exc))
         raise

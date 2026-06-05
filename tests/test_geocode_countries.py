@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -50,11 +51,11 @@ class FakeTable:
             self.client.upserts.append(
                 {
                     "table": self.name,
-                    "row": dict(self.payload),
+                    "row": dict(cast(dict[str, Any], self.payload)),
                     "on_conflict": self.on_conflict,
                 }
             )
-            return FakeResult([dict(self.payload)])
+            return FakeResult([dict(cast(dict[str, Any], self.payload))])
         raise AssertionError(f"unexpected operation for {self.name}")
 
 
@@ -167,7 +168,7 @@ def test_backfill_uses_fencers_tournaments_and_medal_tables_without_duplicates()
             ],
         }
     )
-    state = {}
+    state: dict[Any, Any] = {}
 
     summary = backfill_country_geocodes(
         client,
@@ -220,7 +221,7 @@ def test_backfill_uses_nominatim_fallback_with_delay_between_network_requests():
             },
         }
     )
-    sleeps = []
+    sleeps: list[Any] = []
 
     summary = backfill_country_geocodes(
         client,
@@ -276,7 +277,7 @@ def test_cached_failure_skips_nominatim_and_persists_new_failures():
             "fs_medal_tables": [],
         }
     )
-    failed_state = {}
+    failed_state: dict[Any, Any] = {}
     failed_geocoder = FakeGeocoder({"BBB": None})
 
     failed_summary = backfill_country_geocodes(
@@ -304,7 +305,7 @@ def test_dry_run_disables_network_and_writes_nothing_for_missing_countries():
         }
     )
     geocoder = FakeGeocoder({"Atlantis": {"lat": "1", "lon": "2"}})
-    state = {}
+    state: dict[Any, Any] = {}
 
     summary = backfill_country_geocodes(
         client,

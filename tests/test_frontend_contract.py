@@ -1,5 +1,6 @@
 import re
 from pathlib import Path
+from typing import cast
 
 import frontend_api_contract as contract
 
@@ -65,10 +66,11 @@ def test_mock_fixtures_cover_required_frontend_fields():
 
 
 def test_frontend_server_env_contract_excludes_private_supabase_and_scraper_secrets():
-    forbidden = set(contract.FORBIDDEN_BROWSER_ENV_VARS)
+    forbidden: set[str] = set(contract.FORBIDDEN_BROWSER_ENV_VARS)
 
     assert "SUPABASE_SERVICE_KEY" in forbidden
     assert "SUPABASE_KEY" in forbidden
     assert forbidden.isdisjoint(contract.FRONTEND_SERVER_ENV_VARS)
-    assert forbidden.isdisjoint(contract.FRONTEND_PUBLIC_ENV_VARS)
-    assert all(name.startswith("NEXT_PUBLIC_") for name in contract.FRONTEND_PUBLIC_ENV_VARS)
+    public_vars = cast(set[str], contract.FRONTEND_PUBLIC_ENV_VARS)
+    assert forbidden.isdisjoint(public_vars)
+    assert all(name.startswith("NEXT_PUBLIC_") for name in public_vars)

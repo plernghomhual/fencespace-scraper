@@ -7,6 +7,7 @@ Sources:
   exposes EYOF edition pages or they are supplied with EYOF_OLYMPEDIA_EDITIONS.
 """
 
+from typing import Any
 import calendar
 import json
 import os
@@ -29,6 +30,12 @@ if SUPABASE_URL and SUPABASE_KEY:
     from supabase import create_client
 
     supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+def _db() -> Any:
+    if supabase is None:
+        raise RuntimeError("Supabase is not configured")
+    return supabase
 
 SOURCE = "youth_majors"
 FIE_BASE = "https://fie.org"
@@ -250,7 +257,7 @@ def fetch_competitions_page(session, season, page=1, from_date="", to_date=""):
 
 
 def fetch_competitions(session, season, from_date="", to_date="", max_pages=20):
-    results = []
+    results: list[Any] = []
     for page in range(1, max_pages + 1):
         data = fetch_competitions_page(session, season, page, from_date, to_date)
         items = data.get("items") or []
@@ -375,7 +382,10 @@ def parse_eyof_editions(html):
         link = row.find("a", href=re.compile(r"/editions/\d+"))
         if not link:
             continue
-        edition_id = re.search(r"/editions/(\d+)", link["href"]).group(1)
+        edition_match = re.search(r"/editions/(\d+)", link["href"])
+        if not edition_match:
+            continue
+        edition_id = edition_match.group(1)
         if edition_id in seen:
             continue
         seen.add(edition_id)
@@ -429,7 +439,10 @@ def parse_eyof_sport_page(html, edition_id, edition_name):
         result_link = td.find("a", href=RESULT_LINK_RE)
         if not result_link:
             continue
-        result_id = re.search(r"/results/(\d+)", result_link["href"]).group(1)
+        result_match = re.search(r"/results/(\d+)", result_link["href"])
+        if not result_match:
+            continue
+        result_id = result_match.group(1)
         if result_id in seen:
             continue
         seen.add(result_id)
@@ -466,7 +479,8 @@ def parse_olympedia_results_page(html, result_id):
         rank = to_int(re.sub(r"\D", "", pos_text)) if pos_text else None
         competitor_td = cells[2]
         athlete_link = competitor_td.find("a", href=re.compile(r"/athletes/\d+"))
-        athlete_id = re.search(r"/athletes/(\d+)", athlete_link["href"]).group(1) if athlete_link else None
+        athlete_match = re.search(r"/athletes/(\d+)", athlete_link["href"]) if athlete_link else None
+        athlete_id = athlete_match.group(1) if athlete_match else None
         name = clean_text(competitor_td.text)
         if not name:
             continue
@@ -554,7 +568,7 @@ def existing_source_ids(prefix):
 
 
 def _fetch_tournament_id_by_source_id(source_id):
-    result = supabase.table("fs_tournaments").select("id").eq("source_id", source_id).limit(1).execute()
+    result = _db().table("fs_tournaments").select("id").eq("source_id", source_id).limit(1).execute()
     return result.data[0]["id"] if result.data else None
 
 
@@ -562,7 +576,7 @@ def fetch_tournament_id_map(source_ids):
     id_map = {}
     for i in range(0, len(source_ids), BATCH_SIZE):
         batch = source_ids[i : i + BATCH_SIZE]
-        result = supabase.table("fs_tournaments").select("id,source_id").in_("source_id", batch).execute()
+        result = _db().table("fs_tournaments").select("id,source_id").in_("source_id", batch).execute()
         for row in result.data or []:
             id_map[row["source_id"]] = row["id"]
     return id_map
@@ -576,7 +590,7 @@ def _insert_missing_tournament_rows(rows):
         return
     try:
         for i in range(0, len(new_rows), BATCH_SIZE):
-            supabase.table("fs_tournaments").insert(new_rows[i : i + BATCH_SIZE]).execute()
+            _db().table("fs_tournaments").insert(new_rows[i : i + BATCH_SIZE]).execute()
     except Exception as exc:
         print(f"  Tournament insert failed; retrying without fie_id: {exc}")
         fallback_rows = []
@@ -585,7 +599,7 @@ def _insert_missing_tournament_rows(rows):
             fallback["fie_id"] = None
             fallback_rows.append(fallback)
         for i in range(0, len(fallback_rows), BATCH_SIZE):
-            supabase.table("fs_tournaments").insert(fallback_rows[i : i + BATCH_SIZE]).execute()
+            _db().table("fs_tournaments").insert(fallback_rows[i : i + BATCH_SIZE]).execute()
 
 
 def upsert_tournament_rows(rows, *, on_conflict="source_id"):

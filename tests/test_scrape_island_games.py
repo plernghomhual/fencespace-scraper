@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -144,13 +145,13 @@ def test_parse_oceania_tournament_page_discovers_event_links_and_source_ids():
 def test_parse_oceania_result_page_uses_final_results_table():
     from scrape_island_games import parse_oceania_result_page
 
-    event = parse_oceania_result_page(
+    event = cast(dict[str, Any], parse_oceania_result_page(
         OCEANIA_RESULT_HTML,
         year="2019",
         event_code="mens-foil-individual-canberra-16",
         event_name="Men’s Foil Individual (Canberra)",
         category="Senior",
-    )
+    ))
 
     assert event["source_id"] == "oceania:2019:mens-foil-individual-canberra-16"
     assert event["weapon"] == "Foil"

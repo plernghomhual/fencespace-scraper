@@ -11,6 +11,7 @@ Probe evidence:
   - Response format: XLSX workbook links from the ranking page.
 """
 
+from typing import cast
 import io
 import os
 import sys
@@ -180,6 +181,7 @@ def test_fetch_rankings_page_discovers_public_xlsx_and_extracts_matching_sheet(m
     scrape_fed_pur._WORKBOOK_CACHE.clear()
 
     content = scrape_fed_pur.fetch_rankings_page("Epee", "Women", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_pur.parse_rankings_table(content)
 
     assert calls[0] == ("get", scrape_fed_pur.RANKING_PAGE)
@@ -224,6 +226,7 @@ def test_fetch_rankings_page_follows_download_page_for_junior_workbook(monkeypat
 
     content = scrape_fed_pur.fetch_rankings_page("Sabre", "Men", "Junior")
 
+    content = cast(str, content)
     assert "RIVERA Sofía" in content
 
 

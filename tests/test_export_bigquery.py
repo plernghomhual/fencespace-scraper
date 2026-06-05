@@ -1,3 +1,4 @@
+from typing import cast
 import importlib
 import json
 import os
@@ -33,7 +34,7 @@ class FakeQuery:
 
     def execute(self):
         rows = self.client.tables.get(self.table_name, [])
-        return FakeResponse(rows[self.start : self.end + 1])
+        return FakeResponse(rows[self.start : cast(int, self.end) + 1])
 
 
 class FakeSupabase:

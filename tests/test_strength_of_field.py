@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -11,7 +12,7 @@ NOW = "2026-06-01T12:00:00+00:00"
 def test_build_strength_rows_scores_ranked_participants_once_per_tournament():
     from compute_strength_of_field import build_strength_rows
 
-    results = [
+    results: list[dict[str, Any]] = [
         {"tournament_id": "tournament-a", "fencer_id": "fencer-1"},
         {"tournament_id": "tournament-a", "fencer_id": "fencer-2"},
         {"tournament_id": "tournament-a", "fencer_id": "fencer-2"},
@@ -22,7 +23,7 @@ def test_build_strength_rows_scores_ranked_participants_once_per_tournament():
         {"tournament_id": "tournament-a", "fencer_id": "zero-rank"},
         {"tournament_id": "tournament-b", "fencer_id": "unranked"},
     ]
-    fencers = [
+    fencers: list[dict[str, Any]] = [
         {"id": "fencer-1", "world_rank": 1},
         {"id": "fencer-2", "world_rank": "8"},
         {"id": "fencer-3", "world_rank": 16},

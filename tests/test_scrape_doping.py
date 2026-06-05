@@ -1,3 +1,4 @@
+from typing import Any
 from pathlib import Path
 
 
@@ -304,7 +305,7 @@ def test_scrape_doping_upserts_public_records_and_rate_limits_sources():
             final_url=source.url,
         )
 
-    sleeps = []
+    sleeps: list[Any] = []
     client = FakeSupabase()
 
     summary = scrape_doping(

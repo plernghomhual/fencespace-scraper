@@ -8,6 +8,7 @@ The API returns JSON with top-level Mens/Womens lists and row fields:
   rank, uid, name, club, region, cat, points, comps, avg, change.
 """
 
+from typing import cast
 import json
 import os
 import re
@@ -215,6 +216,7 @@ def test_fetch_rankings_page_uses_public_api_and_selects_requested_gender(monkey
     monkeypatch.setattr(scrape_fed_nzl.requests, "get", fake_get)
 
     content = scrape_fed_nzl.fetch_rankings_page("Foil", "Women", "Senior")
+    content = cast(str, content)
     rows = scrape_fed_nzl.parse_rankings_table(content)
 
     assert calls[0][0] == "https://api.fencing.org.nz/public/ranking"

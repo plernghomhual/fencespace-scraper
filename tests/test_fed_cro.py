@@ -16,6 +16,7 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
+from typing import cast
 
 import requests
 
@@ -203,7 +204,7 @@ def test_ranking_combos_cover_all_required_croatia_rankings():
 def test_extract_latest_pdf_url_uses_current_season_newest_link():
     from scrape_fed_cro import _extract_latest_pdf_url
 
-    url = _extract_latest_pdf_url(INDEX_HTML)
+    url = cast(str, _extract_latest_pdf_url(INDEX_HTML))
 
     assert url.endswith("/20260513-rang-hms-pdf.png/latest~~221")
 
@@ -211,7 +212,7 @@ def test_extract_latest_pdf_url_uses_current_season_newest_link():
 def test_extract_combo_section_returns_requested_public_combo_only():
     from scrape_fed_cro import _extract_combo_section
 
-    section = _extract_combo_section(MULTI_SECTION_TEXT, "Sabre", "Women", "Junior")
+    section = cast(str, _extract_combo_section(MULTI_SECTION_TEXT, "Sabre", "Women", "Junior"))
 
     assert "SABLJA JUNIORKE" in section
     assert "FLORET SENIORI" not in section
@@ -276,7 +277,7 @@ def test_fetch_rankings_page_returns_requested_combo_section(monkeypatch):
 
     monkeypatch.setattr(scrape_fed_cro, "_get_latest_pdf_text", lambda: MULTI_SECTION_TEXT)
 
-    content = scrape_fed_cro.fetch_rankings_page("Foil", "Men", "Senior")
+    content = cast(str, scrape_fed_cro.fetch_rankings_page("Foil", "Men", "Senior"))
 
     assert "FLORET SENIORI" in content
     assert "SABLJA JUNIORKE" not in content

@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -273,7 +274,7 @@ def test_scrape_fencer_sponsorships_fetches_sponsor_pages_and_rate_limits():
             )
         }
     )
-    sleeps = []
+    sleeps: list[Any] = []
     fencer = {
         "id": "2cbb9fa2-a8cc-4bc6-871f-71ec27133fd7",
         "name": "Lee Kiefer",
@@ -298,7 +299,7 @@ def test_scrape_fencer_sponsorships_fetches_sponsor_pages_and_rate_limits():
 def test_run_records_logger_state_and_summary(monkeypatch):
     import scrape_sponsorships
 
-    events = []
+    events: list[tuple[Any, ...]] = []
     state = {}
 
     class FakeLogger:

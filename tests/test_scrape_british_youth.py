@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 
@@ -114,10 +115,10 @@ LOGIN_REQUIRED_HTML = """
 def test_parse_ftl_results_extracts_event_rows_and_avoids_minor_profile_data():
     from scrape_british_youth import parse_ftl_results_html
 
-    event = parse_ftl_results_html(
+    event = cast(dict[str, Any], parse_ftl_results_html(
         FTL_EVENT_HTML,
         "https://www.fencingtimelive.com/events/view/public-event-2",
-    )
+    ))
 
     assert event["event_name"] == "U-14 Women's Épée"
     assert event["weapon"] == "Epee"

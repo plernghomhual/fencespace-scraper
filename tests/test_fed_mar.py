@@ -14,6 +14,7 @@ Fixtures are realistic French/Arabic ranking tables for the requested parser con
 
 import os
 import sys
+from typing import Any
 
 import requests
 
@@ -115,11 +116,11 @@ class DummyResponse:
 
 
 class DummyRunLogger:
-    instances: list[object] = []
+    instances: list["DummyRunLogger"] = []
 
     def __init__(self, module):
         self.module = module
-        self.completed = None
+        self.completed: dict[str, Any] | None = None
         self.errored = None
         DummyRunLogger.instances.append(self)
 
@@ -310,6 +311,7 @@ def test_main_attempts_all_12_combos_when_no_public_data(monkeypatch):
     scrape_fed_mar.main()
 
     assert attempted == scrape_fed_mar.RANKING_COMBOS
-    assert DummyRunLogger.instances[0].completed["written"] == 0
-    assert DummyRunLogger.instances[0].completed["failed"] == 12
-    assert DummyRunLogger.instances[0].completed["skipped"] == 0
+    completed = DummyRunLogger.instances[0].completed or {}
+    assert completed["written"] == 0
+    assert completed["failed"] == 12
+    assert completed["skipped"] == 0

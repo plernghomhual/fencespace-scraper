@@ -1,3 +1,4 @@
+from typing import Any
 import os
 import sys
 from pathlib import Path
@@ -346,7 +347,7 @@ def test_missing_youtube_key_returns_dry_run_without_supabase_reads_or_upserts()
 def test_youtube_api_client_uses_metadata_endpoints_and_rate_limiter():
     from aggregate_videos import RateLimiter, YouTubeDataAPI
 
-    sleeps = []
+    sleeps: list[Any] = []
     times = iter([0.0, 0.0, 0.5, 0.5])
     limiter = RateLimiter(
         min_interval_seconds=1.0,

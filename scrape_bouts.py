@@ -1,3 +1,4 @@
+from typing import Any
 import json
 import os
 import re
@@ -327,7 +328,7 @@ def extract_bouts(tournament_id, window_data):
 
 
 def fetch_all_tournaments(supabase):
-    tournaments = []
+    tournaments: list[Any] = []
     offset = 0
     while True:
         page = (

@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import sys
 from pathlib import Path
@@ -83,7 +84,7 @@ def test_build_form_rows_scores_improving_declining_and_stable_form():
 def test_build_form_rows_handles_fewer_than_five_null_ranks_mixed_categories_and_dedupes():
     from compute_form_tracker import build_form_rows
 
-    tournaments = {
+    tournaments: dict[str, dict[str, Any]] = {
         "junior-a": {
             "id": "junior-a",
             "weapon": "Epee",
@@ -118,14 +119,14 @@ def test_build_form_rows_handles_fewer_than_five_null_ranks_mixed_categories_and
             "team": True,
         },
     }
-    identity_rows = [
+    identity_rows: list[dict[str, Any]] = [
         {
             "id": ALICE_IDENTITY,
             "canonical_id": ALICE_ROW,
             "fs_fencer_row_ids": [ALICE_ROW, ALICE_ALT_ROW],
         }
     ]
-    results = [
+    results: list[dict[str, Any]] = [
         {
             "id": "junior-result",
             "tournament_id": "junior-a",
@@ -238,7 +239,7 @@ class FakeTable:
         if self.operation == "select":
             if self.name not in self.client.tables:
                 raise RuntimeError(f"missing table {self.name}")
-            return FakeResult(self.client.tables[self.name][self.range_start : self.range_end + 1])
+            return FakeResult(self.client.tables[self.name][self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {

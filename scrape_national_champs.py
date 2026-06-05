@@ -792,14 +792,14 @@ def main():
         done = set(get_state(SOURCE, "done_countries") or [])
         total = {"written": 0, "failed": 0, "skipped": 0}
         for config in COUNTRY_CONFIGS:
-            country = config["country"]
+            country = config["country"]  # type: ignore[index]
             if country in done:
                 total["skipped"] += 1
                 continue
-            summary = run_country_config(config, client=client)
+            summary = run_country_config(config, client=client)  # type: ignore[arg-type]
             for key in total:
                 total[key] += summary[key]
-            if summary["written"] > 0 or config.get("status") != "parsable":
+            if summary["written"] > 0 or config.get("status") != "parsable":  # type: ignore[attr-defined]
                 done.add(country)
                 set_state(SOURCE, "done_countries", sorted(done))
             time.sleep(REQUEST_DELAY)

@@ -9,6 +9,7 @@ Fixtures reflect the probed public South Africa ranking structure:
   - Detail table headers: Rank | Points | T-P | Name | Nation | Clubs | YOB
 """
 
+from typing import cast
 import os
 import sys
 
@@ -230,6 +231,7 @@ def test_fetch_rankings_page_uses_public_index_and_detail_page(monkeypatch):
 
     html = scrape_fed_rsa.fetch_rankings_page("Foil", "Men", "Senior")
 
+    html = cast(str, html)
     assert "MARAIS Caitlin" in html
     assert calls[0][0] == "get"
     assert calls[0][1] == "https://safencer.co.za/rankings/"

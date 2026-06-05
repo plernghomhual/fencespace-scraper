@@ -1,3 +1,4 @@
+from typing import Any, cast
 import os
 import re
 import sys
@@ -330,12 +331,12 @@ class FakeTable:
         if self.operation == "select":
             if self.name not in self.client.tables:
                 raise RuntimeError(f"missing table {self.name}")
-            return FakeResult(self.client.tables[self.name][self.range_start : self.range_end + 1])
+            return FakeResult(self.client.tables[self.name][self.range_start : cast(int, self.range_end) + 1])
         if self.operation == "upsert":
             self.client.upserts.append(
                 {
                     "table": self.name,
-                    "rows": list(self.upsert_rows),
+                    "rows": list(cast(list[Any], self.upsert_rows)),
                     "on_conflict": self.on_conflict,
                 }
             )
