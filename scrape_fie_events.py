@@ -1,7 +1,7 @@
 """
-Forward-looking FIE event discovery.
-Fetches upcoming and current-season events not yet in fs_tournaments,
-covering the current season and the next two seasons.
+FIE event discovery — historical backfill + forward-looking.
+Fetches all FIE competitions from HISTORY_START_YEAR through the current season
+plus the next LOOK_AHEAD_YEARS seasons.
 """
 import calendar
 import os
@@ -23,6 +23,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 LOOK_AHEAD_YEARS = int(os.environ.get("FIE_EVENTS_LOOK_AHEAD", "2"))
+HISTORY_START_YEAR = int(os.environ.get("FIE_EVENTS_HISTORY_START", "2003"))
 REQUEST_DELAY = float(os.environ.get("FIE_EVENTS_DELAY", "0.5"))
 _fie_limiter = _RateLimiter(default_rps=2.0, jitter=0.2, backoff=5.0)
 
@@ -94,26 +95,40 @@ def fetch_month(session: requests.Session, year: int, month: int, status: str) -
     last_day = calendar.monthrange(year, month)[1]
     from_date = f"{year}-{month:02d}-01"
     to_date = f"{year}-{month:02d}-{last_day:02d}"
-    payload = {
-        "name": "", "status": status, "gender": [], "weapon": [], "type": [],
-        "season": year, "level": "", "competitionCategory": "",
-        "fromDate": from_date, "toDate": to_date, "fetchPage": 1,
-    }
-    for attempt in range(1, 3):
-        try:
-            res = session.post(
-                "https://fie.org/competitions/search",
-                headers=COMP_HEADERS,
-                json=payload,
-                timeout=20,
-            )
-            if res.status_code == 200 and res.text.strip():
-                return res.json().get("items", [])
-        except Exception as exc:
-            print(f"  Fetch {year}-{month:02d} attempt {attempt} failed: {exc}")
-            if attempt < 2:
-                time.sleep(2)
-    return None
+    all_items: list[dict] = []
+    page = 1
+    while True:
+        payload = {
+            "name": "", "status": status, "gender": [], "weapon": [], "type": [],
+            "season": year, "level": "", "competitionCategory": "",
+            "fromDate": from_date, "toDate": to_date, "fetchPage": page,
+        }
+        fetched = None
+        for attempt in range(1, 3):
+            try:
+                res = session.post(
+                    "https://fie.org/competitions/search",
+                    headers=COMP_HEADERS,
+                    json=payload,
+                    timeout=20,
+                )
+                if res.status_code == 200 and res.text.strip():
+                    data = res.json()
+                    fetched = data.get("items", [])
+                    break
+            except Exception as exc:
+                print(f"  Fetch {year}-{month:02d} page {page} attempt {attempt} failed: {exc}")
+                if attempt < 2:
+                    time.sleep(2)
+        if fetched is None:
+            return None if page == 1 else all_items
+        all_items.extend(fetched)
+        # FIE returns fewer items than a full page when there are no more results
+        if len(fetched) < 20:
+            break
+        page += 1
+        _fie_limiter.wait("fie.org")
+    return all_items
 
 
 def competition_row(c: dict) -> dict:
@@ -152,17 +167,17 @@ def scrape_fie_events():
     session = make_session()
     all_items: dict[str, dict] = {}
 
-    for year in range(current_year, current_year + LOOK_AHEAD_YEARS + 1):
-        print(f"Fetching season {year}...")
+    def _fetch_year(year: int, past: bool) -> None:
+        print(f"Fetching season {year}{'  [historical]' if past else ''}...")
         for month in range(1, 13):
-            if year == current_year and month < current_month:
+            if not past and year == current_year and month < current_month:
                 continue
-            status = "" if year > current_year or month >= current_month else "passed"
+            status = "passed" if past or month < current_month else ""
             items = fetch_month(session, year, month, status)
             if items is None:
-                session = make_session()
+                session_retry = make_session()
                 time.sleep(1)
-                items = fetch_month(session, year, month, status) or []
+                items = fetch_month(session_retry, year, month, status) or []
             for item in items:
                 comp_id = item.get("competitionId")
                 if comp_id:
@@ -170,6 +185,14 @@ def scrape_fie_events():
             if items:
                 print(f"  {year}-{month:02d}: {len(items)} items")
             _fie_limiter.wait("fie.org")
+
+    # Historical backfill: every completed season
+    for year in range(HISTORY_START_YEAR, current_year):
+        _fetch_year(year, past=True)
+
+    # Current season + look-ahead
+    for year in range(current_year, current_year + LOOK_AHEAD_YEARS + 1):
+        _fetch_year(year, past=False)
 
     print(f"Fetched {len(all_items)} unique FIE competitions")
     if not all_items:
