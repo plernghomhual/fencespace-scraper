@@ -703,6 +703,11 @@ def build_home_advantage_rows(
         }
         preliminary_rows.append(row)
 
+    seen_ids: dict[str, dict[str, Any]] = {}
+    for _r in preliminary_rows:
+        seen_ids[_r["id"]] = _r
+    preliminary_rows = list(seen_ids.values())
+
     maps = baseline_maps(preliminary_rows)
     rows: list[dict[str, Any]] = []
     for _row_raw in sorted(preliminary_rows, key=lambda item: item["id"]):

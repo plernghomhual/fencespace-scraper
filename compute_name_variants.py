@@ -313,10 +313,13 @@ def fetch_results(client, page_size: int = PAGE_SIZE) -> list[dict[str, Any]]:
 
 def upsert_name_variants(client, rows: list[dict[str, Any]], batch_size: int = BATCH_SIZE) -> int:
     written = 0
-    for start in range(0, len(rows), batch_size):
+    for i, start in enumerate(range(0, len(rows), batch_size)):
         batch = rows[start:start + batch_size]
-        client.table("fs_fencer_name_variants").upsert(batch, on_conflict=NAME_VARIANT_CONFLICT).execute()
-        written += len(batch)
+        try:
+            client.table("fs_fencer_name_variants").upsert(batch, on_conflict=NAME_VARIANT_CONFLICT).execute()
+            written += len(batch)
+        except Exception as exc:
+            print(f"  fs_fencer_name_variants upsert batch {i + 1} failed: {exc}")
     return written
 
 
@@ -347,8 +350,8 @@ def compute_name_variants(
         )
 
         variants, stats = _build_name_variants_with_stats(identities, fencers, results, national_fed_rankings)
-        valid_fencer_ids = {str(f["id"]) for f in fencers if f.get("id")}
-        variants = [v for v in variants if str(v.get("fencer_id", "")) in valid_fencer_ids]
+        valid_identity_ids = {str(identity["id"]) for identity in identities if identity.get("id")}
+        variants = [v for v in variants if str(v.get("fencer_id", "")) in valid_identity_ids]
         written = upsert_name_variants(client, variants, batch_size=batch_size) if variants else 0
         report = {
             "identities_loaded": len(identities),
