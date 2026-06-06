@@ -30,12 +30,6 @@ env/
 *.log
 logs/
 
-# Node / Next.js (frontend)
-node_modules/
-.next/
-coverage/
-tsconfig.tsbuildinfo
-
 # Playwright
 .playwright-mcp/
 

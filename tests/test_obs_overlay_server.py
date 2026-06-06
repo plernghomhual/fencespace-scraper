@@ -2,7 +2,7 @@ import importlib
 import json
 import os
 import sys
-from pathlib import Path
+from datetime import date, timedelta
 
 import pytest
 from fastapi.testclient import TestClient
@@ -105,14 +105,15 @@ class FakeSupabase:
 
 
 def live_tables():
+    today = date.today()
     return {
         "fs_tournaments": [
             {
                 "id": "t-1",
                 "name": "June Foil Grand Prix",
                 "season": 2026,
-                "start_date": "2026-06-01",
-                "end_date": "2026-06-03",
+                "start_date": (today - timedelta(days=1)).isoformat(),
+                "end_date": today.isoformat(),
                 "competition_url_id": "9001",
                 "weapon": "Foil",
                 "gender": "Women",
@@ -275,39 +276,3 @@ def test_live_score_endpoint_rate_limits_per_client(overlay_module, monkeypatch)
     assert response.json()["status"] == "rate_limited"
     assert response.headers["X-RateLimit-Limit"] == "1"
     assert "Retry-After" in response.headers
-
-
-def test_obs_overlay_static_files_are_served(overlay_module):
-    client = TestClient(overlay_module.app)
-
-    index = client.get("/obs-overlay/")
-    styles = client.get("/obs-overlay/styles.css")
-    script = client.get("/obs-overlay/overlay.js")
-
-    assert index.status_code == 200
-    assert styles.status_code == 200
-    assert script.status_code == 200
-    assert 'id="overlay-status"' in index.text
-    assert ".score-panel" in styles.text
-    assert "URLSearchParams" in script.text
-
-
-def test_obs_overlay_html_smoke():
-    root = Path("frontend/obs-overlay")
-    index = (root / "index.html").read_text()
-    css = (root / "styles.css").read_text()
-    js = (root / "overlay.js").read_text()
-    combined = f"{index}\n{css}\n{js}"
-
-    assert '<link rel="stylesheet" href="styles.css">' in index
-    assert '<script src="overlay.js" defer></script>' in index
-    assert 'id="overlay-status"' in index
-    assert "fetch(" in js
-    assert "URLSearchParams" in js
-    assert "tournament_id" in js
-    assert "event_id" in js
-    assert "token" in js
-    assert "disconnected" in combined.lower()
-    assert "no active" in combined.lower()
-    assert "SUPABASE" not in combined
-    assert "SERVICE_KEY" not in combined

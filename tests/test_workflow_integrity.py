@@ -292,7 +292,6 @@ FRONTEND_PRODUCT_ONLY = {
     "compute_trivia.py",
     "export_bigquery.py",
     "fantasy_league.py",
-    "frontend_api_contract.py",
     "generate_tournament_pdf.py",
     "marketplace_api.py",
     "obs_overlay_server.py",
