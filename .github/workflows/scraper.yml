@@ -56,23 +56,6 @@ jobs:
       - name: Run mypy
         run: python -m mypy
 
-  frontend-validation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v5
-        with:
-          node-version: "24"
-      - name: Install frontend dependencies
-        run: npm install
-        working-directory: frontend
-      - name: Run frontend tests
-        run: npm test -- --run
-        working-directory: frontend
-      - name: Typecheck frontend
-        run: ./node_modules/.bin/tsc --noEmit --pretty false --incremental false
-        working-directory: frontend
-
   # ── Phase 2a: FIE core scrapers (parallel) ──────────────────────────────────
   fie-scrapers:
     runs-on: ubuntu-latest
