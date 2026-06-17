@@ -1,0 +1,92 @@
+[
+  {
+    "type": "post",
+    "author": "Titanori",
+    "score": "7",
+    "body": "Hello. My university fencing club is running a recreational competition (expecting about 50-60 fencers) that runs in a format that isn't traditionally what you see. The format is two rounds of pools. The first pool is randomly selected (with the competition organisers moving around fencers to make things more fair) and the second pool is seeded from the previous pools' results. For the seeding of the second pool, the fencers that come out of the first seeded 1-7 get put in a pool together, then 8-14 get put in one together, etc.\n\nLast year I wasn't in charge of the competition, but remember there were issues creating the second round of pools without the platform we tried (think it was ftl) first wanting to run a round of DEs. Or maybe it would create the second round of pools, but not let us have it so that 1-7, 8-14, etc were put in a pool together. If anyone has any idea as to what platform would be best (and cheapest haha) for us to use that'd be greatly appreciated."
+  },
+  {
+    "type": "comment",
+    "author": "fencingdnd",
+    "score": "7 points",
+    "body": "I think you should be able to run this with fencing time live, you just need to make sure you select the option to be asked to pick the format for each round. If you read the fencingtime user manual from their website it has all the possible pool options that you can do, and having read it grouped pools like you want is an option."
+  },
+  {
+    "type": "comment",
+    "author": "antihippy",
+    "score": "4 points",
+    "body": "We call these \"48ers\" cos they usually have 48 fencers.\n\nIt's quite an old format - good to see it in use somewhere else.\n\nI think the fencingDND is right that you should be able to do it on fencingtime. I've seen it done on Excel too for what it's worth."
+  },
+  {
+    "type": "comment",
+    "author": "E9Q62rW",
+    "score": "0 points",
+    "body": "48ers were 4 rounds in my memory; how did the 3rd and 4th rounds get drawn?"
+  },
+  {
+    "type": "comment",
+    "author": "antihippy",
+    "score": "1 point",
+    "body": "I've seen them run in a couple of different ways, and I admit I've not even attended one in probably 20 years, so from memory: You do the first 2 rounds with seeding then it's simple promotion. Bottom 2 from each poule go into the poule below, while the top 2 in the one below are promoted.\n\nAnd someone put a 48er through fencingtime recently. I'll see if I can find out who did that."
+  },
+  {
+    "type": "comment",
+    "author": "MaterialOwl5869",
+    "score": "1 point",
+    "body": "It might have been me or the guy I run competitions with, we did a 48er last year and are going to another again in a few months."
+  },
+  {
+    "type": "comment",
+    "author": "randomsabreuse",
+    "score": "0 points",
+    "body": "I think most 48ers are run on index cards as it's quicker and easier.  The maths isn't that hard and it's easier to take a view on edge cases..."
+  },
+  {
+    "type": "comment",
+    "author": "antihippy",
+    "score": "0 points",
+    "body": "I'm not advocating for it, just saying I've seen it"
+  },
+  {
+    "type": "comment",
+    "author": "ZebraFencer",
+    "score": "3 points",
+    "body": "That's called \"sharks and minnows.\" It's easy to do in FencingTime. Set the tournament up as two rounds of pools or use the format \"as determined by user.\" There's a checkbox in pool options you can select that will make the second pool sharks and minnows."
+  },
+  {
+    "type": "comment",
+    "author": "cranial_d",
+    "score": "2 points",
+    "body": "It's a Shark - Minnow format. FTL can handle that."
+  },
+  {
+    "type": "comment",
+    "author": "now-hold-up-buddy",
+    "score": "0 points",
+    "body": "I built a pretty comprehensive excel spreadsheet that (with just a bit of modification) should be able to handle this, just taking the results of the first pools and dropping them into the new sheet. It auto calculates pool sheets, then assigns a seed for up to 64 fencers. Wouldn't be hard to copy those out, then just place them into a new round of pools based on seed.\n\nI also only have brackets built out to auto populate through 16 fencer DEs, but it would just take some somewhat tedious copy and pasting to fill those out to 32 and 64 too (I just got lazy)"
+  },
+  {
+    "type": "comment",
+    "author": "hokers",
+    "score": "-1 points",
+    "body": "Did you not find that this format lead to a huge carve up in the DE as the top fencers were scattered throughout the draw?\n\nOr did you order by poules first then results second? I’d be pretty annoyed by either of these methods I think, but maybe the second is more acceptable."
+  },
+  {
+    "type": "comment",
+    "author": "hhssspphhhrrriiivver",
+    "score": "1 point",
+    "body": "I could be reading it wrong, but I think the whole format is just two poules and then they're done. No DEs."
+  },
+  {
+    "type": "comment",
+    "author": "Titanori",
+    "score": "2 points",
+    "body": "That is correct"
+  },
+  {
+    "type": "comment",
+    "author": "randomsabreuse",
+    "score": "-2 points",
+    "body": "Probably easiest to do many competitions - first round with your single competition for everyone, then make separate comps for each poule.\n\nOr, if you're only doing 2 rounds of poules, do you really need a computer for the second round? Print blank poule sheets and do it manually writing the names in...  You should be able to do this manually as it really helps your understanding of how the computer does what it's doing!"
+  }
+]

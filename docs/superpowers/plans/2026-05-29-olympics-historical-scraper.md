@@ -164,7 +164,7 @@ def test_classify_event_weapon_gender():
 - [ ] **Step 2: Run tests to confirm they fail**
 
 ```bash
-cd /Users/plernghomhual/Documents/FenceSpace-Scraper/fencespace-scraper
+cd /Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Scraper/fencespace-scraper
 python -m pytest tests/test_scrape_olympics.py -v 2>&1 | head -40
 ```
 

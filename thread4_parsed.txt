@@ -1,0 +1,44 @@
+[
+  {
+    "type": "post",
+    "author": "Drizzleshard",
+    "score": "17",
+    "body": "Can anyone explain me the referee ratings used in Fencing Time?\n\nI'm not familiar with these: S, N2, N1, NI, I.\n\nI'm also not sure if these are based on some global, international rating system or if this is something typical for Fencing Time.\n\nI hope someone can help!\n\n​\n\nhttps://preview.redd.it/ohyeuw48qu441.png?width=173&format=png&auto=webp&s=65195781776c56734de28ea81a789cfa36dd5b8e"
+  },
+  {
+    "type": "comment",
+    "author": "Form27b-6",
+    "score": "10 points",
+    "body": "Ask the Belgians.\n\nThe referee ratings that appear in the selection pop-up depend on the \"authority\" that was selected when the tournament was configured in Fencing Time. Those particular referee ratings look like the ones used when the authority is set to the Fencing Federation of Belgium.\n\nFencing Time supports the referee rating systems used by the FIE, USFA, Singapore, Belgium, Netherlands, Finland federations among others."
+  },
+  {
+    "type": "comment",
+    "author": "guideagoldfish",
+    "score": "9 points",
+    "body": "Hi! Those are referee ratings for Belgium. If you are seeing them in FencingTime you are very likely to be running the tournament under the Belgium Federation"
+  },
+  {
+    "type": "comment",
+    "author": "Drizzleshard",
+    "score": "5 points",
+    "body": "Oh seriously 😑 I didn’t know fencing time adapted the rating systems to the country. I am living in Belgium, but the rating system changed a while ago so I did not yet recognise it. Didn’t even think that it could be the Belgian rating. Thanks a lot for your answer!"
+  },
+  {
+    "type": "comment",
+    "author": "mac_a_bee",
+    "score": "1 point",
+    "body": "What do they signify?"
+  },
+  {
+    "type": "comment",
+    "author": "Drizzleshard",
+    "score": "3 points",
+    "body": "If you can read in Dutch you can read this: https://docs.wixstatic.com/ugd/9c4d01_01cf4e2cb8884b0892860975ac9404c6.pdf\n\nI - international referee (FIE A or B)\n\n \n\nNi - national referee, but available for international too\n\n \n\nN1 - national referee > passed practical exam for at least 6 months + did at least 4 poules and 16 tableau matches as referee the last year\n\n \n\nN2 - national referee > passed practical exam but does not match the criteria for N1\n\n \n\nS - candidate referee (intern) > passed theoretical exam\n\n \n\nE - referee under evaluation > for example because he did not referee anything the last 2 years"
+  },
+  {
+    "type": "comment",
+    "author": "mac_a_bee",
+    "score": "1 point",
+    "body": "Thank you."
+  }
+]

@@ -99,7 +99,7 @@
 
 ### Files Changed
 
-- Created `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md`.
+- Created `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md`.
 - Deleted scraper `frontend/`.
 - Deleted scraper `frontend_api_contract.py`.
 - Deleted stale scraper `tests/test_frontend_contract.py`.
@@ -114,10 +114,10 @@
 
 ### Verification
 
-- `ls /Users/plernghomhual/Documents/FenceSpace-Scraper/fencespace-scraper/frontend/ 2>&1`
-  - `ls: /Users/plernghomhual/Documents/FenceSpace-Scraper/fencespace-scraper/frontend/: No such file or directory`
-- `ls /Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md`
-  - `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md  24.6K`
+- `ls /Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Scraper/fencespace-scraper/frontend/ 2>&1`
+  - `ls: /Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Scraper/fencespace-scraper/frontend/: No such file or directory`
+- `ls /Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md`
+  - `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tasks/migration-inventory.md  24.6K`
 - `git ls-files -d frontend frontend_api_contract.py tests/test_frontend_contract.py | wc -l`
   - `73`
 - `.venv/bin/python -m pytest tests/test_obs_overlay_server.py tests/test_workflow_integrity.py -q`
@@ -158,10 +158,10 @@
 
 ### Files Changed
 
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/h2h.js`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/h2h/index.html`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tasks/_nav-template.html`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/index.html`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/h2h.js`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/h2h/index.html`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tasks/_nav-template.html`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/index.html`
 - `tasks/todo.md`
 
 ### Behavior Changed
@@ -174,7 +174,7 @@
 ### Verification
 
 - Red check before implementation: current `h2h.js` missed standalone markers.
-- `node -c /Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/h2h.js`
+- `node -c /Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/h2h.js`
 - Static marker check for `fs_head_to_head`, `fs_bouts`, `fencer_a`, `history.pushState`, and CSS width-based win bar.
 - Static container check for every required `fs-h2h-root` child in `/h2h/index.html`.
 - Local smoke fetch with static server: `/h2h/ 200 true`, `/h2h.js 200 true`.
@@ -202,7 +202,7 @@
 
 ## Notes
 
-- Real frontend path: `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace`.
+- Real frontend path: `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace`.
 - Scraper source component: `frontend/components/BracketVisualizer.tsx`.
 - Preserve existing `window.FenceSpaceBracket.render(containerEl, bouts, options)` behavior while adding the new `window.FsBracket` API.
 
@@ -210,10 +210,10 @@
 
 ### Files Changed
 
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/bracket.js`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tournament/index.html`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tournament/main.js`
-- `/Users/plernghomhual/Documents/FenceSpace-Fntend/fencespace/tournament/styles.css`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/bracket.js`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tournament/index.html`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tournament/main.js`
+- `/Users/plernghomhual/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/tournament/styles.css`
 - `tasks/todo.md`
 
 ### Behavior Changed
@@ -254,7 +254,7 @@
 
 ## Notes
 
-- Target repo is `~/Documents/FenceSpace-Fntend/fencespace/`.
+- Target repo is `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/`.
 - Keep all frontend changes vanilla JS with `window.supabaseGet`.
 - Do not remove or reorder existing page content.
 
@@ -282,7 +282,7 @@
   - Passed.
 - Static required-markup check for new pages, page scripts, links, and CSS hooks.
   - Passed.
-- `/usr/bin/git -C ~/Documents/FenceSpace-Fntend/fencespace diff --check`
+- `/usr/bin/git -C ~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace diff --check`
   - Passed.
 
 ### Remaining Risks
@@ -308,7 +308,7 @@
 
 ## Notes
 
-- Target repo is `~/Documents/FenceSpace-Fntend/fencespace/`.
+- Target repo is `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/`.
 - Keep changes additive and vanilla JS.
 - Use `window.supabaseGet` guards and escape external data before `innerHTML`.
 
@@ -316,13 +316,13 @@
 
 ### Files Changed
 
-- `~/Documents/FenceSpace-Fntend/fencespace/ranking-sparkline.js`
-- `~/Documents/FenceSpace-Fntend/fencespace/rankings/index.html`
-- `~/Documents/FenceSpace-Fntend/fencespace/countries/index.html`
-- `~/Documents/FenceSpace-Fntend/fencespace/countries/main.js`
-- `~/Documents/FenceSpace-Fntend/fencespace/athlete/index.html`
-- `~/Documents/FenceSpace-Fntend/fencespace/athlete/main.js`
-- `~/Documents/FenceSpace-Fntend/fencespace/ts-system.css`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/ranking-sparkline.js`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/rankings/index.html`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/countries/index.html`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/countries/main.js`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/athlete/index.html`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/athlete/main.js`
+- `~/Desktop/FenceSpace/FenceSpace-Fntend/fencespace/ts-system.css`
 - `tasks/todo.md`
 
 ### Behavior Changed
