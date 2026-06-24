@@ -14,13 +14,13 @@ Probe summary (verified 2026-06-02 with web-accessible sources):
 """
 from __future__ import annotations
 
-from typing import Any
 import io
 import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import pdfplumber
@@ -970,7 +970,7 @@ def main():
             unmatched_rows.extend(summary["unmatched"])
             done_event_ids.add(event_id)
             set_state(SOURCE, "done_event_ids", sorted(done_event_ids))
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         set_state(SOURCE, "last_probe_results", probe_results)
         set_state(SOURCE, "last_unmatched_rows", unmatched_rows)
         run_log.complete(

@@ -1,13 +1,12 @@
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from season_utils import normalize_season
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -410,7 +409,7 @@ def build_medal_efficiency_rows(
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
     aliases, names = country_alias_maps(country_code_rows)
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
 
     country_counts: dict[tuple[str, str], dict[str, int]] = defaultdict(empty_counts)
     fallback_counts: dict[tuple[str, str], dict[str, int]] = defaultdict(empty_counts)
@@ -712,7 +711,7 @@ def compute_medal_efficiency(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -723,7 +722,7 @@ def compute_medal_efficiency(
 
 
 def main() -> None:
-    print(f"Medal efficiency computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Medal efficiency computation starting - {datetime.now(UTC).isoformat()}")
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous medal efficiency state: {previous_state}")

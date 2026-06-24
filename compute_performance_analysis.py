@@ -1,12 +1,11 @@
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -177,7 +176,7 @@ def build_performance_rows(
 
         grouped[(fencer_id, weapon)].append(expected - rank)
 
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for (fencer_id, weapon), deltas in sorted(grouped.items()):
         avg_delta = sum(deltas) / len(deltas)
@@ -307,7 +306,7 @@ def compute_performance_analysis(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
@@ -319,7 +318,7 @@ def compute_performance_analysis(
 
 
 def main() -> None:
-    print(f"Performance analysis computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Performance analysis computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_performance_analysis()
     print(
         "Performance analysis computation complete - "

@@ -1,6 +1,6 @@
 import os
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -71,7 +71,7 @@ def fetch_all(
 
 
 def build_fencer_rank_lookup(fencers: list[dict[str, Any]] | dict[str, Any]) -> dict[str, int]:
-    from typing import Iterable
+    from collections.abc import Iterable
     items: Iterable[tuple[Any, Any]]
     if isinstance(fencers, dict):
         items = fencers.items()
@@ -122,7 +122,7 @@ def build_strength_rows(
     fencers: list[dict[str, Any]] | dict[str, Any],
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     fencer_ranks = build_fencer_rank_lookup(fencers)
     tournament_ids: set[str] = set()
     ranked_participants: dict[str, dict[str, int]] = defaultdict(dict)
@@ -218,7 +218,7 @@ def compute_strength_of_field(
                 SOURCE,
                 "last_run",
                 {
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     **summary,
                 },
             )
@@ -236,7 +236,7 @@ def main() -> None:
     if previous_state:
         print(f"Previous strength-of-field state: {previous_state}")
 
-    print(f"Strength-of-field computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Strength-of-field computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_strength_of_field()
     print(
         "Strength-of-field computation complete - "

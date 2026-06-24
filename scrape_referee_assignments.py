@@ -6,15 +6,15 @@ import re
 import time
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -153,8 +153,8 @@ def build_assignment_row(
         "source_url": source_url,
         "assignment_status": assignment_status,
         "metadata": metadata or {},
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
     return row
 
@@ -522,7 +522,7 @@ def parse_pdf_bytes_assignments(
 
 
 def _loads_json(payload: str | bytes | dict | list):
-    if isinstance(payload, (dict, list)):
+    if isinstance(payload, dict | list):
         return payload
     text = payload.decode("utf-8", errors="replace") if isinstance(payload, bytes) else payload
     return json.loads(text)
@@ -541,7 +541,7 @@ def _iter_api_bouts(payload):
         yield payload
     for key in ("bouts", "matches", "assaults", "tableauBouts", "poolBouts"):
         value = payload.get(key)
-        if isinstance(value, (list, dict)):
+        if isinstance(value, list | dict):
             yield from _iter_api_bouts(value)
 
 
@@ -866,7 +866,7 @@ def scrape_referee_assignments(
             set_state(SOURCE, "blocked_source_urls", sorted(set(blocked_urls)))
         state_value = {
             **summary,
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state_value)
         if run_log:

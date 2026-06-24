@@ -10,11 +10,11 @@ import re
 import shutil
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, TextIO
-
+from typing import Any, TextIO
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MIGRATIONS_DIR = PROJECT_ROOT / "supabase" / "migrations"
@@ -88,7 +88,7 @@ def slugify_migration_name(name: str) -> str:
 
 
 def migration_template(slug: str) -> str:
-    created_at = datetime.now(timezone.utc).isoformat()
+    created_at = datetime.now(UTC).isoformat()
     return (
         f"-- Migration: {slug}\n"
         f"-- Created: {created_at}\n\n"
@@ -199,7 +199,7 @@ def pending_migrations(migrations: list[MigrationFile], rows: list[dict[str, Any
 def record_migration(client: Any, migration: MigrationFile, *, success: bool) -> None:
     row = {
         "filename": migration.filename,
-        "applied_at": datetime.now(timezone.utc).isoformat(),
+        "applied_at": datetime.now(UTC).isoformat(),
         "hash": migration.hash,
         "success": success,
     }

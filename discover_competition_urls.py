@@ -13,7 +13,7 @@ import re
 import time
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urlparse
 
@@ -342,7 +342,7 @@ def process_tournaments(client, session, tournaments: list[dict[str, Any]], rate
 
 def _write_state(result: DiscoveryResult) -> None:
     previous = get_state(SOURCE, "summary") or {}
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     set_state(
         SOURCE,
         "summary",

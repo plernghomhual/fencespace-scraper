@@ -1,7 +1,7 @@
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 
@@ -189,7 +189,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_wikidata").start()
     try:
-        print(f"Wikidata enrichment starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Wikidata enrichment starting — {datetime.now(UTC).isoformat()}")
         print(f"  Using FIE ID property: {FIE_ID_PROPERTY}")
 
         bindings = fetch_wikidata_fencers()
@@ -222,7 +222,7 @@ def main():
                     updated += 1
             time.sleep(0.05)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=updated, skipped=unmatched,
                          metadata={"matched_fie": matched_fie, "matched_name": matched_name})
         print(f"\nDone — updated={updated}, matched_by_fie={matched_fie}, "

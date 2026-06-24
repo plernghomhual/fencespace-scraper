@@ -3,7 +3,7 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -11,7 +11,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -394,7 +393,7 @@ def main() -> None:
     total_written = 0
     total_failed = 0
     try:
-        print(f"FIE referee scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"FIE referee scraper starting — {datetime.now(UTC).isoformat()}")
         rows = fetch_referees()
         total_written = upsert_referees(rows, client=client)
         skipped = max(len(rows) - total_written, 0)
@@ -402,7 +401,7 @@ def main() -> None:
             SOURCE,
             "last_run",
             {
-                "scraped_at": datetime.now(timezone.utc).isoformat(),
+                "scraped_at": datetime.now(UTC).isoformat(),
                 "rows_fetched": len(rows),
                 "rows_written": total_written,
             },

@@ -3,7 +3,7 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urlparse
 
@@ -11,7 +11,6 @@ import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "result_tweets"
 MAX_X_CHARS = 280
@@ -286,10 +285,10 @@ def load_delivery_log() -> dict[str, Any]:
 
 
 def iso_timestamp(now: datetime | None = None) -> str:
-    value = now or datetime.now(timezone.utc)
+    value = now or datetime.now(UTC)
     if value.tzinfo is None:
-        value = value.replace(tzinfo=timezone.utc)
-    return value.astimezone(timezone.utc).isoformat()
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(UTC).isoformat()
 
 
 def mark_posted(summary: ResultSummary, provider_result: dict[str, Any], now: datetime | None = None) -> None:

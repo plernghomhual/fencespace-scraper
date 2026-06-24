@@ -1,7 +1,6 @@
 import re
 from pathlib import Path
 
-
 MIGRATION = Path("supabase/migrations/20260602_fencer_bio_columns.sql")
 EXPECTED_COLUMNS = {
     "bio": "text",

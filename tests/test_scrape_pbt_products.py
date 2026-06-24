@@ -1,6 +1,5 @@
 import pytest
 
-
 LISTING_HTML = """
 <html><body>
 <ol class="products list items product-items">

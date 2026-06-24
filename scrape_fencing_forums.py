@@ -5,7 +5,7 @@ import time
 import unicodedata
 import urllib.robotparser
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin, urlparse
 
@@ -55,14 +55,14 @@ def clean_text(value: Any) -> str | None:
 
 
 def now_utc() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def parse_timestamp(value: Any) -> str | None:
     if value in (None, ""):
         return None
-    if isinstance(value, (int, float)):
-        return datetime.fromtimestamp(float(value), tz=timezone.utc).isoformat()
+    if isinstance(value, int | float):
+        return datetime.fromtimestamp(float(value), tz=UTC).isoformat()
     text = clean_text(value)
     if not text:
         return None
@@ -73,8 +73,8 @@ def parse_timestamp(value: Any) -> str | None:
     except ValueError:
         return text
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc).isoformat()
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC).isoformat()
 
 
 def hash_author(author: Any, *, source: str) -> str | None:

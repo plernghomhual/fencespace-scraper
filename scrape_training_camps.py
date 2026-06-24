@@ -2,9 +2,9 @@ import io
 import os
 import re
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from typing import Callable, Iterable
+from datetime import UTC, date, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -458,7 +458,7 @@ def create_camp_record(
             "source_kind": source.source_kind,
             "source_organizer": source.organizer,
         },
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
     }
     return {key: value for key, value in record.items() if value is not None}
 
@@ -778,7 +778,7 @@ def scrape_training_camps(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

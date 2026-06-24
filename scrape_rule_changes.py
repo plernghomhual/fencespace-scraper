@@ -11,7 +11,7 @@ from __future__ import annotations
 import hashlib
 import os
 import re
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any, TypedDict
 
 
@@ -35,10 +35,10 @@ from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -814,7 +814,7 @@ def scrape_rule_changes() -> dict[str, Any]:
         STATE_SOURCE,
         "last_run",
         {
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
             "written": written,
             "failed": failed,
             "skipped": skipped,

@@ -1,6 +1,5 @@
-from typing import Any, cast
 from pathlib import Path
-
+from typing import Any, cast
 
 USAFENCING_CLUBS_PAYLOAD = cast(dict[str, Any], {
     "indexData": {

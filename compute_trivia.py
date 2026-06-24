@@ -1,12 +1,11 @@
 import hashlib
 import os
 import re
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -75,7 +74,7 @@ def text_list(value: Any) -> list[str]:
         return []
     if isinstance(value, str):
         return [value] if clean_text(value) else []
-    if isinstance(value, (list, tuple, set)):
+    if isinstance(value, list | tuple | set):
         return [text for item in value if (text := clean_text(item))]
     return [str(value)] if clean_text(value) else []
 
@@ -181,7 +180,7 @@ def source_columns_are_safe(metadata: dict[str, Any]) -> bool:
 
 
 def deterministic_id(question_type: str, fencer_id: str, answer: str) -> str:
-    digest = hashlib.sha256(f"{question_type}|{fencer_id}|{answer}".encode("utf-8")).hexdigest()[:16]
+    digest = hashlib.sha256(f"{question_type}|{fencer_id}|{answer}".encode()).hexdigest()[:16]
     return f"trivia:{question_type}:{digest}"
 
 
@@ -260,8 +259,8 @@ def build_trivia_questions(
     generated_at: str | None = None,
     today: date | None = None,
 ) -> list[dict[str, Any]]:
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
-    today = today or datetime.now(timezone.utc).date()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
+    today = today or datetime.now(UTC).date()
     eligible = eligible_fact_rows(fencers, career_stats, today)
 
     country_values = [clean_text(fencer.get("country")) for fencer, _career in eligible]
@@ -408,8 +407,8 @@ def compute_trivia_questions(
     update_state: bool = True,
 ) -> dict[str, int]:
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    today = today or datetime.now(timezone.utc).date()
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
+    today = today or datetime.now(UTC).date()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
     try:
         client = client or get_supabase_client()
         fencers = fetch_all(client, "fs_fencers", FENCER_COLUMNS, page_size=page_size)
@@ -431,7 +430,7 @@ def compute_trivia_questions(
             "skipped_fencers": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -442,7 +441,7 @@ def compute_trivia_questions(
 
 
 def main() -> None:
-    print(f"Trivia computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Trivia computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_trivia_questions()
     print(
         "Trivia computation complete - "

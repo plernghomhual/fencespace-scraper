@@ -3,9 +3,10 @@ from __future__ import annotations
 import os
 import re
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -284,7 +285,7 @@ def parse_listing_products(
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
     soup = BeautifulSoup(html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
 
@@ -405,7 +406,7 @@ def scrape_equipment_reviews(
             "failed": failed,
             "skipped": skipped,
             "sources": len(successful_sources),
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
         }
         if isinstance(previous_state, dict) and previous_state.get("scraped_at"):
             summary["previous_scraped_at"] = previous_state["scraped_at"]
@@ -426,7 +427,7 @@ def scrape_equipment_reviews(
 
 
 def main() -> None:
-    print(f"Equipment reviews scrape starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Equipment reviews scrape starting - {datetime.now(UTC).isoformat()}")
     summary = scrape_equipment_reviews(request_delay=REQUEST_DELAY)
     print(
         "Equipment reviews scrape complete - "

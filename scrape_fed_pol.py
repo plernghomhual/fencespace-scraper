@@ -22,7 +22,7 @@ Table columns:
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -353,7 +353,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 
 def _fallback_current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     return f"{now.year - 1}-{now.year}" if now.month < 7 else f"{now.year}-{now.year + 1}"
 
 

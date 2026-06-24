@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import pytest
 
@@ -32,12 +32,12 @@ def test_current_fie_season_uses_july_boundary(monkeypatch):
     class JuneDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 30, tzinfo=timezone.utc)
+            return datetime(2026, 6, 30, tzinfo=UTC)
 
     class JulyDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 7, 1, tzinfo=timezone.utc)
+            return datetime(2026, 7, 1, tzinfo=UTC)
 
     monkeypatch.setattr(season_utils, "datetime", JuneDateTime)
     assert season_utils.current_fie_season() == 2025

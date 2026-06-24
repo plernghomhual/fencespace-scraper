@@ -1,5 +1,5 @@
-import importlib
 import hashlib
+import importlib
 import os
 import sys
 import time
@@ -158,7 +158,7 @@ async def test_websocket_accepts_hashed_and_legacy_database_api_keys(ws_module):
     fake = FakeSupabase(
         api_keys=[
             {
-                "key_hash": hashlib.sha256("ws-hashed-secret".encode("utf-8")).hexdigest(),
+                "key_hash": hashlib.sha256(b"ws-hashed-secret").hexdigest(),
                 "active": True,
                 "revoked": False,
             },

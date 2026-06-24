@@ -19,7 +19,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -246,7 +246,7 @@ def current_season() -> str:
     except (ImportError, AttributeError, ValueError, TypeError):
         pass
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year - 1}-{year}" if now.month < 7 else f"{year}-{year + 1}"
 

@@ -11,7 +11,7 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -176,7 +176,7 @@ def upsert_career_rankings(
     """Upsert career ranking entries to fs_rankings_history. Returns count written."""
     if not ranking_rows:
         return 0
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     db_rows = [
         {
             "fie_fencer_id": fie_id,
@@ -208,7 +208,7 @@ def upsert_career_rankings(
 def mark_scraped(fie_id: str, existing_metadata: Any) -> None:
     """Set metadata.fie_career_scraped_at on all fs_fencers rows for this fie_id."""
     meta: dict = dict(existing_metadata) if isinstance(existing_metadata, dict) else {}
-    meta["fie_career_scraped_at"] = datetime.now(timezone.utc).isoformat()
+    meta["fie_career_scraped_at"] = datetime.now(UTC).isoformat()
     try:
         supabase.table("fs_fencers").update({"metadata": meta}).eq("fie_id", fie_id).execute()  # type: ignore[union-attr]
     except Exception as exc:
@@ -219,7 +219,7 @@ def main() -> None:
     if not supabase:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
     run_log = ScraperRunLogger("scrape_fie_career").start()
-    print(f"FIE career scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    print(f"FIE career scraper starting — {datetime.now(UTC).isoformat()}")
     print(f"  Limit: {MAX_FENCERS}, delay: {REQUEST_DELAY}s, force: {FORCE}")
 
     try:

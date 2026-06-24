@@ -8,7 +8,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 DEFAULT_ELO = 1500.0
 PAGE_SIZE = 1000
 

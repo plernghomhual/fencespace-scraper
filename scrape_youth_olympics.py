@@ -14,7 +14,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -624,7 +624,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_youth_olympics").start()
     try:
-        print(f"Youth Olympics/WFG scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Youth Olympics/WFG scraper starting — {datetime.now(UTC).isoformat()}")
         done_ids = set(get_state(SOURCE, "done_event_ids") or [])
         written = failed = skipped = 0
 

@@ -5,12 +5,11 @@ import os
 import re
 import unicodedata
 from collections import Counter
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "compute_featured_athletes"
 PAGE_SIZE = 1000
@@ -157,7 +156,7 @@ def parse_list(value: Any) -> list[str]:
     if isinstance(value, str):
         value = value.strip("{}")
         parts = value.split(",") if "," in value else [value]
-    elif isinstance(value, (list, tuple, set)):
+    elif isinstance(value, list | tuple | set):
         parts = list(value)
     else:
         return []
@@ -175,11 +174,11 @@ def parse_datetime(value: Any) -> datetime | None:
         return None
     try:
         if re.fullmatch(r"\d{4}", text):
-            return datetime(int(text), 6, 30, tzinfo=timezone.utc)
+            return datetime(int(text), 6, 30, tzinfo=UTC)
         normalized = text.replace("Z", "+00:00")
         parsed = datetime.fromisoformat(normalized)
         if isinstance(parsed, datetime):
-            return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+            return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
     except ValueError:
         return None
     return None
@@ -206,7 +205,7 @@ def is_false(value: Any) -> bool:
 def is_true(value: Any) -> bool:
     if value is True:
         return True
-    if isinstance(value, (int, float)) and value == 1:
+    if isinstance(value, int | float) and value == 1:
         return True
     if isinstance(value, str):
         return value.strip().casefold() in {"true", "1", "yes", "y"}
@@ -527,7 +526,7 @@ def score_candidate(candidate: dict[str, Any], reference: datetime) -> tuple[flo
 def recent_datetime(value: datetime | None, reference: datetime | None = None) -> bool:
     if value is None:
         return False
-    reference = reference or datetime.now(timezone.utc)
+    reference = reference or datetime.now(UTC)
     age = days_old(value, reference)
     return age is not None and age <= 365
 
@@ -615,13 +614,13 @@ def build_featured_athlete_rows(
     updated_at: str | None = None,
     reference_date: str | datetime | date | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     if isinstance(reference_date, datetime):
-        reference = reference_date if reference_date.tzinfo else reference_date.replace(tzinfo=timezone.utc)
+        reference = reference_date if reference_date.tzinfo else reference_date.replace(tzinfo=UTC)
     elif isinstance(reference_date, date):
-        reference = datetime.combine(reference_date, datetime.min.time(), tzinfo=timezone.utc)
+        reference = datetime.combine(reference_date, datetime.min.time(), tzinfo=UTC)
     else:
-        reference = parse_datetime(reference_date) or datetime.now(timezone.utc)
+        reference = parse_datetime(reference_date) or datetime.now(UTC)
 
     groups, fencer_to_key, fie_to_key, name_country_to_key = build_candidate_groups(fencers, identities)
     candidates: dict[str, dict[str, Any]] = {}
@@ -815,7 +814,7 @@ def compute_featured_athletes(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -826,7 +825,7 @@ def compute_featured_athletes(
 
 
 def main() -> None:
-    print(f"Featured athlete computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Featured athlete computation starting - {datetime.now(UTC).isoformat()}")
     previous = get_state(SOURCE, "last_run")
     if previous:
         print(f"Previous featured athlete state: {previous}")

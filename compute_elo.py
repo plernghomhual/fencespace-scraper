@@ -6,10 +6,11 @@ import math
 import os
 import re
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Any, Iterable
+from datetime import UTC, date, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
@@ -472,7 +473,7 @@ def build_elo_rows(
     else:
         tournaments_by_id = tournaments
 
-    updated_at = now or datetime.now(timezone.utc).isoformat()
+    updated_at = now or datetime.now(UTC).isoformat()
     canonical_by_member, identity_by_canonical = build_identity_indexes(identity_rows)
     seen_bouts: set[str] = set()
     normalized_bouts: list[dict[str, Any]] = []
@@ -689,7 +690,7 @@ def compute_elo(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

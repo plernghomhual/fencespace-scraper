@@ -6,7 +6,6 @@ import pytest
 from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 
-
 ROOT = Path(__file__).resolve().parents[1]
 TOURNAMENT_ID = "11111111-1111-4111-8111-111111111111"
 OTHER_TOURNAMENT_ID = "22222222-2222-4222-8222-222222222222"

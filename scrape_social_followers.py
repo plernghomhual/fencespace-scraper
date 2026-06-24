@@ -2,7 +2,7 @@ import os
 import re
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urlparse
 
@@ -10,7 +10,6 @@ import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -275,8 +274,8 @@ def _optional_nonnegative_int(value: Any) -> int | None:
 
 def _utc_datetime(value: datetime) -> datetime:
     if value.tzinfo is None:
-        return value.replace(tzinfo=timezone.utc)
-    return value.astimezone(timezone.utc)
+        return value.replace(tzinfo=UTC)
+    return value.astimezone(UTC)
 
 
 def _metadata_without_none(metadata: dict[str, Any]) -> dict[str, Any]:
@@ -521,7 +520,7 @@ def print_blocked_source_stubs() -> None:
 def main() -> None:
     run_log = ScraperRunLogger(SOURCE).start()
     try:
-        print(f"Social follower snapshots starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Social follower snapshots starting - {datetime.now(UTC).isoformat()}")
         print("Policy: public/API-backed sources only; no login bypass or private profile scraping.")
         print_blocked_source_stubs()
 
@@ -543,7 +542,7 @@ def main() -> None:
             return
 
         session = requests.Session()
-        collected_at = datetime.now(timezone.utc)
+        collected_at = datetime.now(UTC)
         rows: list[dict[str, Any]] = []
         blocked: list[dict[str, Any]] = []
         unmatched = 0
@@ -569,7 +568,7 @@ def main() -> None:
 
         rows = dedupe_snapshot_rows(rows)
         written = write_snapshot_rows(supabase, rows)
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         set_state(
             SOURCE,
             "last_summary",

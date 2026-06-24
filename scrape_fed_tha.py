@@ -18,7 +18,7 @@ from __future__ import annotations
 import io
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import parse_qs, urlencode, urljoin, urlparse
 
 import pdfplumber
@@ -562,7 +562,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY, normalized through season_utils when present."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start_year = now.year - 1 if now.month < 7 else now.year
     season = f"{start_year}-{start_year + 1}"
     try:
@@ -649,7 +649,7 @@ def main() -> None:
             "combos_total": len(RANKING_COMBOS),
             "working_combos": working_combos,
             "failed_combos": failed_combos,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
         run_log.complete(

@@ -6,7 +6,7 @@ import re
 import sys
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -15,7 +15,6 @@ if __package__ in {None, ""}:
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -418,7 +417,7 @@ def run(client=None, log_path: Path = DEFAULT_LOG_PATH) -> dict[str, Any]:
         total_orphans = len(result_rows) + len(ranking_rows)
         total_written = result_written + ranking_written
         summary = {
-            "ran_at": datetime.now(timezone.utc).isoformat(),
+            "ran_at": datetime.now(UTC).isoformat(),
             "previous_run": previous_state,
             "fencers_indexed": len(fencer_rows),
             "result_orphans": len(result_rows),

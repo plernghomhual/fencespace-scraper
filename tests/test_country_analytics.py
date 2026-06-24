@@ -1,8 +1,8 @@
-from typing import cast
 import os
 import re
 import sys
 from pathlib import Path
+from typing import cast
 
 import pytest
 

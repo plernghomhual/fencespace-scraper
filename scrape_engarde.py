@@ -1,4 +1,3 @@
-from typing import Any
 import html
 import json
 import os
@@ -9,7 +8,8 @@ import unicodedata
 import uuid
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urlencode, urljoin
 
 import requests
@@ -506,7 +506,7 @@ def tournament_row(comp):
             "result_url": competition_url(comp, "clasfinal.htm"),
             "raw": comp.get("raw"),
         },
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -1012,7 +1012,7 @@ def result_rows_for_db(tournament_id, comp, scraped_rows, fencer_index, result_u
                 "match_method": match_method,
                 "raw_cells": row.get("raw_cells"),
             },
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         })
     return rows
 
@@ -1094,7 +1094,7 @@ def save_done_ids(done_ids):
 
 def scrape_engarde():
     print(ENDPOINT_NOTES.strip())
-    print(f"Engarde scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Engarde scraper starting - {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_engarde").start()
 
     try:

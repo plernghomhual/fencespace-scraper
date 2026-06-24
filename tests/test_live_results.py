@@ -1,6 +1,6 @@
-from typing import Any, cast
 import json
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
+from typing import Any, cast
 
 
 class FakeResult:
@@ -203,14 +203,14 @@ def test_watcher_upserts_only_new_results_and_bouts_between_checks(monkeypatch):
         client=client,
         session=session,
         today=date(2026, 1, 28),
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
     )
     second = watch_live_results.watch_live_results(
         client=client,
         session=session,
         today=date(2026, 1, 28),
-        now=datetime(2026, 1, 28, 12, 15, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 15, tzinfo=UTC),
         log_run=False,
     )
 
@@ -248,7 +248,7 @@ def test_watcher_exits_quickly_when_no_active_tournaments():
         client=client,
         session=session,
         today=date(2026, 1, 28),
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
     )
 

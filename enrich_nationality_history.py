@@ -6,7 +6,7 @@ import re
 import time
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -863,7 +863,7 @@ def enrich_nationality_history(
     client = client or get_client()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
     get_state(SOURCE, "last_run") if update_state else None
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
 
     try:
         raw_bindings = bindings if bindings is not None else fetch_wikidata_nationality_history()
@@ -966,7 +966,7 @@ def enrich_nationality_history(
                 "last_run",
                 {
                     **summary,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -987,7 +987,7 @@ def enrich_nationality_history(
 
 
 def main() -> None:
-    print(f"Nationality history enrichment starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Nationality history enrichment starting - {datetime.now(UTC).isoformat()}")
     summary = enrich_nationality_history()
     print(f"Nationality histories found: {summary['histories_found']}")
     print(f"Fencers matched: {summary['fencers_matched']}")

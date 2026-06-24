@@ -22,7 +22,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -606,7 +606,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_island_games").start()
     try:
-        print(f"Island Games/Oceania scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Island Games/Oceania scraper starting - {datetime.now(UTC).isoformat()}")
         done_ids = set(get_state(SOURCE, "done_source_ids") or [])
 
         island_events = fetch_island_games_events()

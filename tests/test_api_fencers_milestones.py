@@ -7,7 +7,6 @@ import pytest
 from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "api" / "v1" / "fencer_milestones.py"
 

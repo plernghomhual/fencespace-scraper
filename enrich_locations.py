@@ -1,9 +1,10 @@
 import os
 import time
 import unicodedata
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
@@ -126,7 +127,7 @@ def _new_failure_cache_entry(city: str, country: str, reason: str) -> dict[str, 
         "city": city,
         "country": country,
         "reason": reason,
-        "failed_at": datetime.now(timezone.utc).isoformat(),
+        "failed_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -495,7 +496,7 @@ def enrich_locations(
         "last_run",
         {
             **summary.as_metadata(),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         },
     )
     return summary
@@ -506,7 +507,7 @@ def main() -> None:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 
     run_log = ScraperRunLogger(SOURCE).start()
-    print(f"Location enrichment starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Location enrichment starting - {datetime.now(UTC).isoformat()}")
     try:
         summary = enrich_locations(supabase)
     except Exception as exc:

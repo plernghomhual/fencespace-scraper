@@ -20,7 +20,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -297,7 +297,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current federation season as YYYY-YYYY using season_utils when available."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return normalize_season(season_end_year)
 

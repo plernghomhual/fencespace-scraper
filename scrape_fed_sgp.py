@@ -26,7 +26,7 @@ from __future__ import annotations
 import io
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -421,7 +421,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start_year = now.year - 1 if now.month < 7 else now.year
     season = f"{start_year}-{start_year + 1}"
     try:
@@ -511,7 +511,7 @@ def main() -> None:
             "failed_combos": failed_combos,
             "source_files_page": RANKING_FILES_PAGE,
             "download_pages": DOWNLOAD_PAGES,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
         run_log.complete(

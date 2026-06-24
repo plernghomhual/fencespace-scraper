@@ -6,10 +6,11 @@ import os
 import re
 import sys
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import requests
 from PIL import Image, ImageOps, UnidentifiedImageError
@@ -19,7 +20,6 @@ if __package__ in {None, ""}:
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -126,7 +126,7 @@ def load_youtube_fencers(client: Any, limit: int = YOUTUBE_FENCER_LIMIT) -> list
 
 
 def _lanczos_filter():
-    return getattr(getattr(Image, "Resampling", Image), "LANCZOS")
+    return getattr(Image, "Resampling", Image).LANCZOS
 
 
 def resize_center_crop(image_bytes: bytes) -> bytes:
@@ -325,7 +325,7 @@ def update_youtube_metadata(client: Any, fencer: dict[str, Any], video_ids: list
         return False
     metadata = ensure_metadata(fencer.get("metadata"))
     metadata["youtube_videos"] = video_ids
-    metadata["youtube_videos_scraped_at"] = datetime.now(timezone.utc).isoformat()
+    metadata["youtube_videos_scraped_at"] = datetime.now(UTC).isoformat()
     client.table("fs_fencers").update({"metadata": metadata}).eq("id", fencer_id).execute()
     return True
 
@@ -375,7 +375,7 @@ def main() -> None:
 
     try:
         previous_run = get_state(SOURCE, "last_run")
-        print(f"Fencer media pipeline starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Fencer media pipeline starting - {datetime.now(UTC).isoformat()}")
         if previous_run:
             print(f"Previous run: {previous_run}")
 
@@ -390,7 +390,7 @@ def main() -> None:
             limit=YOUTUBE_FENCER_LIMIT,
         )
 
-        completed_at = datetime.now(timezone.utc).isoformat()
+        completed_at = datetime.now(UTC).isoformat()
         set_state(
             SOURCE,
             "last_run",

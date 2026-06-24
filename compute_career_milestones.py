@@ -7,7 +7,7 @@ import unicodedata
 import uuid
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -901,7 +901,7 @@ def add_country_change_milestones(
             evidence = sorted(by_season[season], key=lambda item: (item["rank"], item.get("weapon") or ""))[0]
             summaries.append({"season": season, "country": country, "evidence": evidence})
 
-        for previous, current in zip(summaries, summaries[1:]):
+        for previous, current in zip(summaries, summaries[1:], strict=False):
             if current["season"] != previous["season"] + 1:
                 continue
             if normalize_key(previous["country"]) == normalize_key(current["country"]):
@@ -961,7 +961,7 @@ def add_weapon_transition_milestones(rows: list[dict[str, Any]], observations_by
             if weapon and evidence:
                 season_rows.append({"season": season, "weapon": weapon, "evidence": evidence})
 
-        for previous, current in zip(season_rows, season_rows[1:]):
+        for previous, current in zip(season_rows, season_rows[1:], strict=False):
             if current["weapon"] == previous["weapon"]:
                 continue
             evidence_obs: dict[str, Any] = current["evidence"]
@@ -1288,7 +1288,7 @@ def compute_career_milestones(
                 {
                     **summary,
                     "status_by_person": build_summary["status_by_person"],
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -1301,7 +1301,7 @@ def compute_career_milestones(
 
 
 def main() -> None:
-    print(f"Career milestone computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Career milestone computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_career_milestones()
     print(
         "Career milestone computation complete - "

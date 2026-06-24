@@ -20,8 +20,8 @@ import json
 import os
 import re
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from decimal import Decimal, InvalidOperation, ROUND_HALF_UP, getcontext
+from datetime import UTC, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation, getcontext
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -182,12 +182,12 @@ def _as_utc(value: datetime | str | None) -> datetime | None:
         except ValueError:
             return None
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
 
 def _iso(value: datetime) -> str:
-    return value.astimezone(timezone.utc).isoformat()
+    return value.astimezone(UTC).isoformat()
 
 
 def _market_type(market: dict[str, Any]) -> str:
@@ -261,7 +261,7 @@ def parse_odds_payload(
     scraped_at: datetime | None = None,
     stale_after_minutes: int = DEFAULT_STALE_AFTER_MINUTES,
 ) -> OddsParseResult:
-    scraped_at = (scraped_at or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    scraped_at = (scraped_at or datetime.now(UTC)).astimezone(UTC)
     rows: list[dict[str, Any]] = []
     skipped: list[dict[str, Any]] = []
     base_metadata = _source_metadata(source)
@@ -489,7 +489,7 @@ def scrape_betting_odds(
         all_rows: list[dict[str, Any]] = []
         skipped: list[dict[str, Any]] = []
         probes: list[dict[str, Any]] = []
-        scraped_at = datetime.now(timezone.utc)
+        scraped_at = datetime.now(UTC)
 
         for source in sources:
             payload, probe = fetch_source_payload(source, session=session)
@@ -535,7 +535,7 @@ def scrape_betting_odds(
             "probes": probes,
             "skipped_details": skipped[:50],
             "previous_run": previous_state,
-            "updated_at": _iso(datetime.now(timezone.utc)),
+            "updated_at": _iso(datetime.now(UTC)),
             "informational_only": True,
             "no_betting_advice": True,
         }

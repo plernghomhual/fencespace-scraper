@@ -11,20 +11,19 @@ Probe findings (2026-06-01):
     fencing result link was found.
 """
 
-from typing import Any, cast
 import html
 import os
 import re
 import time
-from datetime import datetime, timezone
-from urllib.parse import urljoin, urlparse, parse_qs
+from datetime import UTC, datetime, timezone
+from typing import Any, cast
+from urllib.parse import parse_qs, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -167,9 +166,9 @@ def classify_event(event_title, fields=None):
     if not gender:
         gender = next((g for pattern, g in GENDER_PATTERNS if pattern.search(title)), None)
 
-    if fields.get("indiv") in {"0", 0, False}:
+    if fields.get("indiv") in {"0", 0}:
         team = True
-    elif fields.get("indiv") in {"1", 1, True}:
+    elif fields.get("indiv") in {"1", 1}:
         team = False
     else:
         team = bool(re.search(r"\bteam\b|\u05e7\u05d1\u05d5\u05e6", title, re.I))
@@ -628,7 +627,7 @@ def upsert_tournament(event):
         "end_date": event.get("date_end") or event.get("date"),
         "has_results": True,
         "metadata": metadata,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
     try:
         result = supabase.table("fs_tournaments").upsert(row, on_conflict="source_id").execute()  # type: ignore[union-attr]
@@ -680,7 +679,7 @@ def upsert_results(tournament_id, event, result_rows):
                 "entity_key": row.get("entity_key"),
                 "raw": row.get("raw"),
             },
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         })
     if not db_rows:
         return 0
@@ -715,7 +714,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_maccabiah").start()
     try:
-        print(f"Maccabiah scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Maccabiah scraper starting - {datetime.now(UTC).isoformat()}")
         done_codes = set(get_state(SOURCE, "done_event_codes") or [])
         events = discover_events()
         print(f"  {len(events)} Maccabiah fencing event/stub rows discovered")

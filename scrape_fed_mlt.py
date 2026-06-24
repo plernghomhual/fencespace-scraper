@@ -23,8 +23,8 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -349,7 +349,7 @@ def current_season() -> str:
     except Exception:
         pass
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     return f"{now.year - 1}-{now.year}" if now.month < 7 else f"{now.year}-{now.year + 1}"
 
 
@@ -426,7 +426,7 @@ def main() -> None:
                 "season": season,
                 "written": total_written,
                 "failed": total_failed,
-                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(UTC).isoformat(),
                 "metadata": metadata,
             },
         )

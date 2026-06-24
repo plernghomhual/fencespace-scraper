@@ -17,13 +17,13 @@ Table columns:
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
 
-from run_logger import ScraperRunLogger
 from fed_rankings_common import build_ranking_row, write_rankings
+from run_logger import ScraperRunLogger
 from season_utils import season_to_string
 
 SOURCE = "british_fencing"
@@ -131,7 +131,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return season_to_string(season_end_year)
 

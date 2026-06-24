@@ -1,6 +1,6 @@
 import os
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -730,7 +730,7 @@ def build_ai_insight_rows(
     *,
     generated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
     fencers = source_data.get("fencers", [])
     fencers_by_id = rows_by_key(fencers, "id")
     external_index = fencer_external_index(fencers)
@@ -866,7 +866,7 @@ def compute_ai_insights(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(

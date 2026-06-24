@@ -13,12 +13,12 @@ Probe evidence:
 
 from __future__ import annotations
 
-from typing import Any, cast
 import io
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any, cast
 
 from openpyxl import Workbook
 
@@ -326,7 +326,7 @@ def test_current_season_format_and_before_july(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 1, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 1, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_tpe, "datetime", FixedDateTime)
 

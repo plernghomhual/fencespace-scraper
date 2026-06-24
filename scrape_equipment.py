@@ -7,16 +7,16 @@ import re
 import time
 import unicodedata
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -529,7 +529,7 @@ def run(
         )
         written, failed = upsert_equipment_rows(client, rows) if rows else (0, 0)
         summary = {
-            "ran_at": datetime.now(timezone.utc).isoformat(),
+            "ran_at": datetime.now(UTC).isoformat(),
             "previous_run": previous_state,
             "fencers_scanned": len(fencers),
             "equipment_rows_found": len(rows),

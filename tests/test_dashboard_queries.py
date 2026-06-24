@@ -1,9 +1,8 @@
 import importlib
 import sys
 import types
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
 from pathlib import Path
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -159,7 +158,7 @@ def test_dashboard_auth_uses_password_input_and_session_state(monkeypatch):
 
 def test_dashboard_fetchers_handle_status_counts_coverage_and_errors(monkeypatch):
     module, _fake_streamlit = import_dashboard_with_fake_streamlit(monkeypatch)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     old = now - timedelta(days=3)
     client = FakeClient(
         {

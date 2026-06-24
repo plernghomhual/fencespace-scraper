@@ -17,7 +17,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -71,7 +71,7 @@ RANKING_COMBOS = [
     ("Sabre", "Women", "Junior"),
 ]
 
-_RANK_HEADERS = {"rank", "pos", "posicao", "posicao", "colocacao", "classificacao", "lugar"}
+_RANK_HEADERS = {"rank", "pos", "posicao", "colocacao", "classificacao", "lugar"}
 _NAME_HEADERS = {"nome", "atleta", "name", "fencer", "tirador"}
 _CLUB_HEADERS = {"clube", "clubes", "club"}
 _POINT_HEADERS = {"pontos", "pts", "points", "totalpoints", "total"}
@@ -96,7 +96,7 @@ _RANKING_LINK_CACHE: dict[str, dict[tuple[str, str, str], str]] = {}
 
 def current_season() -> str:
     """Return the current FIE-style season range as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return season_to_string(season_end_year)
 

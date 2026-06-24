@@ -9,9 +9,9 @@ Probe evidence:
     ФАМИЛИЯ | ИМЕ | КЛУБ | Год. | Точки.
 """
 
-from typing import cast
 import os
 import sys
+from typing import cast
 
 import requests
 

@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 from supabase import create_client
 
@@ -10,7 +10,7 @@ SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
 class ScraperRunLogger:
     def __init__(self, module: str):
         self.module = module
-        self.started_at = datetime.now(timezone.utc).isoformat()
+        self.started_at = datetime.now(UTC).isoformat()
         self.run_id = None
         self._client = None
 
@@ -44,7 +44,7 @@ class ScraperRunLogger:
                 return
             status = "completed_with_errors" if failed > 0 else "completed"
             client.table("fs_scraper_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(UTC).isoformat(),
                 "status": status,
                 "written": written,
                 "failed": failed,
@@ -62,7 +62,7 @@ class ScraperRunLogger:
             if not client:
                 return
             client.table("fs_scraper_runs").update({
-                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(UTC).isoformat(),
                 "status": "error",
                 "metadata": {"error": str(exc_str)[:1000]},
             }).eq("id", self.run_id).execute()

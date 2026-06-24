@@ -18,14 +18,14 @@ import json
 import os
 import re
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
-from typing import Any, Callable
-
-from supabase import Client, create_client
+from datetime import UTC, datetime, timedelta, timezone
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import Client, create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -484,7 +484,7 @@ def send_with_retries(
     sleeper = sleep or time.sleep
     limiter = rate_limiter or SimpleRateLimiter()
     last_result: DeliveryResult | None = None
-    now_value = now or datetime.now(timezone.utc)
+    now_value = now or datetime.now(UTC)
 
     for attempt in range(1, policy.max_attempts + 1):
         limiter.wait(provider.provider_name)
@@ -509,7 +509,7 @@ def send_with_retries(
     last_result.attempts = policy.max_attempts
     last_result.next_attempt_at = (
         now_value + timedelta(seconds=policy.delay_for_attempt(policy.max_attempts))
-    ).astimezone(timezone.utc).isoformat()
+    ).astimezone(UTC).isoformat()
     return last_result
 
 
@@ -534,7 +534,7 @@ def _write_delivery_log(
         "provider_message_id": result.provider_message_id,
         "error": redact_provider_error(result.error),
         "dry_run": result.dry_run,
-        "delivered_at": now.astimezone(timezone.utc).isoformat() if result.success else None,
+        "delivered_at": now.astimezone(UTC).isoformat() if result.success else None,
         "next_attempt_at": result.next_attempt_at,
     }
     client.table("fs_push_delivery_log").upsert(
@@ -553,9 +553,9 @@ def run_push_notifications(
     rate_limiter: SimpleRateLimiter | None = None,
     sleep: Callable[[float], None] | None = None,
 ) -> dict[str, int]:
-    now_value = now or datetime.now(timezone.utc)
+    now_value = now or datetime.now(UTC)
     if now_value.tzinfo is None:
-        now_value = now_value.replace(tzinfo=timezone.utc)
+        now_value = now_value.replace(tzinfo=UTC)
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
     summary = {
         "results": 0,

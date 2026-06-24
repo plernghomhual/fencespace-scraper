@@ -1,7 +1,6 @@
 import re
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 RLS_MIGRATION = ROOT / "supabase" / "migrations" / "20260604_rls_gap_closure.sql"
 BULK_UPDATE_MIGRATION = ROOT / "supabase" / "migrations" / "20260604_bulk_update_rpcs.sql"

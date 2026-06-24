@@ -4,7 +4,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urlparse, urlunparse
 
@@ -12,7 +12,6 @@ import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -146,8 +145,8 @@ def normalize_timestamp(value: Any) -> str | None:
     except ValueError:
         return None
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc).isoformat()
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC).isoformat()
 
 
 def redact_sensitive_text(value: Any) -> str | None:
@@ -215,7 +214,7 @@ def _fencer_handles(fencer: dict[str, Any]) -> set[str]:
                 handles.add(handle)
     for key in ("instagram_handles", "handles"):
         values = fencer.get(key)
-        if isinstance(values, (list, tuple, set)):
+        if isinstance(values, list | tuple | set):
             for value in values:
                 handle = normalize_handle(value)
                 if handle:
@@ -560,7 +559,7 @@ def scrape_instagram_fencing(
         "failed": failed,
         "skipped": skipped,
         "skip_reasons": skip_reasons,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
     set_state(SOURCE, "last_run", summary)
     return {**summary, "rows": rows}

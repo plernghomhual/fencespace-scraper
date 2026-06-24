@@ -1,5 +1,6 @@
-from scrape_ncaa import parse_section, SECTION_MAP
 from bs4 import BeautifulSoup
+
+from scrape_ncaa import SECTION_MAP, parse_section
 
 NCAA_HTML = """
 <html><body>

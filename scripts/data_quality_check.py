@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from supabase import create_client
 
@@ -13,7 +14,6 @@ if __package__ in {None, ""}:
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 EXIT_HEALTHY = 0
 EXIT_WARNING = 1
@@ -203,7 +203,7 @@ def _analyze_orphans(
     next_state = {
         "total": current_total,
         "by_tournament_type": current_by_type,
-        "checked_at": datetime.now(timezone.utc).isoformat(),
+        "checked_at": datetime.now(UTC).isoformat(),
     }
     return warnings, next_state
 

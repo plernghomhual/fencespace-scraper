@@ -190,6 +190,7 @@ def test_fetch_rankings_page_builds_public_api_request(monkeypatch):
 
 def test_fetch_rankings_page_returns_none_for_404_network_block_login_and_js(monkeypatch):
     import requests
+
     import scrape_fed_tun
 
     class Response:

@@ -1,7 +1,7 @@
-from typing import Any, cast
 import os
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

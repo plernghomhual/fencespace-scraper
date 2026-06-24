@@ -21,7 +21,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -1070,7 +1070,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_panam_conf").start()
     try:
-        print(f"PAFC scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"PAFC scraper starting - {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         events, skipped_sources = discover_events()
         if not events:
@@ -1104,7 +1104,7 @@ def main():
             time.sleep(REQUEST_DELAY)
 
         metadata = {"events_found": len(events), "skipped_sources": skipped_sources, "unmatched_rows": unmatched_total}
-        set_state(SOURCE, "last_run", {**metadata, "updated_at": datetime.now(timezone.utc).isoformat()})
+        set_state(SOURCE, "last_run", {**metadata, "updated_at": datetime.now(UTC).isoformat()})
         run_log.complete(written=written, failed=failed, skipped=skipped + len(skipped_sources), metadata=metadata)
         print(f"Done - written={written}, failed={failed}, skipped={skipped}, unmatched={unmatched_total}")
     except Exception as exc:

@@ -1,5 +1,4 @@
-from datetime import datetime, timezone
-
+from datetime import UTC, datetime, timezone
 
 SPANISH_RANKING_HTML = """
 <html>
@@ -219,7 +218,7 @@ def test_current_season_uses_federation_range_format(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 2, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 2, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_dom, "datetime", FixedDateTime)
 

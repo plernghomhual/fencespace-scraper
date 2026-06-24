@@ -7,12 +7,11 @@ import json
 import os
 import re
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -332,7 +331,7 @@ def build_fencer_stat_rows(
     tournaments_by_id = tournament_lookup(tournaments)
     counters = empty_counters(len(bouts))
     stats: dict[tuple[str, str, str], dict[str, Any]] = {}
-    updated_at = now or datetime.now(timezone.utc).isoformat()
+    updated_at = now or datetime.now(UTC).isoformat()
 
     for index, bout in enumerate(bouts):
         fencer_a = canonical_fencer_id(raw_fencer_id(bout, "a"), identity_map)
@@ -478,7 +477,7 @@ def compute_fencer_stats(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

@@ -3,11 +3,10 @@ import json
 import os
 import re
 import time
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta, timezone
 from typing import Any
 
 import requests
-from supabase import Client, create_client
 
 from run_logger import ScraperRunLogger
 from scrape_bouts import (
@@ -20,7 +19,7 @@ from scrape_bouts import (
     parse_date,
 )
 from scraper_state import get_state, set_state
-
+from supabase import Client, create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -123,7 +122,7 @@ def to_int(value):
 
 def stable_hash(kind: str, row: dict[str, Any]) -> str:
     encoded = json.dumps(row, sort_keys=True, ensure_ascii=True, default=str)
-    return hashlib.sha256(f"{kind}:{encoded}".encode("utf-8")).hexdigest()
+    return hashlib.sha256(f"{kind}:{encoded}".encode()).hexdigest()
 
 
 def load_hash_state(key: str) -> set[str]:
@@ -248,8 +247,8 @@ def upsert_new_bouts(client, bout_rows):
 
 def iso_timestamp(now_value: datetime) -> str:
     if now_value.tzinfo is None:
-        now_value = now_value.replace(tzinfo=timezone.utc)
-    return now_value.astimezone(timezone.utc).isoformat()
+        now_value = now_value.replace(tzinfo=UTC)
+    return now_value.astimezone(UTC).isoformat()
 
 
 def process_tournament(client, session, tournament, now_value: datetime):
@@ -309,7 +308,7 @@ def watch_live_results(
     log_run: bool = True,
     sleep_seconds: float = 0.0,
 ):
-    now_value = now or datetime.now(timezone.utc)
+    now_value = now or datetime.now(UTC)
     today_value = today or now_value.date()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
 

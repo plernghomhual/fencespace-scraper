@@ -190,8 +190,8 @@ def test_official_no_results_page_returns_documented_stub():
 
 
 def test_upsert_tournament_payload_preserves_original_title(monkeypatch):
-    from scrape_maccabiah import upsert_tournament
     import scrape_maccabiah
+    from scrape_maccabiah import upsert_tournament
 
     captured = {}
 

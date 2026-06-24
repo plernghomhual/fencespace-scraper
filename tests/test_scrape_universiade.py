@@ -102,8 +102,8 @@ def test_parse_fisu_stats_table_keeps_wrapped_slash_tie_names_together():
 
 
 def test_upsert_tournament_uses_required_source_id_and_season(monkeypatch):
-    from scrape_universiade import upsert_tournament
     import scrape_universiade
+    from scrape_universiade import upsert_tournament
 
     event = {
         "source_id": "universiade:2021:epee-women-individual",

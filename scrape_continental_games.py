@@ -9,14 +9,14 @@ Sources verified 2026-06-01:
   - African Games 2019 official result book PDF:
     /resultats/resJA2019/pdf/JA2019/FE/JA2019_FE_C99_FE0000000.pdf
 """
-from typing import Any
 import io
 import os
 import re
 import time
 import unicodedata
 from collections import OrderedDict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -430,7 +430,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_continental_games").start()
     try:
-        print(f"Continental Games scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Continental Games scraper starting — {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         all_rows = discover_all_results()
         events = group_rows_by_event(all_rows)

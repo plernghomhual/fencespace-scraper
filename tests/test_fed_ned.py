@@ -13,7 +13,7 @@ Source probe (2026-06-01):
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import pytest
 
@@ -188,6 +188,7 @@ def test_fetch_rankings_page_returns_none_on_404(monkeypatch):
 
 def test_fetch_rankings_page_returns_none_on_network_error(monkeypatch):
     import requests
+
     import scrape_fed_ned
 
     def fake_get(*args, **kwargs):
@@ -238,12 +239,12 @@ def test_current_season_uses_july_boundary(monkeypatch):
     class JuneDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 30, tzinfo=timezone.utc)
+            return datetime(2026, 6, 30, tzinfo=UTC)
 
     class JulyDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 7, 1, tzinfo=timezone.utc)
+            return datetime(2026, 7, 1, tzinfo=UTC)
 
     monkeypatch.setattr(scrape_fed_ned, "datetime", JuneDateTime)
     assert scrape_fed_ned.current_season() == "2025-2026"

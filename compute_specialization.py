@@ -5,7 +5,7 @@ import os
 import re
 import unicodedata
 from collections import Counter, defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -452,7 +452,7 @@ def fencer_switches(fencer_id: str, observations: list[dict[str, Any]]) -> list[
     ]
     season_rows.sort(key=lambda row: (row["season_sort"], row["season"]))
     switches = []
-    for previous, current in zip(season_rows, season_rows[1:]):
+    for previous, current in zip(season_rows, season_rows[1:], strict=False):
         if previous["primary_weapon"] == current["primary_weapon"]:
             continue
         before = previous["avg_rank"]
@@ -668,7 +668,7 @@ def build_specialization_report(
     identity_map: dict[str, str] | None = None,
     computed_at: str | None = None,
 ) -> dict[str, Any]:
-    generated_at = computed_at or datetime.now(timezone.utc).isoformat()
+    generated_at = computed_at or datetime.now(UTC).isoformat()
     observations_by_fencer, skipped, birth_dates = build_observations(
         results,
         tournaments,
@@ -857,7 +857,7 @@ def compute_specialization(
 
 
 def main() -> None:
-    print(f"Weapon specialization computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Weapon specialization computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_specialization()
     print(
         "Weapon specialization computation complete - "

@@ -1,13 +1,12 @@
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from statistics import median
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -253,7 +252,7 @@ def make_row(
         "evidence": evidence,
         "model_version": MODEL_VERSION,
         "reviewed": False,
-        "created_at": created_at or datetime.now(timezone.utc).isoformat(),
+        "created_at": created_at or datetime.now(UTC).isoformat(),
     }
 
 
@@ -643,7 +642,7 @@ def compute_anomalies(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
@@ -659,7 +658,7 @@ def main() -> None:
     if previous_state:
         print(f"Previous anomaly computation state: {previous_state}")
 
-    print(f"Anomaly computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Anomaly computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_anomalies()
     print(
         "Anomaly computation complete - "

@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-import json
 import hmac
+import json
 import os
 from collections import Counter
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
 from typing import Any
 
 import streamlit as st
-
 
 REQUIRED_ENV_VARS = ("SUPABASE_URL", "SUPABASE_SERVICE_KEY")
 DASHBOARD_AUTH_TOKEN_ENV_VARS = ("FENCESPACE_DASHBOARD_TOKEN", "DASHBOARD_AUTH_TOKEN")
@@ -165,7 +164,7 @@ def _count_rows(client: Any, table_name: str) -> int | None:
 
 def _parse_datetime(value: Any) -> datetime | None:
     if isinstance(value, datetime):
-        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+        return value if value.tzinfo else value.replace(tzinfo=UTC)
     if value is None:
         return None
     text = str(value).strip()
@@ -177,14 +176,14 @@ def _parse_datetime(value: Any) -> datetime | None:
         parsed = datetime.fromisoformat(text)
     except ValueError:
         return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
 
 
 def _display_datetime(value: Any) -> str:
     parsed = _parse_datetime(value)
     if not parsed:
         return ""
-    return parsed.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    return parsed.astimezone(UTC).strftime("%Y-%m-%d %H:%M UTC")
 
 
 def _metadata_dict(value: Any) -> dict[str, Any]:
@@ -214,7 +213,7 @@ def _latest_run_by_module(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any
         module = str(row.get("module") or "").strip()
         if not module:
             continue
-        run_time = _parse_datetime(row.get("started_at")) or datetime.min.replace(tzinfo=timezone.utc)
+        run_time = _parse_datetime(row.get("started_at")) or datetime.min.replace(tzinfo=UTC)
         current = latest.get(module)
         current_time = _parse_datetime((current or {}).get("started_at")) if current else None
         if current is None or current_time is None or run_time > current_time:
@@ -229,7 +228,7 @@ def _health_for_run(row: dict[str, Any] | None) -> str:
     reference_time = _parse_datetime(row.get("completed_at")) or _parse_datetime(row.get("started_at"))
     if not reference_time:
         return "no recent run"
-    if datetime.now(timezone.utc) - reference_time > timedelta(hours=48):
+    if datetime.now(UTC) - reference_time > timedelta(hours=48):
         return "no recent run"
     return STATUS_HEALTH.get(status, "completed_with_errors")
 

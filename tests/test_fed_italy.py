@@ -1,6 +1,6 @@
-from io import BytesIO
 import os
 import sys
+from io import BytesIO
 
 import pytest
 

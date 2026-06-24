@@ -30,7 +30,7 @@ import re
 import time
 import urllib.parse
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from xml.etree import ElementTree as ET
 
 import requests
@@ -452,7 +452,7 @@ def current_season() -> str:
     except Exception:
         pass
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year - 1}-{year}" if now.month < 7 else f"{year}-{year + 1}"
 
@@ -531,7 +531,7 @@ def main() -> None:
             "failed_combos": failed_combos,
             "source_page": ARCHIVE_PAGE,
             "current_public_url": CURRENT_PUBLIC_URL,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
         run_log.complete(
@@ -547,7 +547,7 @@ def main() -> None:
         set_state(
             SOURCE,
             "last_error",
-            {"error": str(exc), "updated_at": datetime.now(timezone.utc).isoformat()},
+            {"error": str(exc), "updated_at": datetime.now(UTC).isoformat()},
         )
         run_log.error(str(exc))
         print(f"FAILED — {exc}")

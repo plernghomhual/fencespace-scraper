@@ -15,7 +15,7 @@ Fixtures use the required Jamaica ranking column shape:
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import pytest
 import requests
@@ -267,7 +267,7 @@ def test_current_season_uses_yyyy_range_before_july(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 1, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 1, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_jam, "datetime", FixedDateTime)
 

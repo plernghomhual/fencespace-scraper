@@ -7,14 +7,14 @@ import json
 import os
 import re
 import unicodedata
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SOURCE = "ocr_results"
 DEFAULT_BATCH_SIZE = 100
@@ -132,9 +132,9 @@ def _medal_for_rank(rank: int | None) -> str | None:
 
 
 def _read_pdf_bytes(source: bytes | bytearray | str | Path | Any) -> tuple[bytes, str]:
-    if isinstance(source, (bytes, bytearray)):
+    if isinstance(source, bytes | bytearray):
         return bytes(source), "bytes"
-    if isinstance(source, (str, Path)):
+    if isinstance(source, str | Path):
         path = Path(source)
         return path.read_bytes(), str(path)
     if hasattr(source, "read"):
@@ -435,7 +435,7 @@ def _parse_table_rows(table: list[list[Any]], page: ExtractedPage) -> list[Resul
 
 
 def _source_id(source_name: str, tournament_name: str, event_name: str) -> str:
-    digest = hashlib.sha1(f"{source_name}|{tournament_name}|{event_name}".encode("utf-8")).hexdigest()[:12]
+    digest = hashlib.sha1(f"{source_name}|{tournament_name}|{event_name}".encode()).hexdigest()[:12]
     return f"{SOURCE}:{_slug(source_name)}:{_slug(tournament_name)}:{_slug(event_name)}:{digest}"
 
 
@@ -645,7 +645,7 @@ def process_pdf_results(
                         "written": result.written,
                         "failed": result.failed,
                         "skipped": result.skipped,
-                        "completed_at": datetime.now(timezone.utc).isoformat(),
+                        "completed_at": datetime.now(UTC).isoformat(),
                     },
                 )
         if run_log:

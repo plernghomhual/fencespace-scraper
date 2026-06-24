@@ -4,9 +4,10 @@ import json
 import os
 import re
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -86,7 +87,7 @@ def get_supabase_client():
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def clean_text(value: Any) -> str | None:

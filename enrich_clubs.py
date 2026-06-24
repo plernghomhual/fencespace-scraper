@@ -6,7 +6,7 @@ import re
 import time
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin
 
@@ -132,7 +132,7 @@ def stable_unique(values: list[Any] | tuple[Any, ...]) -> list[Any]:
     for value in values:
         if value is None:
             continue
-        key = json.dumps(value, sort_keys=True) if isinstance(value, (dict, list)) else str(value)
+        key = json.dumps(value, sort_keys=True) if isinstance(value, dict | list) else str(value)
         if key in seen:
             continue
         seen.add(key)
@@ -400,7 +400,7 @@ def ids_from_index(index_value: Any) -> set[str]:
         return set()
     if isinstance(index_value, set):
         return {str(item) for item in index_value if item}
-    if isinstance(index_value, (list, tuple)):
+    if isinstance(index_value, list | tuple):
         return {str(item) for item in index_value if item}
     return {str(index_value)}
 
@@ -837,7 +837,7 @@ def enrich_clubs(
 ) -> dict[str, int]:
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
     get_state(SOURCE, "last_run") if update_state else None
-    enriched_at = enriched_at or datetime.now(timezone.utc).isoformat()
+    enriched_at = enriched_at or datetime.now(UTC).isoformat()
 
     try:
         client = client or get_client()
@@ -928,7 +928,7 @@ def enrich_clubs(
         }
 
         if update_state:
-            set_state(SOURCE, "last_run", {**summary, "completed_at": datetime.now(timezone.utc).isoformat()})
+            set_state(SOURCE, "last_run", {**summary, "completed_at": datetime.now(UTC).isoformat()})
         if run_log:
             run_log.complete(written=written, failed=failed, skipped=skipped, metadata=summary)
         return summary
@@ -939,7 +939,7 @@ def enrich_clubs(
 
 
 def main() -> None:
-    print(f"Club enrichment starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Club enrichment starting - {datetime.now(UTC).isoformat()}")
     summary = enrich_clubs()
     print(
         "Club enrichment complete: "

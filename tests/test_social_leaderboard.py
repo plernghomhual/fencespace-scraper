@@ -1,7 +1,7 @@
-from typing import Any
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -16,7 +16,7 @@ ERIN = "00000000-0000-0000-0000-0000000000e1"
 
 
 def test_build_leaderboard_dedupes_platform_handles_and_excludes_private_missing_accounts():
-    from compute_social_leaderboard import build_leaderboard_rows, build_identity_map
+    from compute_social_leaderboard import build_identity_map, build_leaderboard_rows
 
     identity_map = build_identity_map(
         [

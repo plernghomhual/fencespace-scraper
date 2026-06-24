@@ -3,7 +3,7 @@ import os
 import re
 import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin, urlparse, urlunparse
 
@@ -519,7 +519,7 @@ def build_scholarship_row(
         "coach_email": coach["coach_email"],
         "website": seed.website,
         "metadata": metadata,
-        "scraped_at": scraped_at or datetime.now(timezone.utc).isoformat(),
+        "scraped_at": scraped_at or datetime.now(UTC).isoformat(),
     }
 
 
@@ -544,7 +544,7 @@ def scrape_college_scholarships(
     limit: int = TOP_50_LIMIT,
 ) -> dict[str, int]:
     session = session or requests.Session()
-    scraped_at = datetime.now(timezone.utc).isoformat()
+    scraped_at = datetime.now(UTC).isoformat()
     programs = load_program_seeds(session, limit=limit)
     directory_overviews = fetch_directory_overviews(session)
     rows = []
@@ -589,7 +589,7 @@ def main() -> None:
             "last_run",
             {
                 **summary,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
         )
         run_log.complete(

@@ -13,7 +13,6 @@ from scrape_ncaa_regular import (
     write_meet,
 )
 
-
 ACC_SABER_PAGE = """
 2025 ACC Fencing Championships
 Hosted by University of North Carolina

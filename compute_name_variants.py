@@ -7,7 +7,7 @@ import argparse
 import os
 import re
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -367,7 +367,7 @@ def compute_name_variants(
                 "last_run",
                 {
                     **report,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -390,7 +390,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=BATCH_SIZE)
     args = parser.parse_args()
 
-    print(f"Name variant computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Name variant computation starting - {datetime.now(UTC).isoformat()}")
     report = compute_name_variants(page_size=args.page_size, batch_size=args.batch_size)
     print(
         "Name variant computation complete - "

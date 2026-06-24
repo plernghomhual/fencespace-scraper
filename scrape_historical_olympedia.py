@@ -19,9 +19,10 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -29,7 +30,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -430,7 +430,7 @@ def build_result_rows(
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     db_rows: list[dict[str, Any]] = []
     unmatched: list[dict[str, Any]] = []
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
 
     for row in result_rows:
         if row.get("rank") is None:
@@ -525,7 +525,7 @@ def upsert_tournament(event: dict[str, Any]) -> str | None:
 def log_unmatched_rows(rows: list[dict[str, Any]], path: Path = UNMATCHED_LOG_PATH) -> None:
     if not rows:
         return
-    timestamp = datetime.now(timezone.utc).isoformat()
+    timestamp = datetime.now(UTC).isoformat()
     with path.open("a", encoding="utf-8") as handle:
         for row in rows:
             handle.write(json.dumps({**row, "logged_at": timestamp}, ensure_ascii=False, sort_keys=True))
@@ -675,7 +675,7 @@ def main() -> None:
 
     run_log = ScraperRunLogger("scrape_historical_olympedia").start()
     try:
-        print(f"Historical Olympedia scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Historical Olympedia scraper starting - {datetime.now(UTC).isoformat()}")
         fencer_index = load_fencer_index()
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
 
@@ -691,7 +691,7 @@ def main() -> None:
             "last_run",
             {
                 **stats,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
                 "source": SOURCE,
             },
         )

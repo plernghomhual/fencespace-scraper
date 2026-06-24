@@ -1,7 +1,7 @@
-from typing import Any
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import pytest
 
@@ -218,7 +218,7 @@ def test_live_post_uses_mock_provider_and_marks_state_after_success(monkeypatch)
         provider=provider,
         live=True,
         log_run=False,
-        now=datetime(2026, 3, 14, 20, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 3, 14, 20, 0, tzinfo=UTC),
     )
 
     assert summary["dry_run"] is False

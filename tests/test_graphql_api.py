@@ -1,5 +1,5 @@
-import importlib
 import hashlib
+import importlib
 import os
 import sys
 from textwrap import dedent
@@ -415,7 +415,7 @@ def test_graphql_accepts_hashed_database_api_key_during_rotation(graphql_module)
     fake = graphql_module.app.state.supabase_client
     fake.tables["fs_api_keys"] = [
         {
-            "key_hash": hashlib.sha256("graphql-hashed-secret".encode("utf-8")).hexdigest(),
+            "key_hash": hashlib.sha256(b"graphql-hashed-secret").hexdigest(),
             "active": True,
             "revoked": False,
         }

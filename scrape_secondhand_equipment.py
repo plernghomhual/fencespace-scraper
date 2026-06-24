@@ -2,9 +2,10 @@ import hashlib
 import os
 import re
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse, urlunparse
 
 import requests
@@ -275,7 +276,7 @@ def build_listing_row(
         "posted_at": posted_at,
         "status": clean_text(status) or "active",
         "metadata": sanitize_metadata(metadata or {}),
-        "scraped_at": scraped_at or datetime.now(timezone.utc).isoformat(),
+        "scraped_at": scraped_at or datetime.now(UTC).isoformat(),
     }
     return row
 
@@ -476,7 +477,7 @@ def scrape_secondhand_equipment(
     update_state_enabled: bool = False,
 ) -> dict[str, int]:
     sources = list(sources or DEFAULT_SOURCES)
-    scraped_at = datetime.now(timezone.utc).isoformat()
+    scraped_at = datetime.now(UTC).isoformat()
     parsed_rows: list[dict[str, Any]] = []
     failed = 0
     skipped = 0
@@ -505,7 +506,7 @@ def scrape_secondhand_equipment(
         set_state(
             SOURCE,
             "last_run",
-            {**summary, "updated_at": datetime.now(timezone.utc).isoformat()},
+            {**summary, "updated_at": datetime.now(UTC).isoformat()},
         )
     return summary
 

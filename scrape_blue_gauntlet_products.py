@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import os
 import re
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -373,7 +374,7 @@ def parse_listing_products(
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
     soup = BeautifulSoup(html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     category = category or _category_from_listing(soup)
     rows: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
@@ -430,7 +431,7 @@ def parse_detail_product(
     scraped_at: str | None = None,
 ) -> dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     product_url = absolute_url(product_url) or product_url
     name = _first_text(soup, ("h1", ".page_headers", ".product-title", ".name")) or ""
     category = _category_from_detail(soup)
@@ -661,7 +662,7 @@ def scrape_blue_gauntlet_products(
             "failed": failed,
             "skipped": skipped,
             "listing_urls": len(queued),
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
         }
         if isinstance(previous_state, dict) and previous_state.get("scraped_at"):
             summary["previous_scraped_at"] = previous_state["scraped_at"]
@@ -682,7 +683,7 @@ def scrape_blue_gauntlet_products(
 
 
 def main() -> None:
-    print(f"Blue Gauntlet product scrape starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Blue Gauntlet product scrape starting - {datetime.now(UTC).isoformat()}")
     summary = scrape_blue_gauntlet_products()
     print(
         "Blue Gauntlet product scrape complete - "

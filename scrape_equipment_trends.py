@@ -6,20 +6,23 @@ import time
 import unicodedata
 import uuid
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
 from run_logger import ScraperRunLogger
-from scraper_state import get_state, set_state
 from scrape_equipment import (
     BRAND_ALIASES,
-    HEADERS as EQUIPMENT_HEADERS,
     extract_equipment_mentions,
     metadata_dict,
 )
+from scrape_equipment import (
+    HEADERS as EQUIPMENT_HEADERS,
+)
+from scraper_state import get_state, set_state
 
 try:
     from scripts.rate_limiter import RateLimiter
@@ -108,7 +111,7 @@ def get_supabase_client():
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def clean_text(value: Any) -> str | None:

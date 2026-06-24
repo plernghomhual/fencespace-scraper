@@ -13,12 +13,12 @@ Probe evidence:
 
 from __future__ import annotations
 
-from typing import cast
 import io
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import cast
 
 import pytest
 import requests
@@ -263,7 +263,7 @@ def test_current_season_format_and_before_july(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 2, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 2, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_irl, "datetime", FixedDateTime)
 

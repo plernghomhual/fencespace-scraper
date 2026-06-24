@@ -6,12 +6,11 @@ import os
 import re
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -256,7 +255,7 @@ def flatten_string_values(value: Any) -> list[str]:
         return []
     if isinstance(value, str):
         return [part.strip() for part in re.split(r"[,;/|]", value) if part.strip()]
-    if isinstance(value, (list, tuple, set)):
+    if isinstance(value, list | tuple | set):
         values: list[str] = []
         for item in value:
             values.extend(flatten_string_values(item))
@@ -474,7 +473,7 @@ def find_numeric_metadata(value: Any) -> float | None:
             nested = find_numeric_metadata(item)
             if nested is not None:
                 return nested
-    elif isinstance(value, (list, tuple)):
+    elif isinstance(value, list | tuple):
         for item in value:
             nested = find_numeric_metadata(item)
             if nested is not None:
@@ -609,7 +608,7 @@ def build_sponsorship_match_rows(
     max_matches_per_brand: int = MAX_MATCHES_PER_BRAND,
 ) -> tuple[list[dict[str, Any]], int]:
     today = today or date.today()
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     fencers_by_id = {
         str(row["id"]): row
         for row in fencers
@@ -801,7 +800,7 @@ def compute_sponsorship_matches(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -812,7 +811,7 @@ def compute_sponsorship_matches(
 
 
 def main() -> None:
-    print(f"Sponsorship match computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Sponsorship match computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_sponsorship_matches()
     print(
         "Sponsorship match computation complete - "

@@ -7,7 +7,7 @@ import json
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any, cast
 
@@ -16,7 +16,6 @@ if __package__ in {None, ""}:
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 MODULE_NAME = "reconcile_data"
 PAGE_SIZE = 1000
@@ -432,7 +431,7 @@ def reconcile(
         report = {
             "source_a": source_a,
             "source_b": source_b,
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "matched": len(pairs),
             "mismatched": sum(1 for _, record_a, record_b in pairs if _compare_records(record_a, record_b)),
             "in_a_only": len(a_only),

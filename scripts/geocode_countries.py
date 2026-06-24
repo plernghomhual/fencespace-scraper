@@ -4,10 +4,11 @@ import re
 import sys
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any
 
 import requests
 
@@ -17,7 +18,6 @@ if __package__ in {None, ""}:
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from scripts.rate_limiter import RateLimiter
-
 
 SOURCE = "geocode_countries"
 TARGET_TABLE = os.environ.get("COUNTRY_GEO_TABLE", "fs_country_geocodes")
@@ -296,7 +296,7 @@ def _new_failure_entry(country: str, reason: str, *, updated_at: str | None = No
     return {
         "country": clean_text(country),
         "reason": reason,
-        "failed_at": updated_at or datetime.now(timezone.utc).isoformat(),
+        "failed_at": updated_at or datetime.now(UTC).isoformat(),
     }
 
 
@@ -488,7 +488,7 @@ def backfill_country_geocodes(
     state_get: Callable[[str, str], Any] = get_state,
     state_set: Callable[[str, str, Any], None] = set_state,
 ) -> dict[str, int]:
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
     countries = collect_country_values(client)
     failure_cache = _state_dict(state_get(SOURCE, FAILURE_CACHE_KEY))
     missing_countries: set[str] = set()

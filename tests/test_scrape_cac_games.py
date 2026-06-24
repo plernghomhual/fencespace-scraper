@@ -12,7 +12,6 @@ from scrape_cac_games import (
     wayback_raw_url,
 )
 
-
 INDIVIDUAL_STANDINGS_TEXT = """
 ESGRIMA
 FENCING

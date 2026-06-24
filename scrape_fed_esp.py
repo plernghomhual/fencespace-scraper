@@ -24,7 +24,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -248,7 +248,7 @@ def parse_rankings_table(html_or_text: str) -> list[dict]:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
 
     if _shared_normalize_season is not None:

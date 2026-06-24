@@ -1,12 +1,11 @@
 import os
 import re
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -298,7 +297,7 @@ def build_youth_talent_rows(
     national_rankings: list[dict[str, Any]],
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     signals: dict[str, dict[str, Any]] = defaultdict(
         lambda: {

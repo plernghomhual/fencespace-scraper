@@ -13,17 +13,17 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
-from typing import Callable
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from scripts.rate_limiter import RateLimiter as _RateLimiter
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -104,14 +104,14 @@ def parse_datetime(value: str | None) -> str | None:
     try:
         parsed = datetime.fromisoformat(text)
         if parsed.tzinfo is None:
-            parsed = parsed.replace(tzinfo=timezone.utc)
+            parsed = parsed.replace(tzinfo=UTC)
         return parsed.isoformat()
     except ValueError:
         pass
 
     for fmt in ("%d %B %Y", "%d %b %Y", "%d/%m/%Y", "%Y-%m-%d"):
         try:
-            return datetime.strptime(text, fmt).replace(tzinfo=timezone.utc).isoformat()
+            return datetime.strptime(text, fmt).replace(tzinfo=UTC).isoformat()
         except ValueError:
             continue
 
@@ -515,7 +515,7 @@ def scrape_news() -> dict:
     combined_seen = [url for url in seen_state if isinstance(seen_state, list) and url not in successful_urls]
     combined_seen.extend(successful_urls)
     set_state(STATE_SOURCE, "seen_urls", combined_seen[-5000:])
-    set_state(STATE_SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+    set_state(STATE_SOURCE, "last_run", datetime.now(UTC).isoformat())
 
     return {
         "written": written,

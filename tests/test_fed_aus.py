@@ -11,11 +11,11 @@ Relevant table columns:
 AFF embeds state in the fencer display value, e.g. "CROOK, Jacob (QLD)".
 """
 
-from typing import cast
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -215,6 +215,7 @@ def test_fetch_rankings_page_returns_none_for_404(monkeypatch):
 
 def test_fetch_rankings_page_returns_none_for_network_error(monkeypatch):
     import requests
+
     import scrape_fed_aus
 
     def fake_get(*args, **kwargs):
@@ -268,12 +269,12 @@ def test_current_season_uses_july_boundary(monkeypatch):
     class JuneDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 30, tzinfo=timezone.utc)
+            return datetime(2026, 6, 30, tzinfo=UTC)
 
     class JulyDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 7, 1, tzinfo=timezone.utc)
+            return datetime(2026, 7, 1, tzinfo=UTC)
 
     monkeypatch.setattr(scrape_fed_aus, "datetime", JuneDateTime)
     assert scrape_fed_aus.current_season() == "2025-2026"

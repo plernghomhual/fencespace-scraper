@@ -11,12 +11,11 @@ database migration and Python helpers the same source of truth.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import json
-from pathlib import Path
 import re
 import unicodedata
-
+from dataclasses import dataclass
+from pathlib import Path
 
 MIGRATION_PATH = (
     Path(__file__).resolve().parents[1]
@@ -77,7 +76,7 @@ def _country_from_row(row: dict[str, object]) -> CountryCode:
     alpha2 = row.get("alpha2")
     flag = row.get("flag_emoji") or _flag_emoji(alpha2 if isinstance(alpha2, str) else None)
     aliases = row.get("aliases") or ()
-    if not isinstance(aliases, (list, tuple)):
+    if not isinstance(aliases, list | tuple):
         raise RuntimeError(f"aliases must be a list for {row.get('alpha3')}")
     return CountryCode(
         alpha3=str(row["alpha3"]).upper(),

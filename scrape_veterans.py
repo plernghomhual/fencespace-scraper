@@ -16,7 +16,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -652,7 +652,7 @@ def run(
                 SOURCE,
                 "last_run",
                 {
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     "written": written,
                     "failed": failed,
                     "skipped": skipped,

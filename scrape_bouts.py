@@ -1,4 +1,3 @@
-from typing import Any
 import json
 import os
 import re
@@ -7,12 +6,13 @@ import time
 import traceback
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
+from typing import Any
 
 import requests
-from supabase import Client, create_client
 
 from run_logger import ScraperRunLogger
+from supabase import Client, create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -142,7 +142,7 @@ def is_recent_tournament(tournament):
     end_date = parse_date(tournament.get("end_date"))
     if not end_date:
         return False
-    today = datetime.now(timezone.utc).date()
+    today = datetime.now(UTC).date()
     return end_date >= today - timedelta(days=RECENT_DAYS)
 
 
@@ -448,7 +448,7 @@ def _scrape_one_tournament(tournament, session, supabase, existing_bout_ids, loc
     """Fetch and upsert bouts for a single tournament. Returns (status, bout_count)."""
     tournament_id = tournament["id"]
     name = tournament.get("name") or tournament_id
-    season = tournament.get("season") or datetime.now(timezone.utc).year
+    season = tournament.get("season") or datetime.now(UTC).year
     url_id = tournament.get("competition_url_id")
     recent = is_recent_tournament(tournament)
 
@@ -513,7 +513,7 @@ def _scrape_one_tournament(tournament, session, supabase, existing_bout_ids, loc
 
 
 def scrape_bouts():
-    print(f"Bout scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Bout scraper starting - {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_bouts").start()
     supabase = get_supabase_client()
     session = requests.Session()

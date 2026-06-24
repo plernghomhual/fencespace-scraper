@@ -1,5 +1,5 @@
-import importlib
 import hashlib
+import importlib
 import os
 import sys
 from pathlib import Path
@@ -181,7 +181,7 @@ def test_api_accepts_hashed_database_api_key_during_rotation(monkeypatch):
     fake = FakeSupabase()
     fake.tables["fs_api_keys"] = [
         {
-            "key_hash": hashlib.sha256("hashed-secret".encode("utf-8")).hexdigest(),
+            "key_hash": hashlib.sha256(b"hashed-secret").hexdigest(),
             "active": True,
             "revoked": False,
         }

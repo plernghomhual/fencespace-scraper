@@ -1,10 +1,9 @@
-from typing import Any
 import json
 import re
 from pathlib import Path
+from typing import Any
 
 import pytest
-
 
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION_PATH = ROOT / "supabase" / "migrations" / "20260602_country_codes.sql"

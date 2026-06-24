@@ -4,10 +4,11 @@ import hashlib
 import io
 import math
 import os
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
+from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 import requests
@@ -15,7 +16,6 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -98,7 +98,7 @@ class DuplicateCandidate:
             "evidence": self.evidence,
             "status": self.status,
             "privacy_notes": self.privacy_notes,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
 
 
@@ -170,7 +170,7 @@ def candidate_key_for(row_a: dict[str, Any], row_b: dict[str, Any]) -> str:
 
 
 def _lanczos_filter():
-    return getattr(getattr(Image, "Resampling", Image), "LANCZOS")
+    return getattr(Image, "Resampling", Image).LANCZOS
 
 
 def average_hash(image: Image.Image) -> int:
@@ -188,13 +188,13 @@ def hamming_distance(left: int, right: int) -> int:
 
 
 def rgb_distance(left: Sequence[float], right: Sequence[float]) -> float:
-    return math.sqrt(sum((float(a) - float(b)) ** 2 for a, b in zip(left, right)))
+    return math.sqrt(sum((float(a) - float(b)) ** 2 for a, b in zip(left, right, strict=False)))
 
 
 def embedding_distance(left: Sequence[float], right: Sequence[float]) -> float:
     if len(left) != len(right):
         return float("inf")
-    return math.sqrt(sum((float(a) - float(b)) ** 2 for a, b in zip(left, right)))
+    return math.sqrt(sum((float(a) - float(b)) ** 2 for a, b in zip(left, right, strict=False)))
 
 
 def fingerprint_image(row: dict[str, Any], image_bytes: bytes) -> ImageFingerprint:
@@ -590,7 +590,7 @@ def main() -> None:
             enable_face_embeddings=env_flag("HEADSHOT_DEDUPE_ENABLE_FACE_EMBEDDINGS"),
             allow_remote_images=env_flag("HEADSHOT_DEDUPE_ALLOW_REMOTE_IMAGES"),
         )
-        completed_at = datetime.now(timezone.utc).isoformat()
+        completed_at = datetime.now(UTC).isoformat()
         set_state(
             SOURCE,
             "last_run",

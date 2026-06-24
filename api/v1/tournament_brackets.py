@@ -6,7 +6,6 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
-
 BRACKET_TABLE = "fs_tournament_brackets"
 DEFAULT_MAX_ROWS = 1000
 MAX_BRACKET_ROWS = 2000

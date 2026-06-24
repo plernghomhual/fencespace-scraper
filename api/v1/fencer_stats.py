@@ -6,7 +6,6 @@ from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query
 
-
 MAX_IDENTITY_MEMBERS = 25
 MAX_STATS_ROWS = 250
 MAX_SEASON_ROWS = 25

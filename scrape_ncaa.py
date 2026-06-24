@@ -1,7 +1,7 @@
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -163,7 +163,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_ncaa").start()
     try:
-        print(f"NCAA scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"NCAA scraper starting — {datetime.now(UTC).isoformat()}")
         done_years = set(get_state(SOURCE, "done_years") or [])
         written = failed = skipped = 0
 

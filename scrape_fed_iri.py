@@ -18,7 +18,7 @@ crashing.
 
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -290,7 +290,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     if season_to_string is not None:
         return season_to_string(season_end_year)

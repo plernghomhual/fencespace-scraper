@@ -2,9 +2,9 @@ import copy
 import os
 import re
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from typing import Callable, Iterable
+from datetime import UTC, date, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -882,7 +882,7 @@ def scrape_fencing_history(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

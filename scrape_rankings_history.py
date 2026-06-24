@@ -6,13 +6,13 @@ Uses fs_scraper_state to track progress across runs.
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -200,7 +200,7 @@ def scrape_season_combo(session: requests.Session, season: int, weapon: str, gen
     if not rows:
         return 0
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     for row in rows:
         row["scraped_at"] = now
 
@@ -214,10 +214,10 @@ def scrape_season_combo(session: requests.Session, season: int, weapon: str, gen
 
 
 def scrape_rankings_history():
-    print(f"Rankings history scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Rankings history scraper starting - {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_rankings_history").start()
 
-    current_year = datetime.now(timezone.utc).year
+    current_year = datetime.now(UTC).year
     end_season = HISTORY_END_SEASON if HISTORY_END_SEASON else current_year
     seasons = list(range(HISTORY_START_SEASON, end_season + 1))
 

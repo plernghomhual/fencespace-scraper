@@ -7,12 +7,11 @@ import sys
 import textwrap
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from run_logger import ScraperRunLogger
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -81,14 +80,14 @@ def display_value(value: Any, default: str = "-") -> str:
 
 def format_generated_at(value: datetime | str | None) -> str:
     if value is None:
-        value = datetime.now(timezone.utc)
+        value = datetime.now(UTC)
     if isinstance(value, str):
         parsed = parse_datetime(value)
     else:
         parsed = value
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    parsed = parsed.astimezone(timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
+    parsed = parsed.astimezone(UTC)
     return parsed.strftime("%Y-%m-%d %H:%M UTC")
 
 
@@ -101,7 +100,7 @@ def parse_datetime(value: str) -> datetime:
     except ValueError as exc:
         raise TournamentPDFError(f"Invalid generated timestamp: {value!r}") from exc
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
     return parsed
 
 
@@ -330,7 +329,7 @@ def _clip(text: Any, width: int) -> str:
 
 
 def _table_row(values: list[Any], widths: list[int]) -> str:
-    return "  ".join(_clip(value, width).ljust(width) for value, width in zip(values, widths))
+    return "  ".join(_clip(value, width).ljust(width) for value, width in zip(values, widths, strict=False))
 
 
 def _wrapped_lines(text: str, *, font: str = "F1", size: int = 10, width: int = 92) -> list[PDFLine]:

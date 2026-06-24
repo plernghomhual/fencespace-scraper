@@ -5,7 +5,7 @@ import os
 import re
 import time
 import uuid
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 import requests
@@ -680,7 +680,7 @@ def enrich_coach_history(
                 "last_run",
                 {
                     **summary,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

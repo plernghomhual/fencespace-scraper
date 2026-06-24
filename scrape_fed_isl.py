@@ -21,8 +21,8 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -395,7 +395,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current storage season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
     fallback = f"{end_year - 1:04d}-{end_year:04d}"
 
@@ -492,7 +492,7 @@ def main() -> None:
             "missing_public_combos": missing_combos,
             "probed_urls": PROBED_PUBLIC_URLS,
             "data_format": "stub",
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
         run_log.complete(
@@ -515,7 +515,7 @@ def main() -> None:
         set_state(
             SOURCE,
             "last_error",
-            {"error": str(exc), "updated_at": datetime.now(timezone.utc).isoformat()},
+            {"error": str(exc), "updated_at": datetime.now(UTC).isoformat()},
         )
         run_log.error(str(exc))
         raise

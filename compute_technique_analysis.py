@@ -3,12 +3,11 @@ import os
 import re
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -725,7 +724,7 @@ def build_technique_analysis_rows(
     identity_map: dict[str, str] | None = None,
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     fencers_by_id = fencer_lookup(fencers, identity_map)
     profiles = build_profiles(fencers, identity_map)
@@ -868,7 +867,7 @@ def compute_technique_analysis(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
@@ -880,7 +879,7 @@ def compute_technique_analysis(
 
 
 def main() -> None:
-    print(f"Technique analysis computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Technique analysis computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_technique_analysis()
     print(
         "Technique analysis computation complete - "

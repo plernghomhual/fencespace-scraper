@@ -5,14 +5,14 @@ import logging
 import os
 import secrets
 import time
+from collections.abc import Callable
 from datetime import UTC, date, datetime
-from typing import Any, Callable
+from typing import Any
 from urllib.parse import urlparse
 
 import requests
 from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
 from fastapi.responses import JSONResponse
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -56,7 +56,7 @@ def hash_api_key(raw_key: str, *, pepper: str | None = None) -> str:
     if not raw_key:
         raise ValueError("API key is required")
     pepper = pepper if pepper is not None else os.environ.get("FENCESPACE_MARKETPLACE_KEY_PEPPER", "")
-    return hashlib.sha256(f"{pepper}:{raw_key}".encode("utf-8")).hexdigest()
+    return hashlib.sha256(f"{pepper}:{raw_key}".encode()).hexdigest()
 
 
 def generate_api_key(prefix: str = "fs_market_test") -> str:
@@ -68,7 +68,7 @@ def parse_timestamp(value: Any) -> datetime:
         return datetime.now(UTC)
     if isinstance(value, datetime):
         return value.astimezone(UTC) if value.tzinfo else value.replace(tzinfo=UTC)
-    if isinstance(value, (int, float)):
+    if isinstance(value, int | float):
         return datetime.fromtimestamp(value, tz=UTC)
     if isinstance(value, str):
         normalized = value.strip()
@@ -234,7 +234,7 @@ def verify_stripe_signature(
     if tolerance_seconds and abs(now - timestamp) > tolerance_seconds:
         raise StripeSignatureError("timestamp outside tolerance")
 
-    signed_payload = f"{timestamp}.".encode("utf-8") + payload
+    signed_payload = f"{timestamp}.".encode() + payload
     expected = hmac.new(endpoint_secret.encode("utf-8"), signed_payload, hashlib.sha256).hexdigest()
     if not any(hmac.compare_digest(expected, signature) for signature in signatures):
         raise StripeSignatureError("signature mismatch")
@@ -455,9 +455,9 @@ def handle_stripe_webhook(
         event = json.loads(payload.decode("utf-8"))
     except StripeConfigurationError:
         raise
-    except (StripeSignatureError, json.JSONDecodeError, UnicodeDecodeError):
+    except (StripeSignatureError, json.JSONDecodeError, UnicodeDecodeError) as err:
         logger.warning("Stripe webhook rejected: signature or payload validation failed")
-        raise HTTPException(status_code=400, detail="Invalid Stripe webhook")
+        raise HTTPException(status_code=400, detail="Invalid Stripe webhook") from err
 
     event_id = event.get("id")
     if not event_id:
@@ -526,7 +526,7 @@ def _increment_usage_counter(
     now: datetime,
 ) -> int:
     period_start, period_end = _period_for(now)
-    if hasattr(supabase, "rpc") and callable(getattr(supabase, "rpc")):
+    if hasattr(supabase, "rpc") and callable(supabase.rpc):
         try:
             response = supabase.rpc(
                 "fs_marketplace_increment_usage",

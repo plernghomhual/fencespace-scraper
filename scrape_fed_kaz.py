@@ -29,8 +29,8 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -248,7 +248,7 @@ JS_ONLY_MARKERS = {
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     try:
         return normalize_season(season_end_year)

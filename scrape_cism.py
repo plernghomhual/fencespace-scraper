@@ -9,13 +9,13 @@ Probe notes (verified 2026-06-01):
 The CISM site mixes HTML event pages and PDF downloads. This scraper imports only
 World Games fencing PDFs whose standings text can be extracted reliably.
 """
-from typing import Any
 import os
 import re
 import tempfile
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -226,7 +226,7 @@ def _parse_individual_standings(segment):
         surnames = segment[surname_start:first_name_start]
         first_names = segment[first_name_start:country_start]
         countries = segment[country_start:country_start + count]
-        for rank, surname, first_name, country_raw in zip(ranks, surnames, first_names, countries):
+        for rank, surname, first_name, country_raw in zip(ranks, surnames, first_names, countries, strict=False):
             country = _parse_country_code(country_raw)
             name = _combine_split_name(surname, first_name)
             if name and country:
@@ -254,7 +254,7 @@ def _parse_individual_standings(segment):
     ][:count]
     if len(countries) < count:
         return []
-    for rank, name, country_raw in zip(ranks, names, countries):
+    for rank, name, country_raw in zip(ranks, names, countries, strict=False):
         country = _parse_country_code(country_raw)
         name = _clean_line(name)
         if name and country:
@@ -477,7 +477,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_cism").start()
     try:
-        print(f"CISM scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"CISM scraper starting — {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         editions = discover_editions()
         print(f"  {len(editions)} CISM World Games fencing editions found")
@@ -511,7 +511,7 @@ def main():
                 written += 1
                 time.sleep(REQUEST_DELAY)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=written, failed=failed, skipped=skipped)
         print(f"\nDone — written={written}, skipped={skipped}, failed={failed}")
     except Exception as exc:

@@ -2,14 +2,13 @@ import math
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from datetime import UTC, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from season_utils import season_to_string
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -357,7 +356,7 @@ def build_difficulty_trend_rows(
     moving_window: int = DEFAULT_MOVING_WINDOW,
     computed_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
     moving_window = max(1, moving_window)
     tournaments_by_id = tournament_lookup(tournaments)
     result_counts = result_counts_by_tournament(result_rows or [])
@@ -589,7 +588,7 @@ def compute_difficulty_trend(
                 SOURCE,
                 "last_run",
                 {
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     "tournaments_read": summary["tournaments_read"],
                     "strength_rows_read": summary["strength_rows_read"],
                     "rankings_read": summary["rankings_read"],
@@ -612,7 +611,7 @@ def main() -> None:
     if previous_state:
         print(f"Previous difficulty trend state: {previous_state}")
 
-    print(f"Competition difficulty trend computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Competition difficulty trend computation starting - {datetime.now(UTC).isoformat()}")
     result = compute_difficulty_trend()
     print(
         "Competition difficulty trend computation complete - "

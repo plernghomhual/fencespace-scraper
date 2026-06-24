@@ -1,5 +1,5 @@
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from supabase import create_client
@@ -47,7 +47,7 @@ def set_state(source: str, key: str, value: Any) -> None:
                 "source": source,
                 "key": key,
                 "value": value,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
             on_conflict="source,key",
         ).execute()
@@ -66,7 +66,7 @@ def get_cursor(source: str, default: int = 1) -> int:
 
 
 def set_cursor(source: str, page: int, extra: dict | None = None) -> None:
-    value: dict = {"page": page, "updated_at": datetime.now(timezone.utc).isoformat()}
+    value: dict = {"page": page, "updated_at": datetime.now(UTC).isoformat()}
     if extra:
         value.update(extra)
     set_state(source, "cursor", value)

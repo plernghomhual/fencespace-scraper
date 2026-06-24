@@ -1,13 +1,13 @@
 import json
 import os
 import re
-from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -596,7 +596,7 @@ def build_fantasy_rows(
     rules: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
     rules = rules or FANTASY_SCORING_RULES
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     skips = empty_skips()
     identity_map = build_identity_map(identity_rows)
     tournaments_by_id = tournament_lookup(tournaments)
@@ -764,7 +764,7 @@ def compute_fantasy_points(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(
@@ -784,7 +784,7 @@ def main() -> None:
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous fantasy scoring state: {previous_state}")
-    print(f"Fantasy scoring computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Fantasy scoring computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_fantasy_points()
     print(
         "Fantasy scoring computation complete - "

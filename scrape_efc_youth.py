@@ -17,7 +17,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -235,7 +235,7 @@ def normalize_fie_id(value) -> str | None:
 
 
 def parse_date_range(value) -> tuple[str | None, str | None]:
-    if isinstance(value, (datetime, date)):
+    if isinstance(value, datetime | date):
         iso = value.date().isoformat() if isinstance(value, datetime) else value.isoformat()
         return iso, iso
 
@@ -921,7 +921,7 @@ def run_once(source_urls: list[str] | None = None, run_logger=None) -> dict:
 def main():
     if not SUPABASE_URL or not SUPABASE_KEY:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
-    print(f"EFC youth scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"EFC youth scraper starting - {datetime.now(UTC).isoformat()}")
     result = run_once()
     print(f"Done - written={result['written']}, failed={result['failed']}, skipped={result['skipped']}")
 

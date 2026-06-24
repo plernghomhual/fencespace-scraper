@@ -1,12 +1,11 @@
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -406,7 +405,7 @@ def build_clutch_rows(
     performance_rows: list[dict[str, Any]],
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     fencers_by_id = lookup_by_id(fencers)
     tournaments_by_id = lookup_by_id(tournaments)
     performance_by_key = performance_lookup(performance_rows)
@@ -591,7 +590,7 @@ def compute_clutch(
                 SOURCE,
                 "last_run",
                 {
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     **summary,
                     "skip_reasons": skipped[:100],
                 },
@@ -610,7 +609,7 @@ def main() -> None:
     if previous_state:
         print(f"Previous clutch state: {previous_state}")
 
-    print(f"Clutch computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Clutch computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_clutch()
     print(
         "Clutch computation complete - "

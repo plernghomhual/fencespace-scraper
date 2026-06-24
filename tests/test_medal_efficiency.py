@@ -1,6 +1,6 @@
-from typing import Any, cast
 import os
 import sys
+from typing import Any, cast
 
 import pytest
 

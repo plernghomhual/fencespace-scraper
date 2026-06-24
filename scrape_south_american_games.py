@@ -12,7 +12,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -465,7 +465,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_south_american_games").start()
     try:
-        print(f"South American Games scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"South American Games scraper starting - {datetime.now(UTC).isoformat()}")
         done_ids = set(get_state(SOURCE, "done_event_ids") or [])
         events = discover_events()
         written = failed = skipped = 0

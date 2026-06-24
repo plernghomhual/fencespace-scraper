@@ -1,10 +1,10 @@
+from collections.abc import Iterable
 from datetime import date, datetime
-from typing import Any, Iterable
+from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException
-
 
 router = APIRouter(prefix="/tournaments", tags=["tournaments"])
 
@@ -84,7 +84,7 @@ def _values(rows: Iterable[dict[str, Any] | None], keys: Iterable[str]) -> Itera
 def _clean_text(value: Any) -> str | None:
     if value is None:
         return None
-    if isinstance(value, (dict, list, tuple, set)):
+    if isinstance(value, dict | list | tuple | set):
         return None
     text = str(value).strip()
     return text or None

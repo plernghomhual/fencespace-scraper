@@ -5,18 +5,18 @@ import json
 import os
 import re
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import quote, unquote, urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
+from supabase import create_client
 
 SOURCE = "scrape_physical_stats"
 FIE_BASE_URL = "https://fie.org/athletes"
@@ -252,7 +252,7 @@ def _stats_from_json_blocks(page_html: str, iter_json_blocks: Callable[[str], It
         if isinstance(value, dict):
             for raw_key, raw_value in value.items():
                 key = normalize_label(raw_key)
-                scalar = raw_value if isinstance(raw_value, (str, int, float)) else None
+                scalar = raw_value if isinstance(raw_value, str | int | float) else None
                 if scalar is not None:
                     if values["height"] is None and key in key_groups["height"]:
                         values["height"] = parse_centimeters(scalar)
@@ -260,7 +260,7 @@ def _stats_from_json_blocks(page_html: str, iter_json_blocks: Callable[[str], It
                         values["weight"] = parse_kilograms(scalar)
                     elif values["reach"] is None and key in key_groups["reach"]:
                         values["reach"] = parse_centimeters(scalar)
-                if isinstance(raw_value, (dict, list)):
+                if isinstance(raw_value, dict | list):
                     walk(raw_value)
         elif isinstance(value, list):
             for item in value:
@@ -423,8 +423,8 @@ def was_already_attempted(row: dict[str, Any]) -> bool:
         try:
             attempted_at = datetime.fromisoformat(str(attempted_at_str).replace("Z", "+00:00"))
             if attempted_at.tzinfo is None:
-                attempted_at = attempted_at.replace(tzinfo=timezone.utc)
-            return (datetime.now(timezone.utc) - attempted_at).days < FORCE_RESCRAPE_AFTER_DAYS
+                attempted_at = attempted_at.replace(tzinfo=UTC)
+            return (datetime.now(UTC) - attempted_at).days < FORCE_RESCRAPE_AFTER_DAYS
         except Exception:
             return True
     return True
@@ -514,7 +514,7 @@ def scrape_physical_stats(
 ) -> dict[str, Any]:
     client = client or get_supabase_client()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    timestamp = now or (lambda: datetime.now(timezone.utc).isoformat())
+    timestamp = now or (lambda: datetime.now(UTC).isoformat())
     session = requests.Session()
     session.headers.update(HEADERS)
     fie_fetcher = fie_fetcher or (lambda fie_id: fetch_fie_physical_stats(fie_id, session))

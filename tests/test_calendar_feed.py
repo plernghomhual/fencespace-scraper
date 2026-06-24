@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta, timezone
 
 import pytest
 
@@ -59,7 +59,7 @@ def test_ics_generation_uses_stable_uid_and_all_day_dates():
     ics = calendar_feed.generate_ics_feed(
         TOURNAMENT_ROWS,
         filters=filters,
-        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=timezone.utc),
+        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=UTC),
         calendar_name="FenceSpace FIE Epee",
     )
 
@@ -81,7 +81,7 @@ def test_ics_generation_uses_stable_uid_and_all_day_dates():
     renamed_ics = calendar_feed.generate_ics_feed(
         renamed,
         filters=filters,
-        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=timezone.utc),
+        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=UTC),
     )
     assert "UID:fencespace-9cb3c3872cb018e9340f1de9d210c8f1@calendar.fencespace.app\r\n" in renamed_ics
 
@@ -134,7 +134,7 @@ def test_empty_feed_is_valid_calendar_without_events():
     ics = calendar_feed.generate_ics_feed(
         [],
         filters=calendar_feed.validate_calendar_filters(country="USA"),
-        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=timezone.utc),
+        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=UTC),
         calendar_name="FenceSpace Empty",
     )
 
@@ -288,7 +288,7 @@ def test_api_compatible_client_helper_applies_filters_and_capped_range():
         date_from="2026-01-01",
         date_to="2026-12-31",
         limit=99999,
-        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=timezone.utc),
+        generated_at=datetime(2026, 6, 2, 12, 0, tzinfo=UTC),
     )
 
     assert fake.tables == ["fs_tournaments"]

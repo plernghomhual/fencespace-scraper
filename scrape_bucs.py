@@ -19,13 +19,13 @@ the public web-probed structures above and deterministic blocked-path handling.
 """
 from __future__ import annotations
 
-from typing import Any
 import io
 import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -33,7 +33,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -509,7 +508,7 @@ def _parse_bucs_team_match(line, source_url, season):
 
 def parse_big_wednesday_pdf_text(text, source_url):
     year_match = re.search(r"BUCS\s+BIG\s+WEDNESDAY\s+((?:19|20)\d{2})", text or "", re.I)
-    year = int(year_match.group(1)) if year_match else datetime.now(timezone.utc).year
+    year = int(year_match.group(1)) if year_match else datetime.now(UTC).year
     season = season_ending_in(year)
     events = []
     for raw_line in (text or "").splitlines():
@@ -753,7 +752,7 @@ def result_row_for_db(tournament_id, event, result, fencer_id, match_method):
         "medal": medal_for_rank(result.get("rank")),
         "fencer_id": fencer_id,
         "metadata": metadata,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
     if result.get("fie_id"):
         row["fie_fencer_id"] = str(result["fie_id"])
@@ -810,7 +809,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_bucs").start()
     try:
-        print(f"BUCS scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"BUCS scraper starting - {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         events, blocked_stubs = discover_events()
         print(f"  {len(events)} public events found; {len(blocked_stubs)} blocked sources")
@@ -838,7 +837,7 @@ def main():
             SOURCE,
             "last_run",
             {
-                "finished_at": datetime.now(timezone.utc).isoformat(),
+                "finished_at": datetime.now(UTC).isoformat(),
                 "events": len(events),
                 "blocked_sources": blocked_stubs,
             },

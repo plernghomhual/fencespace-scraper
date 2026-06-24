@@ -1,6 +1,5 @@
 import requests
 
-
 FIXTURE_RANKING_HTML = """
 <html>
   <body>

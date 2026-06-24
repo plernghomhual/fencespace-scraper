@@ -4,7 +4,7 @@ import time
 import unicodedata
 import uuid
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -498,7 +498,7 @@ def build_review_row(
     normalized = club.normalized_name or normalize_club_name(club.name)
     if not normalized:
         raise ValueError(f"Cannot normalize club name: {club.name!r}")
-    scraped = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped = scraped_at or datetime.now(UTC).isoformat()
     source = clean_text(review.get("source"))
     if not source:
         raise ValueError("Review source is required")
@@ -620,7 +620,7 @@ def main() -> None:
             "last_run",
             {
                 **summary,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
         )
         run_log.complete(

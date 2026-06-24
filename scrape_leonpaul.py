@@ -3,8 +3,9 @@ from __future__ import annotations
 import html
 import os
 import re
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -13,7 +14,6 @@ from bs4 import BeautifulSoup
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from scripts.rate_limiter import RateLimiter
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -185,7 +185,7 @@ def parse_listing_products(
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
     soup = BeautifulSoup(listing_html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     seen: set[str] = set()
 
@@ -394,7 +394,7 @@ def build_product_row(
         "product_url": first_non_empty(detail.get("product_url"), listing.get("product_url")),
         "stock_status": first_non_empty(detail.get("stock_status"), listing.get("stock_status"), "unknown"),
         "metadata": {key: value for key, value in metadata.items() if value is not None},
-        "scraped_at": scraped_at or listing.get("scraped_at") or datetime.now(timezone.utc).isoformat(),
+        "scraped_at": scraped_at or listing.get("scraped_at") or datetime.now(UTC).isoformat(),
     }
     if row["price"] is None and "missing_price_reason" not in row["metadata"]:
         row["metadata"]["missing_price_reason"] = "price_not_found"
@@ -520,7 +520,7 @@ def scrape_leonpaul(
             "written": written,
             "failed": failed,
             "skipped": skipped,
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
         }
         if isinstance(previous_state, dict) and previous_state.get("scraped_at"):
             summary["previous_scraped_at"] = previous_state["scraped_at"]
@@ -536,7 +536,7 @@ def scrape_leonpaul(
 
 
 def main() -> None:
-    print(f"Leon Paul product scrape starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Leon Paul product scrape starting - {datetime.now(UTC).isoformat()}")
     summary = scrape_leonpaul()
     print(
         "Leon Paul product scrape complete - "

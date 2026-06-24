@@ -1,8 +1,7 @@
-from typing import cast
 from datetime import datetime
+from typing import cast
 
 import pytest
-
 
 SLO_PDF_TEXT = """
 Rang lestvice - SZS Meč

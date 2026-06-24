@@ -4,12 +4,11 @@ import os
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any, cast
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "compute_home_advantage"
 PAGE_SIZE = 1000
@@ -268,7 +267,7 @@ def metadata_dict(row: dict[str, Any] | None) -> dict[str, Any]:
 
 
 def split_country_values(value: Any) -> list[str]:
-    if isinstance(value, (list, tuple, set)):
+    if isinstance(value, list | tuple | set):
         parts: list[str] = []
         for item in value:
             parts.extend(split_country_values(item))
@@ -644,7 +643,7 @@ def build_home_advantage_rows(
     fencers_by_id = lookup_by_id(fencers)
     tournaments_by_id = lookup_by_id(tournaments)
     history_by_fencer = histories_by_fencer(nationality_histories)
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
 
     preliminary_rows: list[dict[str, Any]] = []
     skipped = 0
@@ -730,7 +729,7 @@ def build_home_advantage_aggregate_rows(
     *,
     updated_at: str | None = None,
 ) -> list[dict[str, Any]]:
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
     grouped: dict[tuple[Any, ...], list[dict[str, Any]]] = defaultdict(list)
     for row in detail_rows:
         grouped[
@@ -868,7 +867,7 @@ def compute_home_advantage(
     client = client or get_supabase_client()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
     get_state(SOURCE, "last_run") if update_state else None
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
 
     try:
         results, fencers, tournaments, history_rows = load_inputs(client, page_size=page_size)
@@ -922,7 +921,7 @@ def compute_home_advantage(
 
 
 def main() -> None:
-    print(f"Home advantage computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Home advantage computation starting - {datetime.now(UTC).isoformat()}")
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous home advantage state: {previous_state}")

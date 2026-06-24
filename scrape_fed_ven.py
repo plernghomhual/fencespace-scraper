@@ -24,8 +24,8 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -368,7 +368,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY, using season_utils if present."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
     try:
         import season_utils  # type: ignore
@@ -460,7 +460,7 @@ def main() -> None:
                 "season": season,
                 "written": total_written,
                 "failed": total_failed,
-                "completed_at": datetime.now(timezone.utc).isoformat(),
+                "completed_at": datetime.now(UTC).isoformat(),
                 "metadata": metadata,
             },
         )

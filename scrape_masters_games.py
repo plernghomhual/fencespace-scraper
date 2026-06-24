@@ -7,13 +7,13 @@ Probe notes (2026-06-01):
     - All-fencing-results-2019.pdf: extractable PDF text.
   Olympedia search: no World Masters Games fencing result tables found.
 """
-from typing import Any
 import io
 import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import pdfplumber
@@ -556,7 +556,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_masters_games").start()
     try:
-        print(f"Masters Games scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Masters Games scraper starting - {datetime.now(UTC).isoformat()}")
         done_ids = set(get_state(SOURCE, "done_event_ids") or [])
         sources = discover_imga_sources()
         print(f"  {len(sources)} IMGA fencing sources found")

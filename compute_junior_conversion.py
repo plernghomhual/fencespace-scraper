@@ -5,7 +5,7 @@ import os
 import re
 import unicodedata
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -407,7 +407,7 @@ def build_junior_conversion_report(
     windows: tuple[int, ...] | list[int] = DEFAULT_WINDOWS,
     computed_at: str | None = None,
 ) -> dict[str, Any]:
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
     windows = valid_windows(windows)
     identity_index = build_identity_index(fencers, identities)
     tournaments_by_id = tournament_lookup(tournaments)
@@ -652,7 +652,7 @@ def compute_junior_conversion(
                 "last_run",
                 {
                     **summary,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -665,7 +665,7 @@ def compute_junior_conversion(
 
 
 def main() -> None:
-    print(f"Junior conversion computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Junior conversion computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_junior_conversion()
     print(
         "Junior conversion computation complete - "

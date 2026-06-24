@@ -3,7 +3,7 @@ import os
 import re
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -255,7 +255,7 @@ def build_h2h_graph_rows(
     max_nodes: int = DEFAULT_MAX_NODES,
     max_opponents: int = DEFAULT_MAX_OPPONENTS,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = build_tournament_lookup(tournaments)
     fencer_lookup = build_fencer_lookup(fencers)
     row_to_key, node_info = build_identity_lookup(identity_rows, fencers)
@@ -491,7 +491,7 @@ def compute_h2h_graph(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=summary["skipped"], metadata=summary)
@@ -513,7 +513,7 @@ def main() -> None:
         set_state(
             SOURCE,
             "last_run",
-            {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+            {"updated_at": datetime.now(UTC).isoformat(), **summary},
         )
         run_log.complete(
             written=summary["written"],

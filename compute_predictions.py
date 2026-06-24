@@ -3,12 +3,11 @@ import math
 import os
 import re
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -843,7 +842,7 @@ def build_prediction_rows(
     apply_current_activity_penalty: bool = True,
     exclude_tournament_id: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     performance_by_key = build_performance_lookup(performance_rows or [])
     strength_by_tournament = build_strength_lookup(strength_rows or [])
@@ -978,7 +977,7 @@ def build_backtest_rows(
     model_version: str = MODEL_VERSION,
     top_n: int = 20,
 ) -> list[dict[str, Any]]:
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for event in target_events:
         actuals = actual_rankings_for_event(event, results)
@@ -1094,10 +1093,10 @@ def compute_predictions(
     log_run: bool = True,
     update_state: bool = True,
 ) -> dict[str, int]:
-    generated_at = generated_at or datetime.now(timezone.utc).isoformat()
-    today_date = parse_date(today) if today is not None else datetime.now(timezone.utc).date()
+    generated_at = generated_at or datetime.now(UTC).isoformat()
+    today_date = parse_date(today) if today is not None else datetime.now(UTC).date()
     if today_date is None:
-        today_date = datetime.now(timezone.utc).date()
+        today_date = datetime.now(UTC).date()
     client = client or get_supabase_client()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
 
@@ -1178,7 +1177,7 @@ def compute_predictions(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
@@ -1190,7 +1189,7 @@ def compute_predictions(
 
 
 def main() -> None:
-    print(f"Prediction computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Prediction computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_predictions()
     print(
         "Prediction computation complete - "

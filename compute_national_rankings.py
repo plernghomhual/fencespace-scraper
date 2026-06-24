@@ -2,12 +2,12 @@ import os
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime, timezone
-from typing import Any, Callable
-
-from supabase import create_client
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 from run_logger import ScraperRunLogger
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -382,7 +382,7 @@ def compute_country_rankings(fencers: list[dict[str, Any]]) -> list[dict[str, An
         if 1 <= world_rank <= 8:
             grouped[key]["top8_count"] += 1
 
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     return [
         {
             "country": country,
@@ -397,7 +397,7 @@ def compute_country_rankings(fencers: list[dict[str, Any]]) -> list[dict[str, An
 
 
 def main() -> None:
-    started_at = datetime.now(timezone.utc).isoformat()
+    started_at = datetime.now(UTC).isoformat()
     print(f"National rankings computation starting - {started_at}")
     run_log = ScraperRunLogger("compute_national_rankings").start()
     ensure_schema()
@@ -416,7 +416,7 @@ def main() -> None:
     print(f"Computed results scores for {len(result_scores)} fencers ({unmatched_results} top-8 rows unmatched)")
 
     valid_fencer_ids = {f["id"] for f in fencers if (f.get("name") or "").strip()}
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     fencer_updates = [
         {
             "id": fencer_id,

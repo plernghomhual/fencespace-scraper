@@ -3,9 +3,9 @@ import os
 import re
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Callable, Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -214,7 +214,7 @@ def base_record(
         "source_url": source_url,
         "source_kind": source_kind,
         "metadata": metadata or {},
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -571,7 +571,7 @@ def scrape_doping(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

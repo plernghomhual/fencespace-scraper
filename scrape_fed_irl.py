@@ -21,7 +21,7 @@ import io
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -440,7 +440,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start_year = now.year - 1 if now.month < 7 else now.year
     season = f"{start_year}-{start_year + 1}"
     try:
@@ -546,7 +546,7 @@ def main() -> None:
             "skipped_combos": skipped_combos,
             "source_url": SENIOR_RANKINGS_URL,
             "data_format": DATA_FORMAT,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
 

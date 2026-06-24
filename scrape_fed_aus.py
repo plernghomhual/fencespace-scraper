@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -265,7 +265,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     raw_season = f"{now.year - 1}-{now.year}" if now.month < 7 else f"{now.year}-{now.year + 1}"
     try:
         from season_utils import normalize_season

@@ -1,8 +1,7 @@
-from typing import Any
 from pathlib import Path
+from typing import Any
 
 import pytest
-
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = "2026-06-02T00:00:00+00:00"
@@ -154,7 +153,12 @@ def test_parse_allstar_shopware_listing_keeps_allstar_brand_and_eur_price():
 
 
 def test_parse_uhlmann_listing_and_detail_prefers_detail_product_number():
-    from scrape_allstar_uhlmann import UHLMANN_FENCING_SUITS, build_product_row, parse_listing_products, parse_product_detail
+    from scrape_allstar_uhlmann import (
+        UHLMANN_FENCING_SUITS,
+        build_product_row,
+        parse_listing_products,
+        parse_product_detail,
+    )
 
     listing_rows = parse_listing_products(UHLMANN_LISTING_HTML, UHLMANN_FENCING_SUITS, scraped_at=NOW)
     detail = parse_product_detail(

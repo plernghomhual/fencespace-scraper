@@ -9,9 +9,9 @@ Fixtures reflect the probed public South Africa ranking structure:
   - Detail table headers: Rank | Points | T-P | Name | Nation | Clubs | YOB
 """
 
-from typing import cast
 import os
 import sys
+from typing import cast
 
 import requests
 

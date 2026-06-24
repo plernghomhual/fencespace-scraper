@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin
 
@@ -76,7 +76,7 @@ _FETCH_REASONS: dict[tuple[str, str, str], str] = {}
 
 
 def _fallback_current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year - 1}-{year}" if now.month < 7 else f"{year}-{year + 1}"
 
@@ -275,7 +275,7 @@ def discover_ranking_urls() -> dict[tuple[str, str, str], str]:
         if len(links) < 6:
             continue
 
-        for (weapon, gender), url in zip(_OPHARDT_LINK_ORDER, links[:6]):
+        for (weapon, gender), url in zip(_OPHARDT_LINK_ORDER, links[:6], strict=False):
             discovered[(weapon, gender, category)] = url
 
     _DISCOVERED_URLS = discovered

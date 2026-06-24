@@ -1,7 +1,6 @@
 import pytest
 import requests
 
-
 FIXTURE_PUBLIC_HTML = """
 <html>
 <body>

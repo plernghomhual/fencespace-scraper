@@ -2,9 +2,10 @@ import io
 import os
 import re
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse, urlunparse
 
 import requests
@@ -410,7 +411,7 @@ def parse_directory_html(
     source: PhotographerSource,
     scraped_at: str | None = None,
 ) -> list[dict]:
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     soup = BeautifulSoup(html, "html.parser")
     text = clean_text(soup.get_text("\n", strip=True))
     lowered = ascii_lower(text)
@@ -431,7 +432,7 @@ def parse_directory_text(
     source: PhotographerSource,
     scraped_at: str | None = None,
 ) -> list[dict]:
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     lines = text_lines(text)
     blocks: list[str] = []
     for index, line in enumerate(lines):
@@ -457,7 +458,7 @@ def parse_gallery_html(
     source: PhotographerSource,
     scraped_at: str | None = None,
 ) -> list[dict]:
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     soup = BeautifulSoup(html, "html.parser")
     text = clean_text(soup.get_text("\n", strip=True))
     descriptions = [
@@ -652,7 +653,7 @@ def scrape_photographer_directory(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

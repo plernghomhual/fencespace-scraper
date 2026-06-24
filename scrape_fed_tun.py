@@ -17,7 +17,7 @@ import json
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlencode
 
 import requests
@@ -85,7 +85,7 @@ SKIP_VALUES = {
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY, using season_utils when present."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
 
     try:
@@ -380,7 +380,7 @@ def main():
                 "attempted_combos": len(RANKING_COMBOS),
                 "failed_combos": failed_combos,
                 "skipped_combos": skipped_combos,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
         )
         run_log.complete(written=total_written, failed=total_failed, skipped=total_skipped)

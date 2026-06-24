@@ -1,6 +1,5 @@
 import pytest
 
-
 PUBLIC_REVIEW_FIXTURE = """
 <html>
   <head>

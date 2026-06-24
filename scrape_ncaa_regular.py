@@ -1,4 +1,3 @@
-from typing import Any
 import io
 import os
 import re
@@ -7,7 +6,8 @@ import unicodedata
 import uuid
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import pdfplumber
@@ -16,7 +16,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -130,7 +129,7 @@ def slugify(value):
 
 
 def recent_seasons(current_year=None, count=5):
-    year = current_year or datetime.now(timezone.utc).year
+    year = current_year or datetime.now(UTC).year
     seasons: list[Any] = []
     while len(seasons) < count:
         if year != 2020:
@@ -551,7 +550,7 @@ def load_fencer_index(client):
 
 
 def utc_now():
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def build_tournament_row(meet):

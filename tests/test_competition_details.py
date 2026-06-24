@@ -1,7 +1,7 @@
-from typing import Any, cast
 import os
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 import pytest
 

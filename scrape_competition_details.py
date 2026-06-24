@@ -4,8 +4,9 @@ import os
 import re
 import time
 from collections import Counter
-from datetime import datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -911,7 +912,7 @@ def parse_competition_detail_page(
         "participant_count": extract_participant_count(competition, athletes),
         "countries_represented": count_countries(athletes),
         "metadata": metadata,
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -1008,14 +1009,14 @@ def find_tournaments_needing_details(client, limit: int | None = None) -> list[d
 def normalize_season(value: Any) -> int:
     text = clean_text(value)
     if not text:
-        return datetime.now(timezone.utc).year
+        return datetime.now(UTC).year
     try:
         return int(float(text))
     except ValueError:
         years = re.findall(r"\d{4}", text)
         if years:
             return int(years[-1])
-    return datetime.now(timezone.utc).year
+    return datetime.now(UTC).year
 
 
 def detail_url(season: int, competition_url_id: Any) -> str:
@@ -1104,7 +1105,7 @@ def scrape_competition_details(
                     "written": written,
                     "failed": failed,
                     "skipped": skipped,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

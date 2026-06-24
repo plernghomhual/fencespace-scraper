@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Callable
 from datetime import date, datetime
-from typing import Any, Callable
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query
-
 
 DEFAULT_LIMIT = 50
 MAX_LIMIT = 500
@@ -253,9 +253,9 @@ def sanitize_public_value(value: Any) -> Any:
     if isinstance(value, list):
         public_items = [sanitized for item in value if (sanitized := sanitize_public_value(item)) is not None]
         return public_items or None
-    if isinstance(value, (str, int, float, bool)) or value is None:
+    if isinstance(value, str | int | float | bool) or value is None:
         return value
-    if isinstance(value, (datetime, date)):
+    if isinstance(value, datetime | date):
         return normalize_date(value)
     return clean_text(value)
 

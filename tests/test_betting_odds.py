@@ -1,5 +1,5 @@
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 
 import pytest
@@ -81,7 +81,7 @@ def test_parser_builds_informational_rows_and_explicitly_tracks_skipped_markets(
     result = parse_odds_payload(
         CAPTURED_PUBLIC_ODDS_FIXTURE,
         source,
-        scraped_at=datetime(2026, 6, 2, 12, 30, tzinfo=timezone.utc),
+        scraped_at=datetime(2026, 6, 2, 12, 30, tzinfo=UTC),
         stale_after_minutes=60,
     )
 

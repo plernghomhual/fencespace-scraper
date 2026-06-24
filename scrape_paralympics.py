@@ -11,7 +11,7 @@ Probe summary (2026-06-01):
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin, urlparse
 
@@ -460,7 +460,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_paralympics").start()
     try:
-        print(f"Paralympics scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Paralympics scraper starting — {datetime.now(UTC).isoformat()}")
         done_keys = set(get_state(SOURCE, "done_event_keys") or [])
         print(f"  {len(done_keys)} events already done")
 
@@ -515,7 +515,7 @@ def main():
 
             time.sleep(REQUEST_DELAY)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=written, failed=failed, skipped=skipped)
         print(f"\nDone — written={written}, skipped={skipped}, failed={failed}")
     except Exception as exc:

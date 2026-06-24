@@ -11,7 +11,6 @@ from scripts.match_orphan_results import (
     write_unmatched_log,
 )
 
-
 FENCERS = [
     {"id": "fie-priority", "fie_id": "111", "name": "Wrong Name", "country": "France", "metadata": {}},
     {"id": "exact", "fie_id": "222", "name": "Lee Kiefer", "country": "United States", "metadata": {}},

@@ -7,13 +7,13 @@ import calendar
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scripts.rate_limiter import RateLimiter as _RateLimiter
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -157,10 +157,10 @@ def competition_row(c: dict) -> dict:
 
 
 def scrape_fie_events():
-    print(f"FIE events discovery starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"FIE events discovery starting - {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_fie_events").start()
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     current_year = now.year
     current_month = now.month
 

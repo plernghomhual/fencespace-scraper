@@ -9,9 +9,10 @@ from __future__ import annotations
 
 import os
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urlparse
 
 import requests
@@ -19,7 +20,6 @@ import requests
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
 from scripts.rate_limiter import RateLimiter
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -281,11 +281,11 @@ def parse_posted_at(raw: dict[str, Any]) -> str | None:
     )
     if value in (None, ""):
         return None
-    if isinstance(value, (int, float)) or clean_text(value).isdigit():
+    if isinstance(value, int | float) or clean_text(value).isdigit():
         seconds = int(value)
         if seconds > 9_999_999_999:
             seconds = seconds // 1000
-        return datetime.fromtimestamp(seconds, tz=timezone.utc).isoformat()
+        return datetime.fromtimestamp(seconds, tz=UTC).isoformat()
 
     text = clean_text(value)
     if text.endswith("Z"):
@@ -295,8 +295,8 @@ def parse_posted_at(raw: dict[str, Any]) -> str | None:
     except ValueError:
         return None
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc).isoformat()
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC).isoformat()
 
 
 def _int_or_none(value: Any) -> int | None:
@@ -642,7 +642,7 @@ def collect_tiktok_fencing(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=failed, skipped=skipped, metadata=summary)

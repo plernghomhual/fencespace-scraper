@@ -31,13 +31,13 @@ import os
 import re
 import uuid
 from collections import Counter
-from datetime import date, datetime, time, timezone
+from collections.abc import Callable
+from datetime import UTC, date, datetime, time, timezone
 from decimal import Decimal
-from typing import Any, Callable
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -164,7 +164,7 @@ def parse_datetime(value: Any, end_of_day: bool = False) -> datetime | None:
     text = text.replace("Z", "+00:00")
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
         parsed_time = time.max if end_of_day else time.min
-        return datetime.combine(date.fromisoformat(text), parsed_time, tzinfo=timezone.utc)
+        return datetime.combine(date.fromisoformat(text), parsed_time, tzinfo=UTC)
     try:
         parsed = datetime.fromisoformat(text)
     except ValueError:
@@ -175,8 +175,8 @@ def parse_datetime(value: Any, end_of_day: bool = False) -> datetime | None:
         parsed_time = time.max if end_of_day else time.min
         parsed = datetime.combine(parsed_date, parsed_time)
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
 
 def active_roster_row(row: dict[str, Any]) -> bool:
@@ -404,7 +404,7 @@ def upset_bonus_points(result: dict[str, Any], rules: dict[str, Any]) -> int:
         if isinstance(tier, dict):
             threshold = to_positive_int(tier.get("improvement"))
             points = to_int(tier.get("points"))
-        elif isinstance(tier, (list, tuple)) and len(tier) == 2:
+        elif isinstance(tier, list | tuple) and len(tier) == 2:
             threshold = to_positive_int(tier[0])
             points = to_int(tier[1])
         else:
@@ -541,7 +541,7 @@ def compute_weekly_scores(
     if issues:
         raise FantasyValidationError(issues)
 
-    now = scored_at or datetime.now(timezone.utc).isoformat()
+    now = scored_at or datetime.now(UTC).isoformat()
     lid = league_id(league)
     period_id = clean_text(period.get("id"))
     rules = rules_for_league(league)
@@ -719,7 +719,7 @@ def score_fantasy_period(
                 SOURCE,
                 "last_run",
                 {
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     "league_id": league_id_value,
                     "period_key": period_key,
                     **summary,

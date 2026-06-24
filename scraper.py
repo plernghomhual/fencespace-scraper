@@ -1,13 +1,15 @@
-import os
-import requests
-from supabase import create_client, Client
-from datetime import datetime, date as date_obj, timezone
-import time
 import calendar
+import os
 import re
+import time
+from datetime import UTC, datetime, timezone
+from datetime import date as date_obj
+
+import requests
 
 from run_logger import ScraperRunLogger
 from season_utils import current_fie_season
+from supabase import Client, create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -227,7 +229,7 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                 hand_raw = str(f.get("hand") or "").strip().lower()
                 hand = "right" if hand_raw in {"r", "right"} else "left" if hand_raw in {"l", "left"} else None
                 height_raw = f.get("height")
-                height = int(height_raw) if isinstance(height_raw, (int, float)) and height_raw > 0 else None
+                height = int(height_raw) if isinstance(height_raw, int | float) and height_raw > 0 else None
                 dob_raw = clean_text(f.get("date"))
                 rows.append({
                     "fie_id": fie_id,
@@ -241,7 +243,7 @@ def scrape_rankings(weapon: str, gender: str, category: str, label: str):
                     "date_of_birth": dob_raw if dob_raw and re.match(r"^\d{4}-\d{2}-\d{2}$", dob_raw) else None,
                     "hand": hand,
                     "height": height,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 })
             collected_rows.extend(rows)
             total += len(athletes)
@@ -337,7 +339,7 @@ def scrape_competitions():
     print("Scraping competitions...")
     s = make_comp_session()
     all_rows = []
-    for year in range(2010, datetime.now(timezone.utc).year + 1):
+    for year in range(2010, datetime.now(UTC).year + 1):
         for month in range(1, 13):
             last_day = calendar.monthrange(year, month)[1]
             from_d = f"{year}-{str(month).zfill(2)}-01"
@@ -404,7 +406,7 @@ def scrape_competitions():
 
 
 def main():
-    print(f"FenceSpace scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    print(f"FenceSpace scraper starting — {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scraper").start()
     total_fencers = 0
     try:

@@ -14,14 +14,14 @@ import os
 import re
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
-from supabase import Client, create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import Client, create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -509,7 +509,7 @@ def parse_pool_bouts_from_html(tournament_id: Any, html: str, source_url: str) -
 
 
 def fetch_competition_page(session: requests.Session, tournament: dict[str, Any]) -> tuple[str, str]:
-    season = tournament.get("season") or datetime.now(timezone.utc).year
+    season = tournament.get("season") or datetime.now(UTC).year
     competition_url_id = tournament.get("competition_url_id") or tournament.get("fie_id")
     url = f"{FIE_BASE}/competitions/{season}/{competition_url_id}"
     response = session.get(url, headers=HEADERS, timeout=25)
@@ -719,7 +719,7 @@ def scrape_fie_pools(limit: int | None = None) -> dict[str, Any]:
     session.headers.update(HEADERS)
 
     previous_state = get_state(SOURCE, "last_run") or {}
-    print(f"FIE pool scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"FIE pool scraper starting - {datetime.now(UTC).isoformat()}")
     if previous_state:
         print(f"Previous state: {previous_state}")
 
@@ -759,7 +759,7 @@ def scrape_fie_pools(limit: int | None = None) -> dict[str, Any]:
                     _fie_limiter.record_failure("fie.org")
 
         state = {
-            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "completed_at": datetime.now(UTC).isoformat(),
             "written": written,
             "failed": failed,
             "skipped": skipped,

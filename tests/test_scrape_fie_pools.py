@@ -5,7 +5,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import scrape_fie_pools as pools
 
-
 NORMAL_POOL_HTML = """
 <html><body>
 <script>

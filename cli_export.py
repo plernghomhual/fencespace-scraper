@@ -7,7 +7,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
 DEFAULT_PAGE_SIZE = 1000
@@ -28,7 +27,7 @@ def _apply_eq(query, column: str, value: Any):
 
 
 def _jsonable_value(value: Any) -> Any:
-    if isinstance(value, (dict, list)):
+    if isinstance(value, dict | list):
         return json.dumps(value, sort_keys=True)
     return value
 

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pytest
 
-
 SERBIAN_HTML_FIXTURE = """
 <html>
   <body>

@@ -2,13 +2,12 @@ import os
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
-
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import create_client
 
 MODULE_NAME = "compute_country_analytics"
 PAGE_SIZE = 1000
@@ -134,7 +133,7 @@ def compute_country_depth(
             continue
         grouped[(country, weapon, category)].append(rank)
 
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for (country, weapon, category), ranks in sorted(grouped.items()):
         total_ranked = len(ranks)
@@ -173,7 +172,7 @@ def compute_club_rankings(
         grouped[key]["ranks"].append(rank)
         grouped[key]["total_points"] += numeric(fencer.get("fie_points")) or 0.0
 
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for (club, country, weapon), values in sorted(grouped.items()):
         ranks = values["ranks"]
@@ -244,7 +243,7 @@ def compute_country_analytics(
 
     try:
         client = client or get_supabase_client()
-        timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+        timestamp = updated_at or datetime.now(UTC).isoformat()
         fencers = fetch_all_fencers(client, page_size=page_size)
 
         country_rows = compute_country_depth(fencers, updated_at=timestamp)

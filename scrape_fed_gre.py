@@ -19,7 +19,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -131,14 +131,14 @@ _RANKING_LINK_CACHE: dict[str, dict[tuple[str, str, str], str]] = {}
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return normalize_season(season_to_string(season_end_year))
 
 
 def _season_year(season: str) -> str:
     match = re.search(r"(\d{4})\s*$", season)
-    return match.group(1) if match else str(datetime.now(timezone.utc).year)
+    return match.group(1) if match else str(datetime.now(UTC).year)
 
 
 def _compact_text(value: str) -> str:

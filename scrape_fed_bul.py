@@ -16,7 +16,7 @@ from __future__ import annotations
 import csv
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from io import StringIO
 
 import requests
@@ -342,7 +342,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     season = f"{season_end_year - 1}-{season_end_year}"
     if season_to_string is not None:
@@ -416,7 +416,7 @@ def main() -> None:
             "source_page": BASE_URL,
             "response_format": "text/csv",
             "previous_state": previous_state,
-            "completed_at": datetime.now(timezone.utc).isoformat(),
+            "completed_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", summary)
         run_log.complete(
@@ -435,7 +435,7 @@ def main() -> None:
         set_state(
             SOURCE,
             "last_error",
-            {"season": season, "error": str(exc), "at": datetime.now(timezone.utc).isoformat()},
+            {"season": season, "error": str(exc), "at": datetime.now(UTC).isoformat()},
         )
         run_log.error(str(exc))
         raise

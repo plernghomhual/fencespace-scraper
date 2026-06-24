@@ -16,7 +16,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -784,7 +784,7 @@ def main():
             time.sleep(REQUEST_DELAY)
 
         skipped += len(skipped_sources)
-        set_state(SOURCE, "last_run", {"at": datetime.now(timezone.utc).isoformat(), "events": len(events), "skipped_sources": skipped_sources})
+        set_state(SOURCE, "last_run", {"at": datetime.now(UTC).isoformat(), "events": len(events), "skipped_sources": skipped_sources})
         run_log.complete(written=written, failed=failed, skipped=skipped, metadata={"events": len(events), "skipped_sources": skipped_sources[:50]})
         print(f"Done - written={written}, failed={failed}, skipped={skipped}")
     except Exception as exc:

@@ -9,7 +9,7 @@ import time
 import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urlparse
 
@@ -337,7 +337,7 @@ def _iter_window_json_blocks(page_html: str):
 
 def _iter_json_label_candidates(page_html: str):
     def scalar(value: Any) -> str | None:
-        if isinstance(value, (str, int, float)):
+        if isinstance(value, str | int | float):
             return clean_text(value)
         return None
 
@@ -367,7 +367,7 @@ def _iter_json_label_candidates(page_html: str):
                 direct_value = scalar(raw_item)
                 if key_label and direct_value and _is_hand_label(key_label):
                     yield key_label, direct_value, "json_direct_key"
-                if isinstance(raw_item, (dict, list)):
+                if isinstance(raw_item, dict | list):
                     yield from walk(raw_item)
         elif isinstance(value, list):
             for item in value:
@@ -614,7 +614,7 @@ def build_handedness_rows(
     *,
     collected_at: str | None = None,
 ) -> list[dict[str, Any]]:
-    collected = collected_at or datetime.now(timezone.utc).isoformat()
+    collected = collected_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for fencer_id in sorted(fencer_ids):
         metadata = dict(observation.metadata)
@@ -943,7 +943,7 @@ def scrape_handedness(
     ambiguous_log: list[dict[str, Any]] = []
     skipped = 0
     rows: list[dict[str, Any]] = []
-    collected_at = datetime.now(timezone.utc).isoformat()
+    collected_at = datetime.now(UTC).isoformat()
     for observation in observations:
         fencer_ids = match_observation_to_fencers(
             observation,
@@ -1010,7 +1010,7 @@ def main() -> None:
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         run_log.complete(

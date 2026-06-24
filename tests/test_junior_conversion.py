@@ -4,7 +4,6 @@ import pytest
 
 from compute_junior_conversion import build_junior_conversion_report, compute_junior_conversion
 
-
 IDENTITY_A = "00000000-0000-0000-0000-0000000000a0"
 ROW_A_JUNIOR = "00000000-0000-0000-0000-0000000000a1"
 ROW_A_SENIOR = "00000000-0000-0000-0000-0000000000a2"

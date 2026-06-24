@@ -17,12 +17,12 @@ Category codes: senior, junior, cadet (and veteran variants — not included in 
 """
 
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 
-from run_logger import ScraperRunLogger
 from fed_rankings_common import build_ranking_row, write_rankings
+from run_logger import ScraperRunLogger
 from season_utils import season_to_string
 
 SOURCE = "cff_canada"
@@ -147,7 +147,7 @@ def fetch_all_rankings() -> list[dict] | None:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return season_to_string(season_end_year)
 

@@ -1,6 +1,6 @@
-from pathlib import Path
 import os
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -44,7 +44,7 @@ def result(fencer_id, tournament_id, rank, **overrides):
 
 
 def test_build_trending_rows_scores_rank_jumps_medals_and_missing_social_data():
-    from compute_trending_fencers import build_trending_rows, build_identity_indexes
+    from compute_trending_fencers import build_identity_indexes, build_trending_rows
 
     identity_indexes = build_identity_indexes(
         [

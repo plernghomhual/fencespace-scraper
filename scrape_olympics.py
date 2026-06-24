@@ -9,7 +9,7 @@ URL structure (verified 2026-05-29):
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -311,7 +311,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_olympics").start()
     try:
-        print(f"Olympics scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Olympics scraper starting — {datetime.now(UTC).isoformat()}")
 
         done_ids = set(get_state(SOURCE, "done_result_ids") or [])
         print(f"  {len(done_ids)} result IDs already done")

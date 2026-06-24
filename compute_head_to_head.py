@@ -2,8 +2,9 @@ import os
 import re
 import uuid
 from collections import defaultdict
-from datetime import date, datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, date, datetime, timezone
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
@@ -165,7 +166,7 @@ def build_head_to_head_rows(
     tournaments: dict[str, dict[str, Any]],
     now: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    updated_at = now or datetime.now(timezone.utc).isoformat()
+    updated_at = now or datetime.now(UTC).isoformat()
     grouped: dict[tuple[str, str, str], dict[str, Any]] = defaultdict(
         lambda: {
             "a_wins": 0,
@@ -273,7 +274,7 @@ def main() -> None:
             "last_run",
             {
                 **summary,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
         )
         run_log.complete(

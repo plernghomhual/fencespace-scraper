@@ -12,9 +12,9 @@ Probe evidence, 2026-06-02:
     No public foil/sabre domestic ranking sheets were found in the probed workbook.
 """
 
-from typing import cast
 import os
 import sys
+from typing import cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

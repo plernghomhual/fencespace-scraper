@@ -1,10 +1,11 @@
 import os
 import time
+from datetime import UTC, datetime, timezone
+
 import requests
-from datetime import datetime, timezone
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -20,7 +21,7 @@ HEADERS = {
 
 
 def scrape_usafencing_clubs():
-    print(f"USA Fencing club scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    print(f"USA Fencing club scraper starting — {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_clubs").start()
 
     page = 1
@@ -100,7 +101,7 @@ def scrape_usafencing_clubs():
                     "usafencing_id": c.get("id"),
                     "usafencing_slug": c.get("slug", ""),
                     "is_active": not c.get("inactive", False),
-                    "updated_at": datetime.now(timezone.utc).isoformat()
+                    "updated_at": datetime.now(UTC).isoformat()
                 })
 
             # Upsert on usafencing_id — separate try so a DB error doesn't abort pagination

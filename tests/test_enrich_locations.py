@@ -1,4 +1,5 @@
 from typing import Any, cast
+
 from enrich_locations import link_tournaments_to_venue
 
 

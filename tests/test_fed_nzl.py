@@ -8,11 +8,11 @@ The API returns JSON with top-level Mens/Womens lists and row fields:
   rank, uid, name, club, region, cat, points, comps, avg, change.
 """
 
-from typing import cast
 import json
 import os
 import re
 import sys
+from typing import cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

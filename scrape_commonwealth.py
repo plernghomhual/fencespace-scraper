@@ -9,12 +9,12 @@ Probe summary (verified 2026-06-01):
 """
 from __future__ import annotations
 
-from typing import Any
 import io
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -575,7 +575,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_commonwealth").start()
     try:
-        print(f"Commonwealth scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Commonwealth scraper starting - {datetime.now(UTC).isoformat()}")
         done_events = set(get_state(SOURCE, "done_event_ids") or [])
         print(f"  {len(done_events)} event IDs already done")
 

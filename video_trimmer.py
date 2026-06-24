@@ -7,10 +7,10 @@ import os
 import re
 import shutil
 import subprocess
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Callable, Iterable, Sequence
-
+from typing import Any
 
 BOUT_WORDS = (
     "bout",

@@ -18,13 +18,13 @@ Probe summary (verified with public pages on 2026-06-02):
 """
 from __future__ import annotations
 
-from typing import Any
 import io
 import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -778,7 +778,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_iwas_games").start()
     try:
-        print(f"IWAS games scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"IWAS games scraper starting - {datetime.now(UTC).isoformat()}")
         session = requests.Session()
         limiter = RateLimiter(REQUEST_DELAY)
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
@@ -840,7 +840,7 @@ def main():
                 set_state(SOURCE, "done_source_ids", sorted(done_source_ids))
             time.sleep(REQUEST_DELAY)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         if unmatched_all:
             print(f"  Unmatched fencer rows skipped: {len(unmatched_all)}")
             for item in unmatched_all[:25]:

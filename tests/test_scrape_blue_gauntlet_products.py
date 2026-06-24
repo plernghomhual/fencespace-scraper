@@ -1,6 +1,6 @@
 from typing import Any, cast
-import pytest
 
+import pytest
 
 CLEARANCE_LISTING_FIXTURE = """
 <html><body>

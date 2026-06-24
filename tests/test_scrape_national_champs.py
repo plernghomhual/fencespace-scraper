@@ -1,7 +1,7 @@
-from typing import Any, cast
 import io
 import os
 import sys
+from typing import Any, cast
 
 import xlwt
 

@@ -23,7 +23,7 @@ import json
 import re
 import time
 import warnings
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from functools import lru_cache
 from typing import Any
 
@@ -93,7 +93,7 @@ warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
 
 def _current_utc() -> datetime:
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def current_season() -> str:

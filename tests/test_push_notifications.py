@@ -1,9 +1,9 @@
-from typing import Any, cast
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
+from typing import Any, cast
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -247,13 +247,13 @@ def test_duplicate_suppression_is_per_subscription(monkeypatch):
     first = push_notifications.run_push_notifications(
         client=client,
         provider=cast(Any, provider),
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
     )
     second = push_notifications.run_push_notifications(
         client=client,
         provider=cast(Any, provider),
-        now=datetime(2026, 1, 28, 12, 5, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 5, tzinfo=UTC),
         log_run=False,
     )
 
@@ -339,7 +339,7 @@ def test_subscription_ownership_and_opt_in_are_validated(monkeypatch):
     summary = push_notifications.run_push_notifications(
         client=client,
         provider=provider,
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
     )
 
@@ -376,7 +376,7 @@ def test_provider_failures_retry_with_backoff_and_log_success(monkeypatch):
     summary = push_notifications.run_push_notifications(
         client=client,
         provider=cast(Any, provider),
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
         retry_policy=push_notifications.RetryPolicy(max_attempts=3, base_delay=2.0),
         sleep=clock.sleep,
@@ -431,7 +431,7 @@ def test_provider_failure_errors_are_redacted_before_delivery_log(monkeypatch):
     summary = push_notifications.run_push_notifications(
         client=client,
         provider=cast(Any, SecretFailingProvider()),
-        now=datetime(2026, 1, 28, 12, 0, tzinfo=timezone.utc),
+        now=datetime(2026, 1, 28, 12, 0, tzinfo=UTC),
         log_run=False,
         retry_policy=push_notifications.RetryPolicy(max_attempts=1),
     )

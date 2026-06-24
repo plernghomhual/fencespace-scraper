@@ -2,9 +2,10 @@ import json
 import os
 import re
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
 
 import requests
@@ -842,7 +843,7 @@ def geocode_rows(rows: list[dict], geocoder: Callable[[dict], Any] | None) -> in
 
 
 def prepare_rows_for_upsert(rows: Iterable[dict]) -> list[dict]:
-    scraped_at = datetime.now(timezone.utc).isoformat()
+    scraped_at = datetime.now(UTC).isoformat()
     prepared: list[dict] = []
     for row in rows:
         clean_row = {
@@ -923,7 +924,7 @@ def scrape_training_facilities(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

@@ -10,12 +10,12 @@ Olympedia was probed first, but accessible fencing/editions pages did not expose
 Universiade event routes. FISU's official statistics PDF is used as the canonical
 source because it covers historical editions and naturally omits missing editions.
 """
-from typing import Any
 import io
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
@@ -299,7 +299,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_universiade").start()
     try:
-        print(f"Universiade scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Universiade scraper starting — {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         print(f"  {len(done_source_ids)} events already done")
 

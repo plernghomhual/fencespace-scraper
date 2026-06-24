@@ -4,7 +4,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import quote, unquote, urlparse
 
@@ -13,7 +13,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -787,7 +786,7 @@ def main():
     seen_ids: set[str] = set()
 
     try:
-        print(f"Wikipedia bio enrichment starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Wikipedia bio enrichment starting - {datetime.now(UTC).isoformat()}")
         while True:
             if MAX_FENCERS and processed >= MAX_FENCERS:
                 break
@@ -828,7 +827,7 @@ def main():
                 if MAX_FENCERS and processed >= MAX_FENCERS:
                     break
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=written, failed=failed, skipped=skipped)
         print(f"Done - written={written}, failed={failed}, skipped={skipped}")
     except Exception as exc:

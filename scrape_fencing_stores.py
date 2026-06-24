@@ -5,9 +5,10 @@ import os
 import re
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
@@ -454,7 +455,7 @@ def create_store_record(
             "parser": source.parser,
             **(metadata or {}),
         },
-        "scraped_at": datetime.now(timezone.utc).isoformat(),
+        "scraped_at": datetime.now(UTC).isoformat(),
     }
     record["dedupe_key"] = normalize_dedupe_key(record)
     return record
@@ -878,7 +879,7 @@ def scrape_fencing_stores(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

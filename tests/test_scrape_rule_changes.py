@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import cast
 
 import pytest
-from scrape_rule_changes import RuleChangeSeed
 
+from scrape_rule_changes import RuleChangeSeed
 
 FIE_RULES_HTML = """
 <html>

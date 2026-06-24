@@ -15,7 +15,7 @@ visible fencer name and ignore hidden detail tables.
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -218,12 +218,12 @@ def test_current_season_uses_active_year_range_with_july_boundary(monkeypatch):
     class JuneDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 1, tzinfo=timezone.utc)
+            return datetime(2026, 6, 1, tzinfo=UTC)
 
     class JulyDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 7, 1, tzinfo=timezone.utc)
+            return datetime(2026, 7, 1, tzinfo=UTC)
 
     monkeypatch.setattr(scrape_fed_den, "datetime", JuneDateTime)
     assert scrape_fed_den.current_season() == "2025-2026"

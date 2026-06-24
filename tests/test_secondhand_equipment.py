@@ -157,7 +157,7 @@ def test_metadata_minimizes_seller_pii_and_redacts_contact_details():
     )
 
     assert len(rows) == 2
-    seller_hash = hashlib.sha256("Maria Seller".encode("utf-8")).hexdigest()
+    seller_hash = hashlib.sha256(b"Maria Seller").hexdigest()
     assert rows[0]["metadata"]["seller_display_hash"] == seller_hash
     serialized_metadata = repr(rows[0]["metadata"])
     assert "Maria Seller" not in serialized_metadata

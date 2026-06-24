@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Asian Fencing Confederation championship and circuit result scraper.
 
 Probe summary from this workspace (2026-06-02):
@@ -19,7 +18,7 @@ import re
 import time
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlparse
 
 import requests
@@ -1019,7 +1018,7 @@ def run(sources: list[AFCScrapeSource] | None = None) -> tuple[int, int, int]:
             failed += 1
 
     set_state(SOURCE, "done_source_ids", sorted(completed_sources))
-    set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+    set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
     return written, failed, skipped
 
 

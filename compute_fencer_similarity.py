@@ -6,12 +6,12 @@ import os
 import re
 import unicodedata
 from collections import Counter, defaultdict
-from datetime import date, datetime, timezone
-from typing import Any, Iterable
+from collections.abc import Iterable
+from datetime import UTC, date, datetime, timezone
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -213,7 +213,7 @@ def parse_date(value: Any) -> date | None:
 def parse_datetime(value: Any) -> datetime:
     text = clean_text(value)
     if not text:
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
     return datetime.fromisoformat(text.replace("Z", "+00:00"))
 
 
@@ -652,7 +652,7 @@ def build_feature_vectors(
     identity_rows: list[dict[str, Any]] | None = None,
     computed_at: str | None = None,
 ) -> tuple[dict[str, dict[str, Any]], int]:
-    computed_time = parse_datetime(computed_at) if computed_at else datetime.now(timezone.utc)
+    computed_time = parse_datetime(computed_at) if computed_at else datetime.now(UTC)
     (
         grouped,
         row_to_canonical,
@@ -937,7 +937,7 @@ def build_similarity_rows(
     updated_at: str | None = None,
     max_recommendations_per_fencer: int | None = 10,
 ) -> list[dict[str, Any]]:
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for left, right in sorted(candidate_pairs(features)):
         if left == right:
@@ -1086,7 +1086,7 @@ def compute_fencer_similarity(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=failed, skipped=skipped, metadata=summary)
         return summary
@@ -1097,7 +1097,7 @@ def compute_fencer_similarity(
 
 
 def main() -> None:
-    print(f"Fencer similarity computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Fencer similarity computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_fencer_similarity()
     print(
         "Fencer similarity computation complete - "

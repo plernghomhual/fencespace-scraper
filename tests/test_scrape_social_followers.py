@@ -1,8 +1,8 @@
-from typing import Any, cast
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -88,9 +88,13 @@ def test_login_only_profile_urls_are_skipped_before_fetch():
 
 
 def test_parse_public_mastodon_snapshot_counts_and_date_bucket():
-    from scrape_social_followers import SocialProfileCandidate, parse_mastodon_account_snapshot, normalize_social_profile
+    from scrape_social_followers import (
+        SocialProfileCandidate,
+        normalize_social_profile,
+        parse_mastodon_account_snapshot,
+    )
 
-    collected_at = datetime(2026, 6, 2, 15, 30, tzinfo=timezone.utc)
+    collected_at = datetime(2026, 6, 2, 15, 30, tzinfo=UTC)
     profile = cast(SocialProfileCandidate, normalize_social_profile("mastodon", "@ada@mastodon.social"))
     row = parse_mastodon_account_snapshot(
         profile,
@@ -114,13 +118,17 @@ def test_parse_public_mastodon_snapshot_counts_and_date_bucket():
 
 
 def test_parse_mastodon_snapshot_handles_missing_hidden_counts():
-    from scrape_social_followers import SocialProfileCandidate, parse_mastodon_account_snapshot, normalize_social_profile
+    from scrape_social_followers import (
+        SocialProfileCandidate,
+        normalize_social_profile,
+        parse_mastodon_account_snapshot,
+    )
 
     profile = cast(SocialProfileCandidate, normalize_social_profile("mastodon", "@private-fencer@mastodon.social"))
     row = parse_mastodon_account_snapshot(
         profile,
         HIDDEN_COUNT_ACCOUNT,
-        collected_at=datetime(2026, 6, 2, tzinfo=timezone.utc),
+        collected_at=datetime(2026, 6, 2, tzinfo=UTC),
         fencer_id="fencer-1",
     )
 
@@ -147,7 +155,7 @@ def test_collect_profile_snapshot_skips_blocked_platform_without_request():
     row, blocked = collect_profile_snapshot(
         profile,
         session=session,
-        collected_at=datetime(2026, 6, 2, tzinfo=timezone.utc),
+        collected_at=datetime(2026, 6, 2, tzinfo=UTC),
         fencer_id="fencer-1",
     )
 

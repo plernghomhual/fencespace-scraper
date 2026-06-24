@@ -22,7 +22,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -367,7 +367,7 @@ def _discover_ranking_urls(season: str) -> dict[tuple[str, str, str], str]:
         category = category_map.get(raw_category)
         if not category:
             continue
-        for cell, (weapon, gender) in zip(cells[1:], slot_order):
+        for cell, (weapon, gender) in zip(cells[1:], slot_order, strict=False):
             link = cell.find("a", href=True)
             if not link:
                 continue
@@ -410,7 +410,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
     try:
         import season_utils  # type: ignore

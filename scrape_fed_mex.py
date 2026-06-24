@@ -22,7 +22,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlencode
 
 import requests
@@ -36,7 +36,7 @@ try:
     from season_utils import current_fie_season, season_to_string
 except ImportError:  # pragma: no cover - compatibility fallback
     def current_fie_season() -> int:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         return now.year - 1 if now.month < 7 else now.year
 
     def season_to_string(season_int: int) -> str:
@@ -95,7 +95,6 @@ _NAME_HEADERS = {
     "esgrimista",
     "nombre",
     "tirador",
-    "tiradora",
     "tiradora",
 }
 _CLUB_HEADERS = {

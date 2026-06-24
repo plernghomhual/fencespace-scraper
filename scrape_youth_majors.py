@@ -7,14 +7,14 @@ Sources:
   exposes EYOF edition pages or they are supplied with EYOF_OLYMPEDIA_EDITIONS.
 """
 
-from typing import Any
 import calendar
 import json
 import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -667,7 +667,7 @@ def remember_done_value(key, value):
 
 
 def _current_season_year():
-    return datetime.now(timezone.utc).year
+    return datetime.now(UTC).year
 
 
 def scrape_fie_youth_worlds():
@@ -798,7 +798,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_youth_majors").start()
     try:
-        print(f"Youth majors scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Youth majors scraper starting - {datetime.now(UTC).isoformat()}")
         fie_written, fie_failed, fie_skipped = scrape_fie_youth_worlds()
         eyof_written, eyof_failed, eyof_skipped = scrape_eyof()
         written = fie_written + eyof_written

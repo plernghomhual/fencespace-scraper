@@ -18,9 +18,10 @@ Structure discovered via probe (2026-05-29):
   Table header columns: Rang | Nom | Prénom | Club | Points
   Name assembled as: "{LAST} {First}" → "JEAN JOSEPH Kendrick"
 """
-import pytest
-import sys
 import os
+import sys
+
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

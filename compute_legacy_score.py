@@ -4,7 +4,7 @@ import json
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -326,7 +326,7 @@ def build_legacy_score_rows(
     identities: list[dict[str, Any]],
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     identities_by_member = build_identity_index(identities)
     stats: dict[str, dict[str, Any]] = {}
@@ -543,7 +543,7 @@ def compute_legacy_scores(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -554,7 +554,7 @@ def compute_legacy_scores(
 
 
 def main() -> None:
-    print(f"Legacy score computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Legacy score computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_legacy_scores()
     print(
         "Legacy score computation complete - "

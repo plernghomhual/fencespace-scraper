@@ -20,7 +20,7 @@ from __future__ import annotations
 import json
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlencode
 
 import requests
@@ -409,7 +409,7 @@ def current_season() -> str:
     except Exception:
         pass
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year - 1}-{year}" if now.month < 7 else f"{year}-{year + 1}"
 
@@ -480,7 +480,7 @@ def main() -> None:
 
         state_value = {
             "season": season,
-            "checked_at": datetime.now(timezone.utc).isoformat(),
+            "checked_at": datetime.now(UTC).isoformat(),
             "available_combos": available_combos,
             "failed_combos": failed_combos,
             "skipped_combos": skipped_combos,

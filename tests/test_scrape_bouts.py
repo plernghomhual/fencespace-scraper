@@ -15,7 +15,6 @@ from scrape_bouts import (
     to_int,
 )
 
-
 POOL_WINDOW_DATA = {
     "_pools": [
         {

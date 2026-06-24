@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 SPORT_INDEX_HTML = """
 <html><body>
 <table>

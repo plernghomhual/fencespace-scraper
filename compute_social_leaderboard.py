@@ -3,8 +3,9 @@ from __future__ import annotations
 import json
 import os
 import re
-from datetime import date, datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, date, datetime, timezone
+from typing import Any
 from urllib.parse import unquote, urlparse
 
 from run_logger import ScraperRunLogger
@@ -239,8 +240,8 @@ def parse_datetime(value: Any) -> datetime | None:
             return None
 
     if parsed.tzinfo is None:
-        return parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc)
+        return parsed.replace(tzinfo=UTC)
+    return parsed.astimezone(UTC)
 
 
 def is_publicly_verified(row: dict[str, Any], metadata: dict[str, Any]) -> bool:
@@ -280,7 +281,7 @@ def observation_preference(observation: dict[str, Any]) -> tuple[int, datetime, 
     collected_at = observation.get("collected_at_dt")
     return (
         1 if collected_at else 0,
-        collected_at or datetime.min.replace(tzinfo=timezone.utc),
+        collected_at or datetime.min.replace(tzinfo=UTC),
         1 if observation.get("verified") else 0,
         observation.get("follower_count") or -1,
         observation.get("handle") or "",
@@ -395,7 +396,7 @@ def aggregate_observations(
     computed_at: str | None = None,
     stale_after_days: int = STALE_AFTER_DAYS,
 ) -> list[dict[str, Any]]:
-    computed_at_dt = parse_datetime(computed_at) or datetime.now(timezone.utc)
+    computed_at_dt = parse_datetime(computed_at) or datetime.now(UTC)
     grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for observation in observations:
         grouped.setdefault((observation["platform"], observation["normalized_handle"]), []).append(observation)
@@ -581,7 +582,7 @@ def compute_social_leaderboard(
         written, failed = upsert_leaderboard_rows(client, rows) if rows else (0, 0)
 
         if update_state:
-            set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+            set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         if run_log:
             run_log.complete(
                 written=written,
@@ -608,7 +609,7 @@ def compute_social_leaderboard(
 
 
 def main() -> None:
-    print(f"Social leaderboard computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Social leaderboard computation starting - {datetime.now(UTC).isoformat()}")
     result = compute_social_leaderboard()
     print(
         "Social leaderboard computation complete - "

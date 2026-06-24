@@ -2,13 +2,12 @@ import json
 import os
 import re
 from collections import Counter, defaultdict
-from datetime import date, datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from datetime import UTC, date, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -344,7 +343,7 @@ def score_window(window: list[dict[str, Any]]) -> tuple[float, list[dict[str, An
     weighted_score = 0.0
     weight_total = 0
 
-    for competition, weight in zip(window, weights):
+    for competition, weight in zip(window, weights, strict=False):
         rank = competition.get("rank")
         medal = competition.get("medal")
         if rank is None:
@@ -456,7 +455,7 @@ def build_form_rows(
     identity_rows: list[dict[str, Any]] | None = None,
     now: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    now = now or datetime.now(timezone.utc).isoformat()
+    now = now or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     identity_map, identity_ids = build_identity_maps(identity_rows)
     deduped: dict[tuple[str, str, str], dict[str, Any]] = {}
@@ -628,7 +627,7 @@ def compute_form_tracker(
             **build_summary,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=summary["skipped"], metadata=summary)
         return summary
@@ -639,7 +638,7 @@ def compute_form_tracker(
 
 
 def main() -> None:
-    print(f"Form tracker computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Form tracker computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_form_tracker()
     print(
         "Form tracker computation complete - "

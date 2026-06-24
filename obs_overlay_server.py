@@ -4,7 +4,7 @@ import re
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
-from datetime import date, timedelta, timezone, datetime
+from datetime import UTC, date, datetime, timedelta, timezone
 from pathlib import Path
 from threading import Lock
 from typing import Any
@@ -13,7 +13,6 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -153,7 +152,7 @@ def resolve_selection(
 
 
 def _now_timestamp() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _safe_int(value: Any) -> int | None:

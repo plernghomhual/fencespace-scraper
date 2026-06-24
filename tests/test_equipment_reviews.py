@@ -3,7 +3,6 @@ from typing import Any
 
 import pytest
 
-
 ABSOLUTE_FIXTURE = """
 <html><body>
 <ol class="products list items product-items">

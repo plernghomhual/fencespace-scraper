@@ -1,15 +1,13 @@
 import json
 import os
 import re
-from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from datetime import UTC, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
-
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -262,7 +260,7 @@ def aggregate_career_stats(
             stats[fencer_b]["total_touches_scored"] += score_b
             stats[fencer_b]["total_touches_received"] += score_a
 
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
     rows: list[dict[str, Any]] = []
     for fencer_id in sorted(stats):
         stat = stats[fencer_id]
@@ -342,7 +340,7 @@ def compute_career_stats(
             "identity_rows": identity_rows,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=0, metadata=summary)
         return summary
@@ -353,7 +351,7 @@ def compute_career_stats(
 
 
 def main() -> None:
-    print(f"Career stats computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Career stats computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_career_stats()
     print(
         "Career stats computation complete - "

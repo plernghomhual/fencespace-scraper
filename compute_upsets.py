@@ -5,12 +5,11 @@ import os
 import re
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SOURCE = "compute_upsets"
 PAGE_SIZE = 1000
@@ -84,7 +83,7 @@ def get_supabase_client():
 
 
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def clean_text(value: Any) -> str | None:

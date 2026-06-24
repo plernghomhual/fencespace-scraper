@@ -10,8 +10,8 @@ Fixture HTML mirrors the real Ophardt Online ranking page structure:
   Fencer row columns: Platz | Punkte | Ü-P | Name | Nation | Vereine | Jahrgang | ...
   German column names: Platz=Rank, Punkte=Points (decimal comma), Vereine=Club
 """
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

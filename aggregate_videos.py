@@ -2,15 +2,15 @@ import os
 import re
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -435,7 +435,7 @@ def build_video_rows(
     detail_by_id: dict[str, dict[str, Any]] | None = None,
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     detail_by_id = detail_by_id or {}
     rows: list[dict[str, Any]] = []
 
@@ -631,7 +631,7 @@ def aggregate_videos(
     scraped_at: str | None = None,
 ) -> dict[str, Any]:
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     effective_api_key = api_key if api_key is not None else YOUTUBE_API_KEY
 
     try:
@@ -726,7 +726,7 @@ def aggregate_videos(
 
 
 def main() -> None:
-    print(f"Video aggregation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Video aggregation starting - {datetime.now(UTC).isoformat()}")
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous video aggregation state: {previous_state}")

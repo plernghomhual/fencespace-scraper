@@ -1,5 +1,6 @@
-from scrape_iwas import parse_ranking_overview, parse_ranking_page, parse_event_label, parse_results_page
 from bs4 import BeautifulSoup
+
+from scrape_iwas import parse_event_label, parse_ranking_overview, parse_ranking_page, parse_results_page
 
 OVERVIEW_HTML = """
 <html><body>

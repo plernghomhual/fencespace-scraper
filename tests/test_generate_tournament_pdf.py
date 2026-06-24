@@ -1,6 +1,6 @@
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import pdfplumber
 import pytest
@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 
 TOURNAMENT_ID = "00000000-0000-0000-0000-000000000114"
-GENERATED_AT = datetime(2026, 6, 2, 14, 30, tzinfo=timezone.utc)
+GENERATED_AT = datetime(2026, 6, 2, 14, 30, tzinfo=UTC)
 
 
 class FakeResult:

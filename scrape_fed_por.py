@@ -20,7 +20,7 @@ from __future__ import annotations
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import cast
 from urllib.parse import urljoin
 
@@ -87,8 +87,6 @@ _HEADER_ALIASES = {
         "ranking",
         "pos",
         "posicao",
-        "posicao",
-        "classificacao",
         "classificacao",
         "lugar",
         "place",
@@ -119,7 +117,7 @@ _RANKING_LINK_CACHE: dict[tuple[str, str, str], str] | None = None
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY, using season_utils if available."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
     try:
         from season_utils import normalize_season

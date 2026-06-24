@@ -6,14 +6,14 @@ import re
 import unicodedata
 import uuid
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from statistics import median
-from typing import Any, Iterable
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -297,9 +297,9 @@ def evidence_metadata(
         "estimate_basis": estimate_basis,
         "warning": "estimate_not_private_replacement_behavior",
         "estimate_label": "Estimate from public dated equipment evidence only.",
-        "evidence_ids": unique_values((evidence.evidence_id for evidence in evidences)),
-        "evidence_links": unique_values((evidence.source_url for evidence in evidences)),
-        "sources": unique_values((evidence.source for evidence in evidences)),
+        "evidence_ids": unique_values(evidence.evidence_id for evidence in evidences),
+        "evidence_links": unique_values(evidence.source_url for evidence in evidences),
+        "sources": unique_values(evidence.source for evidence in evidences),
         "evidence_kind_counts": dict(sorted(source_counts.items())),
         "source_confidence_counts": dict(sorted(confidence_counts.items())),
     }
@@ -388,7 +388,7 @@ def build_durability_rows(
     *,
     computed_at: str | None = None,
 ) -> list[dict[str, Any]]:
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
     evidences, skipped_undated = collect_evidence(equipment_rows, review_rows)
     if not evidences:
         return []
@@ -553,7 +553,7 @@ def compute_equipment_durability(
 ) -> dict[str, Any]:
     client = client or get_supabase_client()
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
 
     try:
         previous_state = get_state(SOURCE, "last_run")
@@ -596,7 +596,7 @@ def run(**kwargs) -> dict[str, Any]:
 
 
 def main() -> None:
-    print(f"Equipment durability computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Equipment durability computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_equipment_durability()
     print(
         "Equipment durability computation complete - "

@@ -6,7 +6,7 @@ import os
 import re
 import unicodedata
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -662,7 +662,7 @@ def build_country_specialization_rows(
     medal_rows: list[dict[str, Any]],
     computed_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    timestamp = computed_at or datetime.now(timezone.utc).isoformat()
+    timestamp = computed_at or datetime.now(UTC).isoformat()
     country_index = build_country_code_index(country_codes)
     skipped = {
         "country_depth": 0,
@@ -755,7 +755,7 @@ def compute_country_specialization(
 
     try:
         client = client or get_supabase_client()
-        timestamp = computed_at or datetime.now(timezone.utc).isoformat()
+        timestamp = computed_at or datetime.now(UTC).isoformat()
         country_codes = fetch_optional_with_fallbacks(
             client,
             "fs_country_codes",
@@ -847,7 +847,7 @@ def compute_country_specialization(
 
 
 def main() -> None:
-    print(f"Country specialization computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Country specialization computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_country_specialization()
     print(
         "Country specialization computation complete - "

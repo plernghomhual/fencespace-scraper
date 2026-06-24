@@ -2,7 +2,6 @@ import requests
 
 import scrape_fed_est as est
 
-
 LIVE_STYLE_TABLE = """
 <table id="tablepress-188" class="tablepress">
   <tbody>

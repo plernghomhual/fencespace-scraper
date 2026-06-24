@@ -2,7 +2,6 @@
 
 import re
 
-
 # Fixture based on the probed public Egypt ranking detail page:
 # https://www.fencingegypt.org/EFF/Ranking/OverallRankingDetails.aspx?OverAllRankingID=12
 FIXTURE_ARABIC_HTML = """

@@ -11,11 +11,11 @@ Probe evidence:
   - Response format: XLSX workbook links from the ranking page.
 """
 
-from typing import cast
 import io
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
+from typing import cast
 
 from openpyxl import Workbook
 
@@ -232,6 +232,7 @@ def test_fetch_rankings_page_follows_download_page_for_junior_workbook(monkeypat
 
 def test_fetch_rankings_page_returns_none_on_404_network_login_js_and_missing_combo(monkeypatch):
     import requests
+
     import scrape_fed_pur
 
     scenarios = {
@@ -241,7 +242,7 @@ def test_fetch_rankings_page_returns_none_on_404_network_login_js_and_missing_co
     }
 
     for response in scenarios.values():
-        monkeypatch.setattr(scrape_fed_pur, "federation_request", lambda *args, **kwargs: response)
+        monkeypatch.setattr(scrape_fed_pur, "federation_request", lambda *args, r=response, **kwargs: r)
         scrape_fed_pur._CATEGORY_LINK_CACHE = None
         scrape_fed_pur._WORKBOOK_CACHE.clear()
         assert scrape_fed_pur.fetch_rankings_page("Foil", "Men", "Senior") is None
@@ -280,7 +281,7 @@ def test_current_season_format_and_before_july(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 2, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 2, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_pur, "datetime", FixedDateTime)
 

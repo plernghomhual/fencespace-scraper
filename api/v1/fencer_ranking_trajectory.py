@@ -9,7 +9,6 @@ from fastapi import APIRouter, HTTPException, Query
 
 from season_utils import normalize_season, season_from_string
 
-
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
 

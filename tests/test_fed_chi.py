@@ -20,7 +20,7 @@ Relevant PDF text columns:
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -333,7 +333,7 @@ def test_current_season_format_and_before_july(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 2, tzinfo=tz or timezone.utc)
+            return datetime(2026, 6, 2, tzinfo=tz or UTC)
 
     monkeypatch.setattr(scrape_fed_chi, "datetime", FixedDateTime)
 

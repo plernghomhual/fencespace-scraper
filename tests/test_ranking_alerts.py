@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import Any, cast
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION = ROOT / "supabase" / "migrations" / "20260602_ranking_alerts.sql"
 NOW = "2026-06-02T12:00:00+00:00"

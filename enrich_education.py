@@ -6,14 +6,14 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "enrich_education"
 WIKIDATA_ENTITY_URL = "https://www.wikidata.org/wiki/Special:EntityData/{qid}.json"
@@ -351,7 +351,7 @@ def run_enrichment(
     emit: Callable[[str], None] = print,
 ) -> dict[str, Any]:
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    timestamp = now or (lambda: datetime.now(timezone.utc).isoformat())
+    timestamp = now or (lambda: datetime.now(UTC).isoformat())
     claim_fetcher = claim_fetcher or fetch_entity_claims
     summary: dict[str, Any] = {
         "queried": 0,

@@ -5,9 +5,10 @@ import json
 import os
 import re
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -365,7 +366,7 @@ def parse_review_page(html: str, source_url: str, *, scraped_at: str | None = No
     if is_private_or_login_page(soup):
         return ParsedPage(products=[], reviews=[], skipped_private=True, skip_reason="private_or_login")
 
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     page_url = canonical_url(soup, source_url)
     data = structured_data(soup)
     title = title_from_page(soup, page_url)
@@ -589,7 +590,7 @@ def scrape_fencingnet_products(
             "failed": failed,
             "skipped": skipped,
             "private_skipped": private_skipped,
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
         }
         if isinstance(previous_state, dict) and previous_state.get("scraped_at"):
             summary["previous_scraped_at"] = previous_state["scraped_at"]
@@ -615,7 +616,7 @@ def scrape_fencingnet_products(
 
 
 def main() -> None:
-    print(f"Fencing.net product review scrape starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Fencing.net product review scrape starting - {datetime.now(UTC).isoformat()}")
     summary = scrape_fencingnet_products(request_delay=REQUEST_DELAY)
     print(
         "Fencing.net scrape complete: "

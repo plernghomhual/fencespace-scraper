@@ -21,13 +21,14 @@ import hashlib
 import json
 import os
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from supabase import create_client
 
+from supabase import create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -59,7 +60,7 @@ _supabase_client = None
 
 
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def get_supabase_client():
@@ -87,7 +88,7 @@ def _coerce_id_set(value: Any) -> set[str] | None:
         return None
     if isinstance(value, str):
         return {item.strip() for item in value.split(",") if item.strip()}
-    if isinstance(value, (list, tuple, set)):
+    if isinstance(value, list | tuple | set):
         return {str(item) for item in value if str(item).strip()}
     return None
 
@@ -256,7 +257,7 @@ class LiveResultsPoller:
         results = await asyncio.gather(*(fetch for _stream, fetch in fetches))
         events: list[dict[str, Any]] = []
 
-        for (stream, _fetch), rows in zip(fetches, results):
+        for (stream, _fetch), rows in zip(fetches, results, strict=False):
             previous = snapshots.setdefault(stream, {})
             next_snapshot: dict[str, str] = {}
             for row in rows:

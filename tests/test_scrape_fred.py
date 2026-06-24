@@ -215,7 +215,13 @@ def test_fred_result_dedup_index_is_scoped_to_fred_rows():
 
 
 def test_collect_result_rows_matches_usa_fencers_by_id_then_name_country():
-    from scrape_fred import build_fencer_index, collect_result_rows, group_csv_rows, parse_csv_results, parse_event_cards
+    from scrape_fred import (
+        build_fencer_index,
+        collect_result_rows,
+        group_csv_rows,
+        parse_csv_results,
+        parse_event_cards,
+    )
 
     fencer_index = build_fencer_index(
         [

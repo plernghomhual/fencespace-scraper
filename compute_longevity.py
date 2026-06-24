@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import re
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -125,8 +125,8 @@ def build_longevity_rows(
     today: date | None = None,
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    today = today or datetime.now(timezone.utc).date()
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    today = today or datetime.now(UTC).date()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     tournaments_by_id = tournament_lookup(tournaments)
     skipped = 0
     stats: dict[str, dict[str, Any]] = defaultdict(
@@ -282,7 +282,7 @@ def compute_longevity(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
@@ -294,7 +294,7 @@ def compute_longevity(
 
 
 def main() -> None:
-    print(f"Longevity computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Longevity computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_longevity()
     print(
         "Longevity computation complete - "

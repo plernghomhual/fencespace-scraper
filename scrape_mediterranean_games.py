@@ -16,7 +16,7 @@ import io
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -452,7 +452,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_mediterranean_games").start()
     try:
-        print(f"Mediterranean Games scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"Mediterranean Games scraper starting — {datetime.now(UTC).isoformat()}")
 
         structured_editions, skipped_editions = discover_editions()
         for skipped_edition in skipped_editions:
@@ -519,7 +519,7 @@ def main():
             "editions_imported": len(imported_editions),
             "skipped_editions": skipped_editions,
         }
-        set_state(SOURCE, "last_run", {**metadata, "updated_at": datetime.now(timezone.utc).isoformat()})
+        set_state(SOURCE, "last_run", {**metadata, "updated_at": datetime.now(UTC).isoformat()})
         run_log.complete(written=written, failed=failed, skipped=skipped, metadata=metadata)
         print(
             f"\nDone — events_written={written}, skipped={skipped}, failed={failed}; "

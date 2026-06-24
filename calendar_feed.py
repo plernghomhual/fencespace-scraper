@@ -9,12 +9,12 @@ import json
 import os
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta, timezone
+from datetime import UTC, date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_KEY")
@@ -330,8 +330,8 @@ def _ical_line(name: str, value: Any) -> str:
 
 def _format_utc(value: datetime) -> str:
     if value.tzinfo is None:
-        value = value.replace(tzinfo=timezone.utc)
-    return value.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(UTC).strftime("%Y%m%dT%H%M%SZ")
 
 
 def _parse_datetime(value: Any, timezone_name: str) -> tuple[datetime | date, bool] | None:
@@ -448,9 +448,9 @@ def generate_ics_feed(
     calendar_name: str = "FenceSpace Tournaments",
 ) -> str:
     filters = filters or validate_calendar_filters()
-    generated_at = generated_at or datetime.now(timezone.utc)
+    generated_at = generated_at or datetime.now(UTC)
     if generated_at.tzinfo is None:
-        generated_at = generated_at.replace(tzinfo=timezone.utc)
+        generated_at = generated_at.replace(tzinfo=UTC)
 
     lines = [
         "BEGIN:VCALENDAR",

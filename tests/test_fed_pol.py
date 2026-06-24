@@ -13,9 +13,9 @@ Probe notes:
 Representative Polish table headers:
   Miejsce | Imię i Nazwisko | Rocznik | Klub | Suma punktów | ...
 """
-from typing import cast, Any
 import os
 import sys
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

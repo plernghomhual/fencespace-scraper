@@ -5,7 +5,7 @@ import re
 import unicodedata
 import uuid
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -241,7 +241,7 @@ def compute_confirmed_ranking_transfers(
         seasons = sorted(by_season)
         summaries = {season: summarize_season_observations(by_season[season]) for season in seasons}
 
-        for previous_season, current_season in zip(seasons, seasons[1:]):
+        for previous_season, current_season in zip(seasons, seasons[1:], strict=False):
             if current_season != previous_season + 1:
                 continue
             previous = summaries[previous_season]
@@ -523,7 +523,7 @@ def compute_and_store_transfers(
                 "last_run",
                 {
                     **summary,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -544,7 +544,7 @@ def compute_and_store_transfers(
 
 
 def main() -> None:
-    print(f"Fencer transfer computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Fencer transfer computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_and_store_transfers()
     print(f"Confirmed transfers found: {summary['confirmed_transfers']}")
     print(f"Uncertain transfers found: {summary['uncertain_transfers']}")

@@ -9,14 +9,14 @@ import os
 import sys
 import time
 from dataclasses import dataclass
-from datetime import date, datetime, time as datetime_time, timezone
+from datetime import UTC, date, datetime, timezone
+from datetime import time as datetime_time
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "export_bigquery"
 DEFAULT_PAGE_SIZE = 1000
@@ -413,7 +413,7 @@ def _coerce_string(value: Any) -> str | None:
     value = _clean_optional(value)
     if value is None:
         return None
-    if isinstance(value, (dict, list)):
+    if isinstance(value, dict | list):
         return json.dumps(value, sort_keys=True)
     if isinstance(value, datetime):
         return _coerce_timestamp(value)
@@ -462,7 +462,7 @@ def _coerce_boolean(value: Any) -> bool | None:
         return None
     if isinstance(value, bool):
         return value
-    if isinstance(value, (int, float)):
+    if isinstance(value, int | float):
         return bool(value)
     text = str(value).strip().casefold()
     if text in {"1", "true", "t", "yes", "y"}:
@@ -495,10 +495,10 @@ def _coerce_timestamp(value: Any) -> str | None:
         return None
     if isinstance(value, datetime):
         if value.tzinfo is None:
-            value = value.replace(tzinfo=timezone.utc)
+            value = value.replace(tzinfo=UTC)
         return value.isoformat()
     if isinstance(value, date):
-        return datetime.combine(value, datetime_time.min, tzinfo=timezone.utc).isoformat()
+        return datetime.combine(value, datetime_time.min, tzinfo=UTC).isoformat()
     text = str(value).strip()
     try:
         return datetime.fromisoformat(text.replace("Z", "+00:00")).isoformat()
@@ -580,7 +580,7 @@ def build_analytics_payload(table_key: str, row: dict[str, Any]) -> dict[str, An
 def _json_default(value: Any) -> str:
     if isinstance(value, Decimal):
         return format(value, "f")
-    if isinstance(value, (datetime, date)):
+    if isinstance(value, datetime | date):
         return value.isoformat()
     return str(value)
 

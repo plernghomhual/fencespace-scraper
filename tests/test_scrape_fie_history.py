@@ -1,6 +1,9 @@
+import os
+import sys
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-import sys, os
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 # Actual API returns lowercase text for weapon/gender/category, competitionId, type as individual/team

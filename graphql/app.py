@@ -9,7 +9,6 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 
 import api as rest_api
 
-
 SCHEMA_SDL = """
 type Query {
   fencers(name: String, country: String, weapon: String, limit: Int = 50, offset: Int = 0): FencerPage!

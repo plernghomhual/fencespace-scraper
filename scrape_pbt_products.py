@@ -5,8 +5,9 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from collections.abc import Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -14,7 +15,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -322,7 +322,7 @@ def parse_listing_products(
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
     soup = BeautifulSoup(html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     category = normalize_category(category_hint, listing_url)
     rows: list[dict[str, Any]] = []
     seen_urls: set[str] = set()
@@ -498,7 +498,7 @@ def parse_product_detail(
     scraped_at: str | None = None,
 ) -> dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     attributes = extract_additional_attributes(soup)
 
     name = first_text(soup, ("h1.page-title", ".page-title", "h1"))
@@ -699,7 +699,7 @@ def scrape_pbt_products(
             "skipped": skipped,
             "blocked": blocked,
             "source_ids": len(source_ids),
-            "scraped_at": datetime.now(timezone.utc).isoformat(),
+            "scraped_at": datetime.now(UTC).isoformat(),
             "errors": errors[:10],
         }
         if isinstance(previous_state, dict) and previous_state.get("scraped_at"):
@@ -721,7 +721,7 @@ def scrape_pbt_products(
 
 
 def main() -> None:
-    print(f"PBT products scrape starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"PBT products scrape starting - {datetime.now(UTC).isoformat()}")
     summary = scrape_pbt_products()
     print(
         "PBT products scrape complete - "

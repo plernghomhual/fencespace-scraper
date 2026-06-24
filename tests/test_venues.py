@@ -1,19 +1,18 @@
-from typing import Any, cast
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from enrich_locations import (
-    GeocodeResult,
     NOMINATIM_FAILURE_CACHE_KEY,
+    GeocodeResult,
     enrich_locations,
     extract_venue_name,
     geocode_location,
     location_key,
     parse_nominatim_result,
 )
-
 
 NOMINATIM_PARIS = {
     "place_id": 88703675,

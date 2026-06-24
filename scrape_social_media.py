@@ -3,7 +3,7 @@ import json
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import parse_qs, urljoin, urlparse, urlunparse
 
@@ -12,7 +12,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -361,7 +360,7 @@ def scrape_wikidata_social_media(client: Any) -> dict[str, int]:
             print(f"  Wikidata social parse failed: {exc}")
 
     written = upsert_social_rows(client, rows)
-    set_state(SOURCE, "wikidata_last_run", datetime.now(timezone.utc).isoformat())
+    set_state(SOURCE, "wikidata_last_run", datetime.now(UTC).isoformat())
     return {
         "bindings": len(bindings),
         "matched": matched,
@@ -588,7 +587,7 @@ def scrape_federation_profiles(
         "federation_cursor",
         {
             "offset": next_offset,
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
             "last_batch_size": len(fencers),
         },
     )
@@ -601,10 +600,10 @@ def main() -> None:
 
     run_log = ScraperRunLogger("scrape_social_media").start()
     try:
-        print(f"Social media scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"Social media scraper starting - {datetime.now(UTC).isoformat()}")
         wikidata_stats = scrape_wikidata_social_media(supabase)
         profile_stats = scrape_federation_profiles(supabase)
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
 
         written = wikidata_stats["written"] + profile_stats["written"]
         failed = wikidata_stats["failed"] + profile_stats["failed"]

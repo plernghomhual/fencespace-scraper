@@ -5,15 +5,15 @@ import os
 import re
 import time
 import unicodedata
+from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 import requests
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SOURCE = "scrape_youtube_videos"
 YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search"
@@ -111,7 +111,7 @@ def parse_datetime(value: Any) -> str | None:
     except ValueError:
         return None
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
+        parsed = parsed.replace(tzinfo=UTC)
     return parsed.isoformat()
 
 
@@ -253,7 +253,7 @@ def parse_youtube_search_response(
     scraped_at: str | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
 
     for item in data.get("items", []):
         item_id = item.get("id") if isinstance(item, dict) else None
@@ -562,7 +562,7 @@ def scrape_youtube_videos(
                 SOURCE,
                 "last_run",
                 {
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                     "queries": query_count,
                     "parsed": len(all_rows),
                     "written": written,

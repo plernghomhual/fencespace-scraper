@@ -5,7 +5,7 @@ import re
 import sys
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -631,7 +631,7 @@ def main() -> BackfillSummary:
     try:
         summary = backfill_national_rank(get_supabase())
         metadata: dict[str, Any] = dict(summary.as_dict())
-        metadata["completed_at"] = datetime.now(timezone.utc).isoformat()
+        metadata["completed_at"] = datetime.now(UTC).isoformat()
         set_state(SOURCE, "last_run", metadata)
         logger.complete(written=summary.written, failed=summary.failed, skipped=summary.skipped, metadata=metadata)
         print(metadata)

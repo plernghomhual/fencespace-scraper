@@ -7,16 +7,16 @@ import re
 import time
 import unicodedata
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from typing import Any, Iterable
+from datetime import UTC, date, datetime, timezone
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "scrape_sponsorships"
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -536,7 +536,7 @@ def build_sponsorship_rows(
     fencer_name = clean_text(fencer.get("name"))
     if not fencer_name:
         return []
-    scraped_at = scraped_at or datetime.now(timezone.utc).isoformat()
+    scraped_at = scraped_at or datetime.now(UTC).isoformat()
     fencer_key = fencer_identity_key(fencer)
 
     rows: list[dict[str, Any]] = []
@@ -841,7 +841,7 @@ def run(
         )
         written, failed = upsert_sponsorship_rows(client, rows) if rows else (0, 0)
         summary = {
-            "ran_at": datetime.now(timezone.utc).isoformat(),
+            "ran_at": datetime.now(UTC).isoformat(),
             "previous_run": previous_state,
             "fencers_scanned": len(fencers),
             "sponsorship_rows_found": len(rows),

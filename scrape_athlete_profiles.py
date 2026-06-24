@@ -4,13 +4,13 @@ import os
 import re
 import time
 from dataclasses import dataclass
-from datetime import date, datetime, timezone, timedelta
+from datetime import UTC, date, datetime, timedelta, timezone
 from typing import Any
 
 import requests
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
+from supabase import create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -198,7 +198,7 @@ def extract_from_json_blocks(page_html: str) -> AthleteProfile:
         if isinstance(value, dict):
             for raw_key, raw_value in value.items():
                 key = re.sub(r"[^a-z0-9]+", "", str(raw_key).lower())
-                scalar = raw_value if isinstance(raw_value, (str, int, float)) else None
+                scalar = raw_value if isinstance(raw_value, str | int | float) else None
 
                 if scalar is not None:
                     if not profile.club and key in key_groups["club"]:
@@ -212,7 +212,7 @@ def extract_from_json_blocks(page_html: str) -> AthleteProfile:
                     elif not profile.hand and key in key_groups["hand"]:
                         profile.hand = normalize_hand(str(scalar))
 
-                if isinstance(raw_value, (dict, list)):
+                if isinstance(raw_value, dict | list):
                     walk(raw_value)
         elif isinstance(value, list):
             for item in value:
@@ -418,8 +418,8 @@ def was_already_attempted(fencer: dict[str, Any]) -> bool:
         try:
             attempted_at = datetime.fromisoformat(attempted_at_str.replace("Z", "+00:00"))
             if attempted_at.tzinfo is None:
-                attempted_at = attempted_at.replace(tzinfo=timezone.utc)
-            age_days = (datetime.now(timezone.utc) - attempted_at).days
+                attempted_at = attempted_at.replace(tzinfo=UTC)
+            age_days = (datetime.now(UTC) - attempted_at).days
             if age_days >= FORCE_RESCRAPE_AFTER_DAYS:
                 return False
         except Exception:
@@ -436,7 +436,7 @@ def build_update_row(
     date_column: str | None,
     hand_column: str | None,
 ) -> dict[str, Any]:
-    attempted_at = datetime.now(timezone.utc).isoformat()
+    attempted_at = datetime.now(UTC).isoformat()
     metadata = ensure_metadata(fencer.get("metadata"))
     scrape_info = {
         "attempted_at": attempted_at,
@@ -504,7 +504,7 @@ def flush_updates(rows: list[dict[str, Any]]) -> int:
 
 
 def scrape_athlete_profiles():
-    print(f"Athlete profile scraper starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Athlete profile scraper starting - {datetime.now(UTC).isoformat()}")
     print(
         f"Limit: {MAX_FENCERS}; delay: {REQUEST_DELAY_SECONDS}s; "
         f"force rescrape: {FORCE_RESCRAPE}; rescrape_after_days: {FORCE_RESCRAPE_AFTER_DAYS or 'disabled'}"

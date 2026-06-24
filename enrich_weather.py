@@ -5,7 +5,7 @@ import os
 import re
 import urllib.parse
 import urllib.request
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from statistics import mean
 from typing import Any
 
@@ -433,7 +433,7 @@ def build_weather_context_row(
     today: date | None = None,
 ) -> tuple[dict[str, Any], dict[str, int]]:
     lookup_cache = lookup_cache if lookup_cache is not None else {}
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     today = today or date.today()
     event_date, date_basis = event_date_for_tournament(tournament)
     location = location_for_tournament(tournament)
@@ -515,7 +515,7 @@ def enrich_competition_weather(
     state_set=set_state,
 ) -> dict[str, int]:
     run_log = ScraperRunLogger(SOURCE).start() if log_run else None
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     lookup_cache = state_get(SOURCE, LOOKUP_CACHE_KEY) if update_state else {}
     if not isinstance(lookup_cache, dict):
         lookup_cache = {}

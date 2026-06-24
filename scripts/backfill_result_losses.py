@@ -8,7 +8,7 @@ import os
 import re
 import sys
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +17,6 @@ if __package__ in {None, ""}:
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "backfill_result_losses"
 PAGE_SIZE = 1000
@@ -45,7 +44,7 @@ TOURNAMENT_SELECTS = [
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def get_supabase_client():

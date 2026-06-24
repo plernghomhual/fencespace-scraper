@@ -5,7 +5,6 @@ import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "api" / "v1" / "fencer_ranking_trajectory.py"
 

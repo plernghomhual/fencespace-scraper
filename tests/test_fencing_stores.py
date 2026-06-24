@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 PBT_DEALERS_HTML = """
 <html><body>
   <h1>DEALERS</h1>

@@ -4,13 +4,12 @@ import json
 import os
 import re
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from datetime import UTC, date, datetime, timedelta, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -261,7 +260,7 @@ def parse_date(value: Any) -> date | None:
 
 
 def normalize_week_start(week_start: Any = None, now: Any = None) -> str:
-    base = parse_date(week_start) or parse_date(now) or datetime.now(timezone.utc).date()
+    base = parse_date(week_start) or parse_date(now) or datetime.now(UTC).date()
     monday = base - timedelta(days=base.weekday())
     return monday.isoformat()
 
@@ -383,7 +382,7 @@ def build_trending_rows(
     forms_by_fencer = form_index(form_rows or [], indexes)
     ranks_by_fencer = rank_trend_index(rank_trends or [], indexes)
     socials_by_fencer = social_index(social_rows or [], indexes)
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
 
     summary = {
         "skipped_missing_fencer": 0,
@@ -608,7 +607,7 @@ def compute_trending_fencers(
             previous_run = None
 
         _probe_trending_table(client)
-        computed_at = now or datetime.now(timezone.utc).isoformat()
+        computed_at = now or datetime.now(UTC).isoformat()
         week_start_iso = normalize_week_start(week_start, computed_at)
 
         results = fetch_with_fallbacks(client, "fs_results", RESULT_SELECTS, page_size)
@@ -649,7 +648,7 @@ def compute_trending_fencers(
         if isinstance(previous_run, dict) and previous_run.get("week_start"):
             summary["previous_week_start"] = previous_run["week_start"]
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=summary["skipped"], metadata=summary)
         return summary
@@ -660,7 +659,7 @@ def compute_trending_fencers(
 
 
 def main() -> None:
-    print(f"Trending fencers computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Trending fencers computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_trending_fencers()
     print(
         "Trending fencers computation complete - "

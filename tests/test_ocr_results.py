@@ -50,7 +50,7 @@ def make_text_pdf(pages):
     kids = " ".join(f"{page_id} 0 R" for page_id, _ in page_ids)
     objects[pages_id - 1] = f"<< /Type /Pages /Kids [{kids}] /Count {len(page_ids)} >>".encode("ascii")
 
-    for (page_id, rotation), content_id in zip(page_ids, content_ids):
+    for (page_id, rotation), content_id in zip(page_ids, content_ids, strict=False):
         rotate = f" /Rotate {rotation}" if rotation else ""
         objects[page_id - 1] = (
             f"<< /Type /Page /Parent {pages_id} 0 R /MediaBox [0 0 612 792]{rotate} "

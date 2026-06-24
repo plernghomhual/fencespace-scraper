@@ -255,7 +255,7 @@ def test_build_search_queries_uses_fencer_and_tournament_names():
 
 
 def test_search_youtube_uses_data_api_when_key_available():
-    from scrape_youtube_videos import SearchQuery, YOUTUBE_SEARCH_URL, search_youtube
+    from scrape_youtube_videos import YOUTUBE_SEARCH_URL, SearchQuery, search_youtube
 
     session = FakeSession([FakeResponse(YOUTUBE_SEARCH_RESPONSE)])
     query = SearchQuery(text='fencing "Lee Kiefer"', source_type="fencer")

@@ -1,12 +1,11 @@
 import json
 import os
 import re
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -678,7 +677,7 @@ def build_transfer_value_rows(
 ) -> tuple[list[dict[str, Any]], int]:
     profiles, skipped = merge_fencer_profiles(fencers, row_identity, fie_identity)
     tournaments_by_id = tournament_lookup(tournaments)
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
 
     rows: list[dict[str, Any]] = []
     for fencer_id in sorted(profiles):
@@ -779,7 +778,7 @@ def compute_transfer_values(
             set_state(
                 SOURCE,
                 "last_run",
-                {"updated_at": datetime.now(timezone.utc).isoformat(), "season": season, **summary},
+                {"updated_at": datetime.now(UTC).isoformat(), "season": season, **summary},
             )
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped)
@@ -791,7 +790,7 @@ def compute_transfer_values(
 
 
 def main() -> None:
-    print(f"Transfer impact score computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Transfer impact score computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_transfer_values()
     print(
         "Transfer impact score computation complete - "

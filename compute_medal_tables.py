@@ -1,12 +1,12 @@
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
-from typing import Any, Callable
+from collections.abc import Callable
+from datetime import UTC, datetime, timezone
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -205,7 +205,7 @@ def build_medal_table_rows(
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
     tournaments_by_id = tournament_lookup(tournaments)
-    now = updated_at or datetime.now(timezone.utc).isoformat()
+    now = updated_at or datetime.now(UTC).isoformat()
 
     country_counts: dict[str, dict[str, Any]] = defaultdict(
         lambda: {"country": None, "counts": empty_counts()}
@@ -377,7 +377,7 @@ def compute_medal_tables(
             "skipped": skipped,
         }
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(written=written, failed=0, skipped=skipped, metadata=summary)
         return summary
@@ -388,7 +388,7 @@ def compute_medal_tables(
 
 
 def main() -> None:
-    print(f"Medal table computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Medal table computation starting - {datetime.now(UTC).isoformat()}")
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous medal table state: {previous_state}")

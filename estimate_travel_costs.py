@@ -13,14 +13,14 @@ import json
 import math
 import os
 import time
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
-from typing import Any, Callable, Iterable
+from datetime import UTC, date, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
-
 
 SOURCE = "estimate_travel_costs"
 BATCH_SIZE = 100
@@ -117,7 +117,7 @@ class CostEstimate:
         }
 
     @classmethod
-    def from_cache(cls, value: dict[str, Any]) -> "CostEstimate":
+    def from_cache(cls, value: dict[str, Any]) -> CostEstimate:
         return cls(
             flight=float(value["flight"]),
             hotel=float(value["hotel"]),
@@ -605,7 +605,7 @@ def build_travel_cost_rows(
     venue_rows = list(venues)
     origin_rows = list(origins or parse_origins())
     provider = provider or provider_from_env({})
-    updated_at = updated_at or datetime.now(timezone.utc).isoformat()
+    updated_at = updated_at or datetime.now(UTC).isoformat()
     currency = currency.upper()
 
     rows: list[dict[str, Any]] = []
@@ -791,7 +791,7 @@ def estimate_travel_costs(
                 "last_run",
                 {
                     **summary,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(UTC).isoformat(),
                     "disclaimer": DISCLAIMER,
                 },
             )
@@ -810,7 +810,7 @@ def estimate_travel_costs(
 
 
 def main() -> None:
-    print(f"Travel cost estimation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Travel cost estimation starting - {datetime.now(UTC).isoformat()}")
     previous_state = get_state(SOURCE, "last_run")
     if previous_state:
         print(f"Previous travel estimate state: {previous_state}")

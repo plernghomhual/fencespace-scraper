@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 HOOKED_ON_FENCING_HTML = """
 <html>
   <body>

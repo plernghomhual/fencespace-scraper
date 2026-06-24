@@ -12,7 +12,7 @@ Source probe (2026-06-02):
 
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import pytest
 import requests
@@ -285,12 +285,12 @@ def test_current_season_uses_july_boundary(monkeypatch):
     class JuneDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 30, tzinfo=timezone.utc)
+            return datetime(2026, 6, 30, tzinfo=UTC)
 
     class JulyDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 7, 1, tzinfo=timezone.utc)
+            return datetime(2026, 7, 1, tzinfo=UTC)
 
     monkeypatch.setattr(scrape_fed_cyp, "datetime", JuneDateTime)
     assert scrape_fed_cyp.current_season() == "2025-2026"

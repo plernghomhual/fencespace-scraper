@@ -1,6 +1,6 @@
-from typing import Any, cast
 import os
 import sys
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -131,7 +131,7 @@ def test_parse_oran_standings_text_assigns_medals_and_event_code():
 
 
 def test_missing_result_tables_return_empty_rows():
-    from scrape_mediterranean_games import parse_tarragona_final_rank_page, parse_oran_standings_text
+    from scrape_mediterranean_games import parse_oran_standings_text, parse_tarragona_final_rank_page
 
     assert parse_tarragona_final_rank_page("<html><body><p>No standings yet</p></body></html>") == []
     assert parse_oran_standings_text("Fencing\nMen's Épée Individual\nNo result table available") is None

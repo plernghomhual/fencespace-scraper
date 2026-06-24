@@ -4,7 +4,7 @@ import re
 import time
 import uuid
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -504,7 +504,7 @@ def enrich_family_relationships(
                 "last_run",
                 {
                     **summary,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:
@@ -517,7 +517,7 @@ def enrich_family_relationships(
 
 
 def main() -> None:
-    print(f"Family relationship enrichment starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Family relationship enrichment starting - {datetime.now(UTC).isoformat()}")
     summary = enrich_family_relationships()
     print(f"Family claims found: {summary['claims_found']}")
     print(f"Relationships built: {summary['relationships_built']}")

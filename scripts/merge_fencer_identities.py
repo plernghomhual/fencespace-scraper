@@ -11,7 +11,7 @@ import unicodedata
 import uuid
 from collections import Counter, defaultdict
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -113,7 +113,7 @@ def build_identity_payload(
         "fie_ids": sorted(fie_ids),
         "fs_fencer_row_ids": row_ids,
         "metadata": metadata,
-        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -269,7 +269,7 @@ def merge_fencer_identities(
                 "last_run",
                 {
                     **report,
-                    "completed_at": datetime.now(timezone.utc).isoformat(),
+                    "completed_at": datetime.now(UTC).isoformat(),
                 },
             )
         if run_log:

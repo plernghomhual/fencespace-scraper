@@ -19,7 +19,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
@@ -809,7 +809,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_ffsu").start()
     try:
-        print(f"FFSU scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"FFSU scraper starting — {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         events, probe_statuses = discover_events()
         if not events:
@@ -842,7 +842,7 @@ def main():
             set_state(SOURCE, "done_source_ids", sorted(done_source_ids))
             time.sleep(REQUEST_DELAY)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(
             written=written,
             failed=failed,

@@ -15,10 +15,10 @@ HKFA PDF rows contain bilingual names in one field, for example:
   1 Choi Chun Yin Ryan 蔡俊彥 ... Overall points
 """
 
-from typing import Any
 import os
 import re
 import sys
+from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

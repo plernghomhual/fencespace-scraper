@@ -5,14 +5,13 @@ import os
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from datetime import UTC, datetime, timezone
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
 from season_utils import normalize_season, season_from_string
-
 
 MODULE_NAME = "compute_fencer_season_stats"
 PAGE_SIZE = 1000
@@ -519,7 +518,7 @@ def build_fencer_season_stat_rows(
     identity_rows: list[dict[str, Any]] | None = None,
     updated_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+    timestamp = updated_at or datetime.now(UTC).isoformat()
     identity_rows = identity_rows or []
     identity_map, fie_id_map, representative_fencer_map, duplicate_members = build_identity_maps(identity_rows)
     counters = initial_counters(results, bouts, identity_rows)
@@ -677,7 +676,7 @@ def compute_fencer_season_stats(
 
     try:
         client = client or get_supabase_client()
-        timestamp = updated_at or datetime.now(timezone.utc).isoformat()
+        timestamp = updated_at or datetime.now(UTC).isoformat()
         results = fetch_with_fallbacks(client, "fs_results", RESULT_SELECTS, page_size=page_size)
         bouts = fetch_with_fallbacks(client, "fs_bouts", BOUT_SELECTS, page_size=page_size)
         tournaments = fetch_with_fallbacks(client, "fs_tournaments", TOURNAMENT_SELECTS, page_size=page_size)
@@ -721,7 +720,7 @@ def compute_fencer_season_stats(
 
 
 def main() -> None:
-    print(f"Fencer season stats computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Fencer season stats computation starting - {datetime.now(UTC).isoformat()}")
     summary = compute_fencer_season_stats()
     print(
         "Fencer season stats computation complete - "

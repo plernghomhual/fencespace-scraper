@@ -1,7 +1,7 @@
 import os
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -125,7 +125,7 @@ def parse_ranking_overview(html):
                     w = can
                     break
             weapon_cols.append(w)
-        col_meta = list(zip(weapon_cols, gender_cols))
+        col_meta = list(zip(weapon_cols, gender_cols, strict=False))
 
     results = []
     for tr in body_rows:
@@ -463,7 +463,7 @@ def scrape_results(done_result_ids):
         h1 = soup.find("h1")
         competition_name = h1.get_text(strip=True) if h1 else f"IWAS Competition {result_id}"
         m_year = re.search(r"\b(20\d{2})\b", competition_name)
-        season = m_year.group(1) if m_year else str(datetime.now(timezone.utc).year)
+        season = m_year.group(1) if m_year else str(datetime.now(UTC).year)
         events = parse_results_page(html)
         result_written = 0
         for event in events:
@@ -490,8 +490,8 @@ def main():
 
     run_log = ScraperRunLogger("scrape_iwas").start()
     try:
-        season = str(datetime.now(timezone.utc).year)
-        print(f"IWAS scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        season = str(datetime.now(UTC).year)
+        print(f"IWAS scraper starting — {datetime.now(UTC).isoformat()}")
 
         print("\n--- Rankings ---")
         rankings_written = scrape_rankings(season)
@@ -503,7 +503,7 @@ def main():
         set_state(SOURCE, "done_result_ids", list(done_result_ids))
 
         total_written = rankings_written + results_written
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=total_written,
                          metadata={"rankings": rankings_written, "results": results_written})
         print(f"\nDone — rankings={rankings_written}, results={results_written}")

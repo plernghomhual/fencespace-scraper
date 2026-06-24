@@ -1,6 +1,5 @@
-from typing import Any
 from pathlib import Path
-
+from typing import Any
 
 FIE_SANCTIONS_PDF_TEXT = """
 SANCTIONS (1. Black cards, 2. Communicated by NFs, 3. FIE Disciplinary Panel, 4. ADVRs)

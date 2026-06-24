@@ -1,15 +1,16 @@
-from typing import Any
+import calendar
+import json
 import os
 import re
-import json
 import time
-import calendar
 import unicodedata
+from datetime import UTC, datetime, timedelta, timezone
+from typing import Any
+
 import requests
-from datetime import datetime, timedelta, timezone
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
+from supabase import create_client
 
 try:
     from scripts.rate_limiter import RateLimiter as _RateLimiter
@@ -197,11 +198,11 @@ def discover_competition_url_ids(tournaments):
     # Group by season for efficient searching
     by_season: dict[Any, Any] = {}
     for t in tournaments:
-        season = int(t.get("season") or datetime.now(timezone.utc).year)
+        season = int(t.get("season") or datetime.now(UTC).year)
         by_season.setdefault(season, []).append(t)
 
-    current_year = datetime.now(timezone.utc).year
-    current_month = datetime.now(timezone.utc).month
+    current_year = datetime.now(UTC).year
+    current_month = datetime.now(UTC).month
 
     for season, season_tournaments in by_season.items():
         print(f"  Searching season {season} — {len(season_tournaments)} tournaments")
@@ -281,7 +282,7 @@ def filter_tournaments(tournaments, season=None, weapon=None):
 
 
 def discover_urls_main(season=None):
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today = datetime.now(UTC).strftime("%Y-%m-%d")
     tournaments_no_url = fetch_all_pages(
         supabase,
         "fs_tournaments",
@@ -307,12 +308,12 @@ def mark_results_failure(tournament_id, current_failures: int):
 
 
 def main(season=None, weapon=None, limit=0):
-    print(f"Results scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    print(f"Results scraper starting — {datetime.now(UTC).isoformat()}")
     run_log = ScraperRunLogger("scrape_results").start()
 
-    current_year = datetime.now(timezone.utc).year
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    week_ago = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+    current_year = datetime.now(UTC).year
+    today = datetime.now(UTC).strftime("%Y-%m-%d")
+    week_ago = (datetime.now(UTC) - timedelta(days=7)).strftime("%Y-%m-%d")
 
     # Get all completed tournaments that don't have results yet
     # and have a competition_url_id; exclude permanently unavailable ones

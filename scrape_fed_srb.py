@@ -20,7 +20,7 @@ import io
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -166,7 +166,7 @@ _EXPLICIT_WOMEN_TOKENS = {
 
 def current_season() -> str:
     """Return the current competition season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return season_to_string(season_end_year)
 
@@ -669,7 +669,7 @@ def main() -> None:
                 "source_url": _RANKING_SOURCE_URL or BASE_URL,
                 "failed_combos": failed_combos,
                 "failure_reason": _RANKING_FAILURE_REASON,
-                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(UTC).isoformat(),
             },
         )
         run_log.complete(

@@ -14,7 +14,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urlparse
 
 import requests
@@ -788,7 +788,7 @@ def main():
     run_log = ScraperRunLogger("scrape_national_champs").start()
     client = get_supabase()
     try:
-        print(f"National championships scraper starting - {datetime.now(timezone.utc).isoformat()}")
+        print(f"National championships scraper starting - {datetime.now(UTC).isoformat()}")
         done = set(get_state(SOURCE, "done_countries") or [])
         total = {"written": 0, "failed": 0, "skipped": 0}
         for config in COUNTRY_CONFIGS:
@@ -803,7 +803,7 @@ def main():
                 done.add(country)
                 set_state(SOURCE, "done_countries", sorted(done))
             time.sleep(REQUEST_DELAY)
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         run_log.complete(written=total["written"], failed=total["failed"], skipped=total["skipped"])
         print(f"Done - written={total['written']}, failed={total['failed']}, skipped={total['skipped']}")
     except Exception as exc:

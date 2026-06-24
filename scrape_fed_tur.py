@@ -23,7 +23,7 @@ import io
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import urljoin
 
 import requests
@@ -86,7 +86,7 @@ _NAME_HEADERS = {
 }
 _SURNAME_HEADERS = {"soyad", "soyadi"}
 _GIVEN_HEADERS = {"ad", "adi"}
-_CLUB_HEADERS = {"kulup", "kulubu", "kulubu", "club", "takim"}
+_CLUB_HEADERS = {"kulup", "kulubu", "club", "takim"}
 _POINT_HEADERS = {"puan", "puani", "puanlar", "points", "total", "toplam"}
 _SKIP_TOKENS = {
     "dns",
@@ -617,7 +617,7 @@ def fetch_rankings_page(weapon: str, gender: str, category: str) -> str | None:
 
 def current_season() -> str:
     """Return current fencing season as YYYY-YYYY, using season_utils if present."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     end_year = now.year if now.month < 7 else now.year + 1
     try:
         import season_utils

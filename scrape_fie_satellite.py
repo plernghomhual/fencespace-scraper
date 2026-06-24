@@ -9,7 +9,7 @@ import re
 import time
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -487,13 +487,13 @@ def _candidate_rows_from_value(value: Any) -> list[list[dict[str, Any]]]:
         if isinstance(rows, list):
             candidates.append([row for row in rows if isinstance(row, dict)])
         for nested in value.values():
-            if isinstance(nested, (dict, list)):
+            if isinstance(nested, dict | list):
                 candidates.extend(_candidate_rows_from_value(nested))
     elif isinstance(value, list):
         if value and all(isinstance(row, dict) for row in value):
             candidates.append(value)
         for nested in value:
-            if isinstance(nested, (dict, list)):
+            if isinstance(nested, dict | list):
                 candidates.extend(_candidate_rows_from_value(nested))
     return candidates
 
@@ -819,7 +819,7 @@ def remember_done_competition(source_id: str) -> None:
 
 
 def write_summary_state(summary: ScrapeSummary, unmatched_samples: list[dict[str, Any]]) -> None:
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     _set_state(
         SOURCE,
         "summary",
@@ -850,7 +850,7 @@ def log_unmatched_rows(unmatched: list[dict[str, Any]], tournament_name: str | N
 
 
 def season_range(current_year: int | None = None) -> list[int]:
-    current = current_year or datetime.now(timezone.utc).year
+    current = current_year or datetime.now(UTC).year
     return list(range(EARLIEST_SEASON, current + 1))
 
 
@@ -874,7 +874,7 @@ def process_competitions(
     done = {str(value) for value in (_get_state(SOURCE, "done_competition_source_ids") or [])} if update_state else set()
     processed = 0
 
-    for comp, tournament_row in zip(competitions, rows):
+    for comp, tournament_row in zip(competitions, rows, strict=False):
         if limit and processed >= limit:
             skipped += 1
             continue

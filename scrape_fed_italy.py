@@ -9,12 +9,12 @@ and falls back to xlrd.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-from html import unescape
-from io import BytesIO
 import re
 import time
 import unicodedata
+from datetime import UTC, datetime, timezone
+from html import unescape
+from io import BytesIO
 
 import requests
 
@@ -121,7 +121,7 @@ def _parse_rank(value) -> int | None:
 def _parse_points(value) -> float | None:
     if value is None or value == "":
         return None
-    if isinstance(value, (int, float)):
+    if isinstance(value, int | float):
         return float(value)
 
     text = str(value).strip().replace("\xa0", "").replace(" ", "")
@@ -383,7 +383,7 @@ def download_ranking_file(url: str) -> bytes:
 
 
 def current_season() -> str:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year-1}-{year}" if now.month < 7 else f"{year}-{year+1}"
 

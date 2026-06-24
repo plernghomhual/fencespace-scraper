@@ -8,7 +8,6 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 ROOT = Path(__file__).resolve().parents[1]
 MIGRATION = ROOT / "supabase" / "migrations" / "20260602_syndication_keys.sql"

@@ -1,16 +1,16 @@
 import hashlib
+import importlib.util
 import os
+import pathlib
 import time
 from collections import defaultdict, deque
+from collections.abc import Callable
 from threading import Lock
-from typing import Any, Callable
+from typing import Any
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-
-import importlib.util
-import pathlib
 
 
 def _load_v1_router(name: str):

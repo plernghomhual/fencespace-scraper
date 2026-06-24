@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -246,7 +246,7 @@ def parse_rankings_table(html_or_text: str) -> list[dict]:
 
 def current_season() -> str:
     """Return the current FIE-style season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start_year = now.year - 1 if now.month < 7 else now.year
     fallback = f"{start_year}-{start_year + 1}"
 

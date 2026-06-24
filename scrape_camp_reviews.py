@@ -4,17 +4,18 @@ import os
 import re
 import time
 import unicodedata
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from datetime import datetime, timezone
-from typing import Any, Callable, Iterable
+from datetime import UTC, datetime, timezone
+from typing import Any
 from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
-from supabase import create_client
 
 from run_logger import ScraperRunLogger
 from scraper_state import get_state, set_state
+from supabase import create_client
 
 SOURCE = "scrape_camp_reviews"
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
@@ -639,7 +640,7 @@ def build_review_row(
         "source_url": source_url,
         "source_hash": source_hash,
         "metadata": metadata,
-        "scraped_at": scraped_at or datetime.now(timezone.utc).isoformat(),
+        "scraped_at": scraped_at or datetime.now(UTC).isoformat(),
     }
 
 
@@ -753,7 +754,7 @@ def scrape_camp_reviews(
             set_state(
                 SOURCE,
                 "last_run",
-                {**summary, "updated_at": datetime.now(timezone.utc).isoformat()},
+                {**summary, "updated_at": datetime.now(UTC).isoformat()},
             )
             if ambiguity_log:
                 set_state(SOURCE, "last_ambiguities", ambiguity_log[:100])

@@ -3,7 +3,7 @@ import os
 import re
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 from urllib.parse import urljoin
 
@@ -12,7 +12,6 @@ from bs4 import BeautifulSoup
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -610,13 +609,13 @@ def main() -> None:
 
     run_log = ScraperRunLogger("scrape_coaches").start()
     try:
-        print(f"National team coach scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"National team coach scraper starting — {datetime.now(UTC).isoformat()}")
         result = scrape_coaches()
         set_state(
             SOURCE,
             "last_run",
             {
-                "scraped_at": datetime.now(timezone.utc).isoformat(),
+                "scraped_at": datetime.now(UTC).isoformat(),
                 **result,
             },
         )

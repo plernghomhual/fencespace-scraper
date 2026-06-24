@@ -5,13 +5,12 @@ import json
 import os
 import re
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime, timezone
 from math import floor
 from typing import Any
 
 from run_logger import ScraperRunLogger
 from scraper_state import set_state
-
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -725,7 +724,7 @@ def build_peak_age_rows(
     min_cohort_size: int = MIN_COHORT_SIZE,
     computed_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, int]]:
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
     by_id, by_fie_id = fencer_lookups(fencers)
     tournaments_by_id = tournament_lookup(tournaments)
     details_by_tournament = competition_detail_lookup(competition_details)
@@ -942,7 +941,7 @@ def compute_peak_age(
         summary["written"] = written
 
         if update_state:
-            set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+            set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         if run_log:
             run_log.complete(
                 written=written,
@@ -967,7 +966,7 @@ def main() -> None:
     run_log = ScraperRunLogger(SOURCE).start()
     try:
         client = get_supabase_client()
-        computed_at = datetime.now(timezone.utc).isoformat()
+        computed_at = datetime.now(UTC).isoformat()
         results = fetch_with_fallbacks(client, "fs_results", RESULT_SELECTS)
         fencers = fetch_with_fallbacks(client, "fs_fencers", FENCER_SELECTS)
         tournaments = fetch_with_fallbacks(client, "fs_tournaments", TOURNAMENT_SELECTS)
@@ -994,7 +993,7 @@ def main() -> None:
             summary["written"] = batch_upsert(client, OUTPUT_TABLE, report_rows, on_conflict=OUTPUT_CONFLICT)
         else:
             summary["written"] = 0
-        set_state(SOURCE, "last_run", {"updated_at": datetime.now(timezone.utc).isoformat(), **summary})
+        set_state(SOURCE, "last_run", {"updated_at": datetime.now(UTC).isoformat(), **summary})
         run_log.complete(
             written=int(summary["written"]),
             failed=0,

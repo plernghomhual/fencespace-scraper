@@ -22,7 +22,7 @@ import io
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from urllib.parse import unquote, urljoin
 
 import requests
@@ -156,7 +156,7 @@ _GENDER_LABELS = {
 
 def current_season() -> str:
     """Return the current federation season range as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
     return season_to_string(season_end_year)
 

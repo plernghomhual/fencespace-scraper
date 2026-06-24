@@ -22,7 +22,7 @@ import re
 import time
 import unicodedata
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from io import StringIO
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -70,7 +70,7 @@ class TournamentRef:
 
 
 def utc_now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def clean_text(value: Any) -> str | None:

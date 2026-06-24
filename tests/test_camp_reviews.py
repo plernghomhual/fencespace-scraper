@@ -1,7 +1,7 @@
-from typing import Any, cast
 import os
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -203,8 +203,8 @@ def test_parse_public_review_html_keeps_multiple_cards_inside_testimonials_secti
 
 def test_google_places_parser_and_no_key_dry_run(capsys):
     from scrape_camp_reviews import (
-        query_google_places_camp_reviews,
         parse_google_places_details_response,
+        query_google_places_camp_reviews,
     )
 
     camp = CAMP_ROWS[0]
@@ -296,8 +296,8 @@ def test_build_review_row_minimizes_pii_and_uses_stable_source_hash():
 
 def test_dedupe_and_upsert_write_only_review_table():
     from scrape_camp_reviews import (
-        ReviewSource,
         FetchedContent,
+        ReviewSource,
         scrape_camp_reviews,
     )
 

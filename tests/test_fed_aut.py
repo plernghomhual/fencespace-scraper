@@ -14,7 +14,7 @@ Table columns:
 """
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -191,7 +191,7 @@ def test_current_season_uses_fie_end_year_boundary(monkeypatch):
     class FixedDateTime:
         @classmethod
         def now(cls, tz=None):
-            return datetime(2026, 6, 1, tzinfo=timezone.utc)
+            return datetime(2026, 6, 1, tzinfo=UTC)
 
     monkeypatch.setattr(scrape_fed_aut, "datetime", FixedDateTime)
 

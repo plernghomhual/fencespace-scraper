@@ -23,7 +23,7 @@ import io
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -122,7 +122,7 @@ SKIP_VALUES = {
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY using season_utils when present."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     season_end_year = now.year if now.month < 7 else now.year + 1
 
     try:

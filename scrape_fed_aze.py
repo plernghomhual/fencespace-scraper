@@ -21,8 +21,8 @@ from __future__ import annotations
 
 import re
 import time
-from datetime import datetime, timezone
-from typing import Iterable
+from collections.abc import Iterable
+from datetime import UTC, datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -105,7 +105,7 @@ _AZ_TRANSLITERATION = str.maketrans(
     }
 )
 
-_RANK_HEADERS = {"#", "no", "n", "rank", "yer", "sira", "sira", "№"}
+_RANK_HEADERS = {"#", "no", "n", "rank", "yer", "sira", "№"}
 _NAME_HEADERS = {"ad", "name", "fencer", "athlete", "idmanci", "soyadad", "soyadvead"}
 _CLUB_HEADERS = {"club", "klub", "komanda", "team"}
 _POINT_HEADERS = {"xal", "xallar", "points", "pts", "cemixallar", "totalpoints", "total"}
@@ -138,7 +138,7 @@ _NO_DATA_MARKERS = {
 
 def current_season() -> str:
     """Return the current fencing season as YYYY-YYYY."""
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     start_year = now.year - 1 if now.month < 7 else now.year
     season = f"{start_year}-{start_year + 1}"
     try:
@@ -490,7 +490,7 @@ def main() -> None:
             "total_combos": len(RANKING_COMBOS),
             "failed_combos": failed_combos,
             "public_urls": sorted(set(PUBLIC_RANKING_URLS.values())),
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
         set_state(SOURCE, "last_run", state)
         run_log.complete(

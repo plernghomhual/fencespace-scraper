@@ -15,7 +15,7 @@ Item fields: competitionId, name, country, location, startDate, endDate,
 
 import os
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import requests
 
@@ -176,9 +176,9 @@ def main():
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set.")
 
     run_log = ScraperRunLogger("scrape_fie_history").start()
-    print(f"FIE history scraper starting — {datetime.now(timezone.utc).isoformat()}")
+    print(f"FIE history scraper starting — {datetime.now(UTC).isoformat()}")
 
-    current_year = datetime.now(timezone.utc).year
+    current_year = datetime.now(UTC).year
     done_seasons = set(get_state(SOURCE, "done_seasons") or [])
     all_seasons = seasons_to_scrape(EARLIEST_SEASON, current_year)
     seasons = [s for s in all_seasons if s not in done_seasons]

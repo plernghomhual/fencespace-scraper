@@ -6,7 +6,6 @@ from typing import cast
 
 import pytest
 
-
 NOW = "2026-06-02T12:00:00+00:00"
 
 

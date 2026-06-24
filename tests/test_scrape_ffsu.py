@@ -227,6 +227,7 @@ def test_parse_ffsu_html_table_supports_french_headers_points_and_summary_rows()
 
 def test_parse_ffsu_workbook_supports_event_headings_inside_sheets():
     from openpyxl import Workbook
+
     from scrape_ffsu import parse_ffsu_workbook_bytes
 
     workbook = Workbook()

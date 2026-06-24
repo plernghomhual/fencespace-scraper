@@ -12,10 +12,11 @@ Data source: https://rankingapi.fencing.ca/api/rankings/published
 Fixtures are trimmed representations of real API responses.
 """
 
-from typing import Any
-import pytest
-import sys
 import os
+import sys
+from typing import Any
+
+import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
@@ -258,7 +259,7 @@ class TestParseCffRankings:
         from scrape_fed_canada import parse_cff_rankings
 
         result = parse_cff_rankings(FIXTURE_API_RESPONSE)
-        for combo, rows in result.items():
+        for _combo, rows in result.items():
             for r in rows:
                 assert isinstance(r["rank"], int), f"rank must be int, got {type(r['rank'])}"
                 assert isinstance(r["name"], str) and r["name"], "name must be non-empty str"

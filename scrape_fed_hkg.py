@@ -26,7 +26,7 @@ from __future__ import annotations
 import io
 import re
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 import requests
@@ -401,7 +401,7 @@ def current_season() -> str:
     except Exception:
         pass
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     year = now.year
     return f"{year - 1}-{year}" if now.month < 7 else f"{year}-{year + 1}"
 

@@ -1,6 +1,5 @@
 import re
-from datetime import datetime, timezone
-
+from datetime import UTC, datetime, timezone
 
 _SEASON_RE = re.compile(r"^(\d{4})(?:-(\d{4}))?$")
 
@@ -36,7 +35,7 @@ def season_from_string(season_str: str) -> int:
 
 
 def current_fie_season() -> int:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     return now.year if now.month >= 7 else now.year - 1
 
 

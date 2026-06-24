@@ -1,6 +1,6 @@
 import os
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any
 
 from run_logger import ScraperRunLogger
@@ -55,7 +55,7 @@ def round_half_up(value: float) -> int:
 def weighted_projection(values: list[int | float | None]) -> float | None:
     """Return a recency-weighted projection from oldest-to-newest values."""
     usable: list[tuple[float, float]] = []
-    for weight, value in zip(PROJECTION_WEIGHTS, reversed(values[-3:])):
+    for weight, value in zip(PROJECTION_WEIGHTS, reversed(values[-3:]), strict=False):
         if value is not None:
             usable.append((weight, float(value)))
     if not usable:
@@ -101,7 +101,7 @@ def build_trend_rows(
     history_rows: list[dict[str, Any]],
     computed_at: str | None = None,
 ) -> tuple[list[dict[str, Any]], int]:
-    computed_at = computed_at or datetime.now(timezone.utc).isoformat()
+    computed_at = computed_at or datetime.now(UTC).isoformat()
     grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     skipped = 0
 
@@ -233,7 +233,7 @@ def compute_rankings_trends(client=None, log_run: bool = True) -> dict[str, int]
 
 
 def main() -> None:
-    print(f"Rankings trends computation starting - {datetime.now(timezone.utc).isoformat()}")
+    print(f"Rankings trends computation starting - {datetime.now(UTC).isoformat()}")
     result = compute_rankings_trends()
     print(
         "Rankings trends computation complete - "

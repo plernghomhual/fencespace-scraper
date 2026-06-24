@@ -15,7 +15,7 @@ import os
 import re
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 from typing import Any, cast
 
 import requests
@@ -500,7 +500,7 @@ def main():
 
     run_log = ScraperRunLogger("scrape_cac_games").start()
     try:
-        print(f"CAC Games scraper starting — {datetime.now(timezone.utc).isoformat()}")
+        print(f"CAC Games scraper starting — {datetime.now(UTC).isoformat()}")
         done_source_ids = set(get_state(SOURCE, "done_source_ids") or [])
         events, skipped_editions = discover_events_from_manifest()
 
@@ -558,7 +558,7 @@ def main():
             written += 1
             time.sleep(REQUEST_DELAY)
 
-        set_state(SOURCE, "last_run", datetime.now(timezone.utc).isoformat())
+        set_state(SOURCE, "last_run", datetime.now(UTC).isoformat())
         set_state(SOURCE, "skipped_editions", skipped_editions)
         run_log.complete(written=written, failed=failed, skipped=skipped + len(skipped_editions))
         print(f"\nDone — written={written}, skipped={skipped + len(skipped_editions)}, failed={failed}")
