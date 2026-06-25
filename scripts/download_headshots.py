@@ -132,10 +132,10 @@ def _lanczos_filter():
 def resize_center_crop(image_bytes: bytes) -> bytes:
     try:
         with Image.open(io.BytesIO(image_bytes)) as image:
-            image = ImageOps.exif_transpose(image)
+            image = ImageOps.exif_transpose(image)  # type: ignore[assignment]
             if getattr(image, "is_animated", False):
                 image.seek(0)
-            image = ImageOps.fit(
+            image = ImageOps.fit(  # type: ignore[assignment]
                 image.convert("RGB"),
                 OUTPUT_SIZE,
                 method=_lanczos_filter(),
@@ -298,7 +298,7 @@ def search_youtube_videos(
 ) -> list[str]:
     response = session.get(
         YOUTUBE_SEARCH_URL,
-        params={
+        params={  # type: ignore[arg-type]
             "part": "snippet",
             "q": f"fencing {fencer_name}",
             "type": "video",

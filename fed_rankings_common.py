@@ -35,9 +35,9 @@ def federation_request(method: str, url: str, **kwargs):
     _federation_limiter.wait(domain)
     request_method = method.lower()
     if request_method == "get":
-        requester = requests.get
+        requester = requests.get  # type: ignore[assignment]
     elif request_method == "post":
-        requester = requests.post
+        requester = requests.post  # type: ignore[assignment]
     else:
         raise ValueError(f"Unsupported federation request method: {method}")
 

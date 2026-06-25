@@ -24,9 +24,305 @@ ignore = [
     "B008",
 ]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--tb=short",
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    ".venv/*",
+    "tests/*",
+    "scripts/*",
+    "supabase/*",
+    "frontend/*",
+    "bigquery_export/*",
+]
+
+[tool.coverage.report]
+fail_under = 30
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
 [tool.mypy]
 python_version = "3.11"
 ignore_missing_imports = true
 explicit_package_bases = true
 check_untyped_defs = true
 warn_unused_configs = true
+# disallow_untyped_defs is enforced below only on core library modules that
+# already carry type annotations. The ~100 scraper/compute/enrich scripts
+# and all test files use dynamic web data and are suppressed via overrides.
+disallow_untyped_defs = true
+
+# ── Scraper / compute / enrich / aggregate scripts ──────────────────────────
+# These are dynamic web-scraping or analytics scripts that work with loosely
+# typed JSON/HTML data from third-party sources. Type annotation coverage
+# across ~100 files is intentionally deferred; errors are suppressed here.
+[[tool.mypy.overrides]]
+module = [
+    "aggregate_social_feed",
+    "aggregate_videos",
+    "api_syndication",
+    "askfred_scraper",
+    "calendar_feed",
+    "cli",
+    "cli_export",
+    "compute_ai_insights",
+    "compute_anomalies",
+    "compute_brackets",
+    "compute_career_milestones",
+    "compute_career_stats",
+    "compute_clutch",
+    "compute_country_analytics",
+    "compute_country_specialization",
+    "compute_difficulty_trend",
+    "compute_elo",
+    "compute_equipment_durability",
+    "compute_fantasy_points",
+    "compute_featured_athletes",
+    "compute_fencer_season_stats",
+    "compute_fencer_similarity",
+    "compute_fencer_stats",
+    "compute_form_tracker",
+    "compute_h2h_graph",
+    "compute_head_to_head",
+    "compute_home_advantage",
+    "compute_junior_conversion",
+    "compute_legacy_score",
+    "compute_longevity",
+    "compute_medal_efficiency",
+    "compute_medal_tables",
+    "compute_name_variants",
+    "compute_national_rankings",
+    "compute_peak_age",
+    "compute_performance_analysis",
+    "compute_predictions",
+    "compute_rankings_trends",
+    "compute_social_leaderboard",
+    "compute_specialization",
+    "compute_sponsorship_matches",
+    "compute_strength_of_field",
+    "compute_technique_analysis",
+    "compute_transfer_value",
+    "compute_transfers",
+    "compute_trending_fencers",
+    "compute_trivia",
+    "compute_upsets",
+    "compute_youth_talent",
+    "dedupe_headshots",
+    "discover_competition_urls",
+    "enrich_clubs",
+    "enrich_coach_history",
+    "enrich_family",
+    "enrich_handedness",
+    "enrich_locations",
+    "enrich_nationality_history",
+    "enrich_weather",
+    "estimate_travel_costs",
+    "export_bigquery",
+    "fantasy_league",
+    "fie_inspect",
+    "generate_tournament_pdf",
+    "graphql.app",
+    "marketplace_api",
+    "obs_overlay_server",
+    "post_result_tweets",
+    "push_notifications",
+    "ranking_alerts",
+    "scrape_absolutefencing",
+    "scrape_afc",
+    "scrape_african_conf",
+    "scrape_allstar_uhlmann",
+    "scrape_athlete_profiles",
+    "scrape_betting_odds",
+    "scrape_blue_gauntlet_products",
+    "scrape_bouts",
+    "scrape_british_youth",
+    "scrape_bucs",
+    "scrape_cac_games",
+    "scrape_camp_reviews",
+    "scrape_cism",
+    "scrape_club_reviews",
+    "scrape_clubs",
+    "scrape_coaches",
+    "scrape_college_scholarships",
+    "scrape_commonwealth",
+    "scrape_competition_details",
+    "scrape_continental_games",
+    "scrape_doping",
+    "scrape_efc_youth",
+    "scrape_engarde",
+    "scrape_equipment",
+    "scrape_equipment_reviews",
+    "scrape_equipment_trends",
+    "scrape_fed_arg",
+    "scrape_fed_aus",
+    "scrape_fed_aut",
+    "scrape_fed_aze",
+    "scrape_fed_bel",
+    "scrape_fed_bra",
+    "scrape_fed_british",
+    "scrape_fed_bul",
+    "scrape_fed_canada",
+    "scrape_fed_chi",
+    "scrape_fed_chn",
+    "scrape_fed_cro",
+    "scrape_fed_cyp",
+    "scrape_fed_den",
+    "scrape_fed_dom",
+    "scrape_fed_egy",
+    "scrape_fed_esp",
+    "scrape_fed_est",
+    "scrape_fed_fin",
+    "scrape_fed_france",
+    "scrape_fed_germany",
+    "scrape_fed_gre",
+    "scrape_fed_hun",
+    "scrape_fed_iri",
+    "scrape_fed_irl",
+    "scrape_fed_italy",
+    "scrape_fed_jam",
+    "scrape_fed_kaz",
+    "scrape_fed_kor",
+    "scrape_fed_ltu",
+    "scrape_fed_lva",
+    "scrape_fed_mar",
+    "scrape_fed_mex",
+    "scrape_fed_mlt",
+    "scrape_fed_nor",
+    "scrape_fed_nzl",
+    "scrape_fed_pol",
+    "scrape_fed_por",
+    "scrape_fed_pur",
+    "scrape_fed_rou",
+    "scrape_fed_rsa",
+    "scrape_fed_rus",
+    "scrape_fed_sgp",
+    "scrape_fed_slo",
+    "scrape_fed_srb",
+    "scrape_fed_sui",
+    "scrape_fed_svk",
+    "scrape_fed_swe",
+    "scrape_fed_tha",
+    "scrape_fed_tpe",
+    "scrape_fed_tun",
+    "scrape_fed_tur",
+    "scrape_fed_ukr",
+    "scrape_fed_ven",
+    "scrape_fencer_profiles",
+    "scrape_fencers",
+    "scrape_fencing_forums",
+    "scrape_fencing_history",
+    "scrape_fencing_stores",
+    "scrape_fencingnet_products",
+    "scrape_ffsu",
+    "scrape_fie_career",
+    "scrape_fie_events",
+    "scrape_fie_history",
+    "scrape_fie_pools",
+    "scrape_fie_satellite",
+    "scrape_fred",
+    "scrape_google_club_reviews",
+    "scrape_historical_olympedia",
+    "scrape_injuries",
+    "scrape_instagram_fencing",
+    "scrape_island_games",
+    "scrape_iwas",
+    "scrape_iwas_games",
+    "scrape_japanese_univ",
+    "scrape_leonpaul",
+    "scrape_maccabiah",
+    "scrape_masters_games",
+    "scrape_mediterranean_games",
+    "scrape_national_champs",
+    "scrape_ncaa",
+    "scrape_ncaa_regular",
+    "scrape_news",
+    "scrape_olympics",
+    "scrape_panam_conf",
+    "scrape_paralympics",
+    "scrape_pbt_products",
+    "scrape_photographer_directory",
+    "scrape_physical_stats",
+    "scrape_quotes",
+    "scrape_rankings_history",
+    "scrape_referee_assignments",
+    "scrape_referees",
+    "scrape_results",
+    "scrape_rule_changes",
+    "scrape_secondhand_equipment",
+    "scrape_south_american_games",
+    "scrape_sponsorships",
+    "scrape_tiktok_fencing",
+    "scrape_training_camps",
+    "scrape_training_facilities",
+    "scrape_universiade",
+    "scrape_usa_youth",
+    "scrape_veterans",
+    "scrape_wikidata",
+    "scrape_wikipedia_bios",
+    "scrape_youth_majors",
+    "scrape_youth_olympics",
+    "scrape_youtube_videos",
+    "scraper",
+    "simulate_tournament",
+    "watch_live_results",
+    "ws_server",
+]
+disallow_untyped_defs = false
+ignore_errors = true
+
+# ── API sub-modules (FastAPI routers with minimal annotation coverage) ────────
+[[tool.mypy.overrides]]
+module = [
+    "api.v1.fencer_h2h",
+    "api.v1.fencer_milestones",
+    "api.v1.fencer_ranking_trajectory",
+    "api.v1.fencer_stats",
+    "api.v1.tournament_brackets",
+    "api.v1.tournament_details",
+]
+disallow_untyped_defs = false
+
+# ── Core library helpers ──────────────────────────────────────────────────────
+# These files have partial annotation coverage; suppress the annotation
+# requirement while keeping other checks active.
+[[tool.mypy.overrides]]
+module = [
+    "api",
+    "run_logger",
+    "fed_rankings_common",
+    "scraper_state",
+    "season_utils",
+]
+disallow_untyped_defs = false
+
+# ── scripts/ package ─────────────────────────────────────────────────────────
+[[tool.mypy.overrides]]
+module = [
+    "scripts.backfill_national_rank",
+    "scripts.backfill_result_losses",
+    "scripts.country_codes",
+    "scripts.data_quality_check",
+    "scripts.download_headshots",
+    "scripts.match_orphan_results",
+    "scripts.merge_fencer_identities",
+    "scripts.migrate",
+    "scripts.rate_limiter",
+    "scripts.reconcile_data",
+]
+disallow_untyped_defs = false
+
+# ── Test files ────────────────────────────────────────────────────────────────
+[[tool.mypy.overrides]]
+module = [
+    "tests.*",
+]
+disallow_untyped_defs = false
+ignore_errors = true

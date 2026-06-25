@@ -398,7 +398,7 @@ def nominatim_geocode_country(
             rate_limiter.wait("nominatim.openstreetmap.org", rps=1.0)
             response = http.get(
                 NOMINATIM_URL,
-                params=params,
+                params=params,  # type: ignore[arg-type]
                 headers=headers,
                 timeout=20,
             )

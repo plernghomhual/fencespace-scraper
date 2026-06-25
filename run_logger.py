@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import os
 from datetime import UTC, datetime, timezone
 
-from supabase import create_client
+from supabase import Client, create_client
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
@@ -12,14 +14,14 @@ class ScraperRunLogger:
         self.module = module
         self.started_at = datetime.now(UTC).isoformat()
         self.run_id = None
-        self._client = None
+        self._client: Client | None = None
 
     def _get_client(self):
         if self._client is None and SUPABASE_URL and SUPABASE_KEY:
             self._client = create_client(SUPABASE_URL, SUPABASE_KEY)
         return self._client
 
-    def start(self) -> "ScraperRunLogger":
+    def start(self) -> ScraperRunLogger:
         try:
             client = self._get_client()
             if not client:

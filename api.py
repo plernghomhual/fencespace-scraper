@@ -16,8 +16,8 @@ from fastapi.responses import JSONResponse
 def _load_v1_router(name: str):
     path = pathlib.Path(__file__).parent / "api" / "v1" / f"{name}.py"
     spec = importlib.util.spec_from_file_location(f"_api_v1_{name}", path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    mod = importlib.util.module_from_spec(spec)  # type: ignore[arg-type]
+    spec.loader.exec_module(mod)  # type: ignore[union-attr]
     return mod
 
 
